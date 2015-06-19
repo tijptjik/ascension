@@ -1,0 +1,12 @@
+/*<link rel="stylesheet" type="text/css" href="style.css">*/
+
+.slides {
+	width: 1200px !important;
+	height: 900px !important;
+}
+
+section.present {
+	margin-top: -80px !important;
+	top: -420px;
+}
+

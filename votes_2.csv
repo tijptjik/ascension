@@ -1,0 +1,166 @@
+Episode,Player,Award,Points,Character
+2,Dan,Wit,32,Tyrion Lannister
+2,Dan,Wit,16,Petyr Baelish
+2,Dan,Wit,8,Pycelle
+2,Dan,Jockey,32,Petyr Baelish
+2,Dan,Jockey,16,Roose Bolton
+2,Dan,Jockey,8,Cersei Lannister
+2,Dan,Bloodshed,32,Jon Snow
+2,Dan,Bloodshed,16,Janos Slynt
+2,Dan,Bloodshed,8,The High Sparrow
+2,Dan,Style,32,Daenerys Targaryen
+2,Dan,Style,16,The High Sparrow
+2,Dan,Style,8,Theon Greyjoy
+2,Dan,Support,32,Davos Seaworth
+2,Dan,Support,16,Stannis Baratheon
+2,Dan,Support,8,Alliser Thorne
+2,Hayley,Wit,32,Margaery Tyrell
+2,Hayley,Wit,16,Tyrion Lannister
+2,Hayley,Wit,8,Petyr Baelish
+2,Hayley,Jockey,32,Margaery Tyrell
+2,Hayley,Jockey,16,Cersei Lannister
+2,Hayley,Jockey,8,Petyr Baelish
+2,Hayley,Bloodshed,32,Ramsay Bolton
+2,Hayley,Bloodshed,16,Jon Snow
+2,Hayley,Bloodshed,8,The High Sparrow
+2,Hayley,Style,32,Tommen Baratheon
+2,Hayley,Style,16,Arya Stark
+2,Hayley,Style,8,Jon Snow
+2,Hayley,Support,32,Jorah Mormont
+2,Hayley,Support,16,Davos Seaworth
+2,Hayley,Support,8,Roose Bolton
+2,Jannerah Silverscale,Wit,32,Margaery Tyrell
+2,Jannerah Silverscale,Wit,16,Jaqen Hghar
+2,Jannerah Silverscale,Wit,8,
+2,Jannerah Silverscale,Jockey,32,Margaery Tyrell
+2,Jannerah Silverscale,Jockey,16,Jon Snow
+2,Jannerah Silverscale,Jockey,8,Roose Bolton
+2,Jannerah Silverscale,Bloodshed,32,Janos Slynt
+2,Jannerah Silverscale,Bloodshed,16,Jon Snow
+2,Jannerah Silverscale,Bloodshed,8,
+2,Jannerah Silverscale,Style,32,Tyrion Lannister
+2,Jannerah Silverscale,Style,16,Jon Snow
+2,Jannerah Silverscale,Style,8,
+2,Jannerah Silverscale,Support,32,Davos Seaworth
+2,Jannerah Silverscale,Support,16,The High Sparrow
+2,Jannerah Silverscale,Support,8,Samwell Tarly
+2,Ivarius Ironsight,Wit,32,Margaery Tyrell
+2,Ivarius Ironsight,Wit,16,Petyr Baelish
+2,Ivarius Ironsight,Wit,8,Tyrion Lannister
+2,Ivarius Ironsight,Jockey,32,Roose Bolton
+2,Ivarius Ironsight,Jockey,16,Davos Seaworth
+2,Ivarius Ironsight,Jockey,8,
+2,Ivarius Ironsight,Bloodshed,32,Jon Snow
+2,Ivarius Ironsight,Bloodshed,16,Ramsay Bolton
+2,Ivarius Ironsight,Bloodshed,8,
+2,Ivarius Ironsight,Style,32,Tommen Baratheon
+2,Ivarius Ironsight,Style,16,Margaery Tyrell
+2,Ivarius Ironsight,Style,8,
+2,Ivarius Ironsight,Support,32,Tommen Baratheon
+2,Ivarius Ironsight,Support,16,Jorah Mormont
+2,Ivarius Ironsight,Support,8,Stannis Baratheon
+2,Rob o Bones,Wit,32,Margaery Tyrell
+2,Rob o Bones,Wit,16,Jaqen Hghar
+2,Rob o Bones,Wit,8,
+2,Rob o Bones,Jockey,32,Margaery Tyrell
+2,Rob o Bones,Jockey,16,Cersei Lannister
+2,Rob o Bones,Jockey,8,Jon Snow
+2,Rob o Bones,Bloodshed,32,Jon Snow
+2,Rob o Bones,Bloodshed,16,Lancel Lannister
+2,Rob o Bones,Bloodshed,8,
+2,Rob o Bones,Style,32,Margaery Tyrell
+2,Rob o Bones,Style,16,Tommen Baratheon
+2,Rob o Bones,Style,8,
+2,Rob o Bones,Support,32,Podrick Payne
+2,Rob o Bones,Support,16,Sansa Stark
+2,Rob o Bones,Support,8,Davos Seaworth
+2,Daisy,Wit,32,The High Sparrow
+2,Daisy,Wit,16,Qyburn
+2,Daisy,Wit,8,
+2,Daisy,Jockey,32,Margaery Tyrell
+2,Daisy,Jockey,16,Cersei Lannister
+2,Daisy,Jockey,8,
+2,Daisy,Bloodshed,32,Ramsay Bolton
+2,Daisy,Bloodshed,16,Janos Slynt
+2,Daisy,Bloodshed,8,
+2,Daisy,Style,32,Tommen Baratheon
+2,Daisy,Style,16,The High Sparrow
+2,Daisy,Style,8,
+2,Daisy,Support,32,Qyburn
+2,Daisy,Support,16,Davos Seaworth
+2,Daisy,Support,8,Roose Bolton
+2,Max Ng,Wit,32,Margaery Tyrell
+2,Max Ng,Wit,16,Varys
+2,Max Ng,Wit,8,Tyrion Lannister
+2,Max Ng,Jockey,32,Margaery Tyrell
+2,Max Ng,Jockey,16,The High Sparrow
+2,Max Ng,Jockey,8,Jorah Mormont
+2,Max Ng,Bloodshed,32,Arya Stark
+2,Max Ng,Bloodshed,16,Ramsay Bolton
+2,Max Ng,Bloodshed,8,
+2,Max Ng,Style,32,Tyrion Lannister
+2,Max Ng,Style,16,Jaqen Hghar
+2,Max Ng,Style,8,
+2,Max Ng,Support,32,Davos Seaworth
+2,Max Ng,Support,16,Qyburn
+2,Max Ng,Support,8,Sansa Stark
+2,Mart,Wit,32,Petyr Baelish
+2,Mart,Wit,16,Margaery Tyrell
+2,Mart,Wit,8,Davos Seaworth
+2,Mart,Jockey,32,Margaery Tyrell
+2,Mart,Jockey,16,Petyr Baelish
+2,Mart,Jockey,8,Jorah Mormont
+2,Mart,Bloodshed,32,Ramsay Bolton
+2,Mart,Bloodshed,16,Jon Snow
+2,Mart,Bloodshed,8,Cersei Lannister
+2,Mart,Style,32,Petyr Baelish
+2,Mart,Style,16,Stannis Baratheon
+2,Mart,Style,8,Margaery Tyrell
+2,Mart,Support,32,Davos Seaworth
+2,Mart,Support,16,Petyr Baelish
+2,Mart,Support,8,Lancel Lannister
+2,Sherin the Sedulous,Wit,32,Petyr Baelish
+2,Sherin the Sedulous,Wit,16,Tyrion Lannister
+2,Sherin the Sedulous,Wit,8,Jon Snow
+2,Sherin the Sedulous,Jockey,32,Petyr Baelish
+2,Sherin the Sedulous,Jockey,16,Margaery Tyrell
+2,Sherin the Sedulous,Jockey,8,Jorah Mormont
+2,Sherin the Sedulous,Bloodshed,32,Ramsay Bolton
+2,Sherin the Sedulous,Bloodshed,16,Jon Snow
+2,Sherin the Sedulous,Bloodshed,8,
+2,Sherin the Sedulous,Style,32,Margaery Tyrell
+2,Sherin the Sedulous,Style,16,Petyr Baelish
+2,Sherin the Sedulous,Style,8,Sansa Stark
+2,Sherin the Sedulous,Support,32,Davos Seaworth
+2,Sherin the Sedulous,Support,16,Lancel Lannister
+2,Sherin the Sedulous,Support,8,Olly
+2,Josh Du,Wit,32,Varys
+2,Josh Du,Wit,16,Margaery Tyrell
+2,Josh Du,Wit,8,
+2,Josh Du,Jockey,32,Margaery Tyrell
+2,Josh Du,Jockey,16,Jon Snow
+2,Josh Du,Jockey,8,
+2,Josh Du,Bloodshed,32,Jon Snow
+2,Josh Du,Bloodshed,16,Janos Slynt
+2,Josh Du,Bloodshed,8,
+2,Josh Du,Style,32,Tommen Baratheon
+2,Josh Du,Style,16,Sansa Stark
+2,Josh Du,Style,8,
+2,Josh Du,Support,32,Ramsay Bolton
+2,Josh Du,Support,16,Qyburn
+2,Josh Du,Support,8,Podrick Payne
+2,Kirsty,Wit,32,Tyrion Lannister
+2,Kirsty,Wit,16,Margaery Tyrell
+2,Kirsty,Wit,8,
+2,Kirsty,Jockey,32,Margaery Tyrell
+2,Kirsty,Jockey,16,Petyr Baelish
+2,Kirsty,Jockey,8,Jorah Mormont
+2,Kirsty,Bloodshed,32,Janos Slynt
+2,Kirsty,Bloodshed,16,Jon Snow
+2,Kirsty,Bloodshed,8,Qyburn
+2,Kirsty,Style,32,Margaery Tyrell
+2,Kirsty,Style,16,Cersei Lannister
+2,Kirsty,Style,8,Roose Bolton
+2,Kirsty,Support,32,Podrick Payne
+2,Kirsty,Support,16,Varys
+2,Kirsty,Support,8,Cersei Lannister

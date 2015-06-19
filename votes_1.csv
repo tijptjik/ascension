@@ -1,0 +1,181 @@
+Episode,Player,Award,Points,Character
+1,Dan,Wit,32,Tyrion Lannister
+1,Dan,Wit,16,Samwell Tarly
+1,Dan,Wit,8,Ser Bronn
+1,Dan,Jockey,32,Jon Snow
+1,Dan,Jockey,16,Petyr Baelish
+1,Dan,Jockey,8,Ellaria Sand
+1,Dan,Bloodshed,32,Brienne of Tarth
+1,Dan,Bloodshed,16,Daenerys Targaryen
+1,Dan,Bloodshed,8,Daario Naharis
+1,Dan,Style,32,Jaqen Hghar
+1,Dan,Style,16,Ser Bronn
+1,Dan,Style,8,Daenerys Targaryen
+1,Dan,Support,32,Samwell Tarly
+1,Dan,Support,16,Jaqen Hghar
+1,Dan,Support,8,Podrick Payne
+1,Hayley,Wit,32,Samwell Tarly
+1,Hayley,Wit,16,Barristan Selmy
+1,Hayley,Wit,8,Varys
+1,Hayley,Jockey,32,Arya Stark
+1,Hayley,Jockey,16,Samwell Tarly
+1,Hayley,Jockey,8,Daario Naharis
+1,Hayley,Bloodshed,32,Daenerys Targaryen
+1,Hayley,Bloodshed,16,Daario Naharis
+1,Hayley,Bloodshed,8,Grey Worm
+1,Hayley,Style,32,Missandei
+1,Hayley,Style,16,Cersei Lannister
+1,Hayley,Style,8,Daenerys Targaryen
+1,Hayley,Support,32,Samwell Tarly
+1,Hayley,Support,16,Kevan Lannister
+1,Hayley,Support,8,Petyr Baelish
+1,Jannerah Silverscale,Wit,32,Kevan Lannister
+1,Jannerah Silverscale,Wit,16,Jaqen Hghar
+1,Jannerah Silverscale,Wit,8,
+1,Jannerah Silverscale,Jockey,32,Samwell Tarly
+1,Jannerah Silverscale,Jockey,16,Jaime Lannister
+1,Jannerah Silverscale,Jockey,8,
+1,Jannerah Silverscale,Bloodshed,32,Daario Naharis
+1,Jannerah Silverscale,Bloodshed,16,Brienne of Tarth
+1,Jannerah Silverscale,Bloodshed,8,
+1,Jannerah Silverscale,Style,32,Daenerys Targaryen
+1,Jannerah Silverscale,Style,16,Jaqen Hghar
+1,Jannerah Silverscale,Style,8,
+1,Jannerah Silverscale,Support,32,Brienne of Tarth
+1,Jannerah Silverscale,Support,16,Samwell Tarly
+1,Jannerah Silverscale,Support,8,Varys
+1,Ivarius Ironsight,Wit,32,Kevan Lannister
+1,Ivarius Ironsight,Wit,16,Varys
+1,Ivarius Ironsight,Wit,8,
+1,Ivarius Ironsight,Jockey,32,Jon Snow
+1,Ivarius Ironsight,Jockey,16,Jaime Lannister
+1,Ivarius Ironsight,Jockey,8,
+1,Ivarius Ironsight,Bloodshed,32,Brienne of Tarth
+1,Ivarius Ironsight,Bloodshed,16,Daario Naharis
+1,Ivarius Ironsight,Bloodshed,8,
+1,Ivarius Ironsight,Style,32,Jaqen Hghar
+1,Ivarius Ironsight,Style,16,Ellaria Sand
+1,Ivarius Ironsight,Style,8,
+1,Ivarius Ironsight,Support,32,Varys
+1,Ivarius Ironsight,Support,16,Podrick Payne
+1,Ivarius Ironsight,Support,8,Daario Naharis
+1,Rob o Bones,Wit,32,Samwell Tarly
+1,Rob o Bones,Wit,16,Jaime Lannister
+1,Rob o Bones,Wit,8,Tyrion Lannister
+1,Rob o Bones,Jockey,32,Samwell Tarly
+1,Rob o Bones,Jockey,16,Cersei Lannister
+1,Rob o Bones,Jockey,8,
+1,Rob o Bones,Bloodshed,32,Brienne of Tarth
+1,Rob o Bones,Bloodshed,16,Daenerys Targaryen
+1,Rob o Bones,Bloodshed,8,
+1,Rob o Bones,Style,32,Daenerys Targaryen
+1,Rob o Bones,Style,16,Sansa Stark
+1,Rob o Bones,Style,8,Ellaria Sand
+1,Rob o Bones,Support,32,Samwell Tarly
+1,Rob o Bones,Support,16,Barristan Selmy
+1,Rob o Bones,Support,8,Daario Naharis
+1,Daisy,Wit,32,Jaqen Hghar
+1,Daisy,Wit,16,Samwell Tarly
+1,Daisy,Wit,8,Varys
+1,Daisy,Jockey,32,Samwell Tarly
+1,Daisy,Jockey,16,Jaime Lannister
+1,Daisy,Jockey,8,
+1,Daisy,Bloodshed,32,Daario Naharis
+1,Daisy,Bloodshed,16,Arya Stark
+1,Daisy,Bloodshed,8,
+1,Daisy,Style,32,Ellaria Sand
+1,Daisy,Style,16,Jaqen Hghar
+1,Daisy,Style,8,
+1,Daisy,Support,32,Podrick Payne
+1,Daisy,Support,16,Brienne of Tarth
+1,Daisy,Support,8,Hizdahr zo Loraq
+1,Max Ng,Wit,32,Sansa Stark
+1,Max Ng,Wit,16,Tyrion Lannister
+1,Max Ng,Wit,8,
+1,Max Ng,Jockey,32,Brienne of Tarth
+1,Max Ng,Jockey,16,Daario Naharis
+1,Max Ng,Jockey,8,
+1,Max Ng,Bloodshed,32,Brienne of Tarth
+1,Max Ng,Bloodshed,16,Daario Naharis
+1,Max Ng,Bloodshed,8,Arya Stark
+1,Max Ng,Style,32,Doran Martell
+1,Max Ng,Style,16,Sansa Stark
+1,Max Ng,Style,8,
+1,Max Ng,Support,32,Samwell Tarly
+1,Max Ng,Support,16,Jaime Lannister
+1,Max Ng,Support,8,Daario Naharis
+1,Mart,Wit,32,Jaqen Hghar
+1,Mart,Wit,16,Varys
+1,Mart,Wit,8,Jaime Lannister
+1,Mart,Jockey,32,Jaime Lannister
+1,Mart,Jockey,16,Cersei Lannister
+1,Mart,Jockey,8,Ser Bronn
+1,Mart,Bloodshed,32,Brienne of Tarth
+1,Mart,Bloodshed,16,Cersei Lannister
+1,Mart,Bloodshed,8,Jaqen Hghar
+1,Mart,Style,32,Doran Martell
+1,Mart,Style,16,Areo Hotah
+1,Mart,Style,8,Jaime Lannister
+1,Mart,Support,32,Jaqen Hghar
+1,Mart,Support,16,Brienne of Tarth
+1,Mart,Support,8,Jaime Lannister
+1,Sherin the Sedulous,Wit,32,Daario Naharis
+1,Sherin the Sedulous,Wit,16,Jaime Lannister
+1,Sherin the Sedulous,Wit,8,Kevan Lannister
+1,Sherin the Sedulous,Jockey,32,Arya Stark
+1,Sherin the Sedulous,Jockey,16,Samwell Tarly
+1,Sherin the Sedulous,Jockey,8,Stannis Baratheon
+1,Sherin the Sedulous,Bloodshed,32,Brienne of Tarth
+1,Sherin the Sedulous,Bloodshed,16,Daario Naharis
+1,Sherin the Sedulous,Bloodshed,8,Keyr
+1,Sherin the Sedulous,Style,32,Petyr Baelish
+1,Sherin the Sedulous,Style,16,Areo Hotah
+1,Sherin the Sedulous,Style,8,Hizdahr zo Loraq
+1,Sherin the Sedulous,Support,32,Samwell Tarly
+1,Sherin the Sedulous,Support,16,Daario Naharis
+1,Sherin the Sedulous,Support,8,Qyburn
+1,Josh Du,Wit,32,Varys
+1,Josh Du,Wit,16,Ser Bronn
+1,Josh Du,Wit,8,
+1,Josh Du,Jockey,32,Jon Snow
+1,Josh Du,Jockey,16,Cersei Lannister
+1,Josh Du,Jockey,8,
+1,Josh Du,Bloodshed,32,Brienne of Tarth
+1,Josh Du,Bloodshed,16,Daario Naharis
+1,Josh Du,Bloodshed,8,
+1,Josh Du,Style,32,Daenerys Targaryen
+1,Josh Du,Style,16,Ellaria Sand
+1,Josh Du,Style,8,
+1,Josh Du,Support,32,Samwell Tarly
+1,Josh Du,Support,16,Podrick Payne
+1,Josh Du,Support,8,Barristan Selmy
+1,Kirsty,Wit,32,Arya Stark
+1,Kirsty,Wit,16,Ser Bronn
+1,Kirsty,Wit,8,
+1,Kirsty,Jockey,32,Samwell Tarly
+1,Kirsty,Jockey,16,Jaime Lannister
+1,Kirsty,Jockey,8,
+1,Kirsty,Bloodshed,32,Brienne of Tarth
+1,Kirsty,Bloodshed,16,Podrick Payne
+1,Kirsty,Bloodshed,8,
+1,Kirsty,Style,32,Daenerys Targaryen
+1,Kirsty,Style,16,Ellaria Sand
+1,Kirsty,Style,8,
+1,Kirsty,Support,32,Samwell Tarly
+1,Kirsty,Support,16,Barristan Selmy
+1,Kirsty,Support,8,Ser Bronn
+1,Kent,Wit,32,Gilly
+1,Kent,Wit,16,Tyrion Lannister
+1,Kent,Wit,8,Samwell Tarly
+1,Kent,Jockey,32,Jon Snow
+1,Kent,Jockey,16,Ser Bronn
+1,Kent,Jockey,8,Doran Martell
+1,Kent,Bloodshed,32,Daario Naharis
+1,Kent,Bloodshed,16,Arya Stark
+1,Kent,Bloodshed,8,Daenerys Targaryen
+1,Kent,Style,32,Ellaria Sand
+1,Kent,Style,16,Areo Hotah
+1,Kent,Style,8,Jaqen Hghar
+1,Kent,Support,32,Samwell Tarly
+1,Kent,Support,16,Jaqen Hghar
+1,Kent,Support,8,Ser Bronn

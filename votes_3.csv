@@ -1,0 +1,166 @@
+Episode,Player,Award,Points,Character
+3,Dan,Wit,32,Ser Bronn
+3,Dan,Wit,16,Tyrion Lannister
+3,Dan,Wit,8,Cersei Lannister
+3,Dan,Jockey,32,Cersei Lannister
+3,Dan,Jockey,16,Petyr Baelish
+3,Dan,Jockey,8,Ellaria Sand
+3,Dan,Bloodshed,32,Barristan Selmy
+3,Dan,Bloodshed,16,Obara Sand
+3,Dan,Bloodshed,8,Grey Worm
+3,Dan,Style,32,Tyene Sand
+3,Dan,Style,16,Lancel Lannister
+3,Dan,Style,8,Nymeria Sand
+3,Dan,Support,32,Barristan Selmy
+3,Dan,Support,16,Ser Bronn
+3,Dan,Support,8,Lancel Lannister
+3,Hayley,Wit,32,Melisandre
+3,Hayley,Wit,16,The High Sparrow
+3,Hayley,Wit,8,Cersei Lannister
+3,Hayley,Jockey,32,Cersei Lannister
+3,Hayley,Jockey,16,Petyr Baelish
+3,Hayley,Jockey,8,Ellaria Sand
+3,Hayley,Bloodshed,32,Obara Sand
+3,Hayley,Bloodshed,16,Barristan Selmy
+3,Hayley,Bloodshed,8,Lancel Lannister
+3,Hayley,Style,32,Melisandre
+3,Hayley,Style,16,Lancel Lannister
+3,Hayley,Style,8,Tyene Sand
+3,Hayley,Support,32,Barristan Selmy
+3,Hayley,Support,16,Obara Sand
+3,Hayley,Support,8,Jaime Lannister
+3,Jannerah Silverscale,Wit,32,Ser Bronn
+3,Jannerah Silverscale,Wit,16,Melisandre
+3,Jannerah Silverscale,Wit,8,
+3,Jannerah Silverscale,Jockey,32,Cersei Lannister
+3,Jannerah Silverscale,Jockey,16,Ellaria Sand
+3,Jannerah Silverscale,Jockey,8,
+3,Jannerah Silverscale,Bloodshed,32,Grey Worm
+3,Jannerah Silverscale,Bloodshed,16,Barristan Selmy
+3,Jannerah Silverscale,Bloodshed,8,
+3,Jannerah Silverscale,Style,32,Nymeria Sand
+3,Jannerah Silverscale,Style,16,Margaery Tyrell
+3,Jannerah Silverscale,Style,8,
+3,Jannerah Silverscale,Support,32,Barristan Selmy
+3,Jannerah Silverscale,Support,16,Ser Bronn
+3,Jannerah Silverscale,Support,8,Samwell Tarly
+3,Ivarius Ironsight,Wit,32,Tyrion Lannister
+3,Ivarius Ironsight,Wit,16,Ser Bronn
+3,Ivarius Ironsight,Wit,8,Melisandre
+3,Ivarius Ironsight,Jockey,32,Cersei Lannister
+3,Ivarius Ironsight,Jockey,16,Petyr Baelish
+3,Ivarius Ironsight,Jockey,8,Ellaria Sand
+3,Ivarius Ironsight,Bloodshed,32,Barristan Selmy
+3,Ivarius Ironsight,Bloodshed,16,Ser Bronn
+3,Ivarius Ironsight,Bloodshed,8,
+3,Ivarius Ironsight,Style,32,Sansa Stark
+3,Ivarius Ironsight,Style,16,Margaery Tyrell
+3,Ivarius Ironsight,Style,8,
+3,Ivarius Ironsight,Support,32,Melisandre
+3,Ivarius Ironsight,Support,16,Jorah Mormont
+3,Ivarius Ironsight,Support,8,Barristan Selmy
+3,Rob o Bones,Wit,32,Ser Bronn
+3,Rob o Bones,Wit,16,Cersei Lannister
+3,Rob o Bones,Wit,8,
+3,Rob o Bones,Jockey,32,Cersei Lannister
+3,Rob o Bones,Jockey,16,Margaery Tyrell
+3,Rob o Bones,Jockey,8,
+3,Rob o Bones,Bloodshed,32,Ser Bronn
+3,Rob o Bones,Bloodshed,16,Obara Sand
+3,Rob o Bones,Bloodshed,8,Grey Worm
+3,Rob o Bones,Style,32,Lancel Lannister
+3,Rob o Bones,Style,16,Margaery Tyrell
+3,Rob o Bones,Style,8,
+3,Rob o Bones,Support,32,Ser Bronn
+3,Rob o Bones,Support,16,Barristan Selmy
+3,Rob o Bones,Support,8,Grey Worm
+3,Daisy,Wit,32,Ser Bronn
+3,Daisy,Wit,16,Melisandre
+3,Daisy,Wit,8,
+3,Daisy,Jockey,32,Cersei Lannister
+3,Daisy,Jockey,16,Stannis Baratheon
+3,Daisy,Jockey,8,
+3,Daisy,Bloodshed,32,Grey Worm
+3,Daisy,Bloodshed,16,Obara Sand
+3,Daisy,Bloodshed,8,
+3,Daisy,Style,32,Ellaria Sand
+3,Daisy,Style,16,Hizdahr zo Loraq
+3,Daisy,Style,8,
+3,Daisy,Support,32,Jorah Mormont
+3,Daisy,Support,16,Jaime Lannister
+3,Daisy,Support,8,Samwell Tarly
+3,Max Ng,Wit,32,Ser Bronn
+3,Max Ng,Wit,16,Melisandre
+3,Max Ng,Wit,8,
+3,Max Ng,Jockey,32,Ellaria Sand
+3,Max Ng,Jockey,16,Jorah Mormont
+3,Max Ng,Jockey,8,
+3,Max Ng,Bloodshed,32,Grey Worm
+3,Max Ng,Bloodshed,16,Barristan Selmy
+3,Max Ng,Bloodshed,8,Jaime Lannister
+3,Max Ng,Style,32,Margaery Tyrell
+3,Max Ng,Style,16,Obara Sand
+3,Max Ng,Style,8,
+3,Max Ng,Support,32,Ser Bronn
+3,Max Ng,Support,16,The High Sparrow
+3,Max Ng,Support,8,Samwell Tarly
+3,Mart,Wit,32,Melisandre
+3,Mart,Wit,16,Stannis Baratheon
+3,Mart,Wit,8,Obara Sand
+3,Mart,Jockey,32,Cersei Lannister
+3,Mart,Jockey,16,Petyr Baelish
+3,Mart,Jockey,8,Stannis Baratheon
+3,Mart,Bloodshed,32,Grey Worm
+3,Mart,Bloodshed,16,Barristan Selmy
+3,Mart,Bloodshed,8,Ser Bronn
+3,Mart,Style,32,Margaery Tyrell
+3,Mart,Style,16,Nymeria Sand
+3,Mart,Style,8,Jorah Mormont
+3,Mart,Support,32,Ser Bronn
+3,Mart,Support,16,Barristan Selmy
+3,Mart,Support,8,Obara Sand
+3,Sherin the Sedulous,Wit,32,Melisandre
+3,Sherin the Sedulous,Wit,16,Ser Bronn
+3,Sherin the Sedulous,Wit,8,Tyrion Lannister
+3,Sherin the Sedulous,Jockey,32,Petyr Baelish
+3,Sherin the Sedulous,Jockey,16,Cersei Lannister
+3,Sherin the Sedulous,Jockey,8,
+3,Sherin the Sedulous,Bloodshed,32,Grey Worm
+3,Sherin the Sedulous,Bloodshed,16,Barristan Selmy
+3,Sherin the Sedulous,Bloodshed,8,Lancel Lannister
+3,Sherin the Sedulous,Style,32,Loras Tyrell
+3,Sherin the Sedulous,Style,16,Margaery Tyrell
+3,Sherin the Sedulous,Style,8,
+3,Sherin the Sedulous,Support,32,Ser Bronn
+3,Sherin the Sedulous,Support,16,Barristan Selmy
+3,Sherin the Sedulous,Support,8,Nymeria Sand
+3,Josh Du,Wit,32,Ser Bronn
+3,Josh Du,Wit,16,Jorah Mormont
+3,Josh Du,Wit,8,
+3,Josh Du,Jockey,32,Cersei Lannister
+3,Josh Du,Jockey,16,Petyr Baelish
+3,Josh Du,Jockey,8,
+3,Josh Du,Bloodshed,32,Grey Worm
+3,Josh Du,Bloodshed,16,Ser Bronn
+3,Josh Du,Bloodshed,8,Barristan Selmy
+3,Josh Du,Style,32,Melisandre
+3,Josh Du,Style,16,Sansa Stark
+3,Josh Du,Style,8,
+3,Josh Du,Support,32,Loras Tyrell
+3,Josh Du,Support,16,Tommen Baratheon
+3,Josh Du,Support,8,Samwell Tarly
+3,Kirsty,Wit,32,Melisandre
+3,Kirsty,Wit,16,Obara Sand
+3,Kirsty,Wit,8,
+3,Kirsty,Jockey,32,Cersei Lannister
+3,Kirsty,Jockey,16,Jorah Mormont
+3,Kirsty,Jockey,8,Petyr Baelish
+3,Kirsty,Bloodshed,32,Barristan Selmy
+3,Kirsty,Bloodshed,16,Obara Sand
+3,Kirsty,Bloodshed,8,Grey Worm
+3,Kirsty,Style,32,Melisandre
+3,Kirsty,Style,16,Ellaria Sand
+3,Kirsty,Style,8,Daenerys Targaryen
+3,Kirsty,Support,32,Ser Bronn
+3,Kirsty,Support,16,Barristan Selmy
+3,Kirsty,Support,8,Sansa Stark

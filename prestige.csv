@@ -1,0 +1,74 @@
+Character,Score,Rank,Mulitplier,Score_log
+Petyr Baelish,32.0,1.0,1/8,7.23832462504
+Varys,22.125,2.0,1/8,6.86929691313
+Tyrion Lannister,16.5,3.0,1/8,6.57594910315
+Margaery Tyrell,14.5,4.0,1/8,6.44673737167
+Brienne of Tarth,9.625,5.0,1/8,6.03695260241
+Grey Worm,9.0,6.0,1/8,5.96981329958
+Davos Seaworth,8.0,7.0,1/8,5.85203026392
+Mance Rayder,6.125,8.0,1/4,5.58496747867
+Daario Naharis,5.25,9.0,1/4,5.43081679884
+Lord of Bones,5.0,10.0,1/4,5.38202663467
+Ramsay Bolton,5.0,10.0,1/4,5.38202663467
+Sansa Stark,5.0,10.0,1/2,5.38202663467
+Myrcella Baratheon,5.0,10.0,1/4,5.38202663467
+Nymeria Sand,4.5,14.0,1/4,5.27666611902
+Jaqen Hghar,4.125,15.0,1/4,5.18965474203
+Arya Stark,4.0,16.0,1/4,5.15888308336
+Theon Greyjoy,4.0,16.0,1/4,5.15888308336
+Daenerys Targaryen,4.0,16.0,1/4,5.15888308336
+The High Sparrow,3.0,19.0,1/2,4.87120101091
+Olenna Tyrell,2.25,20.0,1/2,4.58351893846
+Areo Hotah,2.125,21.0,1/2,4.52636052462
+Pycelle,2.125,21.0,1/2,4.52636052462
+Melisandre,2.0,23.0,1/2,4.4657359028
+Kevan Lannister,2.0,23.0,1/2,4.4657359028
+Jon Snow,2.0,23.0,1/2,4.4657359028
+Gregor Clegane,2.0,23.0,1/2,4.4657359028
+Ser Bronn,1.25,27.0,1,3.99573227355
+Jorah Mormont,1.125,28.0,2,3.8903717579
+Tycho Nestoris,1.0,29.0,1,3.77258872224
+Cersei Lannister,1.0,29.0,1,3.77258872224
+Ellaria Sand,1.0,29.0,2,3.77258872224
+Samwell Tarly,0.75,32.0,2,3.48490664979
+Robin Arryn,0.5,33.0,2,3.07944154168
+Trystane Martell,0.5,33.0,4,3.07944154168
+Tyene Sand,0.5,33.0,2,3.07944154168
+Alliser Thorne,0.25,36.0,4,2.38629436112
+Tormund Giantsbane,0.25,36.0,4,2.38629436112
+Loras Tyrell,0.25,36.0,4,2.38629436112
+Doran Martell,0.25,36.0,4,2.38629436112
+Obara Sand,0.125,40.0,8,1.69314718056
+Missandei,0.125,40.0,8,1.69314718056
+Yezzan,0.125,40.0,8,1.69314718056
+Olly,0.125,40.0,8,1.69314718056
+Gilly,0.125,40.0,8,1.69314718056
+Maggy the Frog,0.0625,45.0,,1.0
+Pit Announcer,0.0625,45.0,,1.0
+Walda Bolton,0.0625,45.0,,1.0
+Lancel Lannister,0.0625,45.0,,1.0
+Septa Unella,0.0625,45.0,,1.0
+Bowen Marsh,0.0625,45.0,,1.0
+Ternesio Terys,0.0625,45.0,,1.0
+Mace Tyrell,0.0625,45.0,,1.0
+Lhara,0.0625,45.0,,1.0
+Jaime Lannister,0.0625,45.0,,1.0
+Eddison Tollett,0.0625,45.0,,1.0
+Yohn Royce,0.0625,45.0,,1.0
+Malko,0.0625,45.0,,1.0
+White Walkers Master,0.0625,45.0,,1.0
+Stannis Baratheon,0.0625,45.0,,1.0
+Meryn Trant,0.0625,45.0,,1.0
+Denys Mallister,0.0625,45.0,,1.0
+Shireen Baratheon,0.0625,45.0,,1.0
+Loboda,0.0625,45.0,,1.0
+Janos Slynt,0.0625,45.0,,1.0
+Barristan Selmy,0.0625,45.0,,1.0
+Podrick Payne,0.0625,45.0,,1.0
+Myranda,0.0625,45.0,,1.0
+Keyr,0.0625,45.0,,1.0
+Tommen Baratheon,0.0625,45.0,,1.0
+Selyse Baratheon,0.0625,45.0,,1.0
+Roose Bolton,0.0625,45.0,,1.0
+Hizdahr zo Loraq,0.0625,45.0,,1.0
+Qyburn,0.0625,45.0,,1.0

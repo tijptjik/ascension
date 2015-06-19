@@ -1,0 +1,181 @@
+Episode,Player,Award,Points,Character
+0,Dan,Wit,32,Mance Rayder
+0,Dan,Wit,16,Varys
+0,Dan,Wit,8,Tyrion Lannister
+0,Dan,Jockey,32,Varys
+0,Dan,Jockey,16,Daario Naharis
+0,Dan,Jockey,8,Petyr Baelish
+0,Dan,Bloodshed,32,Mance Rayder
+0,Dan,Bloodshed,16,Jon Snow
+0,Dan,Bloodshed,8,Robin Arryn
+0,Dan,Style,32,Daenerys Targaryen
+0,Dan,Style,16,Lancel Lannister
+0,Dan,Style,8,Loras Tyrell
+0,Dan,Support,32,Jon Snow
+0,Dan,Support,16,Varys
+0,Dan,Support,8,Podrick Payne
+0,Hayley,Wit,32,Varys
+0,Hayley,Wit,16,Cersei Lannister
+0,Hayley,Wit,8,
+0,Hayley,Jockey,32,Margaery Tyrell
+0,Hayley,Jockey,16,Jon Snow
+0,Hayley,Jockey,8,Lancel Lannister
+0,Hayley,Bloodshed,32,Melisandre
+0,Hayley,Bloodshed,16,Jon Snow
+0,Hayley,Bloodshed,8,Cersei Lannister
+0,Hayley,Style,32,Daario Naharis
+0,Hayley,Style,16,Loras Tyrell
+0,Hayley,Style,8,Daenerys Targaryen
+0,Hayley,Support,32,Jon Snow
+0,Hayley,Support,16,Varys
+0,Hayley,Support,8,Daario Naharis
+0,Jannerah Silverscale,Wit,32,Tyrion Lannister
+0,Jannerah Silverscale,Wit,16,Mance Rayder
+0,Jannerah Silverscale,Wit,8,
+0,Jannerah Silverscale,Jockey,32,Stannis Baratheon
+0,Jannerah Silverscale,Jockey,16,Varys
+0,Jannerah Silverscale,Jockey,8,
+0,Jannerah Silverscale,Bloodshed,32,Jon Snow
+0,Jannerah Silverscale,Bloodshed,16,Mance Rayder
+0,Jannerah Silverscale,Bloodshed,8,
+0,Jannerah Silverscale,Style,32,Cersei Lannister
+0,Jannerah Silverscale,Style,16,Margaery Tyrell
+0,Jannerah Silverscale,Style,8,
+0,Jannerah Silverscale,Support,32,Varys
+0,Jannerah Silverscale,Support,16,Podrick Payne
+0,Jannerah Silverscale,Support,8,Loras Tyrell
+0,Ivarius Ironsight,Wit,32,Mance Rayder
+0,Ivarius Ironsight,Wit,16,Tyrion Lannister
+0,Ivarius Ironsight,Wit,8,
+0,Ivarius Ironsight,Jockey,32,Varys
+0,Ivarius Ironsight,Jockey,16,Mance Rayder
+0,Ivarius Ironsight,Jockey,8,Daario Naharis
+0,Ivarius Ironsight,Bloodshed,32,Mance Rayder
+0,Ivarius Ironsight,Bloodshed,16,Jon Snow
+0,Ivarius Ironsight,Bloodshed,8,Melisandre
+0,Ivarius Ironsight,Style,32,Petyr Baelish
+0,Ivarius Ironsight,Style,16,Sansa Stark
+0,Ivarius Ironsight,Style,8,
+0,Ivarius Ironsight,Support,32,Jon Snow
+0,Ivarius Ironsight,Support,16,Varys
+0,Ivarius Ironsight,Support,8,Daario Naharis
+0,Rob o Bones,Wit,32,Varys
+0,Rob o Bones,Wit,16,Tyrion Lannister
+0,Rob o Bones,Wit,8,Margaery Tyrell
+0,Rob o Bones,Jockey,32,Varys
+0,Rob o Bones,Jockey,16,Stannis Baratheon
+0,Rob o Bones,Jockey,8,Tyrion Lannister
+0,Rob o Bones,Bloodshed,32,Mance Rayder
+0,Rob o Bones,Bloodshed,16,Melisandre
+0,Rob o Bones,Bloodshed,8,Stannis Baratheon
+0,Rob o Bones,Style,32,Margaery Tyrell
+0,Rob o Bones,Style,16,Brienne of Tarth
+0,Rob o Bones,Style,8,Jaime Lannister
+0,Rob o Bones,Support,32,Jon Snow
+0,Rob o Bones,Support,16,Melisandre
+0,Rob o Bones,Support,8,Daario Naharis
+0,Daisy,Wit,32,Mance Rayder
+0,Daisy,Wit,16,Varys
+0,Daisy,Wit,8,Tyrion Lannister
+0,Daisy,Jockey,32,Varys
+0,Daisy,Jockey,16,Jon Snow
+0,Daisy,Jockey,8,
+0,Daisy,Bloodshed,32,Melisandre
+0,Daisy,Bloodshed,16,Mance Rayder
+0,Daisy,Bloodshed,8,
+0,Daisy,Style,32,The High Sparrow
+0,Daisy,Style,16,Grey Worm
+0,Daisy,Style,8,
+0,Daisy,Support,32,Podrick Payne
+0,Daisy,Support,16,Brienne of Tarth
+0,Daisy,Support,8,Daario Naharis
+0,Max Ng,Wit,32,Varys
+0,Max Ng,Wit,16,Tyrion Lannister
+0,Max Ng,Wit,8,
+0,Max Ng,Jockey,32,Robin Arryn
+0,Max Ng,Jockey,16,Grey Worm
+0,Max Ng,Jockey,8,Varys
+0,Max Ng,Bloodshed,32,Mance Rayder
+0,Max Ng,Bloodshed,16,Robin Arryn
+0,Max Ng,Bloodshed,8,
+0,Max Ng,Style,32,Margaery Tyrell
+0,Max Ng,Style,16,Jaime Lannister
+0,Max Ng,Style,8,
+0,Max Ng,Support,32,Varys
+0,Max Ng,Support,16,Yohn Royce
+0,Max Ng,Support,8,Daario Naharis
+0,Mart,Wit,32,Varys
+0,Mart,Wit,16,Mance Rayder
+0,Mart,Wit,8,Maggy the Frog
+0,Mart,Jockey,32,Varys
+0,Mart,Jockey,16,Margaery Tyrell
+0,Mart,Jockey,8,Stannis Baratheon
+0,Mart,Bloodshed,32,Stannis Baratheon
+0,Mart,Bloodshed,16,Maggy the Frog
+0,Mart,Bloodshed,8,Melisandre
+0,Mart,Style,32,Margaery Tyrell
+0,Mart,Style,16,Sansa Stark
+0,Mart,Style,8,Cersei Lannister
+0,Mart,Support,32,Varys
+0,Mart,Support,16,Jon Snow
+0,Mart,Support,8,Petyr Baelish
+0,Sherin the Sedulous,Wit,32,Maggy the Frog
+0,Sherin the Sedulous,Wit,16,Petyr Baelish
+0,Sherin the Sedulous,Wit,8,Daario Naharis
+0,Sherin the Sedulous,Jockey,32,Margaery Tyrell
+0,Sherin the Sedulous,Jockey,16,Petyr Baelish
+0,Sherin the Sedulous,Jockey,8,Stannis Baratheon
+0,Sherin the Sedulous,Bloodshed,32,Robin Arryn
+0,Sherin the Sedulous,Bloodshed,16,Jon Snow
+0,Sherin the Sedulous,Bloodshed,8,Mance Rayder
+0,Sherin the Sedulous,Style,32,Margaery Tyrell
+0,Sherin the Sedulous,Style,16,Sansa Stark
+0,Sherin the Sedulous,Style,8,Daenerys Targaryen
+0,Sherin the Sedulous,Support,32,Daario Naharis
+0,Sherin the Sedulous,Support,16,Lancel Lannister
+0,Sherin the Sedulous,Support,8,Podrick Payne
+0,Josh Du,Wit,32,Yohn Royce
+0,Josh Du,Wit,16,Varys
+0,Josh Du,Wit,8,
+0,Josh Du,Jockey,32,Varys
+0,Josh Du,Jockey,16,Stannis Baratheon
+0,Josh Du,Jockey,8,
+0,Josh Du,Bloodshed,32,Mance Rayder
+0,Josh Du,Bloodshed,16,Jon Snow
+0,Josh Du,Bloodshed,8,
+0,Josh Du,Style,32,Daenerys Targaryen
+0,Josh Du,Style,16,Loras Tyrell
+0,Josh Du,Style,8,
+0,Josh Du,Support,32,Varys
+0,Josh Du,Support,16,Daario Naharis
+0,Josh Du,Support,8,Davos Seaworth
+0,Kirsty,Wit,32,Melisandre
+0,Kirsty,Wit,16,Varys
+0,Kirsty,Wit,8,Tyrion Lannister
+0,Kirsty,Jockey,32,Stannis Baratheon
+0,Kirsty,Jockey,16,Margaery Tyrell
+0,Kirsty,Jockey,8,Petyr Baelish
+0,Kirsty,Bloodshed,32,Mance Rayder
+0,Kirsty,Bloodshed,16,Tyrion Lannister
+0,Kirsty,Bloodshed,8,Cersei Lannister
+0,Kirsty,Style,32,Cersei Lannister
+0,Kirsty,Style,16,Melisandre
+0,Kirsty,Style,8,Daenerys Targaryen
+0,Kirsty,Support,32,Podrick Payne
+0,Kirsty,Support,16,Grey Worm
+0,Kirsty,Support,8,Varys
+0,Kent,Wit,32,Tyrion Lannister
+0,Kent,Wit,16,Cersei Lannister
+0,Kent,Wit,8,Brienne of Tarth
+0,Kent,Jockey,32,Daario Naharis
+0,Kent,Jockey,16,Stannis Baratheon
+0,Kent,Jockey,8,Jon Snow
+0,Kent,Bloodshed,32,Mance Rayder
+0,Kent,Bloodshed,16,Maggy the Frog
+0,Kent,Bloodshed,8,Stannis Baratheon
+0,Kent,Style,32,Lancel Lannister
+0,Kent,Style,16,Daenerys Targaryen
+0,Kent,Style,8,Cersei Lannister
+0,Kent,Support,32,Jon Snow
+0,Kent,Support,16,Shireen Baratheon
+0,Kent,Support,8,Podrick Payne
