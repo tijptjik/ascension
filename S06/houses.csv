@@ -1,0 +1,15 @@
+affiliation,Count of affiliation,head,ability
+bolton,3,roose,"% bonus points on damage, 20% * prestige,  chance of dealing back attack to the attacking party"
+meereen,4,tyrion,"% bonus points on wit, tyrion and varrys are immune to attack"
+arryn,4,bealish,"% bonus point on jockey, 50% chance of dealing back diplomacy on the incurring party, lord bealish is immune to attack "
+greyjoy,4,theon,splatter-damage
+martell,7,doran,"% bonus points on support, attack never revealed"
+independent,7,jaqen,"silent assassins, if a faceless man kills someone, they join your ranks, jaqen is immune to attack"
+night's watch-free folk,9,jon snow,% bonus points on damage
+minor,9,the high sparrow,automatically run an extra random diplomacy mission against a random opponent
+targaryen-dothraki,9,denearys,all characters of this house gain +1 violence
+tyrell,10,margery,% bonus points on style
+lannister,10,cercei,"% bonus points on jockey, all characters of this house gain -1 prestige, "
+stark,11,sansa,"if a stark is killed, an undrafted character will resurrect in its place"
+,,,
+,,,all characters of this house gain +1 diplomacy

@@ -26,6 +26,8 @@ Ramsay Bolton
 Melisandre of Asshai 
 Ellaria Sand
 Jaqen H'ghar
+Jon Snow
+Shae
 Alliser Thorne
 Walder Frey
 Grey Worm
@@ -48,7 +50,7 @@ Eddison Tollett
 Hodor
 Kevan Lannister
 The Night's King
-Myrcella Baratheon (corpse)
+Myrcella Baratheon
 Trystane Martell
 Tyene Sand
 Obara Sand
@@ -68,33 +70,18 @@ Razdal mo Eraz
 The Waif
 Walda Bolton
 Marei
-Jon Snow
-Shae
-
-Flynn. Announced July 23, 2015.
-a fusion of Septon Meribald and the Elder Brother. Announced March 3, 2016.
-the Three-eyed raven. Announced August 3, 2015.
-young Eddard Stark. Announced August 9, 2015.
-a Targaryen Kingsguard. Announced August 27, 2015.
-Euron Greyjoy. Announced September 1, 2015.
-Dickon Tarly. Announced September 4, 2015.
-Izembaro. Announced September 11, 2015.
-Lady Stork. Announced September 11, 2015.
-Lord Randyll Tarly. Announced September 16, 2015.
-Lady Melessa Tarly. Announced September 16, 2015.
-Talla Tarly. Announced September 16, 2015.
-TBA. Announced September 30, 2015.
-"Lord Rowland Selwyn" (pseudonym). Announced October 1, 2015.
-a Red Priestess. Announced October 3, 2015.
-Khal Moro. Announced October 8, 2015.
-the High Priestess of the Dosh khaleen. Announced October 15, 2015.
-Qhono. Announced October 15, 2015.
-Ahko. Announced October 19, 2015. 
-Khal Rhalko. Announced October 23, 2015.
-a Dothraki khal. Announced November 4, 2015.
-Smalljon Umber. Announced November 26, 2015.
-High Priestess Kinvara. Announced January 1, 2016.
-Khal Forzo. Announced January 14, 2016.
-a housemaid (possibly a younger Old Nan). Announced February 2, 2016.
-Harald Karstark. Announced March 1, 2016.
-Lothar Frey. Announced April 18, 2016.
+Euron Greyjoy
+Dickon Tarly
+Izembaro
+Randyll Tarly
+Melessa Tarly
+Talla Tarly
+Moro
+Qhono
+Ahko
+Rhalko
+Smalljon Umber
+Kinvara
+Forzo
+Harald Karstark
+Lothar Frey
