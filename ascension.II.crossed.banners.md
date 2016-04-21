@@ -18,7 +18,7 @@ Ascension is played alongside season 6 of HBO's Game of Thrones. You play online
 
 ## Rules
 
-There are 12 players.
+There are 12 players. Each player has a roster representing a House, and 7 characters. The characters needn't belong to the roster's house. Characters are differentiated based on (0) their allegiance to a given house; (1) scoring potential, or 'prominence', (2) damage potential, or 'fatality', and (3) ability to gather intelligence, or 'diplomacy'.
 
 ### Awards
 
@@ -28,6 +28,10 @@ There are 12 players.
 * **Style** - best look, appearance or use of props.  
 * **Grievance** - causing great irritation or sending you into a murderous rage
 * **Support** - most helpful supporting character.
+
+### Missions
+
+Each week, characters can be sent on missions. One can be sent on a diplomatic mission, another on an assassination attempy.
 
 ### Houses 
 
@@ -56,10 +60,39 @@ Each character has four main traits:
 #### Prominence
 
 
-
-
 #### Fatality
+
+* Probability of success
+* Wounded is the reduction in scoring capacity
+* Anonimity of Mission 
+* The Underdog = if the total prominence of your deck is lower than the prominence of the target's deck, become lethal
+* Unholy Alliance = a mechanism involving coordinated attacks 
+
+The 5 Tiers 
+
+| tier | % of success | wounded % | % of anonimity |
+|------|---------|-------|
+
 #### Diplomacy
+
+* Probability of success
+* Number of facts retrieved
+* Class of facts retrieved
+* Defence against attack
+* Anonimity of Mission 
+
+
+The 5 Tiers 
+
+| Tier| Ability | Notes |
+|-----|---------|-------|
+  V   |
+ I V  |
+I I I |
+ I I  |
+  I   |
+
+
 
 
 
