@@ -13,19 +13,25 @@ In keeping with the Game of Thrones logic, you can send your characters on diplo
 ## Quick Start
 
 1. **Sign Up**. Sign up at [ascension.type.hk](http://ascension.type.hk).
-2. **Pick a House**. Houses boost the characters you pick from that house, have special abilities, and are public knowledge.
-3. **Pick 7 Characters for your Roster**. Every episode your characters will compete for points in the award categories (wit, damage, jockey, style and support). Players all vote for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#Picking-Your-Characters).
+2. **Pick a House**. [Houses](#houses) boost the characters you pick from that house, have special abilities, and are public knowledge.
+3. **Pick 7 Characters for your Roster**. Every episode your [characters](#characters) will compete for points in the **[award categories](#award-categories)** (wit, damage, jockey, style and support). Players all **[vote](#popular-vote)** for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#Picking-Your-Characters).
 4. **Watch the Weekly Episode**. Watch the episode within a week of it being aired.
 5. **Cast your Weekly Votes**. For each of the award categories, vote who most deserves the award that week. Votes are public.
-6. **Initiate Weekly Missions**. Send one of your characters to gather intel, and/or assasinate characters from another roster. Missions are secret.
+6. **Initiate Weekly Missions**. Send one of your characters to gather intel, and/or assasinate characters from another roster. **[Missions](#missions)** are secret.
 7. **Consult the Chronicles**. A chronicle is sent out to all players with the voting record, and the results from the spy and murder missions, some private, some public.
 8. **Rank on the Leaderboard**. Leaderboard is updated with the weekly character points.
 
 ## Rules
 
-The game is played in a league of 12 players. Each player represents a **[House](#Houses)** and fields a **[Roster](#Roster)** of 7 GoT Characters. **[Characters](#Characters)** are used to score points across 5 **[Award Categories](#Award-Categories)**. Points are awarded based on **[Popular Vote](#Popular-Vote)** after each episode. The player with the most points at the end of the season, ascends to the throne.
+The game is played in a league of 12 players. Each player represents a **[House](#houses)** and fields a **[Roster](#character-roster)** of 7 GoT Characters. **[Characters](#characters)** are used to score points across 5 **[Award Categories](#award-categories)**. Points are awarded based on **[Popular Vote](#popular-vote)** after each episode. The player with the most points at the end of the season ascends to the throne.
+
+### Character Roster
+
+A Character Roster is a list of GoT characters a player fields for the entire game. Players may freely and secretly pick 7 **[Characters](#characters)** to form their roster before the season starts. Players can pick the same characters. Though players represent a unique House, they **are not** restricted to fielding characters from that house. Characters belonging to their House gain scoring bonuses, but they also make those characters more obvious targets for assassinations. 
 
 ### Award Categories
+
+During each episodes, characters with vie for point in the following award categories:
 
 * **Wit** - smartest or most piercing delivery of a line.
 * **Damage** - physical and mental destruction, dealt or received.
@@ -33,13 +39,9 @@ The game is played in a league of 12 players. Each player represents a **[House]
 * **Style** - best look, appearance or use of props.  
 * **Support** - most helpful supporting character.
 
-### Roster
+### Houses
 
-The characters needn't belong to the roster's house.
-
-### Affilition
-
-All 12 available affiliations have [abilities & score multipliers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/houses.csv).
+All 12 available houses have [abilities & score multipliers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/houses.csv). _Abilities_ change the game mechanics, while _score multipliers_ change how strongly members of that house score in particular award categories.
 
 #### Available Houses 
 
@@ -56,27 +58,44 @@ All 12 available affiliations have [abilities & score multipliers](https://githu
 * House Lannister
 * House Stark
 
-Of special note are the **Council of Meereen**, which consist of the formidable characters who remained to rule Meereen at the close of season 5; **House Arryn**, which might as well be House Baelish; **Independents** which gather the many mystics, magicians and maniacs of both continents; **Night's Watch & Free Folk** which have formed an unholy alliance; **League of Minor Orders** which gather nobility and clergy from the Order of the Sparrows, Slave traders from Essos, Lords of the House Frey and Ser Davos Seaworth; **House Tyrell** which includes their sworn bannerman from House Tarly; and **House Targaryen & Dothraki Horde** which contain many of the yet-to-be-introduced characters.
+Of special note are **Council of Meereen**, which consist of the formidable characters who remained to rule Meereen at the close of season 5; **House Arryn**, which might as well be House Baelish; **Independents** which gather the many mystics, magicians and maniacs of both continents; **Night's Watch & Free Folk** which have formed an unholy alliance; **League of Minor Orders** which gather nobility and clergy from the Order of the Sparrows, Slave traders from Essos, Lords of the House Frey and Ser Davos Seaworth; **House Tyrell** which includes their sworn bannerman from House Tarly; and **House Targaryen & Dothraki Horde** which contain many of the yet-to-be-introduced characters.
+
+#### Bidding for a House
+
+In order to maximise the number of people who are playing the house of their choice, we are following a bidding procedure:
+
+1. The Game Master will open up a Thread on Facebook with all players. 
+2. Each Player announces which House they wish to take.
+3. If the House of your choice is uncontested after all 12 players have mentioned their preference, or 24 hours have past. You claim that House.
+4. If however a House is contested, the claimants will bid against each other to win the House
+    1. You bid with %penalty on your score for the first episode. so if you bid '10' and win the House, it means you will only receive 90% of the points awarded for the first episode.
+    2. If you bid over 100%, overages are deducted from subsequent episodes. So 250% means you don't score any points for the first two episodes and onlf half for the third episode.... really, don't enter a bidding war.
+    3. If you lose a contested house, you can pick an unclaimed House - first come, first serve.
+    4. The bidding process will run until everyone has picked a House, or 36 hours, whichever comes first.
+    5. If a player fails to indicate their interest within 24 hours, they are randomly assigned an unclaimed House by the Game Master. This is to unsure that the other players can proceed to the bidding round for contested Houses.5
+5. The Game Master registers your House in the Game.
 
 ### Characters
 
-1. Their `affiliation` to a given house;
-2. Scoring potential, or `prominence`, 
-3. Damage potential, or `violence`, and
-4. Ability to gather intelligence, or `diplomacy`.
+Other than their ability to bring in points in each of the award categories, each character has four main traits which defines their role and value in the game.
 
-Each character has four main traits:
+* **House**, affiliation with a major or minor house, a cult, guild or the independents.
+* **Prominence**, how central they are to Game of Thrones.
+* **Violence**, how deadly they are.
+* **Diplomacy**, how good they are at gathering intelligence
 
-* **Affiliation**, either a house, a lesser house, or an independent.
-* **Prominence**, how central is this character to Game of Thrones
-* **Violence**, how deadly is this characer
-* **Diplomacy**, how good is this character at winning information
+#### Missions
+
+Missions are at the heart of player interactivity in Crossed Banners. Missions are what elevated Ascesion about a fantasy league. 
+
+#### Prominence
+#### Violence
+#### Diplomacy
 
 #### Available Characters
 
 All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bio.csv) to remind you who they are.
 
-#### Prominence
 
 
 #### Fatality
@@ -92,7 +111,19 @@ The 5 Tiers
 | tier | % of success | wounded % | % of anonimity |
 |------|---------|-------|
 
+1.
+2.
+3.
+4.
+5. No performance pentalty
+6. 
 #### Diplomacy
+
+1.
+2.
+3.
+4.
+5. No performance pentalty
 
 * Probability of success
 * Number of facts retrieved
@@ -116,16 +147,29 @@ I I I |
 
 Each week, characters can be sent on missions. One can be sent on a diplomatic mission, another on an assassination attempy.
 
+Sending a character on a mission, makes them 75% as efficient at scoring points.
+
 ### Popular Vote
 
-Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
+Players can log in to the Ascension game with the Facebook account they signed up with. They may then vote for both the winner and the runner-up (i.e. top 2) in each [Award Category](#Award-Categories). Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
+
+#### Scoring and Awarding Points
+
+A winning vote counts for 20 points, a runner-up vote scores 8 points. Characters racks up points in each award category, but before they are awarded to the players who fielded them, the points are first modified by the character's health (lower health is a negative multiplier) and a player's character and award category bonuses (bonuses are positive multipliers). In sum, **Characters** _score_ points based on _votes_, **Players** are _awarded_ points based on their character's _score_, _health_ and _bonus multipliers_. A player's points across their characters are summed up which becomes their episode score. The sum of the episode scores after 10 episodes is the season score, which determines the winner.
+
+#### Prominence Multiplier
+
+Gaining points from your characters is subject to a 'prominence multiplier' - whatever score the character should have been awarded based on points scored, is further multiplied by $6 - chararcter.prominance$. This is to attempt to get characters to wield points in the same order of manitude regardless of their prominence in the world. E.g. if a top-tier (i.e. prominence power 5) characters scores 100 points, they will not have their score modified, $(6-5) * 100 = 100$ - the score stays the same. If, however, the lowest-tier (i.e. prominence power 1) character scores 20 points, that we render $(6-1) * 20 = 100$.
 
 #### Voting for your own Characters
 
-While it is possible to vote for characters on your own roster - you're basically awarding yourself points. Though, as votes are public record, it may send a strong signal that this character is on your roster, attracting unwanted, murderous attention. The only exception to this rule are characters whom due to House Abilities are immune from attack. Your votes for this character will render no additional points.
-
+While it is possible to vote for characters on your own roster - smart move! you're basically awarding yourself points. Though, as votes are public record, it might send a strong signal your roster fielded this character, attracting unwanted, even murderous attention. The only exception to this rule are characters whom due to House Abilities are immune from attack. Your votes for these character will award you no additional points.
 
 
 ## Strategy
 
 ### Picking Your Characters
+
+* Don't get killed.
+* Play to your House's advantages.
+* TODO
