@@ -84,21 +84,35 @@ Other than their ability to bring in points in each of the award categories, eac
 * **Violence**, how deadly they are.
 * **Diplomacy**, how good they are at gathering intelligence
 
+#### Prominence
+
+* Prominence Power 5 prevents the character from dying, but they can still be wounded. 
+
 #### Missions
 
-Missions are at the heart of player interactivity in Crossed Banners. Missions are what elevated Ascesion about a fantasy league. 
+Missions are at the heart of player interactivity in _Ascension II : Crossed Banners_. This is where _Crossed Banners_ and regular fantasy leagues diverge. Besides the regular voting, you can also send two of your characters on missions after each episode.
 
-#### Prominence
-#### Violence
-#### Diplomacy
+The objective of missions is to eliminate characters from other player's rosters. You achieve this by sending one of your characters to assisinate a specific character from a specific opponent's roster. The challenge is that, because rosters are secret, you will need to run intelligence missions under the guise of diplomacy to learn enough about other rosters to effectively take out characters. It's similar to the game of [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)) but instead of colour codes you get intel on the roster's houses, promincence, violence and diplomacy power.
 
-#### Available Characters
+* Sending a character on a mission, typically makes them 75% as efficient at scoring points. Characters with Violence/Diplomacy Power 5 aren't penalised. 
+* Characters sent on missions typically cannot be killed, only wounded. Characters with Violence Power 5 kill character whether they are on a mission or not. 
 
-All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bio.csv) to remind you who they are.
+##### Diplomacy
+
+1.
+2.
+3.
+4.
+5. No performance pentalty
+
+* Probability of success
+* Number of facts retrieved
+* Class of facts retrieved
+* Defence against attack
+* Anonimity of Mission 
 
 
-
-#### Fatality
+##### Violence
 
 * Probability of success
 * Wounded is the reduction in scoring capacity
@@ -116,38 +130,14 @@ The 5 Tiers
 3.
 4.
 5. No performance pentalty
-6. 
-#### Diplomacy
-
-1.
-2.
-3.
-4.
-5. No performance pentalty
-
-* Probability of success
-* Number of facts retrieved
-* Class of facts retrieved
-* Defence against attack
-* Anonimity of Mission 
 
 
-The 5 Tiers 
+* A failed assassination attempt back-fires : If you guessed the wrong character on your opponent's roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, the house you were targeting. The player you attacked receives a free piece of intel on you.
 
-| Tier| Ability | Notes |
-|-----|---------|-------|
-  V   |
- I V  |
-I I I |
- I I  |
-  I   |
+#### Available Characters
 
+All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bio.csv) to remind you who they are.
 
-### Missions
-
-Each week, characters can be sent on missions. One can be sent on a diplomatic mission, another on an assassination attempy.
-
-Sending a character on a mission, makes them 75% as efficient at scoring points.
 
 ### Popular Vote
 
