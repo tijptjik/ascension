@@ -1,61 +1,80 @@
 # Ascension II : Crossed Banners
 
-The fog of war descends on Westeros. 
+The fog of war descends on Westeros...
 
 ## Game Summary
 
-Ascension is played alongside season 6 of HBO's Game of Thrones. You play online by selecting your favourite characters, and having them compete in award categories of _wit_, _damage_, _style_, _grievance_ and _support_. Points are awarded by fellow players whom cast votes each episode. It is similar to fantasy football, as you build up a roster of characters at the start of the season, and get points for their performance in each episode. In keeping with the Game of Thrones logic, you can send your characters on diplomatic and assassination missions; gathering intelligence or taking out characters from other player's rosters. But be careful! Failed attempts leave you exposed! Plot at your own peril...
+Ascension is played alongside season 6 of HBO's Game of Thrones. You play online by selecting your favourite characters, and having them compete in award categories of _wit_, _damage_, _jockey_, _style_ and _support_. Points are awarded by fellow players whom cast votes each episode.
+
+It is similar to fantasy football, as you build up a roster of characters at the start of the season, and get points for their performance in each episode.
+
+In keeping with the Game of Thrones logic, you can send your characters on diplomatic and assassination missions; gathering intelligence or taking out characters from other player's rosters. But be careful! Failed attempts leave you exposed! Plot at your own peril...
 
 ## Quick Start
 
 1. **Sign Up**. Sign up at [ascension.type.hk](http://ascension.type.hk).
-2. **Pick a house**. Houses boost the characters you pick from that house, and are public knowledge.
-3. **Pick 7 characters for your roster**. Every episode your characters will compete for points in the award categories (wit, damage, style, grieance and support). Players all vote for the characters who are most deserving of points in each category, so pick your characters wisely. Basic strategy is available below.
-4. **Watch the weekly episode**. Watch the episode within a week of it being aired
-5. **Cast your weekly votes**. For each of the award categories, vote who most deserves the award that week.
-6. **Initiate weekly missions**. Send one of your characters to gather intel, and/or assasinate characters from another roster.
-7. **Leaderboard Update**. Leaderboard is updated with the weekly character points, and the results from the spy and murder missions.
+2. **Pick a House**. Houses boost the characters you pick from that house, have special abilities, and are public knowledge.
+3. **Pick 7 Characters for your Roster**. Every episode your characters will compete for points in the award categories (wit, damage, jockey, style and support). Players all vote for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#Picking-Your-Characters).
+4. **Watch the Weekly Episode**. Watch the episode within a week of it being aired.
+5. **Cast your Weekly Votes**. For each of the award categories, vote who most deserves the award that week. Votes are public.
+6. **Initiate Weekly Missions**. Send one of your characters to gather intel, and/or assasinate characters from another roster. Missions are secret.
+7. **Consult the Chronicles**. A chronicle is sent out to all players with the voting record, and the results from the spy and murder missions, some private, some public.
+8. **Rank on the Leaderboard**. Leaderboard is updated with the weekly character points.
 
 ## Rules
 
-There are 12 players. Each player has a roster representing a House, and 7 characters. The characters needn't belong to the roster's house. Characters are differentiated based on (0) their allegiance to a given house; (1) scoring potential, or 'prominence', (2) damage potential, or 'fatality', and (3) ability to gather intelligence, or 'diplomacy'.
+The game is played in a league of 12 players. Each player represents a **[House](#Houses)** and fields a **[Roster](#Roster)** of 7 GoT Characters. **[Characters](#Characters)** are used to score points across 5 **[Award Categories](#Award-Categories)**. Points are awarded based on **[Popular Vote](#Popular-Vote)** after each episode. The player with the most points at the end of the season, ascends to the throne.
 
-### Awards
+### Award Categories
 
 * **Wit** - smartest or most piercing delivery of a line.
 * **Damage** - physical and mental destruction, dealt or received.
 * **Jockey** - most promising manoeuvring for the Iron Throne. 
 * **Style** - best look, appearance or use of props.  
-* **Grievance** - causing great irritation or sending you into a murderous rage
 * **Support** - most helpful supporting character.
 
-### Missions
+### Roster
 
-Each week, characters can be sent on missions. One can be sent on a diplomatic mission, another on an assassination attempy.
+The characters needn't belong to the roster's house.
 
-### Houses 
+### Affilition
+
+All 12 available affiliations have [abilities & score multipliers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/houses.csv).
 
 #### Available Houses 
 
-* House Baratheon
 * House Bolton
-* House Lannister
+* Council of Meereen
+* House Arryn
 * House Greyjoy
 * House Martell
-* House Stark
-* House Targaryen
-* Lesser Houses
 * Independents
+* Night's Watch & Free Folk
+* League of Minor Orders
+* House Targaryen & Dothraki Horde
+* House Tyrell
+* House Lannister
+* House Stark
 
+Of special note are the **Council of Meereen**, which consist of the formidable characters who remained to rule Meereen at the close of season 5; **House Arryn**, which might as well be House Baelish; **Independents** which gather the many mystics, magicians and maniacs of both continents; **Night's Watch & Free Folk** which have formed an unholy alliance; **League of Minor Orders** which gather nobility and clergy from the Order of the Sparrows, Slave traders from Essos, Lords of the House Frey and Ser Davos Seaworth; **House Tyrell** which includes their sworn bannerman from House Tarly; and **House Targaryen & Dothraki Horde** which contain many of the yet-to-be-introduced characters.
 
 ### Characters
+
+1. Their `affiliation` to a given house;
+2. Scoring potential, or `prominence`, 
+3. Damage potential, or `violence`, and
+4. Ability to gather intelligence, or `diplomacy`.
 
 Each character has four main traits:
 
 * **Affiliation**, either a house, a lesser house, or an independent.
 * **Prominence**, how central is this character to Game of Thrones
-* **Fatality**, how deadly is this characer
+* **Violence**, how deadly is this characer
 * **Diplomacy**, how good is this character at winning information
+
+#### Available Characters
+
+All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bio.csv) to remind you who they are.
 
 #### Prominence
 
@@ -93,11 +112,20 @@ I I I |
   I   |
 
 
+### Missions
+
+Each week, characters can be sent on missions. One can be sent on a diplomatic mission, another on an assassination attempy.
+
+### Popular Vote
+
+Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
+
+#### Voting for your own Characters
+
+While it is possible to vote for characters on your own roster - you're basically awarding yourself points. Though, as votes are public record, it may send a strong signal that this character is on your roster, attracting unwanted, murderous attention. The only exception to this rule are characters whom due to House Abilities are immune from attack. Your votes for this character will render no additional points.
 
 
 
-#### Available Characters
+## Strategy
 
-
-## 
-### Strategy
+### Picking Your Characters
