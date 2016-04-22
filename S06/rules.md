@@ -92,7 +92,19 @@ The 5 Tiers
 | tier | % of success | wounded % | % of anonimity |
 |------|---------|-------|
 
+1.
+2.
+3.
+4.
+5. No performance pentalty
+6. 
 #### Diplomacy
+
+1.
+2.
+3.
+4.
+5. No performance pentalty
 
 * Probability of success
 * Number of facts retrieved
@@ -116,16 +128,24 @@ I I I |
 
 Each week, characters can be sent on missions. One can be sent on a diplomatic mission, another on an assassination attempy.
 
+Sending a character on a mission, makes them 75% as efficient at scoring points.
+
 ### Popular Vote
 
-Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
+Players can log in to the Ascension game with the Facebook account they signed up with. They may then vote for both the winner and the runner-up (i.e. top 2) in each [Award Category](#Award-Categories). Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
+
+#### Scoring and Awarding Points
+
+A winning vote counts for 20 points, a runner-up vote scores 8 points. Characters racks up points in each award category, but before they are awarded to the players who fielded them, the points are first modified by the character's health (lower health is a negative multiplier) and a player's character and award category bonuses (bonuses are positive multipliers). In sum, **Characters** _score_ points based on _votes_, **Players** are _awarded_ points based on their character's _score_, _health_ and _bonus multipliers_. A player's points across their characters are summed up which becomes their episode score. The sum of the episode scores after 10 episodes is the season score, which determines the winner.
 
 #### Voting for your own Characters
 
-While it is possible to vote for characters on your own roster - you're basically awarding yourself points. Though, as votes are public record, it may send a strong signal that this character is on your roster, attracting unwanted, murderous attention. The only exception to this rule are characters whom due to House Abilities are immune from attack. Your votes for this character will render no additional points.
-
+While it is possible to vote for characters on your own roster - smart move! you're basically awarding yourself points. Though, as votes are public record, it might send a strong signal your roster fielded this character, attracting unwanted, even murderous attention. The only exception to this rule are characters whom due to House Abilities are immune from attack. Your votes for these character will award you no additional points.
 
 
 ## Strategy
 
 ### Picking Your Characters
+
+* Don't get killed.
+* Play to your House's advantages.
