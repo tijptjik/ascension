@@ -114,6 +114,8 @@ The objective of missions is to eliminate characters from other player's rosters
 
 ##### Violence
 
+* A failed assassination attempt back-fires : If you guessed the wrong character on your opponent's roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, the house you were targeting. The player you attacked receives a free piece of intel on you.
+
 * Probability of success
 * Wounded is the reduction in scoring capacity
 * Anonimity of Mission 
@@ -130,14 +132,11 @@ The 5 Tiers
 3.
 4.
 5. No performance pentalty
-
-
-* A failed assassination attempt back-fires : If you guessed the wrong character on your opponent's roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, the house you were targeting. The player you attacked receives a free piece of intel on you.
+6. 
 
 #### Available Characters
 
 All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bio.csv) to remind you who they are.
-
 
 ### Popular Vote
 
