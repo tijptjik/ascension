@@ -81,7 +81,7 @@ Depending on the ability `type`, abilities modify the way _[prominence](#charact
 | House Martell                    | Sand Snakes            | violence   | -             | All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target's roster |
 | Independents                     | Valar Dohaeris         | violence   | Jaqen H'ghar  | The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster |
 | Night's Watch & Free Folk        | Beyond the Wall        | diplomacy  | -             | Dissemination of misinformation. Chance of _false_ intel to be recovered in diplomatic missions run against this house is $50\%$ |
-| League of Minor Orders           | Rank & File            | prominence | -             | Characters with Prestige Power 1 and 2, now multiply their Score with $5$ and $6$ instead of $4$ and $5$ |
+| League of Minor Orders           | Rank & File            | prominence | -             | Characters with Prominence Power 1 and 2, now multiply their Score with $5$ and $6$ instead of $4$ and $5$ |
 | House Targaryen & Dothraki       | Bloodriders            | violence   | -             | All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character |
 | House Tyrell                     | Poisoned Roses         | missions   | -             | Full Secrecy. Missions are _never_ revealed. Not even to the Council of Mereen |
 | House Lannister                  | Lannister's Word       | missions   | -             | All performance penalties for running missions are waived - The debts have been paid. |
