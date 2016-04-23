@@ -125,7 +125,7 @@ The higher the prominence, the lower the multiplier. See [Prominence Multiplier]
 
 ### Available Characters
 
-All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bios.csv) to remind you who they are.
+All 88 available characters have an [affiliation & powers](#appendix-:-characters) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bios.csv) to remind you who they are.
 
 ![](http://nerdapproved.com/wp-content/uploads/2013/11/all_the_kills_in_the_game_of_thrones_by_studioincandescence-d6v5lvj.jpg)
 
@@ -244,3 +244,102 @@ After all the votes have been cast, missions are resolved and a report is sent o
 ### Voting
 
 * TODO
+
+
+## Appendix : Characters
+
+| name               | house                   | prominence | violence | diplomacy |
+|--------------------|-------------------------|------------|----------|-----------|
+| Petyr Baelish      | arryn                   | 5          | 4        | 5         |
+| Yohn Royce         | arryn                   | 2          | 2        | 4         |
+| Robin Arryn        | arryn                   | 2          | 1        | 1         |
+| Marei              | arryn                   | 1          | 2        | 4         |
+| Ramsay Bolton      | bolton                  | 4          | 5        | 1         |
+| Roose Bolton       | bolton                  | 3          | 5        | 2         |
+| Walda Bolton       | bolton                  | 1          | 2        | 1         |
+| Theon Greyjoy      | greyjoy                 | 4          | 2        | 3         |
+| Yara Greyjoy       | greyjoy                 | 3          | 4        | 2         |
+| Balon Greyjoy      | greyjoy                 | 3          | 5        | 1         |
+| Euron Greyjoy      | greyjoy                 | 2          | 3        | 1         |
+| The Night's King   | independent             | 5          | 5        | 5         |
+| Melisandre         | independent             | 4          | 5        | 5         |
+| Jaqen H'ghar       | independent             | 4          | 5        | 4         |
+| Arya Stark         | independent             | 4          | 5        | 3         |
+| Three Eyed Raven   | independent             | 3          | 3        | 5         |
+| The Waif           | independent             | 3          | 3        | 2         |
+| Thoros             | independent             | 2          | 4        | 4         |
+| Izembaro           | independent             | 2          | 1        | 5         |
+| Kinvara            | independent             | 1          | 4        | 4         |
+| Cersei Lannister   | lannister               | 5          | 5        | 5         |
+| Jaime Lannister    | lannister               | 4          | 3        | 5         |
+| Tommen Baratheon   | lannister               | 4          | 2        | 2         |
+| Bronn              | lannister               | 3          | 5        | 1         |
+| Qyburn             | lannister               | 2          | 5        | 3         |
+| Gregor Clegane     | lannister               | 2          | 5        | 1         |
+| Kevan Lannister    | lannister               | 2          | 4        | 4         |
+| Pycelle            | lannister               | 2          | 2        | 3         |
+| Shae               | lannister               | 2          | 1        | 5         |
+| Myrcella Baratheon | lannister               | 2          | 1        | 3         |
+| Ellaria Sand       | martell                 | 4          | 4        | 4         |
+| Obara Sand         | martell                 | 3          | 4        | 2         |
+| Doran Martell      | martell                 | 3          | 2        | 5         |
+| Nymeria Sand       | martell                 | 3          | 2        | 4         |
+| Areo Hotah         | martell                 | 2          | 4        | 3         |
+| Tyene Sand         | martell                 | 2          | 3        | 3         |
+| Trystane Martell   | martell                 | 2          | 2        | 3         |
+| Tyrion Lannister   | meereen                 | 5          | 5        | 5         |
+| Varys              | meereen                 | 5          | 5        | 5         |
+| Grey Worm          | meereen                 | 4          | 5        | 1         |
+| Missandei          | meereen                 | 3          | 1        | 4         |
+| The High Sparrow   | minor                   | 4          | 4        | 5         |
+| Davos Seaworth     | minor                   | 4          | 3        | 5         |
+| Walder Frey        | minor                   | 2          | 5        | 1         |
+| Yezzan zo Qaggaz   | minor                   | 2          | 4        | 3         |
+| Lancel             | minor                   | 2          | 4        | 2         |
+| Unella             | minor                   | 2          | 4        | 1         |
+| Lothar Frey        | minor                   | 1          | 3        | 1         |
+| Razdal mo Eraz     | minor                   | 1          | 2        | 5         |
+| Walder Rivers      | minor                   | 1          | 2        | 1         |
+| Jon Snow           | night's watch-free folk | 5          | 5        | 5         |
+| Tormund Giantsbane | night's watch-free folk | 4          | 5        | 3         |
+| Alliser Thorne     | night's watch-free folk | 4          | 4        | 1         |
+| Eddison Tollett    | night's watch-free folk | 3          | 4        | 3         |
+| Olly               | night's watch-free folk | 3          | 3        | 1         |
+| Bowen Marsh        | night's watch-free folk | 2          | 3        | 2         |
+| Othell Yarwyck     | night's watch-free folk | 2          | 3        | 2         |
+| Wun Wun            | night's watch-free folk | 1          | 5        | 1         |
+| Sansa Stark        | stark                   | 5          | 2        | 4         |
+| Brienne of Tarth   | stark                   | 4          | 5        | 4         |
+| Bran Stark         | stark                   | 4          | 2        | 5         |
+| Hodor              | stark                   | 3          | 4        | 1         |
+| Podrick Payne      | stark                   | 3          | 3        | 2         |
+| Meera Reed         | stark                   | 2          | 4        | 2         |
+| Osha               | stark                   | 2          | 4        | 1         |
+| Brynden Tully      | stark                   | 2          | 3        | 4         |
+| Rickon Stark       | stark                   | 2          | 2        | 2         |
+| Smalljon Umber     | stark                   | 1          | 2        | 3         |
+| Harald Karstark    | stark                   | 1          | 2        | 2         |
+| Edmure Tully       | stark                   | 1          | 1        | 1         |
+| Daenerys Targaryen | targaryen-dothraki      | 5          | 5        | 5         |
+| Daario Naharis     | targaryen-dothraki      | 4          | 5        | 3         |
+| Jorah Mormont      | targaryen-dothraki      | 4          | 4        | 4         |
+| Moro               | targaryen-dothraki      | 3          | 5        | 2         |
+| Rhalko             | targaryen-dothraki      | 2          | 4        | 3         |
+| Forzo              | targaryen-dothraki      | 2          | 4        | 3         |
+| Ahko               | targaryen-dothraki      | 2          | 4        | 2         |
+| Qhono              | targaryen-dothraki      | 1          | 4        | 2         |
+| Margaery Tyrell    | tyrell                  | 4          | 3        | 5         |
+| Samwell Tarly      | tyrell                  | 4          | 3        | 2         |
+| Olenna Tyrell      | tyrell                  | 4          | 1        | 5         |
+| Loras Tyrell       | tyrell                  | 3          | 3        | 4         |
+| Gilly              | tyrell                  | 3          | 1        | 2         |
+| Randyll Tarly      | tyrell                  | 2          | 4        | 2         |
+| Mace Tyrell        | tyrell                  | 2          | 1        | 1         |
+| Dickon Tarly       | tyrell                  | 1          | 2        | 2         |
+| Melessa Tarly      | tyrell                  | 1          | 1        | 2         |
+| Talla Tarly        | tyrell                  | 1          | 1        | 1         |
+
+
+## Appendix : Characters Bios
+
+UNDER DEVELOPMENT
