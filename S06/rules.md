@@ -214,6 +214,12 @@ Gaining points from your characters is subject to a 'prominence multiplier' - wh
 
 While it is possible to vote for characters on your own roster - smart move! You're basically awarding yourself points! Though, as votes are public record, it might send a strong signal that you fielded this character, attracting unwanted, even murderous attention. The only exception to this rule are characters whom due to [House Abilities](#house-abilities) are immune from attack. Your votes for these character will award you no additional points.
 
+![](http://vignette4.wikia.nocookie.net/gameofthrones/images/8/8c/Eddard's_letter.jpg/revision/latest?cb=20110615154308)
+
+## Chronicle
+
+After all the votes have been cast, missions are resolved and a report is sent out to all the players informing them about the outcome of their missions, the points they've scored in the respective award categories, and the most up to date leaderboard.
+
 
 ![](http://www.webtvdeluxe.com/wp-content/uploads/2012/05/RobStark.png)
 
