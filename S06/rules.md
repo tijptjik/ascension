@@ -191,7 +191,7 @@ Once you've cleared sufficient doubt which House has a particular character you'
 
 ### Popular Vote
 
-Players can log in to the Ascension game with the Facebook account they signed up with. They may then vote for both the winner and the runner-up (i.e. top 2) in each [Award Category](#Award-Categories). Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
+Players can log in to the Ascension game with the Facebook account they signed up with. They may then vote for both the winner and the runner-up (i.e. top 2) in each [Award Category](#award-categories). Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
 
 #### Scoring and Awarding Points
 
