@@ -2,6 +2,8 @@
 
 The fog of war descends on Westeros...
 
+![](http://www.finalreel.co.uk/wp-content/uploads/2015/11/Game-of-Thrones-Season-6-Banner.jpg)
+
 ## Game Summary
 
 Ascension is an online text-based game played alongside season 6 of HBO's Game of Thrones. You play by selecting your favourite characters, and having them compete in award categories of _wit_, _damage_, _jockey_, _style_ and _support_. Points are awarded by fellow players whom cast votes each episode.
@@ -21,29 +23,33 @@ In keeping with the Game of Thrones logic, you can also send your characters on 
 7. **Consult the Chronicles**. A chronicle is sent out to all players with the voting record, and the results from the spy and murder missions, some private, some public.
 8. **Rank on the Leaderboard**. Leaderboard is updated to reflect the awarded character points.
 
-## Rules
+![](https://i.ytimg.com/vi/IS-cTT83ROE/maxresdefault.jpg)
+
+# Rules of the Game
 
 The game is played in a league of 12 players. Each player represents a **[House](#houses)** and fields a **[Roster](#character-roster)** of 7 GoT Characters. **[Characters](#characters)** are used to score points across 5 **[Award Categories](#award-categories)**. Points are awarded based on **[Popular Vote](#popular-vote)** after each episode. The player with the most points at the end of the season ascends to the throne.
 
-### Character Roster
+## Character Roster
 
 A Character Roster is a selection of GoT characters a player fields for the entire game. Players may freely and secretly pick 7 **[Characters](#characters)** to form their roster before the season starts. Players can pick the same characters. Though players represent a unique **[House](#houses)**, they **are not** restricted to fielding characters from that House.
 
-### Award Categories
+## Award Categories
 
-During each episodes, characters with vie for point in the following award categories:
+During each episodes, characters with vie for points in the following award categories:
 
 * **Wit** - smartest or most piercing delivery of a line.
 * **Damage** - physical and mental destruction, dealt or received.
-* **Jockey** - most promising manoeuvring for the Iron Throne. 
+* **Jockey** - most cunning manoeuvring to gain or secure the Iron Throne. 
 * **Style** - best look, appearance or use of props.  
 * **Support** - most helpful supporting character.
 
-### Houses
+![](http://cdn.playbuzz.com/cdn/2bfd334d-a2dc-48da-a14b-f15e8bd223c6/22540de3-ba97-497e-8e11-ccac96e2967b.jpg)
 
-All 12 available houses are unique and will have your roster extra flavour with their [abilities](#house-abilities) & [bonuses](#house-bonuses). _Abilities_ change the mechanics of the game, while _bonuses_ change how strongly members of that house score in particular award categories.
+## Houses
 
-#### Available Houses 
+The 12 available houses are unique and give your roster extra flavour with their [abilities](#house-abilities) & [bonuses](#house-bonuses). _Abilities_ change the mechanics of the game, while _bonuses_ change how strongly members of that house score in a particular award categories.
+
+### Available Houses 
 
 * House Bolton
 * Council of Meereen
@@ -53,18 +59,18 @@ All 12 available houses are unique and will have your roster extra flavour with 
 * Independents
 * Night's Watch & Free Folk
 * League of Minor Orders
-* House Targaryen & Dothraki Horde
+* House Targaryen & The Dothraki
 * House Tyrell
 * House Lannister
 * House Stark
 
-Of special note are **Council of Meereen**, which consist of the formidable characters who remained to rule Meereen at the close of season 5; **House Arryn**, which might as well be House Baelish; **Independents** which gather the many mystics, magicians and maniacs of both continents; **Night's Watch & Free Folk** which have formed an unholy alliance; **League of Minor Orders** which gather nobility and clergy from the Order of the Sparrows, Slave traders from Essos, Lords of the House Frey and Ser Davos Seaworth; **House Tyrell** which includes their sworn bannerman from House Tarly; and **House Targaryen & Dothraki Horde** which contain many of the yet-to-be-introduced characters.
+Of special note are the **Council of Meereen**, which consist of the formidable characters whom remained to rule Meereen at the close of Season 5; **House Arryn**, which might as well be called House Baelish; **Independents** which gather the many mystics, magicians and maniacs across both continents; **Night's Watch & Free Folk** which have formed an unholy alliance; **League of Minor Orders** which gather nobility and clergy from the Order of the Sparrows, Slave traders from Essos, Lords of the House Frey and Ser Davos Seaworth; **House Tyrell** which includes their sworn bannerman from House Tarly; and **House Targaryen & The Dothraki** which contain many of the yet-to-be-introduced characters.
 
-#### House Abilities
+### House Abilities
 
-Each house has a special ability which allows you to make strategic use of your House's strengths. Be sure to consult the other houses' abilities as well .. some may affect you more than your own...
+Each house has a special ability tostrategicly make use of your House's strengths. Be sure to consult the other houses' abilities as well though .. assome may affect you more than your own...
 
-Depending on the `type`, the abilities the way prominence, diplomacy, violence and missions work for that House. These are the interactive components of the game and are explained below. The modifications are detailed in the `grants` column, and the characters listed under `immunity` are impervious to damage from an attack. You can bet on that house fielding that character, though attacking them is of no use as they wouldn't take any damage.
+Depending on the ability `type`, the abilities modify the way _[prominence](#characters)_, _[diplomacy](#diplomacy-:-gathering-intelligence)_, _[violence](#violence-:-attempting-murder)_ and _[missions](#missions)_ work for that House. These are the interactive components of the game and are explained below. The modifications are detailed in the `grants` column, and the characters listed under `immunity` are impervious to damage from an attack. You can bet on that house fielding that character, though attacking them is of no use as they wouldn't take any damage.
 
 | house                            | ability                | type       | immunity      | grants                                                                                                               |
 |----------------------------------|------------------------|------------|---------------|---------------------------------------------------------------------------------------------------------------------|
@@ -81,7 +87,7 @@ Depending on the `type`, the abilities the way prominence, diplomacy, violence a
 | House Lannister                  | Lannister's Word       | missions   | -             | The debt has already been paid - no performance penalty for running missions.                                       |
 | House Stark                      | The North Remembers    | diplomacy  | -             | Each episode, an addition Level 3 Diplomatic mission is run against a random roster on your behest.                 |
 
-#### House Bonuses 
+### House Bonuses 
 
 Bonus multipliers reveal the strength and advantages a House has over the others. They are applied to the respective award scores of any of the characters on a player's roster. The bonus multipliers are distributed as follows:
 
@@ -102,7 +108,7 @@ Bonus multipliers reveal the strength and advantages a House has over the others
 
 For example, if Player A has House Bolton, and Player B has House Stark, if Sansa Stark is on both their rosters, and scores 100 points in the Damage category - pending any further modification by health, missions, house abilities - Player A would apply its 10% bonus  and be awarded 110 points, whereas Player B would not have any House Bonus and be awarded 100 points.
 
-#### Bidding for a House
+### Bidding for a House
 
 In order to maximise the number of people who are playing the house of their choice, we are following a bidding procedure:
 
@@ -117,8 +123,9 @@ In order to maximise the number of people who are playing the house of their cho
     5. If a player fails to indicate their interest within 24 hours, they are randomly assigned an unclaimed House by the Game Master. This is to unsure that the other players can proceed to the bidding round for contested Houses.5
 5. The Game Master registers your House in the Game.
 
+![](http://cdn0.dailydot.com/cache/55/53/55533daaa880e88328d55b821e00e2d9.jpg)
 
-### Characters
+## Characters
 
 Other than their ability to bring in points in each of the award categories, each character has four main traits which defines their role and value in the game.
 
@@ -129,12 +136,13 @@ Other than their ability to bring in points in each of the award categories, eac
 
 **IMPORTANT : Prominence determines the score multiplier for the character** - The higher the prominence, the lower the multiplier. See [Prominence Multiplier](#prominence-multiplier) for details. 
 
-#### Available Characters
+### Available Characters
 
 All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bio.csv) to remind you who they are.
 
+![](http://nerdapproved.com/wp-content/uploads/2013/11/all_the_kills_in_the_game_of_thrones_by_studioincandescence-d6v5lvj.jpg)
 
-### Missions
+## Missions
 
 Missions are at the heart of player interactivity in _Ascension II : Crossed Banners_. This is where _Crossed Banners_ and regular fantasy leagues diverge. Besides the regular voting, you can also send two of your characters on missions after each episode.
 
@@ -143,7 +151,7 @@ The objective of missions is to eliminate characters from other player's rosters
 * Sending a character on a mission, gives them a performance penalty for that episode. The percentage depends on their Diplomacy/Violence Power.
 * Characters sent on missions typically cannot be killed, only wounded. Characters with Violence Power 5 kill character whether they are on a mission or not. 
 
-##### Diplomacy : Gathering Intelligence
+### Diplomacy : Gathering Intelligence
 
 For slaughter to be somewhat effective, it needs to be somewhat discriminate. You thus have diplomatatic missions at your disposal to gather intelligence on another player's roster. At the outset all rosters but your own are secret, but through whatever means available you can 
 
@@ -160,7 +168,7 @@ Example of Targetted is : 'This character has more diplomacy than prominence, bu
 | 4     | character    | 1                 | 0%                 |
 | 5     | character    | 2                 | 25%                |
 
-##### Violence : Attempting Assassinations
+### Violence : Attempting Murder
 
 Once you've cleared sufficient doubt which House has a particular character you'd want to damage, you can send in one of your assassins to take them out. The purpose of killing off characters is to prevent them from scoring any more points for their house - or simply out of spite. 
 
@@ -189,22 +197,26 @@ Once you've cleared sufficient doubt which House has a particular character you'
 | 5     | 100%    | 100%              | 50%                 |
 
 
-### Popular Vote
+![](https://cdn2.vox-cdn.com/thumbor/VG_qYOjL0C2YRsEIR35-gUxKQtY=/cdn0.vox-cdn.com/uploads/chorus_asset/file/3624416/finalvote.0.gif)
+
+## Popular Vote
 
 Players can log in to the Ascension game with the Facebook account they signed up with. They may then vote for both the winner and the runner-up (i.e. top 2) in each [Award Category](#award-categories). Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.
 
-#### Scoring and Awarding Points
+### Scoring and Awarding Points
 
 A winning vote counts for 20 points, a runner-up vote scores 8 points. Characters racks up points in each award category, but before they are awarded to the players who fielded them, the points are first modified by the character's health (lower health is a negative multiplier) and a player's character and award category bonuses (bonuses are positive multipliers). In sum, **Characters** _score_ points based on _votes_, **Players** are _awarded_ points based on their character's _score_, _health_ and _bonus multipliers_. A player's points across their characters are summed up which becomes their episode score. The sum of the episode scores after 10 episodes is the season score, which determines the winner.
 
-#### Prominence Multiplier
+### Prominence Multiplier
 
 Gaining points from your characters is subject to a 'prominence multiplier' - whatever score the character should have been awarded based on points scored, is further multiplied by $6 - chararcter.prominance$. This is to attempt to get characters to wield points in the same order of manitude regardless of their prominence in the world. E.g. if a top-tier (i.e. prominence power 5) characters scores 100 points, they will not have their score modified, $(6-5) * 100 = 100$ - the score stays the same. If, however, the lowest-tier (i.e. prominence power 1) character scores 20 points, that we render $(6-1) * 20 = 100$.
 
-#### Voting for your own Characters
+### Voting for your own Characters
 
 While it is possible to vote for characters on your own roster - smart move! you're basically awarding yourself points. Though, as votes are public record, it might send a strong signal your roster fielded this character, attracting unwanted, even murderous attention. The only exception to this rule are characters whom due to House Abilities are immune from attack. Your votes for these character will award you no additional points.
 
+
+![](http://www.webtvdeluxe.com/wp-content/uploads/2012/05/RobStark.png)
 
 ## Strategy
 
@@ -212,4 +224,16 @@ While it is possible to vote for characters on your own roster - smart move! you
 
 * Don't get killed.
 * Play to your House's advantages.
+* TODO
+
+### Gathering Intelligence
+
+* TODO
+
+### Assassinations
+
+* TODO
+
+### Voting
+
 * TODO
