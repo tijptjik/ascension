@@ -100,7 +100,7 @@ House Bonuses reveal their strengths and advantages over the other Houses. They 
 | House Martell | 5 | 5 | 5 | 5 | 5 |
 | Independents | - | - | - | 10 | 10 |
 | Night's Watch & Free Folk | - | 10 | - | - | 10 |
-| League of Minor Orders | - | - | - | - | - |
+| League of Minor Orders | 10 | - | - | - | 10 |
 | House Targaryen & Dothraki Horde | - | 10 | 10 | - | - |
 | House Tyrell | - | - | - | 20 | - |
 | House Lannister | 10 | - | 10 | - | - |
@@ -174,8 +174,9 @@ Once you've cleared sufficient doubt which House has a particular Character you'
 * Attempts can be either succesful or fail.
 * **Succesful Attempts**
     * Result in the target taking immediate health damage according to the Damage Power of the Assassin. The effects limit the target's scoring potential for the _current_ episode.
-    * Character deaths and damage are publicly reported in the Chronicle.
+    * Character deaths and damage are publicly reported in the Chronicle - though the names are only revealed if they die.
     * The guilty party is not mentioned.
+    * The guily part
 * **Failed Attempts**
     * Backfire terribly. If you guessed the wrong character on your opponent's roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, and the house you were targeting.
     * The player you attacked receives two items of Roster Intelligence from torturing your assassin.
@@ -195,6 +196,9 @@ The degree of damage and success rate is determined by the assassin's Violence P
 * Damage is _not_ commulative. So if you deal 50% damage in one round, running the same assassination attempt will not kill the player. You'd need to send a lethal assassin
 * Certain House / Character combinations grant them immunity from attack.
 * There is a performance penalty for the characters sent on a mission, i.e. a while a Violence Power 5 character results in the death of the target character if succesful, it limits their scoring performance for that episode by 50%, whereas a Violence Power 3 character would only do 50% health damage, not lose any points.
+
+#
+
 
 ![](https://cdn2.vox-cdn.com/thumbor/VG_qYOjL0C2YRsEIR35-gUxKQtY=/cdn0.vox-cdn.com/uploads/chorus_asset/file/3624416/finalvote.0.gif)
 
