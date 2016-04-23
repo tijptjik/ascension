@@ -1,10 +1,8 @@
-# Ascension II : Crossed Banners
+![](http://www.finalreel.co.uk/wp-content/uploads/2015/11/Game-of-Thrones-Season-6-Banner.jpg)
 
 The fog of war descends on Westeros...
 
-![](http://www.finalreel.co.uk/wp-content/uploads/2015/11/Game-of-Thrones-Season-6-Banner.jpg)
-
-## Game Summary
+## Ascension II : Crossed Banners
 
 Ascension is an online text-based game played alongside season 6 of HBO's Game of Thrones. You play by selecting your favourite characters, and having them compete in award categories of _wit_, _damage_, _jockey_, _style_ and _support_. Points are awarded by fellow players whom cast votes each episode.
 
