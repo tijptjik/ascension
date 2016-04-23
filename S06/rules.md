@@ -12,7 +12,7 @@ In keeping with the Game of Thrones logic, you can also send your characters on 
 
 ## Quick Start
 
-1. **Sign Up**. Sign up at [ascension.type.hk](http://ascension.type.hk).
+1. **Sign Up**. [Sign up](http://goo.gl/forms/PyqkSGGuBa)
 2. **Pick a House**. [Houses](#houses) boost the characters you pick from that house, have special abilities, and are public knowledge.
 3. **Pick 7 Characters for your Roster**. Every episode your [characters](#characters) will compete for points in the **[award categories](#award-categories)** (wit, damage, jockey, style and support). Players all **[vote](#popular-vote)** for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#Picking-Your-Characters).
 4. **Watch the Weekly Episode**. Watch the episode within a week of it being aired.

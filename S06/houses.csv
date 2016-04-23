@@ -1,1 +1,13 @@
-house,head,abilitybolton,ramsaybolton,"% bonus points on damage, 20% * prestige,  chance of dealing back attack to the attacking party"meereen,tyrionlannister,"% bonus points on wit, tyrion and varrys are immune to attack"arryn,petyrbaelish,"% bonus point on jockey, 50% chance of dealing back diplomacy on the incurring party, lord bealish is immune to attack "greyjoy,theongreyjoy,splatter-damagemartell,ellariasand,"% bonus points on support, attack never revealed"independent,nightsking,"silent assassins, if a faceless man kills someone, they join your ranks, jaqen is immune to attack"night's watch-free folk,jonsnow,% bonus points on damageminor,highsparrow,automatically run an extra random diplomacy mission against a random opponenttargaryen-dothraki,daenerystargaryen,all characters of this house gain +1 violencetyrell,margaerytyrell,% bonus points on stylelannister,cercei,"% bonus points on jockey, all characters of this house gain -1 prestige, "stark,sansastark,"if a stark is killed, an undrafted character will resurrect in its place",,,,all characters of this house gain +1 diplomacy
+house,ability,type,immunity,notes
+House Bolton,Fifty Shade of Flay,violence,-,$15% * target.prominence$ chance of dealing back attack to the attacking party
+Council of Meereen,A Little Bird Told Me,diplomacy,Varys,All diplomacy attempt against the Council of Mereen are known
+House Arryn,Littlefinger's Brothel,diplomacy,Petyr Baelish,50% chance of recovering intel from the source of diplomatic missions run against you
+House Greyjoy,Valar Morghulis,violence,Theon Greyjoy,"On a succesful attack by Theon, **all** characters of the other roster take **5%** damage"
+House Martell,Sand Snakes,violence,-,"if the total prominence of your roster is lower than the prominence of the target's deck, all attacks become lethal"
+Independents,Valar Dohaeris,violence,Jaqen H'ghar,"if a faceless man kills someone, they join your ranks"
+Night's Watch & Free Folk,Beyond the Wall,diplomacy,-,Return _fale intel 50% of the time. 
+League of Minor Orders,Rank & File,prominence,-,"Characters with Prestige Power 1 and 2, now multiply their score with 5 and 6"
+House Targaryen & Dothraki Horde,Bloodriders,violence,-,"On a succesful attack by a Dothraki character, **all** characters on the Targaryen roster take **5%** bonus."
+House Tyrell,Poisoned Roses,missions,-,Missions are _never_ revealed
+House Lannister,Lannister's Word,missions,-,The debt has already been paid - no performance penalty for running missions.
+House Stark,The North Remembers,diplomacy,-,"Each episode, an addition Level 3 Diplomatic mission is run against a random roster on your behest. "
