@@ -12,9 +12,11 @@ In keeping with the Game of Thrones logic, you can also send your characters on 
 
 ## Quick Start
 
+The [Rules](#rules-of-the-game) help you to make the best decisions in picking your house and drafting your characters, but they aren't essential to play. To get started, you just need to sign up and pick your house and characters.
+
 1. **Sign Up**. [Sign up](http://goo.gl/forms/PyqkSGGuBa) and pick a House. [Houses](#houses) lend special abilities and bonuses.
 2. **Join a League**. You will be assigned to a league by the Game Master. Await invite.
-3. **Pick 7 Characters for your Roster**. Every episode your [characters](#characters) compete for points in the **[award categories](#award-categories)** (wit, damage, jockey, style and support). Players all **[vote](#popular-vote)** for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#Picking-Your-Characters).
+3. **Pick 7 Characters for your Roster**. Every episode your [characters](#characters) compete for points in the **[award categories](#award-categories)** (wit, damage, jockey, style and support). Players all **[vote](#popular-vote)** for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#strategy).
 4. **Watch the Weekly Episode**. Watch the episode within a week of it being aired.
 5. **Cast your Weekly Votes**. For each of the award categories, vote for that episode's winner and the runner-up . Votes are public.
 6. **Initiate Weekly Missions**. Send one of your characters to gather intel, and/or assasinate characters from another roster. **[Missions](#missions)** are secret - until they fail.
@@ -68,22 +70,22 @@ Of special note are the **Council of Meereen**, which consist of the formidable 
 
 Each house has a special ability tostrategicly make use of your House's strengths. Be sure to consult the other houses' abilities as well though .. assome may affect you more than your own...
 
-Depending on the ability `type`, the abilities modify the way _[prominence](#characters)_, _[diplomacy](#diplomacy-:-gathering-intelligence)_, _[violence](#violence-:-attempting-murder)_ and _[missions](#missions)_ work for that House. These are the interactive components of the game and are explained below. The modifications are detailed in the `grants` column, and the characters listed under `immunity` are impervious to damage from an attack. You can bet on that house fielding that character, though attacking them is of no use as they wouldn't take any damage.
+Depending on the ability `type`, abilities modify the way _[prominence](#characters)_, _[diplomacy](#diplomacy-:-gathering-intelligence)_, _[violence](#violence-:-attempting-murder)_ and _[missions](#missions)_ work for that House. These are the interactive components of the game and are explained below. The specific modifications are detailed in the `grants` column, and the characters listed under `immunity` are impervious to damage from attack if drafted for that House. You can thus assume that House has fielded that character, though attacking them is of no use as they wouldn't take any damage.
 
 | house                            | ability                | type       | immunity      | grants                                                                                                               |
 |----------------------------------|------------------------|------------|---------------|---------------------------------------------------------------------------------------------------------------------|
-| House Bolton                     | Fifty Shade of Flay    | violence   | -             | $15% * target.prominence$ chance of dealing back attack to the attacking party                                      |
-| Council of Meereen               | A Little Bird Told Me  | diplomacy  | Varys         | All diplomacy attempt against the Council of Mereen are known                                                       |
-| House Arryn                      | Littlefinger's Brothel | diplomacy  | Petyr Baelish | 50% chance of recovering intel from the source of diplomatic missions run against you                               |
-| House Greyjoy                    | Valar Morghulis        | violence   | Theon Greyjoy | On a succesful attack by Theon, **all** characters of the other roster take **5%** damage                           |
-| House Martell                    | Sand Snakes            | violence   | -             | if the total prominence of your roster is lower than the prominence of the target's deck, all attacks become lethal |
-| Independents                     | Valar Dohaeris         | violence   | Jaqen H'ghar  | if a faceless man kills someone, they join your ranks                                                               |
-| Night's Watch & Free Folk        | Beyond the Wall        | diplomacy  | -             | Return _fale intel 50% of the time.                                                                                 |
-| League of Minor Orders           | Rank & File            | prominence | -             | Characters with Prestige Power 1 and 2, now multiply their score with 5 and 6                                       |
-| House Targaryen & Dothraki Horde | Bloodriders            | violence   | -             | On a succesful attack by a Dothraki character, **all** characters on the Targaryen roster take **5%** bonus.        |
-| House Tyrell                     | Poisoned Roses         | missions   | -             | Missions are _never_ revealed                                                                                       |
-| House Lannister                  | Lannister's Word       | missions   | -             | The debt has already been paid - no performance penalty for running missions.                                       |
-| House Stark                      | The North Remembers    | diplomacy  | -             | Each episode, an addition Level 3 Diplomatic mission is run against a random roster on your behest.                 |
+| House Bolton                     | Fifty Shade of Flay    | violence   | -             | Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% * target prominence$ |
+| Council of Meereen               | A Little Bird Told Me  | diplomacy  | Varys         | Knowledge of all diplomacic missions against this House |
+| House Arryn                      | Littlefinger's Brothel | diplomacy  | Petyr Baelish | Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission                                |
+| House Greyjoy                    | Valar Morghulis        | violence   | Theon Greyjoy | Theon splatter damage. On a succesful attack by Theon, **all** characters of the other roster take $5\%$ damage                           |
+| House Martell                    | Sand Snakes            | violence   | -             | All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target's roster |
+| Independents                     | Valar Dohaeris         | violence   | Jaqen H'ghar  | The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster |
+| Night's Watch & Free Folk        | Beyond the Wall        | diplomacy  | -             | Dissemination of misinformation. Chance of _false_ intel to be recovered in diplomatic missions run against this house is $50\%$ |
+| League of Minor Orders           | Rank & File            | prominence | -             | Characters with Prestige Power 1 and 2, now multiply their Score with $5$ and $6$ instead of $4$ and $5$ |
+| House Targaryen & Dothraki       | Bloodriders            | violence   | -             | All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character |
+| House Tyrell                     | Poisoned Roses         | missions   | -             | Full Secrecy. Missions are _never_ revealed. Not even to the Council of Mereen |
+| House Lannister                  | Lannister's Word       | missions   | -             | All performance penalties for running missions to be waived - The debts have been paid. |
+| House Stark                      | The North Remembers    | diplomacy  | -             | Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest |
 
 ### House Bonuses 
 
