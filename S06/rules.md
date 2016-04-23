@@ -75,7 +75,7 @@ Depending on the ability `type`, abilities modify the way _[prominence](#charact
 | house                            | ability                | type       | immunity      | grants                                                                                                               |
 |----------------------------------|------------------------|------------|---------------|---------------------------------------------------------------------------------------------------------------------|
 | House Bolton                     | Fifty Shade of Flay    | violence   | -             | Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% *$ target's prominence power |
-| Council of Meereen               | A Little Bird Told Me  | diplomacy  | Varys         | Knowledge of all diplomacic missions against this House |
+| Council of Meereen               | A Little Bird Told Me  | diplomacy  | Varys         | Knowledge of all diplomatic missions against this House |
 | House Arryn                      | Littlefinger's Brothel | diplomacy  | Petyr Baelish | Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission                                |
 | House Greyjoy                    | Valar Morghulis        | violence   | Theon Greyjoy | Theon splatter damage. On a succesful attack by Theon, **all** characters of the other roster take $5\%$ damage                           |
 | House Martell                    | Sand Snakes            | violence   | -             | All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target's roster |
@@ -166,7 +166,7 @@ Rosters are secret, intelligence is... but doesn't have to be. You may form info
 
 ### Violence : Attempting Murder
 
-Once you've cleared sufficient doubt which House has a particular Character you'd want to damage, you can send in one of your assassins to take them out. The purpose of killing off characters is to prevent them from scoring any more points for their house - or simply out of spite. 
+Once you've cleared sufficient doubt which House has a particular Character you'd want to damage, you can send in one of your assassins to take them out. The purpose of killing off characters is (1) to prevent them from scoring any more points for their house, (2) to claim the bounty award which goes up to 240 points. 
 
 * Each week you're given a single opportunity to order _one_ of your characters to attempt to kill another player's character. 
 * You send them on a mission by selecting the target House, and the target Character.
@@ -176,7 +176,7 @@ Once you've cleared sufficient doubt which House has a particular Character you'
     * Result in the target taking immediate health damage according to the Damage Power of the Assassin. The effects limit the target's scoring potential for the _current_ episode.
     * Character deaths and damage are publicly reported in the Chronicle - though the names are only revealed if they die.
     * The guilty party is not mentioned.
-    * The guily part
+    * The guilty party claims a bounty of 2.4 points per % damage dealt. So killing a character who had full health awards 240 points, knocking 25% off of a character's health awards 60 points. 240 points is the equivalent of every player voting your character as the winner in a award category.
 * **Failed Attempts**
     * Backfire terribly. If you guessed the wrong character on your opponent's roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, and the house you were targeting.
     * The player you attacked receives two items of Roster Intelligence from torturing your assassin.
@@ -196,9 +196,6 @@ The degree of damage and success rate is determined by the assassin's Violence P
 * Damage is _not_ commulative. So if you deal 50% damage in one round, running the same assassination attempt will not kill the player. You'd need to send a lethal assassin
 * Certain House / Character combinations grant them immunity from attack.
 * There is a performance penalty for the characters sent on a mission, i.e. a while a Violence Power 5 character results in the death of the target character if succesful, it limits their scoring performance for that episode by 50%, whereas a Violence Power 3 character would only do 50% health damage, not lose any points.
-
-#
-
 
 ![](https://cdn2.vox-cdn.com/thumbor/VG_qYOjL0C2YRsEIR35-gUxKQtY=/cdn0.vox-cdn.com/uploads/chorus_asset/file/3624416/finalvote.0.gif)
 
