@@ -1,4 +1,4 @@
-![](http://www.finalreel.co.uk/wp-content/uploads/2015/11/Game-of-Thrones-Season-6-Banner.jpg)
+![](https://scontent-hkg3-1.xx.fbcdn.net/hphotos-xpa1/t31.0-8/13072668_10157044680680495_4961299799183479410_o.jpg)
 
 The fog of war descends on Westeros...
 
