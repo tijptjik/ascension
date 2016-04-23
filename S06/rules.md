@@ -108,21 +108,6 @@ House Bonuses reveal their strengths and advantages over the other Houses. They 
 
 For example, if Player A has House Bolton, and Player B has House Stark, if Sansa Stark is on both their rosters, and scores 100 points in the Damage category - pending any further modification by health, missions, house abilities - Player A would apply its 10% bonus  and be awarded 110 points, whereas Player B would not have any House Bonus and be awarded 100 points.
 
-### Bidding for a House
-
-In order to maximise the number of people playing as the house of their choice, we are following a bidding procedure:
-
-1. The Game Master will open up a Thread on Facebook with all players. 
-2. Each Player announces which House they wish to take.
-3. If the House of your choice is uncontested after all 12 players have mentioned their preference, or 24 hours have past. You claim that House.
-4. If however a House is contested, the claimants will bid against each other to win the House
-    1. You bid with the % of points you're willing to give up from the first episode. So if you bid '10' and win the House, it means you will only receive 90% of the points awarded for the first episode.
-    2. If you bid over 100%, overages are deducted from subsequent episodes. So 250% means you don't score any points for the first two episodes and onlf half for the third episode.... really, don't enter a bidding war.
-    3. If you lose a contested house, you can pick an unclaimed House - first come, first serve.
-    4. The bidding process will run until everyone has picked a House, or 36 hours, whichever comes first.
-    5. If a player fails to indicate their interest within 24 hours, they are randomly assigned an unclaimed House by the Game Master. This is to unsure that the other players can proceed to the bidding round for contested Houses.
-5. The Game Master registers your House in the Game.
-
 ![](http://cdn0.dailydot.com/cache/55/53/55533daaa880e88328d55b821e00e2d9.jpg)
 
 ## Characters
@@ -181,25 +166,22 @@ Rosters are secret, intelligence is... but doesn't have to be. You may form info
 
 ### Violence : Attempting Murder
 
-**UNDER DEVELOPMENT**
-
-Once you've cleared sufficient doubt which House has a particular character you'd want to damage, you can send in one of your assassins to take them out. The purpose of killing off characters is to prevent them from scoring any more points for their house - or simply out of spite. 
+Once you've cleared sufficient doubt which House has a particular Character you'd want to damage, you can send in one of your assassins to take them out. The purpose of killing off characters is to prevent them from scoring any more points for their house - or simply out of spite. 
 
 * Each week you're given a single opportunity to order _one_ of your characters to attempt to kill another player's character. 
 * You send them on a mission by selecting the target House, and the target Character.
 * You'll only be presented with Characters which have been fielded in at least one roster for the game.
 * Attempts can be either succesful or fail.
-* **Succesful** attempt
+* **Succesful Attempts**
+    * Result in the target taking immediate health damage according to the Damage Power of the Assassin. The effects limit the target's scoring potential for the _current_ episode.
+    * Character deaths and damage are publicly reported in the Chronicle.
+    * The guilty party is not mentioned.
+* **Failed Attempts**
+    * Backfire terribly. If you guessed the wrong character on your opponent's roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, and the house you were targeting.
+    * The player you attacked receives two items of Roster Intelligence from torturing your assassin.
+    * The player you attacked also receives the assassin's Affiliation, Prominence and Violence Power.
 
-* Damage is _not_ commulative. So if you deal 50% damage in one round, running the same assassination attempt will not kill the player. You'd need to send a lethal assassin
-
-* Certain House / Character combinsations grant them immunity from attack.
-* A failed assassination attempt back-fires : If you guessed the wrong character on your opponent's roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, the house you were targeting. The player you attacked receives a free piece of intel on you. A failed attempt reveals
-    - The House which ordered the assassination
-    - Two General pieces of intel on the other House
-    - The assassin's affiliation
-    - The assassin's prominence
-    - The assassin's violence power
+The degree of damage and success rate is determined by the assassin's Violence Power:
 
 | power | damage  | success rate      | performance penalty |
 |:-----:|:-------:|:-----------------:|:-------------------:|
@@ -210,6 +192,10 @@ Once you've cleared sufficient doubt which House has a particular character you'
 | 5     | 100%    | 100%              | 50%                 |
 
 
+* Damage is _not_ commulative. So if you deal 50% damage in one round, running the same assassination attempt will not kill the player. You'd need to send a lethal assassin
+* Certain House / Character combinations grant them immunity from attack.
+* There is a performance penalty for the characters sent on a mission, i.e. a while a Violence Power 5 character results in the death of the target character if succesful, it limits their scoring performance for that episode by 50%, whereas a Violence Power 3 character would only do 50% health damage, not lose any points.
+
 ![](https://cdn2.vox-cdn.com/thumbor/VG_qYOjL0C2YRsEIR35-gUxKQtY=/cdn0.vox-cdn.com/uploads/chorus_asset/file/3624416/finalvote.0.gif)
 
 ## Popular Vote
@@ -218,15 +204,15 @@ Players can log in to the Ascension game with the Facebook account they signed u
 
 ### Scoring and Awarding Points
 
-A winning vote counts for 20 points, a runner-up vote scores 8 points. Characters racks up points in each award category, but before they are awarded to the players who fielded them, the points are first modified by the character's health (lower health is a negative multiplier) and a player's character and award category bonuses (bonuses are positive multipliers). In sum, **Characters** _score_ points based on _votes_, **Players** are _awarded_ points based on their character's _score_, _health_ and _bonus multipliers_. A player's points across their characters are summed up which becomes their episode score. The sum of the episode scores after 10 episodes is the season score, which determines the winner.
+A winning vote counts for 20 points, a runner-up vote scores 8 points. Characters rack up points in each award category, but before they are _awarded_ to the players who fielded them, the points are first modified by the character's health (lower health is a negative multiplier) and a player's character and award category bonuses (bonuses are positive multipliers). In sum, **Characters** _score_ points based on _votes_, **Players** are _awarded_ points based on their character's _score_, _health_ and _bonus multipliers_. A player's points across their characters are summed up which becomes their episode score. The sum of the episode scores after 10 episodes is the season score, which determines the winner.
 
 ### Prominence Multiplier
 
-Gaining points from your characters is subject to a 'prominence multiplier' - whatever score the character should have been awarded based on points scored, is further multiplied by $6 - chararcter.prominance$. This is to attempt to get characters to wield points in the same order of manitude regardless of their prominence in the world. E.g. if a top-tier (i.e. prominence power 5) characters scores 100 points, they will not have their score modified, $(6-5) * 100 = 100$ - the score stays the same. If, however, the lowest-tier (i.e. prominence power 1) character scores 20 points, that we render $(6-1) * 20 = 100$.
+Gaining points from your characters is subject to a 'prominence multiplier' - whatever score the character should have been awarded based on points scored, is further multiplied by $6 - chararcter.prominance$. This is to attempt to get characters to wield points in the same order of magnitude regardless of their prominence in the world. E.g. if a top-tier (i.e. Prominence Power 5) character scores 100 points, they will not have their score modified - $(6-5) * 100 = 100$. If, however, the lowest-tier (i.e. Prominence Power 1) character scores 20 points, that will award the player the same number of points - $(6-1) * 20 = 100$.
 
 ### Voting for your own Characters
 
-While it is possible to vote for characters on your own roster - smart move! you're basically awarding yourself points. Though, as votes are public record, it might send a strong signal your roster fielded this character, attracting unwanted, even murderous attention. The only exception to this rule are characters whom due to House Abilities are immune from attack. Your votes for these character will award you no additional points.
+While it is possible to vote for characters on your own roster - smart move! You're basically awarding yourself points! Though, as votes are public record, it might send a strong signal that you fielded this character, attracting unwanted, even murderous attention. The only exception to this rule are characters whom due to [House Abilities](#house-abilities) are immune from attack. Your votes for these character will award you no additional points.
 
 
 ![](http://www.webtvdeluxe.com/wp-content/uploads/2012/05/RobStark.png)
