@@ -127,38 +127,43 @@ In order to maximise the number of people playing as the house of their choice, 
 
 ## Characters
 
-Other than their ability to bring in points in each of the award categories, each character has four main traits which defines their role and value in the game.
+Other than their ability to bring in points in the award categories, a character also has four traits which define their role and value in the game.
 
 * **House**, affiliation with a major or minor house, a cult, guild or the independents.
 * **Prominence**, how central they are to Game of Thrones.
 * **Violence**, how deadly they are.
 * **Diplomacy**, how good they are at gathering intelligence
 
-**IMPORTANT : Prominence determines the score multiplier for the character** - The higher the prominence, the lower the multiplier. See [Prominence Multiplier](#prominence-multiplier) for details. 
+**IMPORTANT : Prominence determines the score multiplier for the character**
+
+The higher the prominence, the lower the multiplier. See [Prominence Multiplier](#prominence-multiplier) for details. 
 
 ### Available Characters
 
-All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bio.csv) to remind you who they are.
+All 88 available characters have an [affiliation & powers](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bios.csv) to remind you who they are.
 
 ![](http://nerdapproved.com/wp-content/uploads/2013/11/all_the_kills_in_the_game_of_thrones_by_studioincandescence-d6v5lvj.jpg)
 
 ## Missions
 
-Missions are at the heart of player interactivity in _Ascension II : Crossed Banners_. This is where _Crossed Banners_ and regular fantasy leagues diverge. Besides the regular voting, you can also send two of your characters on missions after each episode.
+Missions are at the heart of _Ascension II : Crossed Banners_. This is where _Crossed Banners_ and regular fantasy leagues diverge. Besides the typical voting, you can now also send two of your characters on missions after each episode.
 
-The objective of missions is to eliminate characters from other player's rosters. You achieve this by sending one of your characters to assisinate a specific character from a specific opponent's roster. The challenge is that, because rosters are secret, you will need to run intelligence missions under the guise of diplomacy to learn enough about other rosters to effectively take out characters. It's similar to the game of [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)) but instead of colour codes you get intel on the roster's affiliations, promincence, violence and diplomacatic power.
+The objective of missions is to eliminate characters from other player's rosters. You achieve this by sending one of your characters to assisinate a _specific_ character from a _specific_ opponent's roster. The challenge being that rosters are secret, so you'll need to run spy missions to uncover who are amongst their ranks. 
 
-* Sending a character on a mission, gives them a performance penalty for that episode. The percentage depends on their Diplomacy/Violence Power.
-* Characters sent on missions typically cannot be killed, only wounded. Characters with Violence Power 5 kill character whether they are on a mission or not. 
+Under the guise of diplomacy you may learn enough about another roster to take out some of its characters. Running spy is similar to the game of [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)), but instead of colour codes you get intel on the roster's affiliations, prominence, violence and diplomacatic power.
+
+* **N.B.** Sending your character on a mission, gives them a performance penalty for that episode. The percentage depends on their Diplomacy/Violence Power.
 
 ### Diplomacy : Gathering Intelligence
 
-For slaughter to be somewhat effective, it needs to be somewhat discriminate. You thus have diplomatatic missions at your disposal to gather intelligence on another player's roster. At the outset all rosters but your own are secret, but through whatever means available you can 
+For slaughter to be somewhat effective, it needs to be somewhat discriminate. You thus have diplomatatic missions at your disposal to gather intelligence on another player's roster. At the outset all rosters but your own are secret, but through whatever means available you can piece together which characters your opponents have fielded.
 
-Example of General is : 'There are more Starks than Lannisters, both at least one'
-Example of Targetted is : 'This character has more diplomacy than prominence, but less damage than both'
+You initiate a diplomatic missions every week in the same form as you cast your votes on, by sending one of your characters to spy on a specific House. Diplomatic Missions can recover intel on the _roster_ composition, or intel on a specific _character_. 
 
-* Rosters are secret, intelligence is... but doesn't have to be. You may form informal allegiances with other players, and coordinate diplomatic missions and share the intel between you.
+* **Roster** intel example : 'There are more Starks than Lannisters, both at least one'
+* **Character** intel example  : 'This character has more diplomacy than prominence, but less damage than both'
+
+Which one you target and how many pieces of intel you retrieve depends on the Diplomacy Power of the Character you dispatch:
 
 | power | intel target | intel count       | performance penalty|
 |:-----:|:------------:|:-----------------:|:------------------:|
@@ -168,7 +173,15 @@ Example of Targetted is : 'This character has more diplomacy than prominence, bu
 | 4     | character    | 1                 | 0%                 |
 | 5     | character    | 2                 | 25%                |
 
+Character Intel missions are special, as the intel is always gathered **on the same character** until they are attacked. This targetting of a single character means that you can build up a file on that character to make sure you're killing the right character. However, the consistent target is only specific to your mission. If another player runs a character intel missions against the same house, they may be locked on to a different character. So the intel can't be as easily combined.
+
+There is a performance penalty for the characters sent on a mission, i.e. a Diplomacy Power 3 Character may be three times as effective at gather roster intel as a Diplomacy Power 1 character, but they will only award the player 50% of their total points that episode. 
+
+Rosters are secret, intelligence is... but doesn't have to be. You may form informal allegiances with other players, and coordinate diplomatic missions and share the intel between you.
+
 ### Violence : Attempting Murder
+
+**UNDER DEVELOPMENT**
 
 Once you've cleared sufficient doubt which House has a particular character you'd want to damage, you can send in one of your assassins to take them out. The purpose of killing off characters is to prevent them from scoring any more points for their house - or simply out of spite. 
 
@@ -219,6 +232,8 @@ While it is possible to vote for characters on your own roster - smart move! you
 ![](http://www.webtvdeluxe.com/wp-content/uploads/2012/05/RobStark.png)
 
 ## Strategy
+
+**UNDER DEVELOPMENT**
 
 ### Picking Your Characters
 
