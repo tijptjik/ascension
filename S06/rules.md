@@ -74,7 +74,7 @@ Depending on the ability `type`, abilities modify the way _[prominence](#charact
 
 | house                            | ability                | type       | immunity      | grants                                                                                                               |
 |----------------------------------|------------------------|------------|---------------|---------------------------------------------------------------------------------------------------------------------|
-| House Bolton                     | Fifty Shade of Flay    | violence   | -             | Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% * target prominence$ |
+| House Bolton                     | Fifty Shade of Flay    | violence   | -             | Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% *$ target's prominence power |
 | Council of Meereen               | A Little Bird Told Me  | diplomacy  | Varys         | Knowledge of all diplomacic missions against this House |
 | House Arryn                      | Littlefinger's Brothel | diplomacy  | Petyr Baelish | Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission                                |
 | House Greyjoy                    | Valar Morghulis        | violence   | Theon Greyjoy | Theon splatter damage. On a succesful attack by Theon, **all** characters of the other roster take $5\%$ damage                           |
@@ -84,12 +84,12 @@ Depending on the ability `type`, abilities modify the way _[prominence](#charact
 | League of Minor Orders           | Rank & File            | prominence | -             | Characters with Prestige Power 1 and 2, now multiply their Score with $5$ and $6$ instead of $4$ and $5$ |
 | House Targaryen & Dothraki       | Bloodriders            | violence   | -             | All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character |
 | House Tyrell                     | Poisoned Roses         | missions   | -             | Full Secrecy. Missions are _never_ revealed. Not even to the Council of Mereen |
-| House Lannister                  | Lannister's Word       | missions   | -             | All performance penalties for running missions to be waived - The debts have been paid. |
+| House Lannister                  | Lannister's Word       | missions   | -             | All performance penalties for running missions are waived - The debts have been paid. |
 | House Stark                      | The North Remembers    | diplomacy  | -             | Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest |
 
 ### House Bonuses 
 
-Bonus multipliers reveal the strength and advantages a House has over the others. They are applied to the respective award scores of any of the characters on a player's roster. The bonus multipliers are distributed as follows:
+House Bonuses reveal their strengths and advantages over the other Houses. They are applied to the respective [award](#award-categories) scores of any of the characters on a player's [Roster](#roster). The House Bonueses are distributed as follows:
 
 | House | wit | damage | jockey | style | support |
 |:-----:|:-:|:-:|:-:|:-:|:-:|
@@ -110,17 +110,17 @@ For example, if Player A has House Bolton, and Player B has House Stark, if Sans
 
 ### Bidding for a House
 
-In order to maximise the number of people who are playing the house of their choice, we are following a bidding procedure:
+In order to maximise the number of people playing as the house of their choice, we are following a bidding procedure:
 
 1. The Game Master will open up a Thread on Facebook with all players. 
 2. Each Player announces which House they wish to take.
 3. If the House of your choice is uncontested after all 12 players have mentioned their preference, or 24 hours have past. You claim that House.
 4. If however a House is contested, the claimants will bid against each other to win the House
-    1. You bid with %penalty on your score for the first episode. so if you bid '10' and win the House, it means you will only receive 90% of the points awarded for the first episode.
+    1. You bid with the % of points you're willing to give up from the first episode. So if you bid '10' and win the House, it means you will only receive 90% of the points awarded for the first episode.
     2. If you bid over 100%, overages are deducted from subsequent episodes. So 250% means you don't score any points for the first two episodes and onlf half for the third episode.... really, don't enter a bidding war.
     3. If you lose a contested house, you can pick an unclaimed House - first come, first serve.
     4. The bidding process will run until everyone has picked a House, or 36 hours, whichever comes first.
-    5. If a player fails to indicate their interest within 24 hours, they are randomly assigned an unclaimed House by the Game Master. This is to unsure that the other players can proceed to the bidding round for contested Houses.5
+    5. If a player fails to indicate their interest within 24 hours, they are randomly assigned an unclaimed House by the Game Master. This is to unsure that the other players can proceed to the bidding round for contested Houses.
 5. The Game Master registers your House in the Game.
 
 ![](http://cdn0.dailydot.com/cache/55/53/55533daaa880e88328d55b821e00e2d9.jpg)
