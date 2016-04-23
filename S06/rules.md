@@ -12,14 +12,14 @@ In keeping with the Game of Thrones logic, you can also send your characters on 
 
 ## Quick Start
 
-1. **Sign Up**. [Sign up](http://goo.gl/forms/PyqkSGGuBa)
-2. **Pick a House**. [Houses](#houses) boost the characters you pick from that house, have special abilities, and are public knowledge.
-3. **Pick 7 Characters for your Roster**. Every episode your [characters](#characters) will compete for points in the **[award categories](#award-categories)** (wit, damage, jockey, style and support). Players all **[vote](#popular-vote)** for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#Picking-Your-Characters).
+1. **Sign Up**. [Sign up](http://goo.gl/forms/PyqkSGGuBa) and pick a House. [Houses](#houses) lend special abilities and bonuses.
+2. **Join a League**. You will be assigned to a league by the Game Master. Await invite.
+3. **Pick 7 Characters for your Roster**. Every episode your [characters](#characters) compete for points in the **[award categories](#award-categories)** (wit, damage, jockey, style and support). Players all **[vote](#popular-vote)** for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. [Follow a strategy](#Picking-Your-Characters).
 4. **Watch the Weekly Episode**. Watch the episode within a week of it being aired.
-5. **Cast your Weekly Votes**. For each of the award categories, vote who most deserves the award that week. Votes are public.
-6. **Initiate Weekly Missions**. Send one of your characters to gather intel, and/or assasinate characters from another roster. **[Missions](#missions)** are secret.
+5. **Cast your Weekly Votes**. For each of the award categories, vote for that episode's winner and the runner-up . Votes are public.
+6. **Initiate Weekly Missions**. Send one of your characters to gather intel, and/or assasinate characters from another roster. **[Missions](#missions)** are secret - until they fail.
 7. **Consult the Chronicles**. A chronicle is sent out to all players with the voting record, and the results from the spy and murder missions, some private, some public.
-8. **Rank on the Leaderboard**. Leaderboard is updated with the weekly character points.
+8. **Rank on the Leaderboard**. Leaderboard is updated to reflect the awarded character points.
 
 ## Rules
 
@@ -27,7 +27,7 @@ The game is played in a league of 12 players. Each player represents a **[House]
 
 ### Character Roster
 
-A Character Roster is a list of GoT characters a player fields for the entire game. Players may freely and secretly pick 7 **[Characters](#characters)** to form their roster before the season starts. Players can pick the same characters. Though players represent a unique House, they **are not** restricted to fielding characters from that house. Characters belonging to their House gain scoring bonuses, but they also make those characters more obvious targets for assassinations. 
+A Character Roster is a selection of GoT characters a player fields for the entire game. Players may freely and secretly pick 7 **[Characters](#characters)** to form their roster before the season starts. Players can pick the same characters. Though players represent a unique **[House](#houses)**, they **are not** restricted to fielding characters from that House.
 
 ### Award Categories
 
