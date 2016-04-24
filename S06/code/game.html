@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ascension | Crossed Banners</title>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+</head>
+<body>
+
+<div class="ui hidden failed negative message">
+  <i class="close icon"></i>
+  <div class="header">
+    We're sorry - Login failed for some reason.
+  </div>
+  <p>Please contact m@type.hk for support.
+</p></div>
+
+<!-- Sidebar Menu -->
+<div class="ui inverted vertical sidebar menu">
+  <a href="http://tijptjik.github.io/ascension/" class="active item">Home</a>
+  <a href="http://ascension.hype.hk" class="item">Rules</a>
+  <a class="item disabled">Leaderboard</a>
+</div>
+
+
+<!-- Page Contents -->
+  <div class="ui vertical masthead center aligned segment">
+
+    <div class="ui container">
+      <div class="ui large secondary pointing menu">
+        <a class="toc item">
+          <i class="sidebar icon"></i>
+        </a>
+        <a href="http://tijptjik.github.io/ascension/" class="active item">Home</a>
+        <a href="http://ascension.hype.hk" class="item">Rules</a>
+        <a class="item disabled">Leaderboard</a>
+      </div>
+    </div>
+
+  </div>
+
+<div class="ui text container">
+    <form class="ui form">
+        <div class="ui">
+            <h2 style="text-align: center;">EPISODE VOTING</h2>
+        </div>
+    <h4 class="ui horizontal divider header">
+      <i class="bar university icon"></i>
+      6x01 ~ The Red Women
+    </h4>
+      <h4 class="ui horizontal divider header">
+          <i class="bar diamond icon"></i>
+          Missions
+        </h4>
+        Characters are listed with their house colour and name. Between brackets you'll find their Prominence, Violence and Diplomacy powers.
+        <div class="ui accordion field">
+          <div class="title">
+            <i class="icon dropdown"></i>
+            HELP : How do I select my characters?
+          </div>
+          <div class="content field">
+            <div class="ui celled ordered list">
+              <div class="item">Pick characters which excell at being <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#award-categories">violent, witty, cunning, supportive or stylish</a>.</div>
+              <div class="item">Consider their <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#prominence-multiplier">Prominence</a> - the roman numeral behind their name - Greater prominence makes it harder for them to score points.</div>
+              <div class="item">Pick at least some characters with strong Violence and Diplomany Powers - See <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv">Character Powers</a> for a full list</div>
+              <div class="item">Avoid obvious choices - they will get killed.</div>
+            </div>
+          </div>
+          <div class="title">
+            <i class="icon dropdown"></i>
+            HELP : What do the character colours mean?
+          </div>
+          <div class="content field">
+            <div class="ui divided aligned list housecolours"></div>
+          </div>
+        </div>
+      <div class="field">
+        <label>Slot I</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+          </div>
+      </div>
+      <div class="field">
+        <label>Slot II</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+        <div class="field">
+        <label>Slot III</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+          </div>
+      </div>
+      <div class="field">
+        <label>Slot IV</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Slot V</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Slot VI</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Slot VII</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="fluid ui button submit inverted huge blue center">Submit</div>
+      <div class="ui error message"></div>
+    </form>
+    <br>
+    <br>
+    <br>
+
+</div>
+
+
+
+
+
+
+<script src="semantic/dist/semantic.min.js"></script>
+
+<script>
+
+var db = new Firebase("https://ascension.firebaseio.com");
+
+// Create a callback which logs the current auth state
+function authDataCallback(authData) {
+  if (authData) {
+    console.log("User " + authData.uid + " is logged in with " + authData.provider);
+  } else {
+    console.log("User is logged out");
+    ref.authWithOAuthPopup("facebook", authHandler);
+  }
+}
+
+// Register the callback to be fired every time auth state changes
+var ref = new Firebase("https://ascension.firebaseio.com");
+ref.onAuth(authDataCallback);
+
+</script>
+</body>
+</html>

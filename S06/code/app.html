@@ -207,7 +207,6 @@ var USER_TEMPLATE = {
 
 db.authWithOAuthPopup("facebook", function(error, authData) {
   if (error) {
-    console.log("Login Failed!", error);
 
     $('.message.failed')
       .transition('drop');
