@@ -1,25 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Ascension | Crossed Banners</title>
-	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
-	<script src="semantic/dist/semantic.min.js"></script>
-	<meta content='width=device-width, initial-scale=1' name='viewport'/>
-	<script>
-	  $(document)
-	    .ready(function() {
-
-	      // create sidebar and attach to menu open
-	      $('.ui.sidebar')
-	        .sidebar('attach events', '.toc.item')
-	      ;
-
-	    })
-	  ;
-	  </script>
+    <title>Ascension | Crossed Banners</title>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
 </head>
 <body>
 
@@ -40,7 +27,6 @@
 
 
 <!-- Page Contents -->
-<div class="pusher">
   <div class="ui vertical masthead center aligned segment">
 
     <div class="ui container">
@@ -49,38 +35,122 @@
           <i class="sidebar icon"></i>
         </a>
         <a href="http://tijptjik.github.io/ascension/" class="active item">Home</a>
-  		<a href="http://ascension.hype.hk" class="item">Rules</a>
-  		<a class="item disabled">Leaderboard</a>
+        <a href="http://ascension.hype.hk" class="item">Rules</a>
+        <a class="item disabled">Leaderboard</a>
       </div>
     </div>
 
   </div>
- </div>
+
+<div class="ui text container">
+    <form class="ui form">
+        <div class="ui center">
+            <h2>JOIN THE GAME</h2>
+        </div>
+    <h4 class="ui horizontal divider header">
+      <i class="bar university icon"></i>
+      Personal Details
+    </h4>
+      <div class="field">
+        <label>Name</label>
+        <input placeholder="e.g. Mart van de Ven" name="name" type="text">
+      </div>
+      <div class="field">
+        <label>E-mail Address</label>
+        <input placeholder="e.g. m@type.hk" name="email" type="text">
+      </div>
+      <div class="field">
+        <label>Game of Thrones Alias</label>
+        <input placeholder="e.g. Ser Killsalot" name="alias" type="text">
+      </div>
+      <div class="field">
+        <label>House - Assigned by the Game Master</label>
+        <select class="ui dropdown" name="dropdown">
+          <option value="">Select</option>
+          <option value="male">Choice 1</option>
+          <option value="female">Choice 2</option>
+        </select>
+        <div class="ui accordion field">
+          <div class="title">
+            <i class="icon dropdown"></i>
+            HELP : I wasn't assigned a House!?
+          </div>
+          <div class="content field">
+            <p>Please get in touch with <a href="mailto:m@type.hk">Game Master</a> for assistance</p>
+          </div>
+        </div>
+      </div>
+      <h4 class="ui horizontal divider header">
+          <i class="bar diamond icon"></i>
+          Drafting Characters
+        </h4>
+        <div class="ui accordion field">
+          <div class="title">
+            <i class="icon dropdown"></i>
+            HELP : How do I select my characters?
+          </div>
+          <div class="content field">
+            <label class="transition hidden">Maiden Name</label>
+            <input placeholder="Maiden Name" type="text" class="transition hidden">
+          </div>
+        </div>
+      <div class="field">
+        <label>Charachter Slot 1</label>
+        <select class="ui dropdown" name="dropdown">
+          <option value="">Select</option>
+          <option value="male">Choice 1</option>
+          <option value="female">Choice 2</option>
+        </select>
+      </div>
+            <div class="field">
+        <label>Charachter Slot 1</label>
+        <select class="ui dropdown" name="dropdown">
+          <option value="">Select</option>
+          <option value="male">Choice 1</option>
+          <option value="female">Choice 2</option>
+        </select>
+      </div>
+            <div class="field">
+        <label>Charachter Slot 1</label>
+        <select class="ui dropdown" name="dropdown">
+          <option value="">Select</option>
+          <option value="male">Choice 1</option>
+          <option value="female">Choice 2</option>
+        </select>
+      </div>
+      <div class="ui submit button">Submit</div>
+      <div class="ui error message"></div>
+    </form>
+
+</div>
 
 
 
 
+
+
+<script src="semantic/dist/semantic.min.js"></script>
 <script>
 
 
 var db = new Firebase("https://ascension.firebaseio.com");
 
 var USER_TEMPLATE = {
-		"full_name" : "",
-		"first_name" : "",
-		"alias" : "",
-		"alias_short" : "",
-		"email": "",
-		"facebook" : "",
-		"games": true
-	}
+        "full_name" : "",
+        "first_name" : "",
+        "alias" : "",
+        "alias_short" : "",
+        "email": "",
+        "facebook" : "",
+        "games": true
+    }
 
 db.authWithOAuthPopup("facebook", function(error, authData) {
   if (error) {
     console.log("Login Failed!", error);
 
     $('.message.failed')
-	  .transition('drop');
+      .transition('drop');
 
   } else {
     is_player(authData);
@@ -88,38 +158,38 @@ db.authWithOAuthPopup("facebook", function(error, authData) {
 },{'remember':'default','scope':'public_profile,email'});
 
 var is_player = function(authData){
-	db.child('players')
-	  .child(authData.uid)
-	  .once('value', function(snapshot){
-	    // if data exists
-	    if (snapshot.exists()) {
-	        // get the ref (in this case /users/2) and update its contents
-	        console.log("User exists!");
-	        // snapshot.ref().update(user);
-	    } else {
-			console.log('new')
-	        // data does not exist so we wrap the data in an object with
-	        // a member named after the uid so we can pass it as an update
-	        // to the parent.
-	        var fb = authData.facebook;
-	        var payload = {};
-	        	user = USER_TEMPLATE;
-	        	user['full_name'] = fb.displayName;
-	        	user['email'] = fb.email;
-	        	user['facebook'] = fb.id;
-	        	try{
-	        		user['first_name'] = fb.cachedUserProfile.first_name;
-	        	}
-	        	catch(e){
-	        		user['first_name'] = 'Anon';	
-	        	}
+    db.child('players')
+      .child(authData.uid)
+      .once('value', function(snapshot){
+        // if data exists
+        if (snapshot.exists()) {
+            // get the ref (in this case /users/2) and update its contents
+            console.log("User exists!");
+            // snapshot.ref().update(user);
+        } else {
+            console.log('new')
+            // data does not exist so we wrap the data in an object with
+            // a member named after the uid so we can pass it as an update
+            // to the parent.
+            var fb = authData.facebook;
+            var payload = {};
+                user = USER_TEMPLATE;
+                user['full_name'] = fb.displayName;
+                user['email'] = fb.email;
+                user['facebook'] = fb.id;
+                try{
+                    user['first_name'] = fb.cachedUserProfile.first_name;
+                }
+                catch(e){
+                    user['first_name'] = 'Anon';    
+                }
 
-	            payload[authData.uid] = user;
-	        // get the ref's parent and call update on it.
-	        snapshot.ref().parent().update(payload);
-	    }
-	});
-	
+                payload[authData.uid] = user;
+            // get the ref's parent and call update on it.
+            snapshot.ref().parent().update(payload);
+        }
+    });
+    
 }
 
 // Messages 
@@ -133,7 +203,17 @@ var is_player = function(authData){
   })
 ;
 
+$(document)
+    .ready(function() {
 
+      // create sidebar and attach to menu open
+      $('.ui.sidebar')
+        .sidebar('attach events', '.toc.item');
+
+      $('.ui.accordion').accordion();
+
+    })
+  ;
 </script>
 </body>
 </html>
