@@ -52,11 +52,11 @@
       Personal Details
     </h4>
       <div class="field">
-        <label>Name</label>
+        <label>Full Name</label>
         <input placeholder="e.g. Mart van de Ven" name="name" type="text">
       </div>
       <div class="field">
-        <label>E-mail Address</label>
+        <label>E-mai  l Address</label>
         <input placeholder="e.g. m@type.hk" name="email" type="text">
       </div>
       <div class="field">
@@ -65,10 +65,8 @@
       </div>
       <div class="field">
         <label>House - Assigned by the Game Master</label>
-        <select class="ui dropdown" name="dropdown">
+        <select class="ui dropdown" name="house">
           <option value="">Select</option>
-          <option value="male">Choice 1</option>
-          <option value="female">Choice 2</option>
         </select>
         <div class="ui accordion field">
           <div class="title">
@@ -109,7 +107,7 @@
       <div class="field">
         <label>Slot I</label>
         <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
+          <input type="hidden" name="char1">
           <i class="dropdown icon"></i>
           <div class="default text">Select Character</div>
           <div class="menu characters">
@@ -119,7 +117,7 @@
       <div class="field">
         <label>Slot II</label>
         <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
+          <input type="hidden" name="char2">
           <i class="dropdown icon"></i>
           <div class="default text">Select Character</div>
           <div class="menu characters">
@@ -129,7 +127,7 @@
         <div class="field">
         <label>Slot III</label>
         <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
+          <input type="hidden" name="char3">
           <i class="dropdown icon"></i>
           <div class="default text">Select Character</div>
           <div class="menu characters">
@@ -139,7 +137,7 @@
       <div class="field">
         <label>Slot IV</label>
         <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
+          <input type="hidden" name="char4">
           <i class="dropdown icon"></i>
           <div class="default text">Select Character</div>
           <div class="menu characters">
@@ -149,7 +147,7 @@
       <div class="field">
         <label>Slot V</label>
         <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
+          <input type="hidden" name="char5">
           <i class="dropdown icon"></i>
           <div class="default text">Select Character</div>
           <div class="menu characters">
@@ -159,7 +157,7 @@
       <div class="field">
         <label>Slot VI</label>
         <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
+          <input type="hidden" name="char6">
           <i class="dropdown icon"></i>
           <div class="default text">Select Character</div>
           <div class="menu characters">
@@ -169,7 +167,7 @@
       <div class="field">
         <label>Slot VII</label>
         <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
+          <input type="hidden" name="char7">
           <i class="dropdown icon"></i>
           <div class="default text">Select Character</div>
           <div class="menu characters">
@@ -273,10 +271,11 @@ function populateCharacterDropdowns(chars){
 
   db.child('houses').once('value',function(snapshot){
     var houses = snapshot.val();
-    for (var color in colors) {
-        if (colors.hasOwnProperty(color)) {
-          var html = '<div class="item"><i class="ui '+colors[color]+' certificate large icon"></i><div class="content" style="vertical-align: middle;">'+houses[color].name+'</div>'
-          $('.housecolours').append(html)
+    for (var house in colors) {
+        if (colors.hasOwnProperty(house)) {
+          var html = '<div class="item"><i class="ui '+colors[house]+' certificate large icon"></i><div class="content" style="vertical-align: middle;">'+houses[house].name+'</div>'
+          $('.housecolours').append(html);
+          $('select[name="house"]').append('<option value="'+house+'">'+houses[house].name+'</option>');
         }
     }
   })
@@ -324,6 +323,284 @@ $(document)
         .sidebar('attach events', '.toc.item');
 
       $('.ui.accordion').accordion();
+
+          $('.ui.form')
+  .form({
+    fields: {
+      name: {
+        identifier: 'name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your full name'
+          }
+        ]
+      },
+    alias: {
+        identifier: 'alias',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your Player Name'
+          }
+        ]
+      },
+      email: {
+        identifier: 'email',
+        rules: [
+          {
+            type   : 'email',
+            prompt : 'Please enter your email'
+          }
+        ]
+      },
+      house: {
+        identifier: 'house',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please indicate your House'
+          }
+        ]
+      },
+      char1: {
+        identifier: 'char1',
+        rules: [
+          {
+            type : 'empty',
+            prompt : 'You haven\'t selected all 7 characters.'
+          },
+          {
+            type   : 'different[char2]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char3]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char4]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char5]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char6]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char7]',
+            prompt : 'You cant select the same character twice'
+          },
+        ]
+      },
+    char2: {
+        identifier: 'char2',
+        rules: [
+          {
+            type : 'empty',
+            prompt : 'You haven\'t selected all 7 characters.'
+          },
+          {
+            type   : 'different[char1]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char3]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char4]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char5]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char6]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char7]',
+            prompt : 'You cant select the same character twice'
+          },
+        ]
+      },
+    char3: {
+        identifier: 'char3',
+        rules: [
+          {
+            type : 'empty',
+            prompt : 'You haven\'t selected all 7 characters.'
+          },
+          {
+            type   : 'different[char2]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char1]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char4]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char5]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char6]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char7]',
+            prompt : 'You cant select the same character twice'
+          },
+        ]
+      },
+            char4: {
+        identifier: 'char4',
+        rules: [
+          {
+            type : 'empty',
+            prompt : 'You haven\'t selected all 7 characters.'
+          },
+          {
+            type   : 'different[char2]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char3]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char1]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char5]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char6]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char7]',
+            prompt : 'You cant select the same character twice'
+          },
+        ]
+      },
+            char5: {
+        identifier: 'char5',
+        rules: [
+          {
+            type : 'empty',
+            prompt : 'You haven\'t selected all 7 characters.'
+          },
+          {
+            type   : 'different[char2]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char3]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char4]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char1]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char6]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char7]',
+            prompt : 'You cant select the same character twice'
+          },
+        ]
+      },
+            char6: {
+        identifier: 'char6',
+        rules: [
+          {
+            type : 'empty',
+            prompt : 'You haven\'t selected all 7 characters.'
+          },
+          {
+            type   : 'different[char2]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char3]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char4]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char5]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char1]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char7]',
+            prompt : 'You cant select the same character twice'
+          },
+        ]
+      },
+            char7: {
+        identifier: 'char7',
+        rules: [
+          {
+            type : 'empty',
+            prompt : 'You haven\'t selected all 7 characters.'
+          },
+          {
+            type   : 'different[char2]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char3]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char4]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char5]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char6]',
+            prompt : 'You cant select the same character twice'
+          },
+          {
+            type   : 'different[char1]',
+            prompt : 'You cant select the same character twice'
+          },
+        ]
+      }
+    }
+  })
+;
+
+$('.ui.button.submit').click(function(e){
+    console.log($('form').form('get values'));
+});
 
     })
   ;
