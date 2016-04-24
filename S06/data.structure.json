@@ -1,0 +1,89 @@
+{
+"houses" : {
+	"<house_id>" : {
+		"title" : "House Bolton",
+		"ability": "Chance that an attack on this House backfires and retargets the assassin itself - Chance is 15% target's prominence power",
+		"bonus_wit" : 0,
+		"bonus_damage" : 10,
+		"bonus_jockey" : 0,
+		"bonus_style" : 0,
+		"bonus_support" : 10
+		}
+	},
+"characters" : {
+	"<character_id>" : {
+		"name"  : "Petyr Baelish",
+		"house" : "<house_id>",
+		"prominence" : 5,
+		"violence" : 4,
+		"diplomacy" : 5
+		}
+	},
+"episodes" : {
+	"<episode_id>" : {
+		"title"  : "The Red Woman",
+		"number" : 51,
+		"airdate": "2016-05-25",
+		"current": true
+		}
+	},
+"leagues" : {
+	"westeros" : true,
+	"essos" : true
+	},
+"players" : {
+	"<uid>" : {
+		"full_name" : "",
+		"first_name" : "",
+		"alias" : "",
+		"alias_short" : "",
+		"email": "",
+		"facebook" : "",
+		"games": {
+			"<league_id>" : "<roster_id>",
+			"<league_id>" : "<roster_id>"
+			}
+		}
+	},
+"rosters" : {
+	"<hash>" : {
+		"house": "<house_id>",
+		"char_1": "<character_id>",
+		"char_2": "<character_id>",
+		"char_3": "<character_id>",
+		"char_4": "<character_id>",
+		"char_5": "<character_id>",
+		"char_6": "<character_id>",
+		"char_7": "<character_id>",
+	}
+},
+"votes" : {
+	"<hash>" : {
+		"player" : "<uid>",
+		"league" : "<league_id>",
+		"episode": "<episode_id>",
+		"vote_wit_1" : "<character_id>",
+		"vote_wit_2" : "<character_id>",
+		"vote_damage_1" : "<character_id>",
+		"vote_damage_2" : "<character_id>",
+		"vote_jockey_1" : "<character_id>",
+		"vote_jockey_2" : "<character_id>",
+		"vote_style_1" : "<character_id>",
+		"vote_style_1" : "<character_id>",
+		"vote_support_2" : "<character_id>",
+		"vote_support_2" : "<character_id>"
+		}
+	},
+"missions" : {
+	"<hash>" : {
+		"player" : "<uid>",
+		"league" : "<league_id>",
+		"episode": "<episode_id>",
+		"diplomatic_target_house" : "<house_id>",
+		"diplomatic_agent" : "<character_id>",
+		"violence_target_house" : "<house_id>",
+		"violence_target_character" : "<character_id>",
+		"violence_agent" : "<character_id>"
+		}
+	}
+}
