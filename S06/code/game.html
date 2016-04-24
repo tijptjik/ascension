@@ -51,7 +51,11 @@
       <i class="bar university icon"></i>
       6x01 ~ The Red Women
     </h4>
-      <h4 class="ui horizontal divider header">
+    <h2 class="ui horizontal divider header">
+          <i class="bar trophy icon"></i>
+          Waiting for all Players to Join the League.
+    </h2>
+      <!-- <h4 class="ui horizontal divider header">
           <i class="bar diamond icon"></i>
           Missions
         </h4>
@@ -153,7 +157,7 @@
     </form>
     <br>
     <br>
-    <br>
+    <br> -->
 
 </div>
 
@@ -175,17 +179,17 @@ function authDataCallback(authData) {
   } else {
     console.log("User is logged out");
     ref.authWithOAuthPopup("facebook", function(error, authData) {
-  if (error) {
-    if (error.code === "TRANSPORT_UNAVAILABLE") {
-      // fall-back to browser redirects, and pick up the session
-      // automatically when we come back to the origin page
-      ref.authWithOAuthRedirect("google",
-        function(error) {});
-    }
-  } else if (authData) {
-    // user authenticated with Firebase
-  }
-});
+      if (error) {
+        if (error.code === "TRANSPORT_UNAVAILABLE") {
+          // fall-back to browser redirects, and pick up the session
+          // automatically when we come back to the origin page
+          ref.authWithOAuthRedirect("google",
+            function(error) {});
+        }
+      } else if (authData) {
+        // user authenticated with Firebase
+      }
+    });
   }
 }
 

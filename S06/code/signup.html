@@ -182,7 +182,7 @@
 <script src="semantic/dist/semantic.min.js"></script>
 
 <script>
-
+var userData = {};
 var db = new Firebase("https://ascension.firebaseio.com");
 
 var USER_TEMPLATE = {
@@ -205,7 +205,7 @@ var is_player = function(authData){
         if (snapshot.exists()) {
             // get the ref (in this case /users/2) and update its contents
             console.log("User exists!");
-            // snapshot.ref().update(user);
+            userData = authData;
             $('form').form('set value', 'name', fb.displayName)
             $('form').form('set value', 'email', fb.email)
         } else {
@@ -241,15 +241,6 @@ var is_player = function(authData){
     }
 }
 
-
-// Create a callback which logs the current auth state
-function authDataCallback(authData) {
-  if (authData) {
-    console.log("User " + authData.uid + " is logged in with " + authData.provider);
-  } else {
-    console.log("User is logged out");
-  }
-}
 
 // Register the callback to be fired every time auth state changes
 db.onAuth(is_player);
@@ -300,7 +291,7 @@ function populateCharacterDropdowns(chars){
 }
 
 db.child('characters').once('value', function(snapshot){
-  var characters = snapshot.val()
+  var characters = snapshot.val();
   populateCharacterDropdowns(characters);
 });
 
@@ -603,7 +594,42 @@ $(document)
 
 
   $('.ui.button.submit').click(function(e){
-      console.log($('form').form('get values'));
+      var roster = $('form').form('get values');
+      
+      $.each(roster, function(key, value) {
+        if(key.indexOf('char') == -1) {
+            delete roster[key];
+        }
+      });
+
+      // Push Roster
+      var rosterListRef = new Firebase("https://ascension.firebaseio.com/rosters");
+      var newRosterRef = rosterListRef.push();
+      newRosterRef.set(roster)
+      
+      var path = newRosterRef.toString();
+
+
+      var pathelem = path.split('/');
+      var rosterkey = pathelem[pathelem.length-1];
+
+      // Update User Details
+
+      db.child('players').child(userData.uid).update({
+            'games/essos': rosterkey,
+            'full_name': $('form').form('get value', 'name'),
+            'email': $('form').form('get value', 'email'),
+            'alias': $('form').form('get value', 'alias')
+          }, function(error) {
+              if (error) {
+                $('.message').text(error).transition('drop');
+                console.log('Synchronization failed');
+              } else {
+                window.location.href = 'game.html';
+              }
+            }
+        )
+
   });
 
 });
