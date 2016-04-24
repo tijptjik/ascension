@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	    <meta charset="utf-8" />
+	      <!-- Standard Meta -->
+	  <meta charset="utf-8" />
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 		<title>Ascension | Crossed Banners</title>
 		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 		<link rel="stylesheet" type="text/css" href="style.css">
@@ -10,9 +13,6 @@
 	    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 		<script src="semantic/dist/semantic.min.js"></script>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-	    <meta name="MobileOptimized" content="320">
 	</head>
 	<body>
 		<!-- Sidebar Menu -->
@@ -188,14 +188,14 @@
 
 			  } else {
 			    console.log("User is logged out");
-			    db.authWithOAuthPopup("facebook", function(error, authData) {
-			      if (error) {
+			    // db.authWithOAuthPopup("facebook", function(error, authData) {
+			      // if (error) {
 			        // SHIT.
-			      } else if (authData) {
+			      // } else if (authData) {
 			        // user authenticated with Firebase
-			        is_player(authData);
-			      }
-			    });
+			        // is_player(authData);
+			      // }
+			    // });
 			  }
 			}
 

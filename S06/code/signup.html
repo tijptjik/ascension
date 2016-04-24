@@ -11,7 +11,7 @@
 
 
 </head>
-<body>
+<body class="pushable">
 
 <!-- Sidebar Menu -->
 <div class="ui inverted vertical sidebar menu">
@@ -38,7 +38,7 @@
   </div>
 
 <div class="ui text container">
-    <form class="ui form huge">
+    <form onsubmit="return false;" class="ui form huge">
         <div class="ui">
             <h2 style="text-align: center;">JOIN THE GAME</h2>
         </div>
@@ -196,20 +196,24 @@ var USER_TEMPLATE = {
     }
 
 var is_player = function(authData){
+  if (authData){
     db.child('players')
       .child(authData.uid)
       .once('value', function(snapshot){
         // if data exists
+        var fb = authData.facebook;
         if (snapshot.exists()) {
             // get the ref (in this case /users/2) and update its contents
             console.log("User exists!");
             // snapshot.ref().update(user);
+            $('form').form('set value', 'name', fb.displayName)
+            $('form').form('set value', 'email', fb.email)
         } else {
             console.log('new')
             // data does not exist so we wrap the data in an object with
             // a member named after the uid so we can pass it as an update
             // to the parent.
-            var fb = authData.facebook;
+            
             var payload = {};
                 user = USER_TEMPLATE;
                 user['full_name'] = fb.displayName;
@@ -223,12 +227,32 @@ var is_player = function(authData){
                 }
 
                 payload[authData.uid] = user;
+              
+              $('form').form('set value', 'name', fb.displayName)
+              $('form').form('set value', 'email', fb.email)
+
             // get the ref's parent and call update on it.
+
             snapshot.ref().parent().update(payload);
         }
     });
-    
+    } else {
+      window.location.href = 'index.html';
+    }
 }
+
+
+// Create a callback which logs the current auth state
+function authDataCallback(authData) {
+  if (authData) {
+    console.log("User " + authData.uid + " is logged in with " + authData.provider);
+  } else {
+    console.log("User is logged out");
+  }
+}
+
+// Register the callback to be fired every time auth state changes
+db.onAuth(is_player);
 
 function populateCharacterDropdowns(chars){
   var numerals = [0,'I','II','III','IV','V']
@@ -302,286 +326,287 @@ $(document)
 
       $('.ui.accordion').accordion();
 
-          $('.ui.form')
-  .form({
-    fields: {
-      name: {
-        identifier: 'name',
-        rules: [
-          {
-            type   : 'empty',
-            prompt : 'Please enter your full name'
+      $('.ui.form')
+        .form({
+          fields: {
+            name: {
+              identifier: 'name',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your full name'
+                }
+              ]
+            },
+          alias: {
+              identifier: 'alias',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your Player Name'
+                }
+              ]
+            },
+            email: {
+              identifier: 'email',
+              rules: [
+                {
+                  type   : 'email',
+                  prompt : 'Please enter your email'
+                }
+              ]
+            },
+            house: {
+              identifier: 'house',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please indicate your House'
+                }
+              ]
+            },
+            char1: {
+              identifier: 'char1',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'You haven\'t selected all 7 characters.'
+                },
+                {
+                  type   : 'different[char2]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char3]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char4]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char5]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char6]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char7]',
+                  prompt : 'You cant select the same character twice'
+                },
+              ]
+            },
+          char2: {
+              identifier: 'char2',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'You haven\'t selected all 7 characters.'
+                },
+                {
+                  type   : 'different[char1]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char3]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char4]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char5]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char6]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char7]',
+                  prompt : 'You cant select the same character twice'
+                },
+              ]
+            },
+          char3: {
+              identifier: 'char3',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'You haven\'t selected all 7 characters.'
+                },
+                {
+                  type   : 'different[char2]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char1]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char4]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char5]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char6]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char7]',
+                  prompt : 'You cant select the same character twice'
+                },
+              ]
+            },
+                  char4: {
+              identifier: 'char4',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'You haven\'t selected all 7 characters.'
+                },
+                {
+                  type   : 'different[char2]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char3]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char1]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char5]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char6]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char7]',
+                  prompt : 'You cant select the same character twice'
+                },
+              ]
+            },
+                  char5: {
+              identifier: 'char5',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'You haven\'t selected all 7 characters.'
+                },
+                {
+                  type   : 'different[char2]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char3]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char4]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char1]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char6]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char7]',
+                  prompt : 'You cant select the same character twice'
+                },
+              ]
+            },
+                  char6: {
+              identifier: 'char6',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'You haven\'t selected all 7 characters.'
+                },
+                {
+                  type   : 'different[char2]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char3]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char4]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char5]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char1]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char7]',
+                  prompt : 'You cant select the same character twice'
+                },
+              ]
+            },
+                  char7: {
+              identifier: 'char7',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'You haven\'t selected all 7 characters.'
+                },
+                {
+                  type   : 'different[char2]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char3]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char4]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char5]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char6]',
+                  prompt : 'You cant select the same character twice'
+                },
+                {
+                  type   : 'different[char1]',
+                  prompt : 'You cant select the same character twice'
+                },
+              ]
+            }
           }
-        ]
-      },
-    alias: {
-        identifier: 'alias',
-        rules: [
-          {
-            type   : 'empty',
-            prompt : 'Please enter your Player Name'
-          }
-        ]
-      },
-      email: {
-        identifier: 'email',
-        rules: [
-          {
-            type   : 'email',
-            prompt : 'Please enter your email'
-          }
-        ]
-      },
-      house: {
-        identifier: 'house',
-        rules: [
-          {
-            type   : 'empty',
-            prompt : 'Please indicate your House'
-          }
-        ]
-      },
-      char1: {
-        identifier: 'char1',
-        rules: [
-          {
-            type : 'empty',
-            prompt : 'You haven\'t selected all 7 characters.'
-          },
-          {
-            type   : 'different[char2]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char3]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char4]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char5]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char6]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char7]',
-            prompt : 'You cant select the same character twice'
-          },
-        ]
-      },
-    char2: {
-        identifier: 'char2',
-        rules: [
-          {
-            type : 'empty',
-            prompt : 'You haven\'t selected all 7 characters.'
-          },
-          {
-            type   : 'different[char1]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char3]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char4]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char5]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char6]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char7]',
-            prompt : 'You cant select the same character twice'
-          },
-        ]
-      },
-    char3: {
-        identifier: 'char3',
-        rules: [
-          {
-            type : 'empty',
-            prompt : 'You haven\'t selected all 7 characters.'
-          },
-          {
-            type   : 'different[char2]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char1]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char4]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char5]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char6]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char7]',
-            prompt : 'You cant select the same character twice'
-          },
-        ]
-      },
-            char4: {
-        identifier: 'char4',
-        rules: [
-          {
-            type : 'empty',
-            prompt : 'You haven\'t selected all 7 characters.'
-          },
-          {
-            type   : 'different[char2]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char3]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char1]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char5]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char6]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char7]',
-            prompt : 'You cant select the same character twice'
-          },
-        ]
-      },
-            char5: {
-        identifier: 'char5',
-        rules: [
-          {
-            type : 'empty',
-            prompt : 'You haven\'t selected all 7 characters.'
-          },
-          {
-            type   : 'different[char2]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char3]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char4]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char1]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char6]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char7]',
-            prompt : 'You cant select the same character twice'
-          },
-        ]
-      },
-            char6: {
-        identifier: 'char6',
-        rules: [
-          {
-            type : 'empty',
-            prompt : 'You haven\'t selected all 7 characters.'
-          },
-          {
-            type   : 'different[char2]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char3]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char4]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char5]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char1]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char7]',
-            prompt : 'You cant select the same character twice'
-          },
-        ]
-      },
-            char7: {
-        identifier: 'char7',
-        rules: [
-          {
-            type : 'empty',
-            prompt : 'You haven\'t selected all 7 characters.'
-          },
-          {
-            type   : 'different[char2]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char3]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char4]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char5]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char6]',
-            prompt : 'You cant select the same character twice'
-          },
-          {
-            type   : 'different[char1]',
-            prompt : 'You cant select the same character twice'
-          },
-        ]
-      }
-    }
-  })
-;
+        })
+      ;
 
-$('.ui.button.submit').click(function(e){
-    console.log($('form').form('get values'));
+
+
+  $('.ui.button.submit').click(function(e){
+      console.log($('form').form('get values'));
+  });
+
 });
-
-    })
-  ;
 </script>
 </body>
 </html>

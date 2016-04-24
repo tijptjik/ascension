@@ -18,3 +18,7 @@
 .description p {
 	text-align: justify;
 }
+
+.submit.button {
+	margin-bottom: 320px;
+}
