@@ -174,7 +174,18 @@ function authDataCallback(authData) {
     console.log("User " + authData.uid + " is logged in with " + authData.provider);
   } else {
     console.log("User is logged out");
-    ref.authWithOAuthPopup("facebook", authHandler);
+    ref.authWithOAuthPopup("facebook", function(error, authData) {
+  if (error) {
+    if (error.code === "TRANSPORT_UNAVAILABLE") {
+      // fall-back to browser redirects, and pick up the session
+      // automatically when we come back to the origin page
+      ref.authWithOAuthRedirect("google",
+        function(error) {});
+    }
+  } else if (authData) {
+    // user authenticated with Firebase
+  }
+});
   }
 }
 
