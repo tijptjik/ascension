@@ -1,4 +1,4 @@
-id,house,ability,type,immunity,grants
+id,name,ability,type,immunity,grants
 bolton,House Bolton,Fifty Shade of Flay,violence,-,Chance that an attack on this House backfires and retargets the assassin itself - Chance is 15% ∗ target’s prominence power
 meereen,Council of Meereen,A Little Bird Told Me,diplomacy,Varys,Knowledge of all diplomatic missions against this House
 arryn,House Arryn,Littlefinger’s Brothel,diplomacy,Petyr Baelish,"Chance of recovering intel from the source of diplomatic missions run against this house - Chance is 50%, intel at same level as the mission"

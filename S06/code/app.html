@@ -44,8 +44,8 @@
 
 <div class="ui text container">
     <form class="ui form">
-        <div class="ui center">
-            <h2>JOIN THE GAME</h2>
+        <div class="ui">
+            <h2 style="text-align: center;">JOIN THE GAME</h2>
         </div>
     <h4 class="ui horizontal divider header">
       <i class="bar university icon"></i>
@@ -84,43 +84,105 @@
           <i class="bar diamond icon"></i>
           Drafting Characters
         </h4>
+        Characters are listed with their house colour and name. Between brackets you'll find their Prominence, Violence and Diplomacy powers.
         <div class="ui accordion field">
           <div class="title">
             <i class="icon dropdown"></i>
             HELP : How do I select my characters?
           </div>
           <div class="content field">
-            <label class="transition hidden">Maiden Name</label>
-            <input placeholder="Maiden Name" type="text" class="transition hidden">
+            <div class="ui celled ordered list">
+              <div class="item">Pick characters which excell at being <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#award-categories">violent, witty, cunning, supportive or stylish</a>.</div>
+              <div class="item">Consider their <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#prominence-multiplier">Prominence</a> - the roman numeral behind their name - Greater prominence makes it harder for them to score points.</div>
+              <div class="item">Pick at least some characters with strong Violence and Diplomany Powers - See <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv">Character Powers</a> for a full list</div>
+              <div class="item">Avoid obvious choices - they will get killed.</div>
+            </div>
+          </div>
+          <div class="title">
+            <i class="icon dropdown"></i>
+            HELP : What do the character colours mean?
+          </div>
+          <div class="content field">
+            <div class="ui divided aligned list housecolours"></div>
           </div>
         </div>
       <div class="field">
-        <label>Charachter Slot 1</label>
-        <select class="ui dropdown" name="dropdown">
-          <option value="">Select</option>
-          <option value="male">Choice 1</option>
-          <option value="female">Choice 2</option>
-        </select>
+        <label>Slot I</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+          </div>
       </div>
-            <div class="field">
-        <label>Charachter Slot 1</label>
-        <select class="ui dropdown" name="dropdown">
-          <option value="">Select</option>
-          <option value="male">Choice 1</option>
-          <option value="female">Choice 2</option>
-        </select>
+      <div class="field">
+        <label>Slot II</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
       </div>
-            <div class="field">
-        <label>Charachter Slot 1</label>
-        <select class="ui dropdown" name="dropdown">
-          <option value="">Select</option>
-          <option value="male">Choice 1</option>
-          <option value="female">Choice 2</option>
-        </select>
+        <div class="field">
+        <label>Slot III</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+          </div>
       </div>
-      <div class="ui submit button">Submit</div>
+      <div class="field">
+        <label>Slot IV</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Slot V</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Slot VI</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Slot VII</label>
+        <div class="ui fluid search selection dropdown">
+          <input type="hidden" name="char_1">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Character</div>
+          <div class="menu characters">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="fluid ui button submit inverted huge blue center">Submit</div>
       <div class="ui error message"></div>
     </form>
+    <br>
+    <br>
+    <br>
 
 </div>
 
@@ -130,8 +192,8 @@
 
 
 <script src="semantic/dist/semantic.min.js"></script>
-<script>
 
+<script>
 
 var db = new Firebase("https://ascension.firebaseio.com");
 
@@ -192,19 +254,70 @@ var is_player = function(authData){
     
 }
 
-// Messages 
+function populateCharacterDropdowns(chars){
+  var numerals = [0,'I','II','III','IV','V']
+  var colors = {
+    'bolton' : 'red',
+    'meereen' : 'brown',
+    'arryn' : 'blue',
+    'greyjoy' : 'black',
+    'martell' : 'orange',
+    'independent' : 'pink',
+    'nightswatch' : 'grey',
+    'minor' : 'olive',
+    'targaryen' : 'purple',
+    'tyrell' : 'green',
+    'lannister' : 'yellow',
+    'stark' : 'grey'
+  }
 
- $('.message .close')
-  .on('click', function() {
-    $(this)
-      .closest('.message')
-      .transition('fade')
-    ;
+  db.child('houses').once('value',function(snapshot){
+    var houses = snapshot.val();
+    for (var color in colors) {
+        if (colors.hasOwnProperty(color)) {
+          var html = '<div class="item"><i class="ui '+colors[color]+' certificate large icon"></i><div class="content" style="vertical-align: middle;">'+houses[color].name+'</div>'
+          $('.housecolours').append(html)
+        }
+    }
   })
-;
+
+  
+
+  var html = "";
+  for (var character in chars) {
+    if (chars.hasOwnProperty(character)) {
+      var char = chars[character]
+      var str = '<div class="item" data-value="'+char.id+'"><div class="ui '+colors[char.house]+' empty circular label"></div>'+char.name+ ' ('+numerals[char.prominence] +'-'+char.violence+'/'+char.diplomacy+')</div>'
+      html += str;
+    }
+  }
+  $('.menu.characters').append(html);
+
+  $('.ui.dropdown')
+      .dropdown({ fullTextSearch: true })
+    ;
+}
+
+db.child('characters').once('value', function(snapshot){
+  var characters = snapshot.val()
+  populateCharacterDropdowns(characters);
+});
+
+
+
+// Semantic UI
 
 $(document)
     .ready(function() {
+
+      $('.message .close')
+        .on('click', function() {
+          $(this)
+            .closest('.message')
+            .transition('fade')
+          ;
+        })
+      ;
 
       // create sidebar and attach to menu open
       $('.ui.sidebar')
