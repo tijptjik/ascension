@@ -10,14 +10,6 @@
 </head>
 <body>
 
-<div class="ui hidden failed negative message">
-  <i class="close icon"></i>
-  <div class="header">
-    We're sorry - Login failed for some reason.
-  </div>
-  <p>Please contact m@type.hk for support.
-</p></div>
-
 <!-- Sidebar Menu -->
 <div class="ui inverted vertical sidebar menu">
   <a href="http://tijptjik.github.io/ascension/" class="active item">Home</a>
@@ -206,17 +198,6 @@ var USER_TEMPLATE = {
         "facebook" : "",
         "games": true
     }
-
-db.authWithOAuthPopup("facebook", function(error, authData) {
-  if (error) {
-
-    $('.message.failed')
-      .transition('drop');
-
-  } else {
-    is_player(authData);
-  }
-},{'remember':'default','scope':'public_profile,email'});
 
 var is_player = function(authData){
     db.child('players')
