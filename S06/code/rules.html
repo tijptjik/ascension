@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ascension | Crossed Banners</title>
+        <link href="https://raw.githubusercontent.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css" rel="stylesheet">
+        <style>
+        @import url('http://fonts.googleapis.com/css?family=Open+Sans');
+        body {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        line-height : 28px;
+        }
+        code, pre {
+        font-family: monospace;
+        border: 1px solid #EAEAEA;
+        margin: 0 2px;
+        padding: 0 5px;
+        }
+        h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+        font-size: inherit;
+        }
+        code {
+        }
+        .container {
+        width : 960px;
+        margin : 0 auto;
+        }
+        li {
+        padding-bottom: 8px;
+        }
+        a:link,
+        a:visited {
+        color: #A1239A;
+        }
+        img {
+        max-width: 700px;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        }
+        table{
+        width:100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        empty-cells: show;
+        border: 1px solid #cbcbcb;
+        color: #777;
+        line-height: 1.6;
+        text-align: center !important;
+        }
+        thead {
+        display: table-header-group;
+        vertical-align: middle;
+        border-color: inherit;
+        background-color: #DA477C;
+        color: #FFF;
+        text-align: center;
+        }
+        tr {
+        display: table-row;
+        vertical-align: inherit;
+        border-color: inherit;
+        }
+        th, td {
+        padding: 0.5em 1em;
+        border-left: 1px solid #cbcbcb;
+        border-width: 0 0 0 1px;
+        font-size: inherit;
+        margin: 0;
+        overflow: visible;
+        }
+        td:first-child, th:first-child {
+        border-left-width: 0;
+        }
+        tr:nth-child(2n) {
+        background-color: #f2f2f2;
+        }
+        </style>
+        <style>
+        .codehilite pre .hll { background-color: #ffffcc }
+        .codehilite pre  { background: #ffffff; }
+        .codehilite pre .c { color: #888888 } /* Comment */
+        .codehilite pre .err { color: #FF0000; background-color: #FFAAAA } /* Error */
+        .codehilite pre .k { color: #008800; font-weight: bold } /* Keyword */
+        .codehilite pre .o { color: #333333 } /* Operator */
+        .codehilite pre .ch { color: #888888 } /* Comment.Hashbang */
+        .codehilite pre .cm { color: #888888 } /* Comment.Multiline */
+        .codehilite pre .cp { color: #557799 } /* Comment.Preproc */
+        .codehilite pre .c1 { color: #888888 } /* Comment.Single */
+        .codehilite pre .cs { color: #cc0000; font-weight: bold } /* Comment.Special */
+        .codehilite pre .gd { color: #A00000 } /* Generic.Deleted */
+        .codehilite pre .ge { font-style: italic } /* Generic.Emph */
+        .codehilite pre .gr { color: #FF0000 } /* Generic.Error */
+        .codehilite pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+        .codehilite pre .gi { color: #00A000 } /* Generic.Inserted */
+        .codehilite pre .go { color: #888888 } /* Generic.Output */
+        .codehilite pre .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+        .codehilite pre .gs { font-weight: bold } /* Generic.Strong */
+        .codehilite pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+        .codehilite pre .gt { color: #0044DD } /* Generic.Traceback */
+        .codehilite pre .kc { color: #008800; font-weight: bold } /* Keyword.Constant */
+        .codehilite pre .kd { color: #008800; font-weight: bold } /* Keyword.Declaration */
+        .codehilite pre .kn { color: #008800; font-weight: bold } /* Keyword.Namespace */
+        .codehilite pre .kp { color: #003388; font-weight: bold } /* Keyword.Pseudo */
+        .codehilite pre .kr { color: #008800; font-weight: bold } /* Keyword.Reserved */
+        .codehilite pre .kt { color: #333399; font-weight: bold } /* Keyword.Type */
+        .codehilite pre .m { color: #6600EE; font-weight: bold } /* Literal.Number */
+        .codehilite pre .s { background-color: #fff0f0 } /* Literal.String */
+        .codehilite pre .na { color: #0000CC } /* Name.Attribute */
+        .codehilite pre .nb { color: #007020 } /* Name.Builtin */
+        .codehilite pre .nc { color: #BB0066; font-weight: bold } /* Name.Class */
+        .codehilite pre .no { color: #003366; font-weight: bold } /* Name.Constant */
+        .codehilite pre .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+        .codehilite pre .ni { color: #880000; font-weight: bold } /* Name.Entity */
+        .codehilite pre .ne { color: #FF0000; font-weight: bold } /* Name.Exception */
+        .codehilite pre .nf { color: #0066BB; font-weight: bold } /* Name.Function */
+        .codehilite pre .nl { color: #997700; font-weight: bold } /* Name.Label */
+        .codehilite pre .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+        .codehilite pre .nt { color: #007700 } /* Name.Tag */
+        .codehilite pre .nv { color: #996633 } /* Name.Variable */
+        .codehilite pre .ow { color: #000000; font-weight: bold } /* Operator.Word */
+        .codehilite pre .w { color: #bbbbbb } /* Text.Whitespace */
+        .codehilite pre .mb { color: #6600EE; font-weight: bold } /* Literal.Number.Bin */
+        .codehilite pre .mf { color: #6600EE; font-weight: bold } /* Literal.Number.Float */
+        .codehilite pre .mh { color: #005588; font-weight: bold } /* Literal.Number.Hex */
+        .codehilite pre .mi { color: #0000DD; font-weight: bold } /* Literal.Number.Integer */
+        .codehilite pre .mo { color: #4400EE; font-weight: bold } /* Literal.Number.Oct */
+        .codehilite pre .sb { background-color: #fff0f0 } /* Literal.String.Backtick */
+        .codehilite pre .sc { color: #0044DD } /* Literal.String.Char */
+        .codehilite pre .sd { color: #DD4422 } /* Literal.String.Doc */
+        .codehilite pre .s2 { background-color: #fff0f0 } /* Literal.String.Double */
+        .codehilite pre .se { color: #666666; font-weight: bold; background-color: #fff0f0 } /* Literal.String.Escape */
+        .codehilite pre .sh { background-color: #fff0f0 } /* Literal.String.Heredoc */
+        .codehilite pre .si { background-color: #eeeeee } /* Literal.String.Interpol */
+        .codehilite pre .sx { color: #DD2200; background-color: #fff0f0 } /* Literal.String.Other */
+        .codehilite pre .sr { color: #000000; background-color: #fff0ff } /* Literal.String.Regex */
+        .codehilite pre .s1 { background-color: #fff0f0 } /* Literal.String.Single */
+        .codehilite pre .ss { color: #AA6600 } /* Literal.String.Symbol */
+        .codehilite pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+        .codehilite pre .vc { color: #336699 } /* Name.Variable.Class */
+        .codehilite pre .vg { color: #dd7700; font-weight: bold } /* Name.Variable.Global */
+        .codehilite pre .vi { color: #3333BB } /* Name.Variable.Instance */
+        .codehilite pre .il { color: #0000DD; font-weight: bold } /* Literal.Number.Integer.Long */</style><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script>
+        MathJax.Hub.Config({
+        config: ["MMLorHTML.js"],
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: false
+        },
+        TeX: {
+        extensions: ["AMSmath.js", "AMSsymbols.js"],
+        TagSide: "right",
+        TagIndent: ".8em",
+        MultLineWidth: "85%",
+        equationNumbers: {
+        autoNumber: "AMS",
+        },
+        unicode: {
+        fonts: "STIXGeneral,'Arial Unicode MS'"
+        }
+        },
+        showProcessingMessages: false
+        });
+        </script>
+        <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    </head>
+    <body class="pushable">
+        <!-- Sidebar Menu -->
+        <div class="ui inverted vertical sidebar menu">
+            <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+            <a href="rules.html" class="item">Rules</a>
+            <a class="item disabled">Leaderboard</a>
+        </div>
+        <!-- Page Contents -->
+        <div class="pusher">
+            <div class="ui vertical masthead center aligned segment">
+                <div class="ui container">
+                    <div class="ui large secondary pointing menu">
+                        <a class="toc item">
+                            <i class="sidebar icon"></i>
+                        </a>
+                        <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+                        <a href="rules.html" class="item">Rules</a>
+                        <a class="item disabled">Leaderboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="ui text container">
+                <h4 class="ui horizontal divider header">
+                        <i class="bar tophy icon"></i>
+                        Quick n Dirty
+                </h4>
+                <p>The <a href="#rules-of-the-game">Rules</a> help you to make the best decisions in picking your house and drafting your characters, but they aren&rsquo;t essential to play. To get started, you just need to sign up and pick your house and characters.</p>
+                <ol>
+                    <li><strong>Sign Up</strong>. <a href="http://goo.gl/forms/PyqkSGGuBa">Sign up</a> and pick a House. <a href="#houses">Houses</a> lend special abilities and bonuses.</li>
+                    <li><strong>Join a League</strong>. You will be assigned to a league by the Game Master. Await invite.</li>
+                    <li><strong>Pick 7 Characters for your Roster</strong>. Every episode your <a href="#characters">characters</a> compete for points in the <strong><a href="#award-categories">award categories</a></strong> (wit, damage, jockey, style and support). Players all <strong><a href="#popular-vote">vote</a></strong> for the characters who are most deserving of points in each category, so pick your characters wisely. Rosters are secret. <a href="#strategy">Follow a strategy</a>.</li>
+                    <li><strong>Watch the Weekly Episode</strong>. Watch the episode within a week of it being aired.</li>
+                    <li><strong>Cast your Weekly Votes</strong>. For each of the award categories, vote for that episode&rsquo;s winner and the runner-up . Votes are public.</li>
+                    <li><strong>Initiate Weekly Missions</strong>. Send one of your characters to gather intel, and/or assasinate characters from another roster. <strong><a href="#missions">Missions</a></strong> are secret - until they fail.</li>
+                    <li><strong>Consult the Chronicles</strong>. A chronicle is sent out to all players with the voting record, and the results from the spy and murder missions, some private, some public.</li>
+                    <li><strong>Rank on the Leaderboard</strong>. Leaderboard is updated to reflect the awarded character points.</li>
+                </ol>
+                
+                <h2 id="rules-of-the-game" class="ui horizontal divider header">
+                        <i class="bar tophy icon"></i>
+                        Rules of the Game
+                </h2>
+                <p>The game is played in a league of 12 players. Each player represents a <strong><a href="#houses">House</a></strong> and fields a <strong><a href="#character-roster">Roster</a></strong> of 7 GoT Characters. <strong><a href="#characters">Characters</a></strong> are used to score points across 5 <strong><a href="#award-categories">Award Categories</a></strong>. Points are awarded based on <strong><a href="#popular-vote">Popular Vote</a></strong> after each episode. The player with the most points at the end of the season ascends to the throne.</p>
+                <h2 id="character-roster"><a name="user-content-character-roster" href="#character-roster" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Character Roster</h2>
+                <p>A Character Roster is a selection of GoT characters a player fields for the entire game. Players may freely and secretly pick 7 <strong><a href="#characters">Characters</a></strong> to form their roster before the season starts. Players can pick the same characters. Though players represent a unique <strong><a href="#houses">House</a></strong>, they <strong>are not</strong> restricted to fielding characters from that House.</p>
+                <h2 id="award-categories"><a name="user-content-award-categories" href="#award-categories" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Award Categories</h2>
+                <p>During each episodes, characters with vie for points in the following award categories:</p>
+                <ul>
+                    <li><strong>Wit</strong> - smartest or most piercing delivery of a line.</li>
+                    <li><strong>Damage</strong> - physical and mental destruction, dealt or received.</li>
+                    <li><strong>Jockey</strong> - most cunning manoeuvring to gain or secure the Iron Throne. </li>
+                    <li><strong>Style</strong> - best look, appearance or use of props.  </li>
+                    <li><strong>Support</strong> - most helpful supporting character.</li>
+                </ul>
+                <p><img alt="" src="http://cdn.playbuzz.com/cdn/2bfd334d-a2dc-48da-a14b-f15e8bd223c6/22540de3-ba97-497e-8e11-ccac96e2967b.jpg" /></p>
+                <h2 id="houses"><a name="user-content-houses" href="#houses" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Houses</h2>
+                <p>The 12 available houses are unique and give your roster extra flavour with their <a href="#house-abilities">abilities</a> &amp; <a href="#house-bonuses">bonuses</a>. <em>Abilities</em> change the mechanics of the game, while <em>bonuses</em> change how strongly members of that house score in a particular award categories.</p>
+                <h3 id="available-houses"><a name="user-content-available-houses" href="#available-houses" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Available Houses</h3>
+                <ul>
+                    <li>House Bolton</li>
+                    <li>Council of Meereen</li>
+                    <li>House Arryn</li>
+                    <li>House Greyjoy</li>
+                    <li>House Martell</li>
+                    <li>Independents</li>
+                    <li>Night&rsquo;s Watch &amp; Free Folk</li>
+                    <li>League of Minor Orders</li>
+                    <li>House Targaryen &amp; The Dothraki</li>
+                    <li>House Tyrell</li>
+                    <li>House Lannister</li>
+                    <li>House Stark</li>
+                </ul>
+                <p>Of special note are the <strong>Council of Meereen</strong>, which consist of the formidable characters whom remained to rule Meereen at the close of Season 5; <strong>House Arryn</strong>, which might as well be called House Baelish; <strong>Independents</strong> which gather the many mystics, magicians and maniacs across both continents; <strong>Night&rsquo;s Watch &amp; Free Folk</strong> which have formed an unholy alliance; <strong>League of Minor Orders</strong> which gather nobility and clergy from the Order of the Sparrows, Slave traders from Essos, Lords of the House Frey and Ser Davos Seaworth; <strong>House Tyrell</strong> which includes their sworn bannerman from House Tarly; and <strong>House Targaryen &amp; The Dothraki</strong> which contain many of the yet-to-be-introduced characters.</p>
+                <h3 id="house-abilities"><a name="user-content-house-abilities" href="#house-abilities" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>House Abilities</h3>
+                <p>Each house has a special ability tostrategicly make use of your House&rsquo;s strengths. Be sure to consult the other houses&rsquo; abilities as well though .. assome may affect you more than your own&hellip;</p>
+                <p>Depending on the ability <code>type</code>, abilities modify the way <em><a href="#characters">prominence</a></em>, <em><a href="#diplomacy--gathering-intelligence">diplomacy</a></em>, <em><a href="#violence--attempting-murder">violence</a></em> and <em><a href="#missions">missions</a></em> work for that House. These are the interactive components of the game and are explained below. The specific modifications are detailed in the <code>grants</code> column, and the characters listed under <code>immunity</code> are impervious to damage from attack if drafted for that House. You can thus assume that House has fielded that character, though attacking them is of no use as they wouldn&rsquo;t take any damage.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>house</th>
+                            <th>ability</th>
+                            <th>type</th>
+                            <th>immunity</th>
+                            <th>grants</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>House Bolton</td>
+                            <td>Fifty Shade of Flay</td>
+                            <td>violence</td>
+                            <td>-</td>
+                            <td>Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% *$ target&rsquo;s prominence power</td>
+                        </tr>
+                        <tr>
+                            <td>Council of Meereen</td>
+                            <td>A Little Bird Told Me</td>
+                            <td>diplomacy</td>
+                            <td>Varys</td>
+                            <td>Knowledge of all diplomatic missions against this House</td>
+                        </tr>
+                        <tr>
+                            <td>House Arryn</td>
+                            <td>Littlefinger&rsquo;s Brothel</td>
+                            <td>diplomacy</td>
+                            <td>Petyr Baelish</td>
+                            <td>Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission</td>
+                        </tr>
+                        <tr>
+                            <td>House Greyjoy</td>
+                            <td>Valar Morghulis</td>
+                            <td>violence</td>
+                            <td>Theon Greyjoy</td>
+                            <td>Theon splatter damage. On a succesful attack by Theon, <strong>all</strong> characters of the other roster take $5\%$ damage</td>
+                        </tr>
+                        <tr>
+                            <td>House Martell</td>
+                            <td>Sand Snakes</td>
+                            <td>violence</td>
+                            <td>-</td>
+                            <td>All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target&rsquo;s roster</td>
+                        </tr>
+                        <tr>
+                            <td>Independents</td>
+                            <td>Valar Dohaeris</td>
+                            <td>violence</td>
+                            <td>Jaqen H&rsquo;ghar</td>
+                            <td>The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House&rsquo;s Roster</td>
+                        </tr>
+                        <tr>
+                            <td>Night&rsquo;s Watch &amp; Free Folk</td>
+                            <td>Beyond the Wall</td>
+                            <td>diplomacy</td>
+                            <td>-</td>
+                            <td>Dissemination of misinformation. Chance of <em>false</em> intel to be recovered in diplomatic missions run against this house is $50\%$</td>
+                        </tr>
+                        <tr>
+                            <td>League of Minor Orders</td>
+                            <td>Rank &amp; File</td>
+                            <td>prominence</td>
+                            <td>-</td>
+                            <td>Characters with Prominence Power 1 and 2, now multiply their Score with $5$ and $6$ instead of $4$ and $5$</td>
+                        </tr>
+                        <tr>
+                            <td>House Targaryen &amp; Dothraki</td>
+                            <td>Bloodriders</td>
+                            <td>violence</td>
+                            <td>-</td>
+                            <td>All Characters on this House&rsquo;s Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character</td>
+                        </tr>
+                        <tr>
+                            <td>House Tyrell</td>
+                            <td>Poisoned Roses</td>
+                            <td>missions</td>
+                            <td>-</td>
+                            <td>Full Secrecy. Missions are <em>never</em> revealed. Not even to the Council of Mereen</td>
+                        </tr>
+                        <tr>
+                            <td>House Lannister</td>
+                            <td>Lannister&rsquo;s Word</td>
+                            <td>missions</td>
+                            <td>-</td>
+                            <td>All performance penalties for running missions are waived - The debts have been paid.</td>
+                        </tr>
+                        <tr>
+                            <td>House Stark</td>
+                            <td>The North Remembers</td>
+                            <td>diplomacy</td>
+                            <td>-</td>
+                            <td>Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House&rsquo;s behest</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 id="house-bonuses"><a name="user-content-house-bonuses" href="#house-bonuses" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>House Bonuses</h3>
+                <p>House Bonuses reveal their strengths and advantages over the other Houses. They are applied to the respective <a href="#award-categories">award</a> scores of any of the characters on a player&rsquo;s <a href="#roster">Roster</a>. The House Bonueses are distributed as follows:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="center">House</th>
+                            <th align="center">wit</th>
+                            <th align="center">damage</th>
+                            <th align="center">jockey</th>
+                            <th align="center">style</th>
+                            <th align="center">support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center">House Bolton</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                        </tr>
+                        <tr>
+                            <td align="center">Council of Meereen</td>
+                            <td align="center">20</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                        </tr>
+                        <tr>
+                            <td align="center">House Arryn</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">20</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                        </tr>
+                        <tr>
+                            <td align="center">House Greyjoy</td>
+                            <td align="center">-</td>
+                            <td align="center">20</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                        </tr>
+                        <tr>
+                            <td align="center">House Martell</td>
+                            <td align="center">5</td>
+                            <td align="center">5</td>
+                            <td align="center">5</td>
+                            <td align="center">5</td>
+                            <td align="center">5</td>
+                        </tr>
+                        <tr>
+                            <td align="center">Independents</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                            <td align="center">10</td>
+                        </tr>
+                        <tr>
+                            <td align="center">Night&rsquo;s Watch &amp; Free Folk</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                        </tr>
+                        <tr>
+                            <td align="center">League of Minor Orders</td>
+                            <td align="center">10</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                        </tr>
+                        <tr>
+                            <td align="center">House Targaryen &amp; Dothraki Horde</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                            <td align="center">10</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                        </tr>
+                        <tr>
+                            <td align="center">House Tyrell</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">20</td>
+                            <td align="center">-</td>
+                        </tr>
+                        <tr>
+                            <td align="center">House Lannister</td>
+                            <td align="center">10</td>
+                            <td align="center">-</td>
+                            <td align="center">10</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                        </tr>
+                        <tr>
+                            <td align="center">House Stark</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">-</td>
+                            <td align="center">20</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>For example, if Player A has House Bolton, and Player B has House Stark, if Sansa Stark is on both their rosters, and scores 100 points in the Damage category - pending any further modification by health, missions, house abilities - Player A would apply its 10% bonus  and be awarded 110 points, whereas Player B would not have any House Bonus and be awarded 100 points.</p>
+                <p><img alt="" src="http://cdn0.dailydot.com/cache/55/53/55533daaa880e88328d55b821e00e2d9.jpg" /></p>
+                <h2 id="characters"><a name="user-content-characters" href="#characters" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Characters</h2>
+                <p>Other than their ability to bring in points in the award categories, a character also has four traits which define their role and value in the game.</p>
+                <ul>
+                    <li><strong>House</strong>, affiliation with a major or minor house, a cult, guild or the independents.</li>
+                    <li><strong>Prominence</strong>, how central they are to Game of Thrones.</li>
+                    <li><strong>Violence</strong>, how deadly they are.</li>
+                    <li><strong>Diplomacy</strong>, how good they are at gathering intelligence</li>
+                </ul>
+                <p><strong>IMPORTANT : Prominence determines the score multiplier for the character</strong></p>
+                <p>The higher the prominence, the lower the multiplier. See <a href="#prominence-multiplier">Prominence Multiplier</a> for details. </p>
+                <h3 id="available-characters"><a name="user-content-available-characters" href="#available-characters" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Available Characters</h3>
+                <p>All 88 available characters have an <a href="#appendix--characters">affiliation &amp; powers</a> and have a <a href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bios.csv">bios</a> to remind you who they are.</p>
+                <p><img alt="" src="http://nerdapproved.com/wp-content/uploads/2013/11/all_the_kills_in_the_game_of_thrones_by_studioincandescence-d6v5lvj.jpg" /></p>
+                <h2 id="missions"><a name="user-content-missions" href="#missions" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Missions</h2>
+                <p>Missions are at the heart of <em>Ascension II : Crossed Banners</em>. This is where <em>Crossed Banners</em> and regular fantasy leagues diverge. Besides the typical voting, you can now also send two of your characters on missions after each episode.</p>
+                <p>The objective of missions is to eliminate characters from other player&rsquo;s rosters. You achieve this by sending one of your characters to assisinate a <em>specific</em> character from a <em>specific</em> opponent&rsquo;s roster. The challenge being that rosters are secret, so you&rsquo;ll need to run spy missions to uncover who are amongst their ranks. </p>
+                <p>Under the guise of diplomacy you may learn enough about another roster to take out some of its characters. Running spy is similar to the game of <a href="https://en.wikipedia.org/wiki/Mastermind_(board_game)">Mastermind</a>, but instead of colour codes you get intel on the roster&rsquo;s affiliations, prominence, violence and diplomacatic power.</p>
+                <ul>
+                    <li><strong>N.B.</strong> Sending your character on a mission, gives them a performance penalty for that episode. The percentage depends on their Diplomacy/Violence Power.</li>
+                </ul>
+                <h3 id="diplomacy-gathering-intelligence"><a name="user-content-diplomacy-gathering-intelligence" href="#diplomacy-gathering-intelligence" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Diplomacy : Gathering Intelligence</h3>
+                <p>For slaughter to be somewhat effective, it needs to be somewhat discriminate. You thus have diplomatatic missions at your disposal to gather intelligence on another player&rsquo;s roster. At the outset all rosters but your own are secret, but through whatever means available you can piece together which characters your opponents have fielded.</p>
+                <p>You initiate a diplomatic missions every week in the same form as you cast your votes on, by sending one of your characters to spy on a specific House. Diplomatic Missions can recover intel on the <em>roster</em> composition, or intel on a specific <em>character</em>. </p>
+                <ul>
+                    <li><strong>Roster</strong> intel example : &lsquo;There are more Starks than Lannisters, both at least one&rsquo;</li>
+                    <li><strong>Character</strong> intel example  : &lsquo;This character has more diplomacy than prominence, but less damage than both&rsquo;</li>
+                </ul>
+                <p>Which one you target and how many pieces of intel you retrieve depends on the Diplomacy Power of the Character you dispatch:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="center">power</th>
+                            <th align="center">intel target</th>
+                            <th align="center">intel count</th>
+                            <th align="center">performance penalty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center">1</td>
+                            <td align="center">roster</td>
+                            <td align="center">1</td>
+                            <td align="center">0%</td>
+                        </tr>
+                        <tr>
+                            <td align="center">2</td>
+                            <td align="center">roster</td>
+                            <td align="center">2</td>
+                            <td align="center">25%</td>
+                        </tr>
+                        <tr>
+                            <td align="center">3</td>
+                            <td align="center">roster</td>
+                            <td align="center">3</td>
+                            <td align="center">50%</td>
+                        </tr>
+                        <tr>
+                            <td align="center">4</td>
+                            <td align="center">character</td>
+                            <td align="center">1</td>
+                            <td align="center">0%</td>
+                        </tr>
+                        <tr>
+                            <td align="center">5</td>
+                            <td align="center">character</td>
+                            <td align="center">2</td>
+                            <td align="center">25%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Character Intel missions are special, as the intel is always gathered <strong>on the same character</strong> until they are attacked. This targetting of a single character means that you can build up a file on that character to make sure you&rsquo;re killing the right character. However, the consistent target is only specific to your mission. If another player runs a character intel missions against the same house, they may be locked on to a different character. So the intel can&rsquo;t be as easily combined.</p>
+                <p>There is a performance penalty for the characters sent on a mission, i.e. a Diplomacy Power 3 Character may be three times as effective at gather roster intel as a Diplomacy Power 1 character, but they will only award the player 50% of their total points that episode. </p>
+                <p>Rosters are secret, intelligence is&hellip; but doesn&rsquo;t have to be. You may form informal allegiances with other players, and coordinate diplomatic missions and share the intel between you.</p>
+                <h3 id="violence-attempting-murder"><a name="user-content-violence-attempting-murder" href="#violence-attempting-murder" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Violence : Attempting Murder</h3>
+                <p>Once you&rsquo;ve cleared sufficient doubt which House has a particular Character you&rsquo;d want to damage, you can send in one of your assassins to take them out. The purpose of killing off characters is (1) to prevent them from scoring any more points for their house, (2) to claim the bounty award which goes up to 240 points. </p>
+                <ul>
+                    <li>Each week you&rsquo;re given a single opportunity to order <em>one</em> of your characters to attempt to kill another player&rsquo;s character. </li>
+                    <li>You send them on a mission by selecting the target House, and the target Character.</li>
+                    <li>You&rsquo;ll only be presented with Characters which have been fielded in at least one roster for the game.</li>
+                    <li>Attempts can be either succesful or fail.</li>
+                    <li><strong>Succesful Attempts</strong><ul>
+                        <li>Result in the target taking immediate health damage according to the Damage Power of the Assassin. The effects limit the target&rsquo;s scoring potential for the <em>current</em> episode.</li>
+                        <li>Character deaths and damage are publicly reported in the Chronicle - though the names are only revealed if they die.</li>
+                        <li>The guilty party is not mentioned.</li>
+                        <li>The guilty party claims a bounty of 2.4 points per % damage dealt. So killing a character who had full health awards 240 points, knocking 25% off of a character&rsquo;s health awards 60 points. 240 points is the equivalent of every player voting your character as the winner in a award category.</li>
+                    </ul>
+                </li>
+                <li><strong>Failed Attempts</strong><ul>
+                    <li>Backfire terribly. If you guessed the wrong character on your opponent&rsquo;s roster, it will be published in the Chronicle that you made an attempt and failed, mentioning your house, and the house you were targeting.</li>
+                    <li>The player you attacked receives two items of Roster Intelligence from torturing your assassin.</li>
+                    <li>The player you attacked also receives the assassin&rsquo;s Affiliation, Prominence and Violence Power.</li>
+                </ul>
+            </li>
+        </ul>
+        <p>The degree of damage and success rate is determined by the assassin&rsquo;s Violence Power:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th align="center">power</th>
+                    <th align="center">damage</th>
+                    <th align="center">success rate</th>
+                    <th align="center">performance penalty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="center">1</td>
+                    <td align="center">100%</td>
+                    <td align="center">25%</td>
+                    <td align="center">50%</td>
+                </tr>
+                <tr>
+                    <td align="center">2</td>
+                    <td align="center">25%</td>
+                    <td align="center">100%</td>
+                    <td align="center">25%</td>
+                </tr>
+                <tr>
+                    <td align="center">3</td>
+                    <td align="center">50%</td>
+                    <td align="center">100%</td>
+                    <td align="center">0%</td>
+                </tr>
+                <tr>
+                    <td align="center">4</td>
+                    <td align="center">75%</td>
+                    <td align="center">100%</td>
+                    <td align="center">25%</td>
+                </tr>
+                <tr>
+                    <td align="center">5</td>
+                    <td align="center">100%</td>
+                    <td align="center">100%</td>
+                    <td align="center">50%</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>Damage is <em>not</em> commulative. So if you deal 50% damage in one round, running the same assassination attempt will not kill the player. You&rsquo;d need to send a lethal assassin</li>
+            <li>Certain House / Character combinations grant them immunity from attack.</li>
+            <li>There is a performance penalty for the characters sent on a mission, i.e. a while a Violence Power 5 character results in the death of the target character if succesful, it limits their scoring performance for that episode by 50%, whereas a Violence Power 3 character would only do 50% health damage, not lose any points.</li>
+        </ul>
+        <p><img alt="" src="https://cdn2.vox-cdn.com/thumbor/VG_qYOjL0C2YRsEIR35-gUxKQtY=/cdn0.vox-cdn.com/uploads/chorus_asset/file/3624416/finalvote.0.gif" /></p>
+        <h2 id="popular-vote"><a name="user-content-popular-vote" href="#popular-vote" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Popular Vote</h2>
+        <p>Players can log in to the Ascension game with the Facebook account they signed up with. They may then vote for both the winner and the runner-up (i.e. top 2) in each <a href="#award-categories">Award Category</a>. Scoring is done each Saturday at 12:00 Hong Kong time. Votes and Missions which have not been cast will not be considered.</p>
+        <h3 id="scoring-and-awarding-points"><a name="user-content-scoring-and-awarding-points" href="#scoring-and-awarding-points" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Scoring and Awarding Points</h3>
+        <p>A winning vote counts for 20 points, a runner-up vote scores 8 points. Characters rack up points in each award category, but before they are <em>awarded</em> to the players who fielded them, the points are first modified by the character&rsquo;s health (lower health is a negative multiplier) and a player&rsquo;s character and award category bonuses (bonuses are positive multipliers). In sum, <strong>Characters</strong> <em>score</em> points based on <em>votes</em>, <strong>Players</strong> are <em>awarded</em> points based on their character&rsquo;s <em>score</em>, <em>health</em> and <em>bonus multipliers</em>. A player&rsquo;s points across their characters are summed up which becomes their episode score. The sum of the episode scores after 10 episodes is the season score, which determines the winner.</p>
+        <h3 id="prominence-multiplier"><a name="user-content-prominence-multiplier" href="#prominence-multiplier" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Prominence Multiplier</h3>
+        <p>Gaining points from your characters is subject to a &lsquo;prominence multiplier&rsquo; - whatever score the character should have been awarded based on points scored, is further multiplied by $6 - chararcter.prominance$. This is to attempt to get characters to wield points in the same order of magnitude regardless of their prominence in the world. E.g. if a top-tier (i.e. Prominence Power 5) character scores 100 points, they will not have their score modified - $(6-5) * 100 = 100$. If, however, the lowest-tier (i.e. Prominence Power 1) character scores 20 points, that will award the player the same number of points - $(6-1) * 20 = 100$.</p>
+        <h3 id="voting-for-your-own-characters"><a name="user-content-voting-for-your-own-characters" href="#voting-for-your-own-characters" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Voting for your own Characters</h3>
+        <p>While it is possible to vote for characters on your own roster - smart move! You&rsquo;re basically awarding yourself points! Though, as votes are public record, it might send a strong signal that you fielded this character, attracting unwanted, even murderous attention. The only exception to this rule are characters whom due to <a href="#house-abilities">House Abilities</a> are immune from attack. Your votes for these character will award you no additional points.</p>
+        <p><img alt="" src="http://vignette4.wikia.nocookie.net/gameofthrones/images/8/8c/Eddard's_letter.jpg/revision/latest?cb=20110615154308" /></p>
+        <h2 id="chronicle"><a name="user-content-chronicle" href="#chronicle" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Chronicle</h2>
+        <p>After all the votes have been cast, missions are resolved and a report is sent out to all the players informing them about the outcome of their missions, the points they&rsquo;ve scored in the respective award categories, and the most up to date leaderboard.</p>
+        <p><img alt="" src="http://www.webtvdeluxe.com/wp-content/uploads/2012/05/RobStark.png" /></p>
+        <h2 id="strategy"><a name="user-content-strategy" href="#strategy" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Strategy</h2>
+        <p><strong>UNDER DEVELOPMENT</strong></p>
+        <h3 id="picking-your-characters"><a name="user-content-picking-your-characters" href="#picking-your-characters" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Picking Your Characters</h3>
+        <ul>
+            <li>Don&rsquo;t get killed.</li>
+            <li>Play to your House&rsquo;s advantages.</li>
+            <li>TODO</li>
+        </ul>
+        <h3 id="gathering-intelligence"><a name="user-content-gathering-intelligence" href="#gathering-intelligence" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Gathering Intelligence</h3>
+        <ul>
+            <li>TODO</li>
+        </ul>
+        <h3 id="assassinations"><a name="user-content-assassinations" href="#assassinations" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Assassinations</h3>
+        <ul>
+            <li>TODO</li>
+        </ul>
+        <h3 id="voting"><a name="user-content-voting" href="#voting" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Voting</h3>
+        <ul>
+            <li>TODO</li>
+        </ul>
+        <h2 id="appendix-characters"><a name="user-content-appendix-characters" href="#appendix-characters" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Appendix : Characters</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>house</th>
+                    <th>prominence</th>
+                    <th>violence</th>
+                    <th>diplomacy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Petyr Baelish</td>
+                    <td>arryn</td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Yohn Royce</td>
+                    <td>arryn</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Robin Arryn</td>
+                    <td>arryn</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Marei</td>
+                    <td>arryn</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Ramsay Bolton</td>
+                    <td>bolton</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Roose Bolton</td>
+                    <td>bolton</td>
+                    <td>3</td>
+                    <td>5</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Walda Bolton</td>
+                    <td>bolton</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Theon Greyjoy</td>
+                    <td>greyjoy</td>
+                    <td>4</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Yara Greyjoy</td>
+                    <td>greyjoy</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Balon Greyjoy</td>
+                    <td>greyjoy</td>
+                    <td>3</td>
+                    <td>5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Euron Greyjoy</td>
+                    <td>greyjoy</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>The Night&rsquo;s King</td>
+                    <td>independent</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Melisandre</td>
+                    <td>independent</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Jaqen H&rsquo;ghar</td>
+                    <td>independent</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Arya Stark</td>
+                    <td>independent</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Three Eyed Raven</td>
+                    <td>independent</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>The Waif</td>
+                    <td>independent</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Thoros</td>
+                    <td>independent</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Izembaro</td>
+                    <td>independent</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Kinvara</td>
+                    <td>independent</td>
+                    <td>1</td>
+                    <td>4</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Cersei Lannister</td>
+                    <td>lannister</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Jaime Lannister</td>
+                    <td>lannister</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Tommen Baratheon</td>
+                    <td>lannister</td>
+                    <td>4</td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Bronn</td>
+                    <td>lannister</td>
+                    <td>3</td>
+                    <td>5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Qyburn</td>
+                    <td>lannister</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Gregor Clegane</td>
+                    <td>lannister</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Kevan Lannister</td>
+                    <td>lannister</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Pycelle</td>
+                    <td>lannister</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Shae</td>
+                    <td>lannister</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Myrcella Baratheon</td>
+                    <td>lannister</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Ellaria Sand</td>
+                    <td>martell</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Obara Sand</td>
+                    <td>martell</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Doran Martell</td>
+                    <td>martell</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Nymeria Sand</td>
+                    <td>martell</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Areo Hotah</td>
+                    <td>martell</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Tyene Sand</td>
+                    <td>martell</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Trystane Martell</td>
+                    <td>martell</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Tyrion Lannister</td>
+                    <td>meereen</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Varys</td>
+                    <td>meereen</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Grey Worm</td>
+                    <td>meereen</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Missandei</td>
+                    <td>meereen</td>
+                    <td>3</td>
+                    <td>1</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>The High Sparrow</td>
+                    <td>minor</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Davos Seaworth</td>
+                    <td>minor</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Walder Frey</td>
+                    <td>minor</td>
+                    <td>2</td>
+                    <td>5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Yezzan zo Qaggaz</td>
+                    <td>minor</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Lancel</td>
+                    <td>minor</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Unella</td>
+                    <td>minor</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Lothar Frey</td>
+                    <td>minor</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Razdal mo Eraz</td>
+                    <td>minor</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Walder Rivers</td>
+                    <td>minor</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Jon Snow</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Tormund Giantsbane</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Alliser Thorne</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Eddison Tollett</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Olly</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Bowen Marsh</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Othell Yarwyck</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Wun Wun</td>
+                    <td>night&rsquo;s watch-free folk</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Sansa Stark</td>
+                    <td>stark</td>
+                    <td>5</td>
+                    <td>2</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Brienne of Tarth</td>
+                    <td>stark</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Bran Stark</td>
+                    <td>stark</td>
+                    <td>4</td>
+                    <td>2</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Hodor</td>
+                    <td>stark</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Podrick Payne</td>
+                    <td>stark</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Meera Reed</td>
+                    <td>stark</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Osha</td>
+                    <td>stark</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Brynden Tully</td>
+                    <td>stark</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Rickon Stark</td>
+                    <td>stark</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Smalljon Umber</td>
+                    <td>stark</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Harald Karstark</td>
+                    <td>stark</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Edmure Tully</td>
+                    <td>stark</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Daenerys Targaryen</td>
+                    <td>targaryen-dothraki</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Daario Naharis</td>
+                    <td>targaryen-dothraki</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Jorah Mormont</td>
+                    <td>targaryen-dothraki</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Moro</td>
+                    <td>targaryen-dothraki</td>
+                    <td>3</td>
+                    <td>5</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Rhalko</td>
+                    <td>targaryen-dothraki</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Forzo</td>
+                    <td>targaryen-dothraki</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Ahko</td>
+                    <td>targaryen-dothraki</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Qhono</td>
+                    <td>targaryen-dothraki</td>
+                    <td>1</td>
+                    <td>4</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Margaery Tyrell</td>
+                    <td>tyrell</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Samwell Tarly</td>
+                    <td>tyrell</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Olenna Tyrell</td>
+                    <td>tyrell</td>
+                    <td>4</td>
+                    <td>1</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Loras Tyrell</td>
+                    <td>tyrell</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Gilly</td>
+                    <td>tyrell</td>
+                    <td>3</td>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Randyll Tarly</td>
+                    <td>tyrell</td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Mace Tyrell</td>
+                    <td>tyrell</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Dickon Tarly</td>
+                    <td>tyrell</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Melessa Tarly</td>
+                    <td>tyrell</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Talla Tarly</td>
+                    <td>tyrell</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2 id="appendix-characters-bios"><a name="user-content-appendix-characters-bios" href="#appendix-characters-bios" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Appendix : Characters Bios</h2>
+        <p>UNDER DEVELOPMENT</p>
+    </div>
+</body>
+</html>
