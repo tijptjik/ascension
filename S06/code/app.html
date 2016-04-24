@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ascension | Crossed Banners</title>
+	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+	<script src="semantic/dist/semantic.min.js"></script>
+	<meta content='width=device-width, initial-scale=1' name='viewport'/>
+	<script>
+	  $(document)
+	    .ready(function() {
+
+	      // create sidebar and attach to menu open
+	      $('.ui.sidebar')
+	        .sidebar('attach events', '.toc.item')
+	      ;
+
+	    })
+	  ;
+	  </script>
+</head>
+<body>
+
+<div class="ui hidden failed negative message">
+  <i class="close icon"></i>
+  <div class="header">
+    We're sorry - Login failed for some reason.
+  </div>
+  <p>Please contact m@type.hk for support.
+</p></div>
+
+<!-- Sidebar Menu -->
+<div class="ui inverted vertical sidebar menu">
+  <a href="http://tijptjik.github.io/ascension/" class="active item">Home</a>
+  <a href="http://ascension.hype.hk" class="item">Rules</a>
+  <a class="item disabled">Leaderboard</a>
+</div>
+
+
+<!-- Page Contents -->
+<div class="pusher">
+  <div class="ui vertical masthead center aligned segment">
+
+    <div class="ui container">
+      <div class="ui large secondary pointing menu">
+        <a class="toc item">
+          <i class="sidebar icon"></i>
+        </a>
+        <a href="http://tijptjik.github.io/ascension/" class="active item">Home</a>
+  		<a href="http://ascension.hype.hk" class="item">Rules</a>
+  		<a class="item disabled">Leaderboard</a>
+      </div>
+    </div>
+
+  </div>
+ </div>
+
+
+
+
+<script>
+
+
+var db = new Firebase("https://ascension.firebaseio.com");
+
+var USER_TEMPLATE = {
+		"full_name" : "",
+		"first_name" : "",
+		"alias" : "",
+		"alias_short" : "",
+		"email": "",
+		"facebook" : "",
+		"games": true
+	}
+
+db.authWithOAuthPopup("facebook", function(error, authData) {
+  if (error) {
+    console.log("Login Failed!", error);
+
+    $('.message.failed')
+	  .transition('drop');
+
+  } else {
+    is_player(authData);
+  }
+},{'remember':'default','scope':'public_profile,email'});
+
+var is_player = function(authData){
+	db.child('players')
+	  .child(authData.uid)
+	  .once('value', function(snapshot){
+	    // if data exists
+	    if (snapshot.exists()) {
+	        // get the ref (in this case /users/2) and update its contents
+	        console.log("User exists!");
+	        // snapshot.ref().update(user);
+	    } else {
+			console.log('new')
+	        // data does not exist so we wrap the data in an object with
+	        // a member named after the uid so we can pass it as an update
+	        // to the parent.
+	        var fb = authData.facebook;
+	        var payload = {};
+	        	user = USER_TEMPLATE;
+	        	user['full_name'] = fb.displayName;
+	        	user['email'] = fb.email;
+	        	user['facebook'] = fb.id;
+	        	try{
+	        		user['first_name'] = fb.cachedUserProfile.first_name;
+	        	}
+	        	catch(e){
+	        		user['first_name'] = 'Anon';	
+	        	}
+
+	            payload[authData.uid] = user;
+	        // get the ref's parent and call update on it.
+	        snapshot.ref().parent().update(payload);
+	    }
+	});
+	
+}
+
+// Messages 
+
+ $('.message .close')
+  .on('click', function() {
+    $(this)
+      .closest('.message')
+      .transition('fade')
+    ;
+  })
+;
+
+
+</script>
+</body>
+</html>

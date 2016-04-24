@@ -1,0 +1,13 @@
+{
+"houses" : true,
+"characters" : true,
+"episodes" : true,
+"leagues" : {
+	"westeros" : true,
+	"essos" : true
+	},
+"players" : true,
+"rosters" : true,
+"votes" : true,
+"missions" : true
+}

@@ -1,0 +1,20 @@
+.masthead {
+	background: url('assets/images/game/masthead.jpg') !important;
+	background-position: center center !important;
+	background-size: cover !important;
+	height: 300px;
+	margin-bottom: 40px !important;
+}
+
+.masthead .primary.button {
+	position: relative;
+	bottom:-190px;
+}
+
+.description h3.ui {
+	text-transform: uppercase;
+	text-align: center;
+}
+.description p {
+	text-align: justify;
+}

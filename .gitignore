@@ -1,2 +1,5 @@
 *.ipynb_checkpoints
 .~lock*
+semantic/
+node_modules/
+bower_components/
