@@ -1,8 +1,9 @@
 *.ipynb_checkpoints
 .~lock*
-semantic/gulpfile.js
-semantic/src/
-semantic/tasks/
+S06/code/semantic/gulpfile.js
+S06/code/semantic/src/
+S06/code/semantic/tasks/
+
 node_modules/
 bower_components/
 ascension-export.json
