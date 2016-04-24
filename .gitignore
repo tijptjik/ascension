@@ -3,3 +3,5 @@
 semantic/
 node_modules/
 bower_components/
+ascension-export.json
+ascension-import.json

@@ -13,6 +13,7 @@
 "characters" : {
 	"<character_id>" : {
 		"name"  : "Petyr Baelish",
+		"id"    : "petyrbaelish",
 		"bio"  : "Popularly called Littlefinger, a skilled manipulator and uses his ownership of brothels in King's Landing to both accrue intelligence on political rivals and acquire vast wealth.",
 		"house" : "<house_id>",
 		"prominence" : 5,

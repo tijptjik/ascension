@@ -1,13 +1,13 @@
-house,ability,type,immunity,notes
-House Bolton,Fifty Shade of Flay,violence,-,$15% * target.prominence$ chance of dealing back attack to the attacking party
-Council of Meereen,A Little Bird Told Me,diplomacy,Varys,All diplomacy attempt against the Council of Mereen are known
-House Arryn,Littlefinger's Brothel,diplomacy,Petyr Baelish,50% chance of recovering intel from the source of diplomatic missions run against you
-House Greyjoy,Valar Morghulis,violence,Theon Greyjoy,"On a succesful attack by Theon, **all** characters of the other roster take **5%** damage"
-House Martell,Sand Snakes,violence,-,"if the total prominence of your roster is lower than the prominence of the target's deck, all attacks become lethal"
-Independents,Valar Dohaeris,violence,Jaqen H'ghar,"if a faceless man kills someone, they join your ranks"
-Night's Watch & Free Folk,Beyond the Wall,diplomacy,-,Return _fale intel 50% of the time. 
-League of Minor Orders,Rank & File,prominence,-,"Characters with Prestige Power 1 and 2, now multiply their score with 5 and 6"
-House Targaryen & Dothraki Horde,Bloodriders,violence,-,"On a succesful attack by a Dothraki character, **all** characters on the Targaryen roster take **5%** bonus."
-House Tyrell,Poisoned Roses,missions,-,Missions are _never_ revealed
-House Lannister,Lannister's Word,missions,-,The debt has already been paid - no performance penalty for running missions.
-House Stark,The North Remembers,diplomacy,-,"Each episode, an addition Level 3 Diplomatic mission is run against a random roster on your behest. "
+id,house,ability,type,immunity,grants
+bolton,House Bolton,Fifty Shade of Flay,violence,-,Chance that an attack on this House backfires and retargets the assassin itself - Chance is 15% ∗ target’s prominence power
+meereen,Council of Meereen,A Little Bird Told Me,diplomacy,Varys,Knowledge of all diplomatic missions against this House
+arryn,House Arryn,Littlefinger’s Brothel,diplomacy,Petyr Baelish,"Chance of recovering intel from the source of diplomatic missions run against this house - Chance is 50%, intel at same level as the mission"
+greyjoy,House Greyjoy,Valar Morghulis,violence,Theon Greyjoy,"Theon splatter damage. On a succesful attack by Theon,all characters of the other roster take 5% damage"
+martell,House Martell,Sand Snakes,violence,-,"All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target’s roster"
+independent,Independents,Valar Dohaeris,violence,Jaqen H’ghar,"The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House’s Roster"
+nightswatch,Night’s Watch & Free Folk,Beyond the Wall,diplomacy,-,Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is 50%
+minor,League of Minor Orders,Rank & File,prominence,-,"Characters with Prominence Power 1 and 2, now multiply their Score with 5 and 6 instead of 4 and 5"
+targaryen,House Targaryen & Dothraki,Bloodriders,violence,-,All Characters on this House’s Roster gain 5% Bonus on a succesful attack by a Dothraki Character
+tyrell,House Tyrell,Poisoned Roses,missions,-,Full Secrecy. Missions are never revealed. Not even to the Council of Mereen
+lannister,House Lannister,Lannister’s Word,missions,-,All performance penalties for running missions are waived - The debts have been paid.
+stark,House Stark,The North Remembers,diplomacy,-,Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House’s behest
