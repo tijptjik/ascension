@@ -6,7 +6,10 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
-    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+
+
 </head>
 <body>
 
@@ -35,7 +38,7 @@
   </div>
 
 <div class="ui text container">
-    <form class="ui form">
+    <form class="ui form huge">
         <div class="ui">
             <h2 style="text-align: center;">JOIN THE GAME</h2>
         </div>
@@ -248,7 +251,7 @@ function populateCharacterDropdowns(chars){
     var houses = snapshot.val();
     for (var house in colors) {
         if (colors.hasOwnProperty(house)) {
-          var html = '<div class="item"><i class="ui '+colors[house]+' certificate large icon"></i><div class="content" style="vertical-align: middle;">'+houses[house].name+'</div>'
+          var html = '<div class="item huge"><i class="ui '+colors[house]+' certificate large icon"></i><div class="content huge" style="vertical-align: middle;">'+houses[house].name+'</div>'
           $('.housecolours').append(html);
           $('select[name="house"]').append('<option value="'+house+'">'+houses[house].name+'</option>');
         }
@@ -261,7 +264,7 @@ function populateCharacterDropdowns(chars){
   for (var character in chars) {
     if (chars.hasOwnProperty(character)) {
       var char = chars[character]
-      var str = '<div class="item" data-value="'+char.id+'"><div class="ui '+colors[char.house]+' empty circular label"></div>'+char.name+ ' ('+numerals[char.prominence] +'-'+char.violence+'/'+char.diplomacy+')</div>'
+      var str = '<div class="item huge" data-value="'+char.id+'"><div class="ui '+colors[char.house]+' empty circular label"></div>'+char.name+ ' ('+numerals[char.prominence] +'-'+char.violence+'/'+char.diplomacy+')</div>'
       html += str;
     }
   }
