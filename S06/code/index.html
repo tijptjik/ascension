@@ -4,19 +4,12 @@
 		<title>Ascension | Crossed Banners</title>
 		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 		<link rel="stylesheet" type="text/css" href="style.css">
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+	    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+	    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 		<script src="semantic/dist/semantic.min.js"></script>
-		<meta content='width=device-width, initial-scale=1' name='viewport'/>
-		<script>
-		$(document)
-		.ready(function() {
-		// create sidebar and attach to menu open
-		$('.ui.sidebar')
-		.sidebar('attach events', '.toc.item')
-		;
-		})
-		;
-		</script>
+
+	    <meta content='width=device-width, initial-scale=1' name='viewport'/>
 	</head>
 	<body>
 		<!-- Sidebar Menu -->
@@ -42,7 +35,7 @@
 					<h1 class="ui inverted header">
 					<!-- Ascension | Crossed Banners -->
 					</h1>
-					<div class="ui huge primary button">Play<i class="right arrow icon"></i></div>
+					<div class="ui huge play primary button">Play<i class="right arrow icon"></i></div>
 				</div>
 			</div>
 			<div class="ui hidden failed negative message">
@@ -69,35 +62,6 @@
 						</div>
 					</div>
 				</div>
-				<!--   <div class="ui vertical stripe quote segment">
-					<div class="ui equal width stackable internally celled grid">
-						<div class="center aligned row">
-							<div class="column">
-								<h3>"What a Company"</h3>
-								<p>That is what they all say about us</p>
-							</div>
-							<div class="column">
-								<h3>"I shouldn't have gone with their competitor."</h3>
-								<p>
-									<img src="assets/images/avatar/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun Officer Acme Toys
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="ui vertical stripe segment">
-					<div class="ui text container">
-						<h3 class="ui header">Breaking The Grid, Grabs Your Attention</h3>
-						<p>Instead of focusing on content creation and hard work, we have learned how to master the art of doing nothing by providing massive amounts of whitespace and generic content that can seem massive, monolithic and worth your attention.</p>
-						<a class="ui large button">Read More</a>
-						<h4 class="ui horizontal header divider">
-						<a href="#">Case Studies</a>
-						</h4>
-						<h3 class="ui header">Did We Tell You About Our Bananas?</h3>
-						<p>Yes I know you probably disregarded the earlier boasts as non-sequitor filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
-						<a class="ui large button">I'm Still Quite Interested</a>
-					</div>
-				</div> -->
 			</div>
 			<script type="text/javascript">
 
@@ -113,6 +77,13 @@
 			        "games": true
 			    }
 
+			// Semantic ui
+
+			$('.ui.sidebar')
+			.sidebar('attach events', '.toc.item');
+
+			// FireBase
+
 			function is_player(authData){
 			    db.child('players')
 			      .child(authData.uid)
@@ -122,6 +93,7 @@
 			            // get the ref (in this case /users/2) and update its contents
 			            console.log("User exists!");
 			            // snapshot.ref().update(user);
+			            console.log('game.html')
 			            window.location.href = 'game.html';
 			        } else {
 			            console.log('new')
@@ -144,22 +116,88 @@
 			                payload[authData.uid] = user;
 			            // get the ref's parent and call update on it.
 			            snapshot.ref().parent().update(payload);
+			            console.log('signup.html')
 			            window.location.href = 'signup.html';
 			        }
 			    });
 			    
 			}
 
-			db.authWithOAuthRedirect("facebook", function(error, authData) {
-			  if (error) {
+			$('.play.button').click(function(){
+				db.authWithOAuthRedirect("facebook", function(error, authData) {
+				  if (error) {
+				  	console.log('byee');
 
-			    $('.message.failed')
-			      .transition('drop');
+				    $('.message.failed')
+				      .transition('drop');
+
+				  } else {
+				  	console.log('bye');
+				    is_player(authData);
+				  }
+				},{'remember':'default','scope':'public_profile,email'});
+				
+			})
+
+
+
+			// Create a callback which logs the current auth state
+			function authDataCallback(authData) {
+			  if (authData) {
+			    console.log("User " + authData.uid + " is logged in with " + authData.provider);
+
+			    db.child('players')
+			      .child(authData.uid)
+			      .once('value', function(snapshot){
+			        // if data exists
+			        if (snapshot.exists()) {
+			            // get the ref (in this case /users/2) and update its contents
+
+			           if (Object.keys(snapshot.val()['games']).length == 0){
+			           		window.location.href = 'signup.html';
+			           } else {
+			           		window.location.href = 'game.html';
+			           }
+			        } else {
+			            console.log('new')
+			            // data does not exist so we wrap the data in an object with
+			            // a member named after the uid so we can pass it as an update
+			            // to the parent.
+			            var fb = authData.facebook;
+			            var payload = {};
+			                user = USER_TEMPLATE;
+			                user['full_name'] = fb.displayName;
+			                user['email'] = fb.email;
+			                user['facebook'] = fb.id;
+			                try{
+			                    user['first_name'] = fb.cachedUserProfile.first_name;
+			                }
+			                catch(e){
+			                    user['first_name'] = 'Anon';    
+			                }
+
+			                payload[authData.uid] = user;
+			            // get the ref's parent and call update on it.
+			            snapshot.ref().parent().update(payload);
+			        }
+			    });
+
 
 			  } else {
-			    is_player(authData);
+			    console.log("User is logged out");
+			    db.authWithOAuthPopup("facebook", function(error, authData) {
+			      if (error) {
+			        // SHIT.
+			      } else if (authData) {
+			        // user authenticated with Firebase
+			        is_player(authData);
+			      }
+			    });
 			  }
-			},{'remember':'default','scope':'public_profile,email'});
+			}
+
+			db.onAuth(authDataCallback);
+
 			</script>
 		</body>
 	</html>
