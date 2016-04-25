@@ -591,6 +591,7 @@ $(document)
 
   $('.ui.button.submit').click(function(e){
       var roster = $('form').form('get values');
+      var house = roster.house;
       
       $.each(roster, function(key, value) {
         if(key.indexOf('char') == -1) {
@@ -615,7 +616,8 @@ $(document)
             'games/essos': rosterkey,
             'full_name': $('form').form('get value', 'name'),
             'email': $('form').form('get value', 'email'),
-            'alias': $('form').form('get value', 'alias')
+            'alias': $('form').form('get value', 'alias'),
+            'house/essos': $('form').form('get value', 'alias'),
           }, function(error) {
               if (error) {
                 $('.message').text(error).transition('drop');
