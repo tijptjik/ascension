@@ -83,27 +83,27 @@
             
             // FireBase
 
-            function update_player(authData){
+            function update_player(authData, snapshot){
                 var fb = authData.facebook;
                                 
-                    var payload = {};
-                    
-                    user = USER_TEMPLATE;
-                    
-                    user['full_name'] = fb.displayName;
-                    user['email'] = fb.email;
-                    user['facebook'] = fb.id;
-                    
-                    try{
-                        user['first_name'] = fb.cachedUserProfile.first_name;
-                    } catch(e){
-                        user['first_name'] = 'Anon';
-                    }
-                    payload[authData.uid] = user;
-                    // get the ref's parent and call update on it.
-                    snapshot.ref().parent().update(payload);
+                var payload = {};
+                
+                user = USER_TEMPLATE;
+                
+                user['full_name'] = fb.displayName;
+                user['email'] = fb.email;
+                user['facebook'] = fb.id;
+                
+                try{
+                    user['first_name'] = fb.cachedUserProfile.first_name;
+                } catch(e){
+                    user['first_name'] = 'Anon';
+                }
+                payload[authData.uid] = user;
+                // get the ref's parent and call update on it.
+                snapshot.ref().parent().update(payload);
 
-                    window.location.href = 'signup.html';
+                window.location.href = 'signup.html';
             }
 
             $('.play.button').click(
@@ -136,7 +136,7 @@
                                         window.location.href = 'game.html';
                                 }
                             } else {
-                                update_player(authData);   
+                                update_player(authData, snapshot);   
                             }
                          });
                 } else {
