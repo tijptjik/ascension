@@ -48,13 +48,27 @@
         <input placeholder="e.g. Mart van de Ven" name="name" type="text">
       </div>
       <div class="field">
-        <label>E-mai  l Address</label>
+        <label>E-mail Address</label>
         <input placeholder="e.g. m@type.hk" name="email" type="text">
       </div>
       <div class="field">
         <label>Game of Thrones Alias</label>
         <input placeholder="e.g. Ser Killsalot" name="alias" type="text">
       </div>
+      <div class="field">
+        <label>League - Assigned by the Game Master</label>
+        <select class="ui dropdown league" name="league">
+          <option value="random">Random</option>
+        </select>
+        <div class="ui accordion field">
+          <div class="title">
+            <i class="icon dropdown"></i>
+            HELP : I wasn't assigned a League!?
+          </div>
+          <div class="content field">
+            <p>Join the <i>Random</i> League and the game will sort you out!</p>
+          </div>
+        </div>
       <div class="field">
         <label>House - Assigned by the Game Master</label>
         <select class="ui dropdown" name="house">
@@ -258,6 +272,17 @@ function populateCharacterDropdowns(chars){
     'stark' : 'grey'
   }
 
+  function toTitleCase(str){
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  }
+
+  db.child('leagues').once('value',function(snapshot){
+    var leagues = Object.keys(snapshot.val());
+    for (var league in leagues) {
+          $('select[name="league"]').append('<option value="'+leagues[league]+'">'+ toTitleCase(leagues[league]) + ' League</option>');
+        }
+    });
+
   db.child('houses').once('value',function(snapshot){
     var houses = snapshot.val();
     for (var house in colors) {
@@ -340,6 +365,15 @@ $(document)
                 {
                   type   : 'email',
                   prompt : 'Please enter your email'
+                }
+              ]
+            },
+            league: {
+              identifier: 'league',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please indicate your League'
                 }
               ]
             },
@@ -605,23 +639,24 @@ $(document)
       newRosterRef.set(roster)
       
       var path = newRosterRef.toString();
-
-
       var pathelem = path.split('/');
       var rosterkey = pathelem[pathelem.length-1];
 
+      var roster = $('form').form('get values');
+      var payload = {};
+
       // Update User Details
 
-      db.child('players').child(userData.uid).update({
-            'games/essos': rosterkey,
-            'full_name': $('form').form('get value', 'name'),
-            'email': $('form').form('get value', 'email'),
-            'alias': $('form').form('get value', 'alias'),
-            'house/essos': $('form').form('get value', 'alias'),
-          }, function(error) {
+      payload['games/' + roster.league] = rosterkey;
+      payload['house/' + roster.league] = roster.house;
+      payload['full_name'] = roster.name;
+      payload['email'] = roster.email;
+      payload['alias'] = roster.alias;
+
+      db.child('players').child(userData.uid).update(payload, function(error) {
               if (error) {
                 $('.message').text(error).transition('drop');
-                console.log('Synchronization failed');
+                console.log('Submission Failed!');
               } else {
                 window.location.href = 'game.html';
               }
