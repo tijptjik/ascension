@@ -1,312 +1,381 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Ascension | Crossed Banners</title>
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
-</head>
-<body>
-
-<style type="text/css">
-/*input.search {
-  padding-left: 38px !important;
-}*/
-</style>
-
-<div class="ui hidden failed negative message">
-  <i class="close icon"></i>
-  <div class="header">
-    We're sorry - Login failed for some reason.
-  </div>
-  <p>Please contact m@type.hk for support.
-</p></div>
-
-<!-- Sidebar Menu -->
-    <div class="ui inverted vertical sidebar menu">
-      <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
-      <a href="rules.html" class="item">Rules</a>
-      <a class="item disabled">Leaderboard</a>
-    </div>
-    <!-- Page Contents -->
-    <div class="pusher">
-      <div class="ui vertical masthead center aligned segment">
-        <div class="ui container">
-          <div class="ui large secondary pointing menu">
-            <a class="toc item">
-              <i class="sidebar icon"></i>
-            </a>
-            <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
-            <a href="rules.html" class="item">Rules</a>
-            <a class="item disabled">Leaderboard</a>
-          </div>
-        </div>
+  </head>
+  <body>
+    <div class="ui hidden failed negative message">
+      <i class="close icon"></i>
+      <div class="header">
+        We're sorry - Login failed for some reason.
       </div>
-
-      <div class="ui text container">
-        <form class="ui form">
+        <p>Please contact m@type.hk for support.</p>
+      </div>
+      <!-- Sidebar Menu -->
+      <div class="ui inverted vertical sidebar menu">
+        <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+        <a href="rules.html" class="item">Rules</a>
+        <a class="item disabled">Leaderboard</a>
+      </div>
+      <!-- Page Contents -->
+      <div class="pusher">
+        <div class="ui vertical masthead center aligned segment">
+          <div class="ui container">
+            <div class="ui large secondary pointing menu">
+              <a class="toc item">
+                <i class="sidebar icon"></i>
+              </a>
+              <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+              <a href="rules.html" class="item">Rules</a>
+              <a class="item disabled">Leaderboard</a>
+            </div>
+          </div>
+        </div>
+        <div class="ui text container">
+          <form onsubmit="return false;" class="ui form">
             <div class="ui">
-                <h2 style="text-align: center;">EPISODE VOTING</h2>
+              <h2 style="text-align: center;">EPISODE VOTING</h2>
             </div>
-        <h3 class="ui horizontal pink divider header" style="overflow: visible;">
-         <div class="ui inline dropdown">
-          <div class="text">
-            <i class="film icon"></i>
-            6x01 ~ The Red Women
+            
+            <h3 class="ui horizontal pink divider header" style="overflow: visible;">
+            <div class="ui inline dropdown episode">
+              <div class="text">
+                <i class="film icon"></i>
+                6x01 ~ The Red Women
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu episodes"></div>
+            </div>
+            </h3>
+            
+            <h3 class="ui horizontal blue divider header optional" style="display: none; overflow: visible;">
+            <div class="ui inline dropdown league">
+              <div class="text">
+                <i class="university icon"></i>
+                Select League
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu leagues"></div>
+            </div>
+            </h3>
+
+            <h4 class="ui horizontal divider header">
+            <i class="trophy icon"></i>
+            Award Categories
+            </h4>
+            
+            <h3 class="ui top attached inverted olive header sub header">Wit</h3>
+            <div class="ui attached segment">
+              <p>Smartest or most piercing delivery of a line.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_wit_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_wit_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header">Damage</h3>
+            <div class="ui attached segment">
+              <p>Physical and mental destruction, dealt or received.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_damage_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_damage_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header">Jockey</h3>
+            <div class="ui attached segment">
+              <p>Most cunning manoeuvring to gain or secure the Iron Throne.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_jockey_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_jockey_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header">Style</h3>
+            <div class="ui attached segment">
+              <p>Best look, appearance or use of props.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_style_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_style_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header">Support</h3>
+            <div class="ui attached segment">
+              <p>Most helpful supporting character.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_support_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_support_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4 class="ui horizontal divider header">
+            <i class="crosshairs icon"></i>
+            Missions
+            </h4>
+            <div class="fluid ui button submit inverted huge blue center">Submit</div>
+            <div class="ui error message"></div>
           </div>
-          <i class="dropdown icon"></i>
-          <div class="menu episodes"></div>
         </div>
-        </h3>
-        <h4 class="ui horizontal divider header">
-              <i class="trophy icon"></i>
-              Award Categories
-        </h4>
         
-        <h3 class="ui top attached inverted olive header sub header">Wit</h3>
-        <div class="ui attached segment">
-          <p>Smartest or most piercing delivery of a line.</p>
-          <div class="ui list">
-           <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_wit_1">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                  
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_wit_2">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <script src="semantic/dist/semantic.min.js"></script>
+        
+        <script>
+        var db = new Firebase("https://ascension.firebaseio.com");
 
-        <h3 class="ui top attached inverted olive header sub header">Damage</h3>
-        <div class="ui attached segment">
-          <p>Physical and mental destruction, dealt or received.</p>
-          <div class="ui list">
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_damage_1">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                  
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_damage_2">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        var authData = db.getAuth();
+        
+        // Firebase Forms
+        
+        // Leagues and Missions
+        
+        function populateLeaguesDropdown(leagues) {
+            var html = "";
+            var current_league = 'random';
+            for (var league in leagues) {
+                var l = leagues[league]
+                var str = '<div class="item" data-value=' + l + '><i class="university icon"></i>' + l + '</div>'
+                html += str;
+                current_league = l;
+            }
+            $('.leagues').append(html);
+            $('.ui.dropdown.league').dropdown("set selected", current_league);
+            if (leagues.length > 1){
+              $('.optional').transition('drop');
+            }
+        }
 
-        <h3 class="ui top attached inverted olive header sub header">Jockey</h3>
-        <div class="ui attached segment">
-          <p>Most cunning manoeuvring to gain or secure the Iron Throne.</p>
-          <div class="ui list">
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_jockey_1">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                  
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_jockey_2">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="ui top attached inverted olive header sub header">Style</h3>
-        <div class="ui attached segment">
-          <p>Best look, appearance or use of props.</p>
-          <div class="ui list">
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_style_1">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                  
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_style_2">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="ui top attached inverted olive header sub header">Support</h3>
-        <div class="ui attached segment">
-          <p>Most helpful supporting character.</p>
-          <div class="ui list">
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_support_1">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="field">
-                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                  
-                <div class="ui fluid search selection dropdown">
-                  <input type="hidden" name="vote_support_2">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Select Character</div>
-                  <div class="menu characters">
-                  </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        function populateMissionDropdown(roster){};
 
 
-        <h4 class="ui horizontal divider header">
-              <i class="crosshairs icon"></i>
-              Missions
-        </h4>
-
-    </div>
-</div>
+        db.child('players').child(authData.uid).once('value', function(snapshot) {
+            var player = snapshot.val();
+            var leagues = Object.keys(player.games);
+            populateLeaguesDropdown(leagues);
+        });
 
 
-<script src="semantic/dist/semantic.min.js"></script>
+        // Episodes
 
-<script>
+        function populateEpisodeDropdown(episodes) {
+            var html = "";
+            var current_episode = '51';
+            for (var ep in episodes) {
+                if (episodes.hasOwnProperty(ep) && episodes[ep]['has_aired']) {
+                    var episode = episodes[ep]
+                    var str = '<div class="item" data-value=' + episode.number + '><i class="film icon"></i>6x' + episode.episode_number + ' ~ ' + episode.title + '</div>'
+                    html += str;
+                    if (episodes[ep]['current']) {
+                        current_episode = episodes[ep]['number'];
+                    }
+                }
+            }
+            $('.episodes').append(html)
+            $('.ui.dropdown').dropdown("set selected", current_episode)
+        }
+        
+        db.child('episodes').once('value', function(snapshot) {
+            var episodes = snapshot.val();
+            populateEpisodeDropdown(episodes);
+        });
 
-var db = new Firebase("https://ascension.firebaseio.com");
+        // Awards
+        
+        function populateCharacterDropdowns(chars) {
+            var numerals = [0, 'I', 'II', 'III', 'IV', 'V']
+            var colors = {
+                'bolton': 'red',
+                'meereen': 'brown',
+                'arryn': 'blue',
+                'greyjoy': 'black',
+                'martell': 'orange',
+                'independent': 'pink',
+                'nightswatch': 'grey',
+                'minor': 'olive',
+                'targaryen': 'purple',
+                'tyrell': 'green',
+                'lannister': 'yellow',
+                'stark': 'grey'
+            }
+            var html = "";
+            for (var character in chars) {
+                if (chars.hasOwnProperty(character)) {
+                    var char = chars[character]
+                    var str = '<div class="item huge" data-value="' + char.id + '"><div class="ui ' + colors[char.house] + ' empty circular label"></div>' + char.name + '</div>'
+                    html += str;
+                }
+            }
+            $('.menu.characters').append(html);
+            $('.ui.dropdown').dropdown({
+                fullTextSearch: true
+            });
+        }
 
-// Firebase Forms
+        db.child('characters').once('value', function(snapshot) {
+            var characters = snapshot.val();
+            populateCharacterDropdowns(characters);
+        });
 
-// Episodes
+        function parseVotes(){
+          var payload = $('form').form('get values');
 
-function populateEpisodeDropdown(episodes){
-  var html = "";
-  var current_episode = '51';
-  for (var ep in episodes) {
-    if (episodes.hasOwnProperty(ep) && episodes[ep]['has_aired']) {
-      var episode = episodes[ep]
-      var str = '<div class="item" data-value='+ episode.number +'><i class="film icon"></i>6x'+episode.episode_number +' ~ '+ episode.title +'</div>'
-      html += str;
-      if (episodes[ep]['current']){
-        current_episode = episodes[ep]['number'];
-      }
-    }
-  }
-  $('.episodes').append(html)
-  $('.ui.dropdown').dropdown("set selected", current_episode)
-}
+          payload['player'] = authData.uid;
+          payload['league'] = $('.dropdown.league').dropdown('get value');
+          payload['episode'] = $('.dropdown.episode').dropdown('get value');
 
-db.child('episodes').once('value', function(snapshot){
-  var episodes = snapshot.val();
-  populateEpisodeDropdown(episodes);
-});
+          console.log(payload);
 
-// Awards
+          return payload;
 
-function populateCharacterDropdowns(chars){
-  var numerals = [0,'I','II','III','IV','V']
-  var colors = {
-    'bolton' : 'red',
-    'meereen' : 'brown',
-    'arryn' : 'blue',
-    'greyjoy' : 'black',
-    'martell' : 'orange',
-    'independent' : 'pink',
-    'nightswatch' : 'grey',
-    'minor' : 'olive',
-    'targaryen' : 'purple',
-    'tyrell' : 'green',
-    'lannister' : 'yellow',
-    'stark' : 'grey'
-  }
+        }
 
-  var html = "";
-  for (var character in chars) {
-    if (chars.hasOwnProperty(character)) {
-      var char = chars[character]
-      var str = '<div class="item huge" data-value="'+char.id+'"><div class="ui '+colors[char.house]+' empty circular label"></div>'+char.name+'</div>'
-      html += str;
-    }
-  }
+        // validate form
+        $('.ui.form').form({});
 
-  $('.menu.characters').append(html);
+        $('.ui.button.submit').click(function(e){
 
-  $('.ui.dropdown').dropdown({ fullTextSearch: true });
-}
+          var votes = parseVotes();
 
-db.child('characters').once('value', function(snapshot){
-  var characters = snapshot.val();
-  populateCharacterDropdowns(characters);
-});
+          // Push Votes
+          var votesListRef = new Firebase("https://ascension.firebaseio.com/votes");
+          var newVoteRef = votesListRef.push();
+          newVoteRef.set(votes)
+          
+          var path = newVoteRef.toString();
+          var pathelem = path.split('/');
+          var voteskey = pathelem[pathelem.length-1];
+
+          // Update User Details
+
+          var payload = {};
+          
+          payload[voteskey] = true;
 
 
-</script>
-
-</body>
-</html>
+          db.child('players').child(authData.uid).child('votes').update(payload, function(error) {
+            if (error) {
+              $('.message').text(error).transition('drop');
+              console.log('Submission Failed!');
+            } else {
+              window.location.href = 'thanks.html';
+            }
+          })
+        })
+        </script>
+      </body>
+    </html>
