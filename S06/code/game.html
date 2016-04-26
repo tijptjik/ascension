@@ -10,6 +10,12 @@
 </head>
 <body>
 
+<style type="text/css">
+/*input.search {
+  padding-left: 38px !important;
+}*/
+</style>
+
 <div class="ui hidden failed negative message">
   <i class="close icon"></i>
   <div class="header">
@@ -44,127 +50,188 @@
             <div class="ui">
                 <h2 style="text-align: center;">EPISODE VOTING</h2>
             </div>
-        <h4 class="ui horizontal divider header" style="overflow: visible;">
+        <h3 class="ui horizontal pink divider header" style="overflow: visible;">
          <div class="ui inline dropdown">
           <div class="text">
-            <i class="circle notched icon"></i>
+            <i class="film icon"></i>
             6x01 ~ The Red Women
           </div>
           <i class="dropdown icon"></i>
           <div class="menu episodes"></div>
         </div>
+        </h3>
+        <h4 class="ui horizontal divider header">
+              <i class="trophy icon"></i>
+              Award Categories
         </h4>
-        <!-- <h2 class="ui horizontal divider header">
-              <i class="bar trophy icon"></i>
-              Waiting for all Players to Join the League.
-        </h2>
- -->
-    </div>
-
-      <!-- <h4 class="ui horizontal divider header">
-          <i class="bar diamond icon"></i>
-          Missions
-        </h4>
-        Characters are listed with their house colour and name. Between brackets you'll find their Prominence, Violence and Diplomacy powers.
-        <div class="ui accordion field">
-          <div class="title">
-            <i class="icon dropdown"></i>
-            HELP : How do I select my characters?
-          </div>
-          <div class="content field">
-            <div class="ui celled ordered list">
-              <div class="item">Pick characters which excell at being <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#award-categories">violent, witty, cunning, supportive or stylish</a>.</div>
-              <div class="item">Consider their <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#prominence-multiplier">Prominence</a> - the roman numeral behind their name - Greater prominence makes it harder for them to score points.</div>
-              <div class="item">Pick at least some characters with strong Violence and Diplomany Powers - See <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv">Character Powers</a> for a full list</div>
-              <div class="item">Avoid obvious choices - they will get killed.</div>
+        
+        <h3 class="ui top attached inverted olive header sub header">Wit</h3>
+        <div class="ui attached segment">
+          <p>Smartest or most piercing delivery of a line.</p>
+          <div class="ui list">
+           <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_wit_1">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                  
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_wit_2">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
             </div>
           </div>
-          <div class="title">
-            <i class="icon dropdown"></i>
-            HELP : What do the character colours mean?
-          </div>
-          <div class="content field">
-            <div class="ui divided aligned list housecolours"></div>
-          </div>
         </div>
-      <div class="field">
-        <label>Slot I</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-          </div>
-      </div>
-      <div class="field">
-        <label>Slot II</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-        <div class="field">
-        <label>Slot III</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-          </div>
-      </div>
-      <div class="field">
-        <label>Slot IV</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Slot V</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Slot VI</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Slot VII</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <br>
-      <div class="fluid ui button submit inverted huge blue center">Submit</div>
-      <div class="ui error message"></div>
-    </form>
-    <br>
-    <br>
-    <br> -->
 
+        <h3 class="ui top attached inverted olive header sub header">Damage</h3>
+        <div class="ui attached segment">
+          <p>Physical and mental destruction, dealt or received.</p>
+          <div class="ui list">
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_damage_1">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                  
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_damage_2">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ui top attached inverted olive header sub header">Jockey</h3>
+        <div class="ui attached segment">
+          <p>Most cunning manoeuvring to gain or secure the Iron Throne.</p>
+          <div class="ui list">
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_jockey_1">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                  
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_jockey_2">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ui top attached inverted olive header sub header">Style</h3>
+        <div class="ui attached segment">
+          <p>Best look, appearance or use of props.</p>
+          <div class="ui list">
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_style_1">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                  
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_style_2">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ui top attached inverted olive header sub header">Support</h3>
+        <div class="ui attached segment">
+          <p>Most helpful supporting character.</p>
+          <div class="ui list">
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_support_1">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="field">
+                <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                  
+                <div class="ui fluid search selection dropdown">
+                  <input type="hidden" name="vote_support_2">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Character</div>
+                  <div class="menu characters">
+                  </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <h4 class="ui horizontal divider header">
+              <i class="crosshairs icon"></i>
+              Missions
+        </h4>
+
+    </div>
 </div>
 
 
@@ -184,7 +251,7 @@ function populateEpisodeDropdown(episodes){
   for (var ep in episodes) {
     if (episodes.hasOwnProperty(ep) && episodes[ep]['has_aired']) {
       var episode = episodes[ep]
-      var str = '<div class="item" data-value='+ episode.number +'><i class="circle notched icon"></i>6x'+episode.episode_number +' ~ '+ episode.title +'</div>'
+      var str = '<div class="item" data-value='+ episode.number +'><i class="film icon"></i>6x'+episode.episode_number +' ~ '+ episode.title +'</div>'
       html += str;
       if (episodes[ep]['current']){
         current_episode = episodes[ep]['number'];
@@ -200,9 +267,46 @@ db.child('episodes').once('value', function(snapshot){
   populateEpisodeDropdown(episodes);
 });
 
+// Awards
 
-  
+function populateCharacterDropdowns(chars){
+  var numerals = [0,'I','II','III','IV','V']
+  var colors = {
+    'bolton' : 'red',
+    'meereen' : 'brown',
+    'arryn' : 'blue',
+    'greyjoy' : 'black',
+    'martell' : 'orange',
+    'independent' : 'pink',
+    'nightswatch' : 'grey',
+    'minor' : 'olive',
+    'targaryen' : 'purple',
+    'tyrell' : 'green',
+    'lannister' : 'yellow',
+    'stark' : 'grey'
+  }
+
+  var html = "";
+  for (var character in chars) {
+    if (chars.hasOwnProperty(character)) {
+      var char = chars[character]
+      var str = '<div class="item huge" data-value="'+char.id+'"><div class="ui '+colors[char.house]+' empty circular label"></div>'+char.name+'</div>'
+      html += str;
+    }
+  }
+
+  $('.menu.characters').append(html);
+
+  $('.ui.dropdown').dropdown({ fullTextSearch: true });
+}
+
+db.child('characters').once('value', function(snapshot){
+  var characters = snapshot.val();
+  populateCharacterDropdowns(characters);
+});
+
 
 </script>
+
 </body>
 </html>
