@@ -44,15 +44,21 @@
             <div class="ui">
                 <h2 style="text-align: center;">EPISODE VOTING</h2>
             </div>
-        <h4 class="ui horizontal divider header">
-          <i class="bar university icon"></i>
-          6x01 ~ The Red Women
+        <h4 class="ui horizontal divider header" style="overflow: visible;">
+         <div class="ui inline dropdown">
+          <div class="text">
+            <i class="circle notched icon"></i>
+            6x01 ~ The Red Women
+          </div>
+          <i class="dropdown icon"></i>
+          <div class="menu episodes"></div>
+        </div>
         </h4>
-        <h2 class="ui horizontal divider header">
+        <!-- <h2 class="ui horizontal divider header">
               <i class="bar trophy icon"></i>
               Waiting for all Players to Join the League.
         </h2>
-
+ -->
     </div>
 
       <!-- <h4 class="ui horizontal divider header">
@@ -168,30 +174,34 @@
 
 var db = new Firebase("https://ascension.firebaseio.com");
 
-// Create a callback which logs the current auth state
-function authDataCallback(authData) {
-  if (authData) {
-    console.log("User " + authData.uid + " is logged in with " + authData.provider);
-  } else {
-    console.log("User is logged out");
-    ref.authWithOAuthPopup("facebook", function(error, authData) {
-      if (error) {
-        if (error.code === "TRANSPORT_UNAVAILABLE") {
-          // fall-back to browser redirects, and pick up the session
-          // automatically when we come back to the origin page
-          ref.authWithOAuthRedirect("google",
-            function(error) {});
-        }
-      } else if (authData) {
-        // user authenticated with Firebase
+// Firebase Forms
+
+// Episodes
+
+function populateEpisodeDropdown(episodes){
+  var html = "";
+  var current_episode = '51';
+  for (var ep in episodes) {
+    if (episodes.hasOwnProperty(ep) && episodes[ep]['has_aired']) {
+      var episode = episodes[ep]
+      var str = '<div class="item" data-value='+ episode.number +'><i class="circle notched icon"></i>6x'+episode.episode_number +' ~ '+ episode.title +'</div>'
+      html += str;
+      if (episodes[ep]['current']){
+        current_episode = episodes[ep]['number'];
       }
-    });
+    }
   }
+  $('.episodes').append(html)
+  $('.ui.dropdown').dropdown("set selected", current_episode)
 }
 
-// Register the callback to be fired every time auth state changes
-var ref = new Firebase("https://ascension.firebaseio.com");
-ref.onAuth(authDataCallback);
+db.child('episodes').once('value', function(snapshot){
+  var episodes = snapshot.val();
+  populateEpisodeDropdown(episodes);
+});
+
+
+  
 
 </script>
 </body>
