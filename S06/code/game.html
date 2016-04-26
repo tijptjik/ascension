@@ -9,6 +9,14 @@
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
   </head>
   <body>
+
+  <style>
+
+  .ui.form {
+    font-size: 1rem;
+    margin-bottom: 32px;
+  }
+  </style>
     <div class="ui hidden failed negative message">
       <i class="close icon"></i>
       <div class="header">
@@ -37,7 +45,7 @@
           </div>
         </div>
         <div class="ui text container">
-          <form onsubmit="return false;" class="ui form">
+          <form onsubmit="return false;" class="ui form voting">
             <div class="ui">
               <h2 style="text-align: center;">EPISODE VOTING</h2>
             </div>
@@ -69,7 +77,7 @@
             Award Categories
             </h4>
             
-            <h3 class="ui top attached inverted olive header sub header">Wit</h3>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Wit</h3>
             <div class="ui attached segment">
               <p>Smartest or most piercing delivery of a line.</p>
               <div class="ui list">
@@ -100,7 +108,7 @@
                 </div>
               </div>
             </div>
-            <h3 class="ui top attached inverted olive header sub header">Damage</h3>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Damage</h3>
             <div class="ui attached segment">
               <p>Physical and mental destruction, dealt or received.</p>
               <div class="ui list">
@@ -131,7 +139,7 @@
                 </div>
               </div>
             </div>
-            <h3 class="ui top attached inverted olive header sub header">Jockey</h3>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Jockey</h3>
             <div class="ui attached segment">
               <p>Most cunning manoeuvring to gain or secure the Iron Throne.</p>
               <div class="ui list">
@@ -162,7 +170,7 @@
                 </div>
               </div>
             </div>
-            <h3 class="ui top attached inverted olive header sub header">Style</h3>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Style</h3>
             <div class="ui attached segment">
               <p>Best look, appearance or use of props.</p>
               <div class="ui list">
@@ -193,7 +201,7 @@
                 </div>
               </div>
             </div>
-            <h3 class="ui top attached inverted olive header sub header">Support</h3>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Support</h3>
             <div class="ui attached segment">
               <p>Most helpful supporting character.</p>
               <div class="ui list">
@@ -224,15 +232,206 @@
                 </div>
               </div>
             </div>
+            </form>
+
+            <form onsubmit="return false;" class="ui form missions">
+            
             <h4 class="ui horizontal divider header">
             <i class="crosshairs icon"></i>
             Missions
             </h4>
+
+            <h3 class="ui top attached inverted blue header sub header"><i class="unhide icon"></i> Diplomatic</h3>
+            <div class="ui attached segment">
+              <p>Gathering Intelligence on another players's Character's and Roster</p>
+              <div class="ui accordion field">
+              <div class="title">
+                <i class="icon dropdown"></i>
+                HELP : What are the different diplomatic powers!?
+              </div>
+              <div class="content field">
+                <div class="ui celled ordered list">
+                  <table class="ui celled table center aligned">
+                    <thead>
+                        <tr>
+                            <th>power</th>
+                            <th>intel target</th>
+                            <th>intel count</th>
+                            <th>perf penalty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>roster</td>
+                            <td>1</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>roster</td>
+                            <td>2</td>
+                            <td>25%</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>roster</td>
+                            <td>3</td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>character</td>
+                            <td>1</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>character</td>
+                            <td>2</td>
+                            <td>25%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+              </div>
+            </div>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="diplomatic_agent">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select a Diplomatic Envoy</div>
+                      <div class="menu roster">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="diplomatic_target_house">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select House to Spy on</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="ui top attached inverted red header sub header"><i class="remove user icon"></i> Assassinations</h3>
+            <div class="ui attached segment">
+              <p>Making attempts to kill or wound another players's Character</p>
+              <div class="ui accordion field">
+              <div class="title">
+                <i class="icon dropdown"></i>
+                HELP : What are the different violence powers!?
+              </div>
+              <div class="content field">
+                <div class="ui celled ordered list">
+                <table class="ui celled table center aligned">
+                  <thead>
+                      <tr>
+                          <th align="center">power</th>
+                          <th align="center">damage</th>
+                          <th align="center">success rate</th>
+                          <th align="center">performance penalty</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td align="center">1</td>
+                          <td align="center">100%</td>
+                          <td align="center">25%</td>
+                          <td align="center">50%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">2</td>
+                          <td align="center">25%</td>
+                          <td align="center">100%</td>
+                          <td align="center">25%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">3</td>
+                          <td align="center">50%</td>
+                          <td align="center">100%</td>
+                          <td align="center">0%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">4</td>
+                          <td align="center">75%</td>
+                          <td align="center">100%</td>
+                          <td align="center">25%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">5</td>
+                          <td align="center">100%</td>
+                          <td align="center">100%</td>
+                          <td align="center">50%</td>
+                      </tr>
+                  </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="assassination_agent">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select a Assassin</div>
+                      <div class="menu roster">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="assassination_target_house">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select House to Attack</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Target Character<i class="crosshairs icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="assassination_target_character">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select targeT of the Assassination Attempt</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </form>
+
+            <div class="ui error message" style="display:none;"></div>
             <div class="fluid ui button submit inverted huge blue center">Submit</div>
-            <div class="ui error message"></div>
+            
+
+
           </div>
         </div>
-        
+                
         <script src="semantic/dist/semantic.min.js"></script>
         
         <script>
@@ -240,6 +439,11 @@
 
         var authData = db.getAuth();
         
+        // Semantic UI
+
+        $('.ui.accordion').accordion();
+
+
         // Firebase Forms
         
         // Leagues and Missions
@@ -324,30 +528,53 @@
             $('.ui.dropdown').dropdown({
                 fullTextSearch: true
             });
+
+            // validate form
+            
         }
 
         db.child('characters').once('value', function(snapshot) {
             var characters = snapshot.val();
             populateCharacterDropdowns(characters);
         });
+        
+        $('.ui.form.voting').form({
+            fields: {
+              vote_wit_1     : ['empty', 'different[vote_wit_2]'],
+              vote_wit_2     : ['empty'],
+              vote_damage_1     : ['empty', 'different[vote_damage_2]'],
+              vote_damage_2     : ['empty'],
+              vote_jockey_1     : ['empty', 'different[vote_jockey_2]'],
+              vote_jockey_2     : ['empty'],
+              vote_style_1     : ['empty', 'different[vote_style_2]'],
+              vote_style_2     : ['empty'],
+              vote_support_1     : ['empty', 'different[vote_support_2]'],
+              vote_support_2     : ['empty']
+            }
+          });
 
         function parseVotes(){
-          var payload = $('form').form('get values');
+
+          var payload = $('form.voting').form('get values');
 
           payload['player'] = authData.uid;
           payload['league'] = $('.dropdown.league').dropdown('get value');
           payload['episode'] = $('.dropdown.episode').dropdown('get value');
 
-          console.log(payload);
-
           return payload;
 
         }
 
-        // validate form
-        $('.ui.form').form({});
+
 
         $('.ui.button.submit').click(function(e){
+
+          $('.message.error').hide();
+
+          if (!$('form.voting').form('is valid') ) {
+              $('.message.error').transition('drop').text('Please vote for both winner & runner up in all categories');
+              return false;
+            }
 
           var votes = parseVotes();
 
@@ -365,7 +592,6 @@
           var payload = {};
           
           payload[voteskey] = true;
-
 
           db.child('players').child(authData.uid).child('votes').update(payload, function(error) {
             if (error) {
