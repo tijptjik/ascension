@@ -1,198 +1,757 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Ascension | Crossed Banners</title>
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
     <meta content='width=device-width, initial-scale=1' name='viewport'/>
-</head>
-<body>
+  </head>
+  <body>
 
-<div class="ui hidden failed negative message">
-  <i class="close icon"></i>
-  <div class="header">
-    We're sorry - Login failed for some reason.
-  </div>
-  <p>Please contact m@type.hk for support.
-</p></div>
+  <style>
 
-<!-- Sidebar Menu -->
-    <div class="ui inverted vertical sidebar menu">
-      <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
-      <a href="rules.html" class="item">Rules</a>
-      <a class="item disabled">Leaderboard</a>
-    </div>
-    <!-- Page Contents -->
-    <div class="pusher">
-      <div class="ui vertical masthead center aligned segment">
-        <div class="ui container">
-          <div class="ui large secondary pointing menu">
-            <a class="toc item">
-              <i class="sidebar icon"></i>
-            </a>
-            <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
-            <a href="rules.html" class="item">Rules</a>
-            <a class="item disabled">Leaderboard</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="ui text container">
-        <form class="ui form">
-            <div class="ui">
-                <h2 style="text-align: center;">EPISODE VOTING</h2>
-            </div>
-        <h4 class="ui horizontal divider header">
-          <i class="bar university icon"></i>
-          6x01 ~ The Red Women
-        </h4>
-        <h2 class="ui horizontal divider header">
-              <i class="bar trophy icon"></i>
-              Waiting for all Players to Join the League.
-        </h2>
-
-    </div>
-
-      <!-- <h4 class="ui horizontal divider header">
-          <i class="bar diamond icon"></i>
-          Missions
-        </h4>
-        Characters are listed with their house colour and name. Between brackets you'll find their Prominence, Violence and Diplomacy powers.
-        <div class="ui accordion field">
-          <div class="title">
-            <i class="icon dropdown"></i>
-            HELP : How do I select my characters?
-          </div>
-          <div class="content field">
-            <div class="ui celled ordered list">
-              <div class="item">Pick characters which excell at being <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#award-categories">violent, witty, cunning, supportive or stylish</a>.</div>
-              <div class="item">Consider their <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/rules.md#prominence-multiplier">Prominence</a> - the roman numeral behind their name - Greater prominence makes it harder for them to score points.</div>
-              <div class="item">Pick at least some characters with strong Violence and Diplomany Powers - See <a target="_blank" href="https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.powers.csv">Character Powers</a> for a full list</div>
-              <div class="item">Avoid obvious choices - they will get killed.</div>
-            </div>
-          </div>
-          <div class="title">
-            <i class="icon dropdown"></i>
-            HELP : What do the character colours mean?
-          </div>
-          <div class="content field">
-            <div class="ui divided aligned list housecolours"></div>
-          </div>
-        </div>
-      <div class="field">
-        <label>Slot I</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-          </div>
-      </div>
-      <div class="field">
-        <label>Slot II</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-        <div class="field">
-        <label>Slot III</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-          </div>
-      </div>
-      <div class="field">
-        <label>Slot IV</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Slot V</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Slot VI</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Slot VII</label>
-        <div class="ui fluid search selection dropdown">
-          <input type="hidden" name="char_1">
-          <i class="dropdown icon"></i>
-          <div class="default text">Select Character</div>
-          <div class="menu characters">
-          </div>
-        </div>
-      </div>
-      <br>
-      <div class="fluid ui button submit inverted huge blue center">Submit</div>
-      <div class="ui error message"></div>
-    </form>
-    <br>
-    <br>
-    <br> -->
-
-</div>
-
-
-<script src="semantic/dist/semantic.min.js"></script>
-
-<script>
-
-var db = new Firebase("https://ascension.firebaseio.com");
-
-// Create a callback which logs the current auth state
-function authDataCallback(authData) {
-  if (authData) {
-    console.log("User " + authData.uid + " is logged in with " + authData.provider);
-  } else {
-    console.log("User is logged out");
-    ref.authWithOAuthPopup("facebook", function(error, authData) {
-      if (error) {
-        if (error.code === "TRANSPORT_UNAVAILABLE") {
-          // fall-back to browser redirects, and pick up the session
-          // automatically when we come back to the origin page
-          ref.authWithOAuthRedirect("google",
-            function(error) {});
-        }
-      } else if (authData) {
-        // user authenticated with Firebase
-      }
-    });
+  .ui.form {
+    font-size: 1rem;
+    margin-bottom: 32px;
   }
-}
+  </style>
+    <div class="ui hidden failed negative message">
+      <i class="close icon"></i>
+      <div class="header">
+        We're sorry - Login failed for some reason.
+      </div>
+        <p>Please contact m@type.hk for support.</p>
+      </div>
+      <!-- Sidebar Menu -->
+      <div class="ui inverted vertical sidebar menu">
+        <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+        <a href="rules.html" class="item">Rules</a>
+        <a class="item disabled">Leaderboard</a>
+      </div>
+      <!-- Page Contents -->
+      <div class="pusher">
+        <div class="ui vertical masthead center aligned segment">
+          <div class="ui container">
+            <div class="ui large secondary pointing menu">
+              <a class="toc item">
+                <i class="sidebar icon"></i>
+              </a>
+              <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+              <a href="rules.html" class="item">Rules</a>
+              <a class="item disabled">Leaderboard</a>
+            </div>
+          </div>
+        </div>
+        <div class="ui text container">
+          <form onsubmit="return false;" class="ui form voting">
+            <div class="ui">
+              <h2 style="text-align: center;">EPISODE VOTING</h2>
+            </div>
+            
+            <h3 class="ui horizontal pink divider header" style="overflow: visible;">
+            <div class="ui inline dropdown episode">
+              <div class="text">
+                <i class="film icon"></i>
+                6x01 ~ The Red Women
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu episodes"></div>
+            </div>
+            </h3>
+            
+            <h3 class="ui horizontal blue divider header optional" style="display: none; overflow: visible;">
+            <div class="ui inline dropdown league">
+              <div class="text">
+                <i class="university icon"></i>
+                Select League
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu leagues"></div>
+            </div>
+            </h3>
 
-// Register the callback to be fired every time auth state changes
-var ref = new Firebase("https://ascension.firebaseio.com");
-ref.onAuth(authDataCallback);
+            <h4 class="ui horizontal divider header">
+            <i class="trophy icon"></i>
+            Award Categories
+            </h4>
+            
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Wit</h3>
+            <div class="ui attached segment">
+              <p>Smartest or most piercing delivery of a line.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_wit_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_wit_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Damage</h3>
+            <div class="ui attached segment">
+              <p>Physical and mental destruction, dealt or received.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_damage_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_damage_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Jockey</h3>
+            <div class="ui attached segment">
+              <p>Most cunning manoeuvring to gain or secure the Iron Throne.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_jockey_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_jockey_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Style</h3>
+            <div class="ui attached segment">
+              <p>Best look, appearance or use of props.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_style_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_style_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Support</h3>
+            <div class="ui attached segment">
+              <p>Most helpful supporting character.</p>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Winner <i class="angle double up icon"></i></label>
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_support_1">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown">
+                      <input type="hidden" name="vote_support_2">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Character</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </form>
 
-</script>
-</body>
-</html>
+            <form onsubmit="return false;" class="ui form missions">
+            
+            <h4 class="ui horizontal divider header">
+            <i class="crosshairs icon"></i>
+            Missions
+            </h4>
+
+            <h3 class="ui top attached inverted blue header sub header"><i class="unhide icon"></i> Diplomatic</h3>
+            <div class="ui attached segment">
+              <p>Gathering Intelligence on another players's Character's and Roster</p>
+              <div class="ui accordion field">
+              <div class="title">
+                <i class="icon dropdown"></i>
+                HELP : What are the different diplomatic powers!?
+              </div>
+              <div class="content field">
+                <div class="ui celled ordered list">
+                  <table class="ui celled table center aligned">
+                    <thead>
+                        <tr>
+                            <th>power</th>
+                            <th>intel target</th>
+                            <th>intel count</th>
+                            <th>perf penalty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>roster</td>
+                            <td>1</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>roster</td>
+                            <td>2</td>
+                            <td>25%</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>roster</td>
+                            <td>3</td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>character</td>
+                            <td>1</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>character</td>
+                            <td>2</td>
+                            <td>25%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+              </div>
+            </div>
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
+                    <div class="ui fluid search selection dropdown huge diplomatic">
+                      <input type="hidden" name="diplomatic_agent">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select a Diplomatic Envoy</div>
+                      <div class="menu roster diplomacy">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown huge">
+                      <input type="hidden" name="diplomatic_target_house">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select House to Spy on</div>
+                      <div class="menu houses">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="ui top attached inverted red header sub header"><i class="remove user icon"></i> Assassinations</h3>
+            <div class="ui attached segment">
+              <p>Making attempts to kill or wound another players's Character</p>
+              <div class="ui accordion field">
+              <div class="title">
+                <i class="icon dropdown"></i>
+                HELP : What are the different violence powers!?
+              </div>
+              <div class="content field">
+                <div class="ui celled ordered list">
+                <table class="ui celled table center aligned">
+                  <thead>
+                      <tr>
+                          <th align="center">power</th>
+                          <th align="center">damage</th>
+                          <th align="center">success rate</th>
+                          <th align="center">perf penalty</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td align="center">1</td>
+                          <td align="center">100%</td>
+                          <td align="center">25%</td>
+                          <td align="center">50%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">2</td>
+                          <td align="center">25%</td>
+                          <td align="center">100%</td>
+                          <td align="center">25%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">3</td>
+                          <td align="center">50%</td>
+                          <td align="center">100%</td>
+                          <td align="center">0%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">4</td>
+                          <td align="center">75%</td>
+                          <td align="center">100%</td>
+                          <td align="center">25%</td>
+                      </tr>
+                      <tr>
+                          <td align="center">5</td>
+                          <td align="center">100%</td>
+                          <td align="center">100%</td>
+                          <td align="center">50%</td>
+                      </tr>
+                  </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+              <div class="ui list">
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
+                    <div class="ui fluid search selection dropdown huge assassination">
+                      <input type="hidden" name="assassination_agent">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select a Assassin</div>
+                      <div class="menu  roster violence">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown huge assassination">
+                      <input type="hidden" name="assassination_target_house">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select House to Attack</div>
+                      <div class="menu houses">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="field">
+                    <label style="font-size: 16px; padding: 12px 0">Target Character<i class="crosshairs icon"></i></label>
+                    
+                    <div class="ui fluid search selection dropdown huge">
+                      <input type="hidden" name="assassination_target_character">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select Target of the Assassination Attempt</div>
+                      <div class="menu characters">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </form>
+
+            <div class="ui error message" style="display:none;"></div>
+            <div class="fluid ui button submit inverted huge blue center">Submit</div>
+
+
+          </div>
+        </div>
+                
+        <script src="semantic/dist/semantic.min.js"></script>
+        
+        <script>
+        var db = new Firebase("https://ascension.firebaseio.com");
+
+        var authData = db.getAuth();
+
+        // Reusable Sets
+
+        var numerals = [0, 'I', 'II', 'III', 'IV', 'V']
+        var colors = {
+            'bolton': 'red',
+            'meereen': 'brown',
+            'arryn': 'blue',
+            'greyjoy': 'black',
+            'martell': 'orange',
+            'independent': 'pink',
+            'nightswatch': 'grey',
+            'minor': 'olive',
+            'targaryen': 'purple',
+            'tyrell': 'green',
+            'lannister': 'yellow',
+            'stark': 'grey'
+        }
+        
+        // Semantic UI
+
+        $('.ui.accordion').accordion();
+
+
+        // // Update Mission Agents & Available Targets based on League Selection.
+
+        // Firebase Forms
+        
+        // Leagues and Missions
+        
+        function populateMissionDropdown(roster_id){
+          db.child('rosters').child(roster_id).once('value', function(snapshot) {
+            var obj = snapshot.val();
+            var roster = [];
+
+            Object.keys(obj).forEach(function (key) {
+                roster.push(obj[key]);
+            });
+
+
+            db.child('characters').once('value', function(snapshot) {
+                var characters = snapshot.val();
+
+                var roster_chars = {};
+                var diplo_html = "";
+                var violence_html = "";
+
+                for (var char in roster){
+                    var c = characters[roster[char]];
+                    roster_chars[roster[char]] = c;
+
+                    var str = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.diplomacy] + ')</div>';
+                    var str2 = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.violence] + ')</div>';
+
+                    diplo_html += str;
+                    violence_html += str2;
+                }
+
+                $('.dropdown.rosters').dropdown('clear')
+                $('.menu.roster.diplomacy').empty().append(diplo_html);
+                $('.menu.roster.violence').empty().append(violence_html);
+
+               
+            });
+          })
+
+        };
+
+        function populateLeaguesDropdown(games) {
+            var leagues = Object.keys(games);
+            var html = "";
+            var current_league = 'random';
+            for (var league in leagues) {
+                var l = leagues[league]
+                var str = '<div class="item" data-value=' + l + '><i class="university icon"></i>' + l + '</div>'
+                html += str;
+                current_league = l;
+            }
+            $('.leagues').append(html);
+            $('.ui.dropdown.league').dropdown("set selected", current_league);
+            if (leagues.length > 1){
+              $('.optional').transition('drop');
+            }
+
+            populateMissionDropdown(games[current_league]);
+            populateHousesDropdown(current_league);
+
+
+        }
+
+        
+
+        function populateHousesDropdown(league){
+
+            // Houses
+
+            db.child('league_houses').child(league).once('value', function(snapshot) {
+
+              var league_houses = snapshot.val();
+
+              db.child('houses').once('value', function(snapshot) {
+                var houses = snapshot.val();
+
+                var html = "";
+
+                for (var house in league_houses){
+                      var h = houses[house];
+
+                      var str = '<div class="item huge" data-value="' + house + '"><div class="ui ' + colors[house] + ' empty circular label"></div>' + h['name'] + '</div>';
+
+                      html += str;
+                  }
+
+                $('.menu.houses').empty().append(html);
+
+              })
+
+            })
+
+        }
+
+
+
+        db.child('players').child(authData.uid).once('value', function(snapshot) {
+            var player = snapshot.val();
+            populateLeaguesDropdown(player.games);
+        });
+
+
+
+        // Episodes
+
+        function populateEpisodeDropdown(episodes) {
+            var html = "";
+            var current_episode = '51';
+            for (var ep in episodes) {
+                if (episodes.hasOwnProperty(ep) && episodes[ep]['has_aired']) {
+                    var episode = episodes[ep]
+                    var str = '<div class="item" data-value=' + episode.number + '><i class="film icon"></i>6x' + episode.episode_number + ' ~ ' + episode.title + '</div>'
+                    html += str;
+                    if (episodes[ep]['current']) {
+                        current_episode = episodes[ep]['number'];
+                    }
+                }
+            }
+            $('.episodes').append(html)
+            $('.ui.dropdown').dropdown("set selected", current_episode)
+        }
+        
+        db.child('episodes').once('value', function(snapshot) {
+            var episodes = snapshot.val();
+            populateEpisodeDropdown(episodes);
+        });
+
+        // Awards
+        
+        function populateCharacterDropdowns(chars) {
+            var html = "";
+            for (var character in chars) {
+                if (chars.hasOwnProperty(character)) {
+                    var char = chars[character]
+                    var str = '<div class="item huge" data-value="' + char.id + '"><div class="ui ' + colors[char.house] + ' empty circular label"></div>' + char.name + '</div>'
+                    html += str;
+                }
+            }
+            $('.menu.characters').append(html);
+            $('.ui.dropdown').dropdown({
+                fullTextSearch: true
+            });
+
+            
+        }
+
+        db.child('characters').once('value', function(snapshot) {
+            var characters = snapshot.val();
+            populateCharacterDropdowns(characters);
+        });
+
+        
+        // validate form
+
+        $('.ui.form.voting').form({
+            fields: {
+              vote_wit_1     : ['empty', 'different[vote_wit_2]'],
+              vote_wit_2     : ['empty'],
+              vote_damage_1     : ['empty', 'different[vote_damage_2]'],
+              vote_damage_2     : ['empty'],
+              vote_jockey_1     : ['empty', 'different[vote_jockey_2]'],
+              vote_jockey_2     : ['empty'],
+              vote_style_1     : ['empty', 'different[vote_style_2]'],
+              vote_style_2     : ['empty'],
+              vote_support_1     : ['empty', 'different[vote_support_2]'],
+              vote_support_2     : ['empty']
+            }
+          });
+
+        $('.ui.form.missions').form({
+            fields: {
+              assassination_agent : 'different[diplomatic_agent]'
+            }
+          });
+
+        // Parsing Forms
+
+        function parseVotes(){
+
+          var payload = $('form.voting').form('get values');
+
+          payload['player'] = authData.uid;
+          payload['league'] = $('.dropdown.league').dropdown('get value');
+          payload['episode'] = $('.dropdown.episode').dropdown('get value');
+
+          return payload;
+
+        }
+
+        function parseMissions(){
+
+          var payload = $('form.missions').form('get values');
+
+          payload['player'] = authData.uid;
+          payload['league'] = $('.dropdown.league').dropdown('get value');
+          payload['episode'] = $('.dropdown.episode').dropdown('get value');
+
+          return payload;
+
+        }
+
+        // Form Submission
+
+        $('.ui.button.submit').click(function(e){
+
+          $('.message.error').hide();
+
+          if (!$('form.voting').form('is valid') ) {
+              $('.message.error').transition('drop').text('Please vote for both winner & runner up in all categories');
+              return false;
+            }
+
+          if (!$('form.missions').form('is valid') ) {
+              $('.message.error').transition('drop').text('You can\'t send the same character on both missions.');
+              return false;
+            }
+
+          var votes = parseVotes();
+          var missions = parseMissions();
+
+
+          // Push Votes
+          var votesListRef = new Firebase("https://ascension.firebaseio.com/votes");
+          var newVoteRef = votesListRef.push();
+          newVoteRef.set(votes)
+          
+          var path = newVoteRef.toString();
+          var pathelem = path.split('/');
+          var voteskey = pathelem[pathelem.length-1];
+
+          // Update User Details
+
+          var payload = {};
+          
+          payload[voteskey] = true;
+
+          db.child('players').child(authData.uid).child('votes').update(payload, function(error) {
+            if (error) {
+              $('.message').text(error).transition('drop');
+              console.log('Submission Failed!');
+            } else {
+
+              // Push Missions
+                var missionListRef = new Firebase("https://ascension.firebaseio.com/missions");
+                var newMissionRef = missionListRef.push();
+                newMissionRef.set(missions);
+                
+                var path = newMissionRef.toString();
+                var pathelem = path.split('/');
+                var missionkey = pathelem[pathelem.length-1];
+
+                // Update User Details
+
+                var payload = {};
+                
+                payload[missionkey] = true;
+
+                db.child('players').child(authData.uid).child('missions').update(payload, function(error) {
+                  if (error) {
+                    $('.message').text(error).transition('drop');
+                    console.log('Submission Failed! On Mission, Votes Were Submitted');
+                  } else {
+                    window.location.href = 'thanks.html';
+                  }
+                });
+            };
+          });
+        });
+
+        function refreshDropdowns(games) {
+
+            var current_league = $('.dropdown.league').dropdown('get value');
+            populateMissionDropdown(games[current_league]);
+            populateHousesDropdown(current_league);
+        }
+
+        // $('.ui.dropdown.league').dropdown({
+           //     action: 'activate',
+           //     onChange: function(value, text, $selectedItem) {
+           //       db.child('players').child(authData.uid).once('value', function(snapshot) {
+           //           var player = snapshot.val();
+           //           refreshDropdowns(player.games);
+           //       });
+           //     }
+           //   });
+
+        
+
+        </script>
+      </body>
+    </html>
