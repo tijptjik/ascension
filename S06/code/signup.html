@@ -645,6 +645,9 @@ $(document)
       var roster = $('form').form('get values');
       var payload = {};
 
+      var league_houses = {};
+      league_houses[roster.house] = true
+
       // Update User Details
 
       payload['games/' + roster.league] = rosterkey;
@@ -653,16 +656,23 @@ $(document)
       payload['email'] = roster.email;
       payload['alias'] = roster.alias;
 
-      db.child('players').child(userData.uid).update(payload, function(error) {
-              if (error) {
-                $('.message').text(error).transition('drop');
-                console.log('Submission Failed!');
-              } else {
-                window.location.href = 'game.html';
-              }
+      db.child('league_houses').child(roster.league).update(league_houses, function(error) {
+          if (error) {
+              $('.message').text(error).transition('drop');
+              console.log('Submission Failed!');
+            } else {
+              db.child('players').child(userData.uid).update(payload, function(error) {
+                      if (error) {
+                        $('.message').text(error).transition('drop');
+                        console.log('Submission Failed!');
+                      } else {
+                        window.location.href = 'game.html';
+                      }
+                    }
+                )
             }
-        )
-
+          }
+      )
   });
 
 });

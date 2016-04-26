@@ -22,3 +22,7 @@
 .submit.button {
 	margin-bottom: 320px;
 }
+
+.ui.celled.ordered .item {
+	/*list-style-type: upper-roman;*/
+}

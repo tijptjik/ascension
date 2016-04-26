@@ -300,11 +300,11 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
-                    <div class="ui fluid search selection dropdown">
+                    <div class="ui fluid search selection dropdown huge diplomatic">
                       <input type="hidden" name="diplomatic_agent">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select a Diplomatic Envoy</div>
-                      <div class="menu roster">
+                      <div class="menu roster diplomacy">
                       </div>
                     </div>
                   </div>
@@ -313,11 +313,11 @@
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
                     
-                    <div class="ui fluid search selection dropdown">
+                    <div class="ui fluid search selection dropdown huge">
                       <input type="hidden" name="diplomatic_target_house">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select House to Spy on</div>
-                      <div class="menu characters">
+                      <div class="menu houses">
                       </div>
                     </div>
                   </div>
@@ -341,7 +341,7 @@
                           <th align="center">power</th>
                           <th align="center">damage</th>
                           <th align="center">success rate</th>
-                          <th align="center">performance penalty</th>
+                          <th align="center">perf penalty</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -385,11 +385,11 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
-                    <div class="ui fluid search selection dropdown">
+                    <div class="ui fluid search selection dropdown huge assassination">
                       <input type="hidden" name="assassination_agent">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select a Assassin</div>
-                      <div class="menu roster">
+                      <div class="menu  roster violence">
                       </div>
                     </div>
                   </div>
@@ -398,11 +398,11 @@
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
                     
-                    <div class="ui fluid search selection dropdown">
+                    <div class="ui fluid search selection dropdown huge assassination">
                       <input type="hidden" name="assassination_target_house">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select House to Attack</div>
-                      <div class="menu characters">
+                      <div class="menu houses">
                       </div>
                     </div>
                   </div>
@@ -411,10 +411,10 @@
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target Character<i class="crosshairs icon"></i></label>
                     
-                    <div class="ui fluid search selection dropdown">
+                    <div class="ui fluid search selection dropdown huge">
                       <input type="hidden" name="assassination_target_character">
                       <i class="dropdown icon"></i>
-                      <div class="default text">Select targeT of the Assassination Attempt</div>
+                      <div class="default text">Select Target of the Assassination Attempt</div>
                       <div class="menu characters">
                       </div>
                     </div>
@@ -426,7 +426,6 @@
 
             <div class="ui error message" style="display:none;"></div>
             <div class="fluid ui button submit inverted huge blue center">Submit</div>
-            
 
 
           </div>
@@ -438,17 +437,76 @@
         var db = new Firebase("https://ascension.firebaseio.com");
 
         var authData = db.getAuth();
+
+        // Reusable Sets
+
+        var numerals = [0, 'I', 'II', 'III', 'IV', 'V']
+        var colors = {
+            'bolton': 'red',
+            'meereen': 'brown',
+            'arryn': 'blue',
+            'greyjoy': 'black',
+            'martell': 'orange',
+            'independent': 'pink',
+            'nightswatch': 'grey',
+            'minor': 'olive',
+            'targaryen': 'purple',
+            'tyrell': 'green',
+            'lannister': 'yellow',
+            'stark': 'grey'
+        }
         
         // Semantic UI
 
         $('.ui.accordion').accordion();
 
 
+        // // Update Mission Agents & Available Targets based on League Selection.
+
         // Firebase Forms
         
         // Leagues and Missions
         
-        function populateLeaguesDropdown(leagues) {
+        function populateMissionDropdown(roster_id){
+          db.child('rosters').child(roster_id).once('value', function(snapshot) {
+            var obj = snapshot.val();
+            var roster = [];
+
+            Object.keys(obj).forEach(function (key) {
+                roster.push(obj[key]);
+            });
+
+
+            db.child('characters').once('value', function(snapshot) {
+                var characters = snapshot.val();
+
+                var roster_chars = {};
+                var diplo_html = "";
+                var violence_html = "";
+
+                for (var char in roster){
+                    var c = characters[roster[char]];
+                    roster_chars[roster[char]] = c;
+
+                    var str = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.diplomacy] + ')</div>';
+                    var str2 = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.violence] + ')</div>';
+
+                    diplo_html += str;
+                    violence_html += str2;
+                }
+
+                $('.dropdown.rosters').dropdown('clear')
+                $('.menu.roster.diplomacy').empty().append(diplo_html);
+                $('.menu.roster.violence').empty().append(violence_html);
+
+               
+            });
+          })
+
+        };
+
+        function populateLeaguesDropdown(games) {
+            var leagues = Object.keys(games);
             var html = "";
             var current_league = 'random';
             for (var league in leagues) {
@@ -462,16 +520,51 @@
             if (leagues.length > 1){
               $('.optional').transition('drop');
             }
+
+            populateMissionDropdown(games[current_league]);
+            populateHousesDropdown(current_league);
+
+
         }
 
-        function populateMissionDropdown(roster){};
+        
+
+        function populateHousesDropdown(league){
+
+            // Houses
+
+            db.child('league_houses').child(league).once('value', function(snapshot) {
+
+              var league_houses = snapshot.val();
+
+              db.child('houses').once('value', function(snapshot) {
+                var houses = snapshot.val();
+
+                var html = "";
+
+                for (var house in league_houses){
+                      var h = houses[house];
+
+                      var str = '<div class="item huge" data-value="' + house + '"><div class="ui ' + colors[house] + ' empty circular label"></div>' + h['name'] + '</div>';
+
+                      html += str;
+                  }
+
+                $('.menu.houses').empty().append(html);
+
+              })
+
+            })
+
+        }
+
 
 
         db.child('players').child(authData.uid).once('value', function(snapshot) {
             var player = snapshot.val();
-            var leagues = Object.keys(player.games);
-            populateLeaguesDropdown(leagues);
+            populateLeaguesDropdown(player.games);
         });
+
 
 
         // Episodes
@@ -501,21 +594,6 @@
         // Awards
         
         function populateCharacterDropdowns(chars) {
-            var numerals = [0, 'I', 'II', 'III', 'IV', 'V']
-            var colors = {
-                'bolton': 'red',
-                'meereen': 'brown',
-                'arryn': 'blue',
-                'greyjoy': 'black',
-                'martell': 'orange',
-                'independent': 'pink',
-                'nightswatch': 'grey',
-                'minor': 'olive',
-                'targaryen': 'purple',
-                'tyrell': 'green',
-                'lannister': 'yellow',
-                'stark': 'grey'
-            }
             var html = "";
             for (var character in chars) {
                 if (chars.hasOwnProperty(character)) {
@@ -529,7 +607,6 @@
                 fullTextSearch: true
             });
 
-            // validate form
             
         }
 
@@ -537,7 +614,10 @@
             var characters = snapshot.val();
             populateCharacterDropdowns(characters);
         });
+
         
+        // validate form
+
         $('.ui.form.voting').form({
             fields: {
               vote_wit_1     : ['empty', 'different[vote_wit_2]'],
@@ -553,6 +633,14 @@
             }
           });
 
+        $('.ui.form.missions').form({
+            fields: {
+              assassination_agent : 'different[diplomatic_agent]'
+            }
+          });
+
+        // Parsing Forms
+
         function parseVotes(){
 
           var payload = $('form.voting').form('get values');
@@ -565,7 +653,19 @@
 
         }
 
+        function parseMissions(){
 
+          var payload = $('form.missions').form('get values');
+
+          payload['player'] = authData.uid;
+          payload['league'] = $('.dropdown.league').dropdown('get value');
+          payload['episode'] = $('.dropdown.episode').dropdown('get value');
+
+          return payload;
+
+        }
+
+        // Form Submission
 
         $('.ui.button.submit').click(function(e){
 
@@ -576,7 +676,14 @@
               return false;
             }
 
+          if (!$('form.missions').form('is valid') ) {
+              $('.message.error').transition('drop').text('You can\'t send the same character on both missions.');
+              return false;
+            }
+
           var votes = parseVotes();
+          var missions = parseMissions();
+
 
           // Push Votes
           var votesListRef = new Firebase("https://ascension.firebaseio.com/votes");
@@ -598,10 +705,53 @@
               $('.message').text(error).transition('drop');
               console.log('Submission Failed!');
             } else {
-              window.location.href = 'thanks.html';
-            }
-          })
-        })
+
+              // Push Missions
+                var missionListRef = new Firebase("https://ascension.firebaseio.com/missions");
+                var newMissionRef = missionListRef.push();
+                newMissionRef.set(missions);
+                
+                var path = newMissionRef.toString();
+                var pathelem = path.split('/');
+                var missionkey = pathelem[pathelem.length-1];
+
+                // Update User Details
+
+                var payload = {};
+                
+                payload[missionkey] = true;
+
+                db.child('players').child(authData.uid).child('missions').update(payload, function(error) {
+                  if (error) {
+                    $('.message').text(error).transition('drop');
+                    console.log('Submission Failed! On Mission, Votes Were Submitted');
+                  } else {
+                    window.location.href = 'thanks.html';
+                  }
+                });
+            };
+          });
+        });
+
+        function refreshDropdowns(games) {
+
+            var current_league = $('.dropdown.league').dropdown('get value');
+            populateMissionDropdown(games[current_league]);
+            populateHousesDropdown(current_league);
+        }
+
+        // $('.ui.dropdown.league').dropdown({
+           //     action: 'activate',
+           //     onChange: function(value, text, $selectedItem) {
+           //       db.child('players').child(authData.uid).once('value', function(snapshot) {
+           //           var player = snapshot.val();
+           //           refreshDropdowns(player.games);
+           //       });
+           //     }
+           //   });
+
+        
+
         </script>
       </body>
     </html>
