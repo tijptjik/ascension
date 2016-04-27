@@ -32,18 +32,12 @@
       background-position: top center;
   }
 
-  @media only screen and (min-width: 767px){
-  .ui.fluid.container {
-      padding: 16px;  
-    }
-  }
-
     @media only screen and (max-width: 767px){
       .ui.six.doubling.cards .image {
           height: 240px;
     }
 
-    .ui.cards>.card {
+    .ui.cards >.card {
       margin:0 !important;
       width: 50%!important;
       margin-top: 20px!important;
@@ -73,12 +67,18 @@
 
     }
 
-
     .user.remove.icon {
         display: inline-block;
         padding-right: 16px;
         padding-left: 16px;
     }
+
+      @media only screen and (min-width: 767px){
+        .ui.six.cards {
+            margin-left: 0.25em;
+            margin-right: 0.25em;
+        }
+      }
 
     </style>
 
