@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Ascension | Crossed Banners</title>
+    
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+  </head>
+  <body>
+    
+    <style>
+    .ui.form {
+      font-size: 1rem;
+      margin-bottom: 32px;
+    }
+  .image {
+    height: 320px;
+    width: 100%;
+  }
+  .image-holder{
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-position: top center;
+  }
+
+  @media only screen and (min-width: 767px){
+  .ui.fluid.container {
+      padding: 16px;  
+    }
+  }
+
+    @media only screen and (max-width: 767px){
+      .ui.six.doubling.cards .image {
+          height: 240px;
+    }
+
+    .ui.cards>.card {
+      margin:0 !important;
+      width: 50%!important;
+      margin-top: 20px!important;
+      border-radius: 0px !important;
+    }
+    
+
+      span.prominence {
+        display: block;
+        text-align: center;
+        padding-top: 7px;
+        font-weight: bold;
+      }
+
+      span.missions {
+        display: block;
+        text-align: center;
+        float: none !important;
+      }
+
+      .card:nth-child(2n+1) .content {
+        padding-left: 28px !important;
+      }
+      .card:nth-child(2n) .content {
+        padding-right: 28px !important;
+      }
+
+    }
+
+
+    .user.remove.icon {
+        display: inline-block;
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    </style>
+
+    <!-- Sidebar Menu -->
+    <div class="ui inverted vertical sidebar menu">
+      <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+      <a href="rules.html" class="item">Rules</a>
+      <a href="characters.html" class="item">Characters</a>
+    </div>
+
+    <!-- Page Contents -->
+    <div class="pusher">
+      <div class="ui vertical masthead center aligned segment">
+        <div class="ui container">
+          <div class="ui large secondary pointing menu">
+            <a class="toc item">
+              <i class="sidebar icon"></i>
+            </a>
+            <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+            <a href="rules.html" class="item">Rules</a>
+            <a href="characters.html" class="item">Characters</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="ui fluid container">
+        <h2 class="ui horizontal divider header">
+          <i class="bar university icon"></i>
+          Character Guide
+        </h2>
+      </div>
+      <br>
+        <div class="ui six doubling cards">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var numerals = [0, 'I', 'II', 'III', 'IV', 'V']
+    
+    // Semantic ui
+    $('.ui.sidebar').sidebar('attach events', '.toc.item');
+
+    // HTML Builder
+
+    function buildImageCard(char){
+      console.log(char)
+      var html = ''
+
+      html += '<div class="card attached"><div class="image"><div class="image-holder" style=\'background-image:url("assets/images/characters/'
+      html += char.id;
+      html += '.jpg")\'></div></div><div class="content"><div class="header">';
+      html += char.name;
+      html += '</div><div class="meta"><a>'
+      html += houses[char.house]['name'];
+      html += '</a></div><div class="description">'
+      html += char.bio;
+      html += '</div></div><div class="extra content">'
+      html += '<span class="right floated missions">'
+      html += '<i class="unhide icon"></i>'
+      html += char.diplomacy;
+      html += '<i class="remove user icon"></i>'
+      html += char.violence;
+      html += '</span><span class="prominence">'
+      html += 'Prominence '
+      html += numerals[char.prominence]
+      html += '</span></div></div>'
+
+      console.log(html)
+
+      return html;
+    }
+
+    // Firebase Setup
+
+    var houses;
+    var housesRef = new Firebase("https://ascension.firebaseio.com/houses");
+
+    housesRef.once('value',function(snapshot){
+      houses = snapshot.val();
+    }).then(function(){
+
+
+    var charRef = new Firebase("https://ascension.firebaseio.com/characters");
+
+    charRef.once('value',function(snapshot){
+      var chars = snapshot.val();
+
+      console.log(chars[Object.keys(chars)[0]])
+
+      var html = "";
+      
+      for (var char in chars) {
+          html += buildImageCard(chars[char]);
+        }
+
+      console.log(html);
+
+        $('.ui.six.doubling.cards').append(html);
+
+        // Lazy Load
+
+        $('.image div')
+        .visibility({
+          type       : 'image',
+          transition : 'fade in',
+          duration   : 1000
+        });
+
+    });
+
+    });
+
+  </script>
+  </body>
+</html>
