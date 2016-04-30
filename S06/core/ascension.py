@@ -9,6 +9,10 @@ from abc import ABCMeta, abstractmethod
 from collections import Counter
 from tabulate import tabulate
 
+'''
+GAME
+'''
+
 class Ascension(object):
     """Game Object for Ascension Crossed Banners"""
     def __init__(self, firebase_url = 'https://ascension.firebaseio.com'):
@@ -23,11 +27,12 @@ class Ascension(object):
 
         self.rosters = self.db['rosters']
 
+        self.players = self.db['players']
         self.episode_scores = self.db['episode_scores']
         self.player_award_scores = self.db['player_award_scores']
         self.player_episode_scores = self.db['player_episode_scores']
         self.leaderboard = self.db['leaderboard']
-        
+
         self.character_health = self.db['character_health']
 
         self.episodes = self.setup_episodes()
@@ -43,19 +48,107 @@ class Ascension(object):
         return {id: Character(**c) for (id, c) in self.db['characters'].iteritems()}
 
     def setup_leagues(self):
-        return [League(l, self) for l in self.db['leagues'].keys() if l == 'essos']
-        # return [League(l, self) for l in self.db['leagues'].keys()]
-
-    def publish_scores(self, scores):
-        if True:
-            import json
-            with open('scores.json', 'w') as outfile:
-                json.dump(data, outfile)
-            return false
-
-        self.ref
+        # DEVELOPER MODE : ONLY SHOW ESSOS DATA
+        # return [League(l, self) for l in self.db['leagues'].keys() if l == 'essos']
+        return [League(l, self) for l in self.db['leagues'].keys()]
 
 
+    def update_episode_scores(self, keys, scores):
+        '''EPISODE SCORES PER CHARACTER PER AWARD
+
+        'episode_scores'
+            <league_id>+<episode_id>+<award> :
+                "episode" : <episode_id>,
+                "award" : <award>,
+                "scores" : 
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+
+        '''
+        firebase_key = "{league}{episode}{award}".format(**keys)
+        self.ref.put('/episode_scores/', firebase_key, scores)
+        
+        self.episode_scores.update({firebase_key : scores})
+
+
+    def update_player_award_scores(self, keys, scores):
+        ''' PLAYER SCORES PER CHARACTER PER AWARD
+
+        'player_award_scores':
+            <league_id>+<episode_id>+<award>+<player_id> :
+                "episode" : <episode_id>,
+                "award" : <award>,
+                "player" : <player_id>,
+                "scores" : 
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+                    <character_id> : <score>
+        '''
+        firebase_key = "{league}{episode}{award}{player}".format(**keys)
+        self.ref.put('/player_award_scores/', firebase_key, scores)
+
+        self.player_award_scores.update({firebase_key : scores})
+
+
+    def update_player_episode_scores(self, keys, scores):
+        '''PLAYER SCORES PER AWARD PER EPISODE
+
+        'player_episode_scores':
+            <league_id>+<episode_id>+<player_id> :
+                "episode" : <episode_id>,
+                "player" : <player_id>,
+                "scores" : 
+                    <award> : <score>
+                    <award> : <score>
+                    <award> : <score>
+                    <award> : <score>
+                    <award> : <score>
+        '''
+        firebase_key = "{league}{episode}{player}".format(**keys)
+        self.ref.put('/player_episode_scores/', firebase_key, scores)
+
+        self.player_episode_scores.update({firebase_key : scores})
+
+    def update_leaderboard(self, keys, scores):
+        ''' PLAYER SCORES PER EPISODE
+
+        'leaderboard':
+            <league_id><episode_id> :
+                "episode" : <episode_id>,
+                "scores" : 
+                    <player> : <score>
+                    <player> : <score>
+                    <player> : <score>
+                    <player> : <score>
+                    <player> : <score>
+
+        '''
+        firebase_key = "{league}{episode}".format(**keys)
+        self.ref.put('/leaderboard/', firebase_key, scores)
+
+        self.leaderboard.update({firebase_key : scores})
+
+    def print_leaderboard(self, league, episode):
+        key = league + episode
+        player_names = [self.players[name]['first_name'] for name in self.leaderboard[key]['scores'].keys()]
+        scores = self.leaderboard[key]['scores'].values()
+        leaderboard = dict(zip(player_names, scores))
+
+        scores = sorted(leaderboard.items(), key=operator.itemgetter(1), reverse=True)
+        return tabulate(scores, headers=['Player','Score'],tablefmt="pipe",numalign="right")
+
+'''
+LEAGUES
+'''
 
 class League(object):
     """League in Ascension Crossed Banners"""
@@ -152,11 +245,19 @@ class League(object):
                     character = vote['vote_' + award + "_" + rank]
                     score.update({character:points})
 
-            firebase_key = "{}{}{}".format(self.name, episode.number, award)
-            self.game.episode_scores.update({firebase_key : score})
+            
+            self.name, episode.number, award
+            
+            keys = {
+                "league" : self.name,
+                "episode" : episode.number,
+                "award" :  award
+            }
 
             self.current_episode = episode
             self.current_episode_score[award] = score
+
+            self.game.update_episode_scores(keys, dict(score))
 
 
     def run_weekly_diplomatic_missions(self, episode):
@@ -167,23 +268,61 @@ class League(object):
 
     def award_weekly_points(self, episode):
         
-        scores = {}
-        scores[self.name] = {}
+        leaderboard_scores = {}
 
         for player in self.players:
+
+            player_episode_scores = {}
+
             for award in self.game.awards:
+                
                 award_score = self.current_episode_score[award]
-                awarded_points = player.house.award_points(self, episode, award, award_score, self.game.characters, player.character_health, player.missions)
-                scores[self.name] ={
-                    'episode' : episode.number,
-                    'player' : player.id,
-                    'award' : award,
-                    'scores' : dict(awarded_points)
-
+                awarded_points = player.house.award_points(self, episode, award,
+                    award_score, self.game.characters, player.character_health, player.missions)
+                
+                keys = {
+                    "league" : self.name,
+                    "episode" : episode.number,
+                    "award" : award,
+                    "player" : player.id
                 }
-                print player, award, '\n\n', awarded_points
+                
+                scores = {
+                        'episode' : keys['episode'],
+                        'player' : keys['player'],
+                        'award' : keys['award'],
+                        'scores' : dict(awarded_points)
+                }
 
-        self.game.publish_scores(scores)
+                player_episode_scores[keys['award']] = sum(dict(awarded_points).values())
+
+                # print player, award, '\n\n', awarded_points
+
+                # DEVELOPER
+                self.game.update_player_award_scores(keys, scores)
+
+            scores = {
+                'episode' : keys['episode'],
+                'player' : keys['player'],
+                "scores" : player_episode_scores
+            }
+
+            leaderboard_scores[keys['player']] =  sum(player_episode_scores.values())
+
+            # DEVELOPER
+            self.game.update_player_episode_scores(keys, scores)
+
+        scores = {
+            'episode' : keys['episode'],
+            "scores" : leaderboard_scores
+        }
+
+        # DEVELOPER
+        self.game.update_leaderboard(keys, scores)
+
+'''
+HOUSES
+'''
 
 class House:
     __metaclass__ = ABCMeta
@@ -206,7 +345,7 @@ class House:
 
         for character, h in health.iteritems():
 
-           if character not in scores:
+            if character not in scores:
                 roster_score.update({character : 0})
 
             base_score = scores[character]
@@ -215,7 +354,7 @@ class House:
             health_penalty = h / 100.0
             mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
             
-            points = reduce(operator.mul, [base_score,prominence_multiplier,house_bonus,health_penalty,mission_penalty])
+            points = reduce(operator.mul, [base_score, prominence_multiplier, house_bonus, health_penalty, mission_penalty])
             
             roster_score.update({character : points})
 
@@ -449,10 +588,6 @@ class Episode(object):
 
 
 '''
-LEAGUES
-'''
-
-'''
 PLAYERS
 '''
 
@@ -502,32 +637,17 @@ class Player(object):
         return filter(lambda m: m['player'] == self.id, self.league.missions)
 
 
-
-'''
-ROSTERS
-'''
-
-'''
-VOTES
-'''
-
 '''
 UTILS
 '''
 
 class ScoreCounter(Counter):
     def __str__(self):
-        # return "\n".join('{} {}'.format(k, v) for k, v in
-            # sorted(self.items(), key=operator.itemgetter(1), reverse=True))
         scores = sorted(self.items(), key=operator.itemgetter(1), reverse=True)
         return tabulate(scores, headers=['Character','Score'],tablefmt="pipe",numalign="right")
 
 if __name__ == "__main__":
     game = Ascension()
+    
     for league in game.leagues:
         league.process_episode_results()
-        
-    # for id, epiosode in game.episodes.iteritems():
-        # print epiosode
-    # for id, character in game.characters.iteritems():
-        # print character

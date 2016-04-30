@@ -12,10 +12,11 @@
         <character_id> : health
 '''
 
-# EPISODE VOTES
 '''
+EPISODE SCORES PER CHARACTER PER AWARD
+
 'episode_scores'
-	<league_id> :
+	<league_id>+<episode_id>+<award> :
 		"episode" : <episode_id>,
         "award" : <award>,
         "scores" : 
@@ -28,11 +29,11 @@
         	<character_id> : <score>
 
 '''
-# PLAYER SCORES PER CHARACTER PER AWARD
 
-'''
+
+''' PLAYER SCORES PER CHARACTER PER AWARD
 'player_award_scores':
-	<league_id> :
+	<league_id>+<episode_id>+<award>+<player_id> :
         "episode" : <episode_id>,
         "award" : <award>,
         "player" : <player_id>,
@@ -47,10 +48,11 @@
 '''
 
 
-# PLAYER SCORES PER AWARD PER EPISODE
-'''
+# 
+'''PLAYER SCORES PER AWARD PER EPISODE
+
 'player_episode_scores':
-	<league_id> :
+	<league_id>+<episode_id>+<player_id> :
         "episode" : <episode_id>,
         "player" : <player_id>,
         "scores" : 
@@ -62,11 +64,11 @@
 '''
 
 
-# EPISODE SCORES PER PLAYER
-'''
+# 
+''' PLAYER SCORES PER EPISODE
 
 'leaderboard':
-	<league_id> :
+	<league_id><episode_id> :
 		"episode" : <episode_id>,
         "scores" : 
         	<player> : <score>
