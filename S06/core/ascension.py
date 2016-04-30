@@ -22,7 +22,12 @@ class Ascension(object):
         self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
         self.rosters = self.db['rosters']
+
         self.episode_scores = self.db['episode_scores']
+        self.player_award_scores = self.db['player_award_scores']
+        self.player_episode_scores = self.db['player_episode_scores']
+        self.leaderboard = self.db['leaderboard']
+        
         self.character_health = self.db['character_health']
 
         self.episodes = self.setup_episodes()
@@ -40,6 +45,16 @@ class Ascension(object):
     def setup_leagues(self):
         return [League(l, self) for l in self.db['leagues'].keys() if l == 'essos']
         # return [League(l, self) for l in self.db['leagues'].keys()]
+
+    def publish_scores(self, scores):
+        if True:
+            import json
+            with open('scores.json', 'w') as outfile:
+                json.dump(data, outfile)
+            return false
+
+        self.ref
+
 
 
 class League(object):
@@ -152,11 +167,23 @@ class League(object):
 
     def award_weekly_points(self, episode):
         
+        scores = {}
+        scores[self.name] = {}
+
         for player in self.players:
             for award in self.game.awards:
                 award_score = self.current_episode_score[award]
                 awarded_points = player.house.award_points(self, episode, award, award_score, self.game.characters, player.character_health, player.missions)
+                scores[self.name] ={
+                    'episode' : episode.number,
+                    'player' : player.id,
+                    'award' : award,
+                    'scores' : dict(awarded_points)
+
+                }
                 print player, award, '\n\n', awarded_points
+
+        self.game.publish_scores(scores)
 
 class House:
     __metaclass__ = ABCMeta
@@ -175,17 +202,11 @@ class House:
     def award_points(self, league, episode, award, scores, characters, health, missions):
         # league.award.character.points *  (6 - character.prominence) * house.bonus * roster.character.health * house.ability * character.mission.efficiency
         
-        points_awards = 0
-
         roster_score = ScoreCounter()
 
         for character, h in health.iteritems():
 
-            # if self.name == 'tyrell':
-            #     import pdb
-            #     pdb.set_trace()
-
-            if character not in scores:
+           if character not in scores:
                 roster_score.update({character : 0})
 
             base_score = scores[character]
@@ -195,9 +216,8 @@ class House:
             mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
             
             points = reduce(operator.mul, [base_score,prominence_multiplier,house_bonus,health_penalty,mission_penalty])
-            points_awards = points_awards + points
-
-            roster_score.update({character : points_awards})
+            
+            roster_score.update({character : points})
 
         return roster_score
 
