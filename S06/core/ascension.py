@@ -3,6 +3,7 @@
 import simplejson
 import pandas as pd
 import operator
+import pdb
 from firebase import firebase
 from abc import ABCMeta, abstractmethod
 from collections import Counter
@@ -20,23 +21,25 @@ class Ascension(object):
         self.diplomacy_performance_penalty = [0,0,0.25,0.5,0,0.25]
         self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
-        self.leagues = self.setup_leagues()
-        self.characters = self.setup_characters()
-        self.episodes = self.setup_episodes()
         self.rosters = self.db['rosters']
         self.episode_scores = self.db['episode_scores']
         self.character_health = self.db['character_health']
 
+        self.episodes = self.setup_episodes()
+        self.characters = self.setup_characters()
+        self.leagues = self.setup_leagues()
+
         self.most_recent_episode = filter(lambda x : x.current, self.episodes.values())[0]
 
-    def setup_leagues(self):
-        return [League(l, self) for l in self.db['leagues'].keys()]
+    def setup_episodes(self):
+        return {id: Episode(**e) for (id, e) in self.db['episodes'].iteritems()}
 
     def setup_characters(self):
         return {id: Character(**c) for (id, c) in self.db['characters'].iteritems()}
 
-    def setup_episodes(self):
-        return {id: Episode(**e) for (id, e) in self.db['episodes'].iteritems()}
+    def setup_leagues(self):
+        return [League(l, self) for l in self.db['leagues'].keys() if l == 'essos']
+        # return [League(l, self) for l in self.db['leagues'].keys()]
 
 
 class League(object):
@@ -93,23 +96,29 @@ class League(object):
 
 
     def collect_player_rosters_ids(self):
-        return map(lambda x: x.roster_ids, self.players)
+        return map(lambda x: x.roster_id, self.players)
 
     def collect_player_rosters(self):
         return {roster_id: roster for roster_id, roster in self.game.rosters.iteritems() if roster_id in self.roster_ids}
 
     def collect_character_health(self):
-        return [roster for roster in self.game.character_health if roster.id in self.roster_ids]
+        # Defaults
+        for key, roster in self.rosters.iteritems():
+            if key not in self.game.character_health:
+                self.game.character_health[key] = dict(zip(roster.values(), [100]*7 ))
+
+        return {key: roster for key, roster in self.game.character_health.iteritems() if key in self.roster_ids}
 
     def assign_rosters_to_players(self):
         for player in self.players:
-            
             player.roster = self.rosters[player.roster_id]
             player.character_health = self.character_health[player.roster_id]
 
     # Weekly Processes
 
-    def process_episode_results(self, episode=self.game.most_recent_episode):
+    def process_episode_results(self, episode=None):
+        if episode is None:
+            episode = self.game.most_recent_episode
         self.score_weekly_episode(episode)
         self.run_weekly_diplomatic_missions(episode)        
         self.run_weekly_assassion_missions(episode)
@@ -132,11 +141,8 @@ class League(object):
             self.game.episode_scores.update({firebase_key : score})
 
             self.current_episode = episode
-            self.current_episode_score['award'] = score
+            self.current_episode_score[award] = score
 
-            # print '\n## {}\n'.format(firebase_key.upper())
-            # print score
-    
 
     def run_weekly_diplomatic_missions(self, episode):
         pass
@@ -150,7 +156,7 @@ class League(object):
             for award in self.game.awards:
                 award_score = self.current_episode_score[award]
                 awarded_points = player.house.award_points(self, episode, award, award_score, self.game.characters, player.character_health, player.missions)
-            print player, award, awarded_points
+                print player, award, '\n\n', awarded_points
 
 class House:
     __metaclass__ = ABCMeta
@@ -161,6 +167,7 @@ class House:
         self.jockey = jockey
         self.style = style
         self.support = support
+
     
     def __str__(self):
         return 'House {0}'.format(self.name.title())
@@ -170,22 +177,41 @@ class House:
         
         points_awards = 0
 
-        for character, health in scores.iteritems():
-            base_score = scores['character']
-            prominence_multiplier = (6 - characters['character'].prominence)
-            house_bonus = (100 + self[award]) / 100.0
-            health_penalty = health[character] / 100.0
+        roster_score = ScoreCounter()
+
+        for character, h in health.iteritems():
+
+            # if self.name == 'tyrell':
+            #     import pdb
+            #     pdb.set_trace()
+
+            if character not in scores:
+                roster_score.update({character : 0})
+
+            base_score = scores[character]
+            prominence_multiplier = (6 - characters[character].prominence)
+            house_bonus = (100 + getattr(self, award)) / 100.0
+            health_penalty = h / 100.0
             mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
             
-            points_awards = points_awards + reduce(operator.mult, [base_score,prominence_multiplier,house_bonus,health_penalty,mission_penalty])
+            points = reduce(operator.mul, [base_score,prominence_multiplier,house_bonus,health_penalty,mission_penalty])
+            points_awards = points_awards + points
 
-        return points_awards 
+            roster_score.update({character : points_awards})
+
+        return roster_score
 
     def mission_efficiency(self, league, episode, character, characters, missions):
-        diplomacic_penalty = league.game.diplomacy_performance_penalty[characters[character]['diplomacy']]
-        violence_penalty = league.game.violence_performance_penalty[characters[character]['violence']]
+        d = getattr(characters[character],'diplomacy')
+        v = getattr(characters[character],'violence')
 
-        episode_missions = [mission for mission in missions if mission['episode'] == episode.number][0]
+        diplomacic_penalty = league.game.diplomacy_performance_penalty[d]
+        violence_penalty = league.game.violence_performance_penalty[v]
+
+        try:
+            episode_missions = [mission for mission in missions if mission['episode'] == episode.number][0]
+        except IndexError:
+            return 1
         
         if character == episode_missions['diplomatic_agent']:
             return 1 - character[character[character]['diplomacy']]
@@ -245,7 +271,7 @@ class HouseGreyjoy(House):
 class HouseIndependent(House):
     def __init__(self, name):
         self.name = name
-        self.bonus = {style:'10','support':10}
+        self.bonus = {'style':10,'support':10}
         super(HouseIndependent, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
@@ -297,7 +323,7 @@ class HouseMeereen(House):
 class HouseMinor(House):
     def __init__(self, name):
         self.name = name
-        self.bonus = {'wit'10,'support':10}
+        self.bonus = {'wit':10,'support':10}
         super(HouseMinor, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
@@ -427,7 +453,6 @@ class Player(object):
         self.house = self.ofHouse(house)
         self.missions = self.collect_missions()
         self.votes = self.collect_votes()
-        self.character_health = self.collect_character_health()
 
     def __repr__(self):
         return '<{} @ {}>'.format(self.first_name, self.house.name.upper())
@@ -456,13 +481,6 @@ class Player(object):
     def collect_missions(self):
         return filter(lambda m: m['player'] == self.id, self.league.missions)
 
-    def character_health(self):
-        '''
-        'character_health':
-            <roster_id> :
-                <character_id> : health
-        '''
-
 
 
 '''
@@ -486,9 +504,10 @@ class ScoreCounter(Counter):
 
 if __name__ == "__main__":
     game = Ascension()
-    # for league in game.leagues:
-        # print league.players
-    for id, epiosode in game.episodes.iteritems():
-        print epiosode
+    for league in game.leagues:
+        league.process_episode_results()
+        
+    # for id, epiosode in game.episodes.iteritems():
+        # print epiosode
     # for id, character in game.characters.iteritems():
         # print character
