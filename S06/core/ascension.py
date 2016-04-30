@@ -17,11 +17,17 @@ class Ascension(object):
         
         self.awards = ['wit','damage','jockey','style','support']
         self.rank_score = {"1":20,"2": 8}
+        self.diplomacy_performance_penalty = [0,0,0.25,0.5,0,0.25]
+        self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
         self.leagues = self.setup_leagues()
         self.characters = self.setup_characters()
         self.episodes = self.setup_episodes()
+        self.rosters = self.db['rosters']
         self.episode_scores = self.db['episode_scores']
+        self.character_health = self.db['character_health']
+
+        self.most_recent_episode = filter(lambda x : x.current, self.episodes.values())[0]
 
     def setup_leagues(self):
         return [League(l, self) for l in self.db['leagues'].keys()]
@@ -35,18 +41,6 @@ class Ascension(object):
 
 class League(object):
     """League in Ascension Crossed Banners"""
-
-    def __repr__(self):
-        return '<{0} League>'.format(self.name.title())
-
-    def player_filter(self, player):
-        return 'games' in player and type(player['games']) is not bool and self.name in player['games']
-
-    def vote_filter(self, vote):
-        return vote['league'] == self.name
-
-    def mission_filter(self, mission):
-        return mission['league'] == self.name
 
     def __init__(self, name, game):
         super(League, self).__init__()
@@ -62,18 +56,67 @@ class League(object):
         self.missions = filter(self.mission_filter, game.db['missions'].values())
         
         self.players = self.init_players()
+        self.roster_ids = self.collect_player_rosters_ids()
+        self.rosters = self.collect_player_rosters()
+
+        self.character_health = self.collect_character_health()
+
+        self.assign_rosters_to_players()
+
+        self.current_episode = "00"
+        self.current_episode_score = {}
+    
+
+    # Helper Methods
+
+    def __repr__(self):
+        return '<{0} League>'.format(self.name.title())
+
+    def player_filter(self, player):
+        return 'games' in player and type(player['games']) is not bool and self.name in player['games']
+
+    def vote_filter(self, vote):
+        return vote['league'] == self.name
+
+    def mission_filter(self, mission):
+        return mission['league'] == self.name
 
     def init_players(self):
         for player in self.players:
             player['league'] = self
             player['house'] = player['house'][self.name]
-            player['roster'] = player['games'][self.name]
+            player['roster_id'] = player['games'][self.name]
+
             del player['games']
+
         return [Player(**player) for player in self.players]
 
-    def score_weekly_episode(self):
-        current_episode = filter(lambda x : x.current, self.game.episodes.values())[0]
-        episode_votes = filter(lambda v: v['episode'] == str(current_episode.number), self.votes)
+
+    def collect_player_rosters_ids(self):
+        return map(lambda x: x.roster_ids, self.players)
+
+    def collect_player_rosters(self):
+        return {roster_id: roster for roster_id, roster in self.game.rosters.iteritems() if roster_id in self.roster_ids}
+
+    def collect_character_health(self):
+        return [roster for roster in self.game.character_health if roster.id in self.roster_ids]
+
+    def assign_rosters_to_players(self):
+        for player in self.players:
+            
+            player.roster = self.rosters[player.roster_id]
+            player.character_health = self.character_health[player.roster_id]
+
+    # Weekly Processes
+
+    def process_episode_results(self, episode=self.game.most_recent_episode):
+        self.score_weekly_episode(episode)
+        self.run_weekly_diplomatic_missions(episode)        
+        self.run_weekly_assassion_missions(episode)
+        self.award_weekly_points(episode)
+
+    def score_weekly_episode(self, episode):
+        episode_votes = filter(lambda v: v['episode'] == str(episode.number), self.votes)
         
         
         for award in self.game.awards:
@@ -85,19 +128,29 @@ class League(object):
                     character = vote['vote_' + award + "_" + rank]
                     score.update({character:points})
 
-            firebase_key = "{}{}{}".format(self.name, current_episode.number, award)
+            firebase_key = "{}{}{}".format(self.name, episode.number, award)
             self.game.episode_scores.update({firebase_key : score})
+
+            self.current_episode = episode
+            self.current_episode_score['award'] = score
 
             # print '\n## {}\n'.format(firebase_key.upper())
             # print score
     
 
-    def run_weekly_diplomatic_missions(self):
-        raise NotImplementedError
+    def run_weekly_diplomatic_missions(self, episode):
+        pass
 
-    def award_vote_keys(self):
-        return ["vote_"+ award + "_" + str(y) for award in self.game.awards for y in [1,2]]
+    def run_weekly_assassion_missions(self, episode):
+        pass
 
+    def award_weekly_points(self, episode):
+        
+        for player in self.players:
+            for award in self.game.awards:
+                award_score = self.current_episode_score[award]
+                awarded_points = player.house.award_points(self, episode, award, award_score, self.game.characters, player.character_health, player.missions)
+            print player, award, awarded_points
 
 class House:
     __metaclass__ = ABCMeta
@@ -111,6 +164,35 @@ class House:
     
     def __str__(self):
         return 'House {0}'.format(self.name.title())
+
+    def award_points(self, league, episode, award, scores, characters, health, missions):
+        # league.award.character.points *  (6 - character.prominence) * house.bonus * roster.character.health * house.ability * character.mission.efficiency
+        
+        points_awards = 0
+
+        for character, health in scores.iteritems():
+            base_score = scores['character']
+            prominence_multiplier = (6 - characters['character'].prominence)
+            house_bonus = (100 + self[award]) / 100.0
+            health_penalty = health[character] / 100.0
+            mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
+            
+            points_awards = points_awards + reduce(operator.mult, [base_score,prominence_multiplier,house_bonus,health_penalty,mission_penalty])
+
+        return points_awards 
+
+    def mission_efficiency(self, league, episode, character, characters, missions):
+        diplomacic_penalty = league.game.diplomacy_performance_penalty[characters[character]['diplomacy']]
+        violence_penalty = league.game.violence_performance_penalty[characters[character]['violence']]
+
+        episode_missions = [mission for mission in missions if mission['episode'] == episode.number][0]
+        
+        if character == episode_missions['diplomatic_agent']:
+            return 1 - character[character[character]['diplomacy']]
+
+        if character == episode_missions['assassination_agent']:
+            return 1 - character[character[character]['violence']]            
+
 
     @abstractmethod
     def run_diplomatic_mission(self):
@@ -331,7 +413,7 @@ PLAYERS
 class Player(object):
     """A League Player"""
     def __init__(self, league, id, alias, alias_short, email, facebook, first_name, full_name,
-                    roster=None, house=None, missions=None, votes=None):
+                    roster_id=None, house=None, missions=None, votes=None):
         super(Player, self).__init__()
         self.id = id
         self.league = league
@@ -341,10 +423,11 @@ class Player(object):
         self.facebook = facebook
         self.first_name = first_name
         self.full_name = full_name
-        self.roster = roster
+        self.roster_id = roster_id
         self.house = self.ofHouse(house)
         self.missions = self.collect_missions()
         self.votes = self.collect_votes()
+        self.character_health = self.collect_character_health()
 
     def __repr__(self):
         return '<{} @ {}>'.format(self.first_name, self.house.name.upper())
@@ -373,6 +456,13 @@ class Player(object):
     def collect_missions(self):
         return filter(lambda m: m['player'] == self.id, self.league.missions)
 
+    def character_health(self):
+        '''
+        'character_health':
+            <roster_id> :
+                <character_id> : health
+        '''
+
 
 
 '''
@@ -382,16 +472,6 @@ ROSTERS
 '''
 VOTES
 '''
-
-
-if __name__ == "__main__":
-    game = Ascension()
-    # for league in game.leagues:
-        # print league.players
-    for id, epiosode in game.episodes.iteritems():
-        print epiosode
-    # for id, character in game.characters.iteritems():
-        # print character
 
 '''
 UTILS
@@ -403,3 +483,12 @@ class ScoreCounter(Counter):
             # sorted(self.items(), key=operator.itemgetter(1), reverse=True))
         scores = sorted(self.items(), key=operator.itemgetter(1), reverse=True)
         return tabulate(scores, headers=['Character','Score'],tablefmt="pipe",numalign="right")
+
+if __name__ == "__main__":
+    game = Ascension()
+    # for league in game.leagues:
+        # print league.players
+    for id, epiosode in game.episodes.iteritems():
+        print epiosode
+    # for id, character in game.characters.iteritems():
+        # print character
