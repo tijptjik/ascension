@@ -688,7 +688,7 @@
           // Push Votes
           var votesListRef = new Firebase("https://ascension.firebaseio.com/votes");
           var newVoteRef = votesListRef.push();
-          newVoteRef.set(votes)
+          newVoteRef.set(voteskey)
           
           var path = newVoteRef.toString();
           var pathelem = path.split('/');
@@ -733,12 +733,12 @@
           });
         });
 
-        function refreshDropdowns(games) {
+        // function refreshDropdowns(games) {
 
-            var current_league = $('.dropdown.league').dropdown('get value');
-            populateMissionDropdown(games[current_league]);
-            populateHousesDropdown(current_league);
-        }
+        //     var current_league = $('.dropdown.league').dropdown('get value');
+        //     populateMissionDropdown(games[current_league]);
+        //     populateHousesDropdown(current_league);
+        // }
 
         // $('.ui.dropdown.league').dropdown({
            //     action: 'activate',
