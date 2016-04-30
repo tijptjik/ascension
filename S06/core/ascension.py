@@ -88,8 +88,8 @@ class League(object):
             firebase_key = "{}{}{}".format(self.name, current_episode.number, award)
             self.game.episode_scores.update({firebase_key : score})
 
-            print '\n## {}\n'.format(firebase_key.upper())
-            print score
+            # print '\n## {}\n'.format(firebase_key.upper())
+            # print score
     
 
     def run_weekly_diplomatic_missions(self):
@@ -101,12 +101,15 @@ class League(object):
 
 class House:
     __metaclass__ = ABCMeta
-    
-    def __repr__(self):
-        return '<{0}.{1} object at {2}>'.format(
-            self.__module__, type(self).__name__, hex(id(self)))
 
-    def __repr__(self):
+    def __init__(self, wit=0, damage=0, jockey=0, style=0, support=0):
+        self.wit = wit
+        self.damage = damage
+        self.jockey = jockey
+        self.style = style
+        self.support = support
+    
+    def __str__(self):
         return 'House {0}'.format(self.name.title())
 
     @abstractmethod
@@ -120,8 +123,9 @@ class House:
 
 class HouseArryn(House):
     def __init__(self, name):
-        super(HouseArryn, self).__init__()
         self.name = name
+        self.bonus = {'jockey':20}
+        super(HouseArryn, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -132,8 +136,9 @@ class HouseArryn(House):
 
 class HouseBolton(House):
     def __init__(self, name):
-        super(HouseBolton, self).__init__()
         self.name = name
+        self.bonus = {'damage':10,'support':10}
+        super(HouseBolton, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -144,8 +149,9 @@ class HouseBolton(House):
 
 class HouseGreyjoy(House):
     def __init__(self, name):
-        super(HouseGreyjoy, self).__init__()
         self.name = name
+        self.bonus = {'damage':20}
+        super(HouseGreyjoy, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -156,8 +162,9 @@ class HouseGreyjoy(House):
 
 class HouseIndependent(House):
     def __init__(self, name):
-        super(HouseIndependent, self).__init__()
         self.name = name
+        self.bonus = {style:'10','support':10}
+        super(HouseIndependent, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -168,8 +175,9 @@ class HouseIndependent(House):
 
 class HouseLannister(House):
     def __init__(self, name):
-        super(HouseLannister, self).__init__()
         self.name = name
+        self.bonus = {'wit':10,'jockey':10}
+        super(HouseLannister, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -180,8 +188,9 @@ class HouseLannister(House):
 
 class HouseMartell(House):
     def __init__(self, name):
-        super(HouseMartell, self).__init__()
         self.name = name
+        self.bonus = dict(wit=5, damage=5, jockey=5, style=5, support=5)
+        super(HouseMartell, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -192,8 +201,9 @@ class HouseMartell(House):
 
 class HouseMeereen(House):
     def __init__(self, name):
-        super(HouseMeereen, self).__init__()
         self.name = name
+        self.bonus = {'wit':20}
+        super(HouseMeereen, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -204,8 +214,9 @@ class HouseMeereen(House):
 
 class HouseMinor(House):
     def __init__(self, name):
-        super(HouseMinor, self).__init__()
         self.name = name
+        self.bonus = {'wit'10,'support':10}
+        super(HouseMinor, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -216,8 +227,9 @@ class HouseMinor(House):
 
 class HouseNightswatch(House):
     def __init__(self, name):
-        super(HouseNightswatch, self).__init__()
         self.name = name
+        self.bonus = {'damage':10,'support':10}
+        super(HouseNightswatch, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -228,8 +240,9 @@ class HouseNightswatch(House):
 
 class HouseStark(House):
     def __init__(self, name):
-        super(HouseStark, self).__init__()
         self.name = name
+        self.bonus = {'support':20}
+        super(HouseStark, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -240,8 +253,9 @@ class HouseStark(House):
 
 class HouseTargaryen(House):
     def __init__(self, name):
-        super(HouseTargaryen, self).__init__()
         self.name = name
+        self.bonus = {'damage':10,'jockey':10}
+        super(HouseTargaryen, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
@@ -252,15 +266,15 @@ class HouseTargaryen(House):
 
 class HouseTyrell(House):
     def __init__(self, name):
-        super(HouseTyrell, self).__init__()
         self.name = name
+        self.bonus = {'style':20}
+        super(HouseTyrell, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
         pass
 
     def run_assassination_mission():
         pass
-
 
 
 class Character(object):
