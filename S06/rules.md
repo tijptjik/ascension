@@ -83,7 +83,7 @@ Depending on the ability `type`, abilities modify the way _[prominence](#charact
 | Night's Watch & Free Folk        | Beyond the Wall        | diplomacy  | -             | Dissemination of misinformation. Chance of _false_ intel to be recovered in diplomatic missions run against this house is $50\%$ |
 | League of Minor Orders           | Rank & File            | prominence | -             | Characters with Prominence Power 1 and 2, now multiply their Score with $5$ and $6$ instead of $4$ and $5$ |
 | House Targaryen & Dothraki       | Bloodriders            | violence   | -             | All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character |
-| House Tyrell                     | Poisoned Roses         | missions   | -             | Full Secrecy. Missions are _never_ revealed. Not even to the Council of Mereen |
+| House Tyrell                     | Poisoned Roses         | missions   | -             | Full Secrecy. Missions are _never_ revealed. Not even to the Council of Meereen |
 | House Lannister                  | Lannister's Word       | missions   | -             | All performance penalties for running missions are waived - The debts have been paid. |
 | House Stark                      | The North Remembers    | diplomacy  | -             | Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest |
 
