@@ -221,6 +221,7 @@ class League(object):
         for player in self.players:
             player.roster = self.rosters[player.roster_id]
             player.character_health = self.character_health[player.roster_id]
+            player.roster_prominence = player.get_roster_prominence(self.game.characters)
 
     # Weekly Processes
 
@@ -264,6 +265,18 @@ class League(object):
         pass
 
     def run_weekly_assassion_missions(self, episode):
+
+        # Award points for succesful assassinations
+        # Points are split between the number of assailants.
+        # If a stronger assassin targets the same characters, 
+
+        # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
+
+        # TARGARYAN : All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character
+
+        # Update the personal Chronicle with the character damange they incurred.
+
+        # Update the public chronicle about the deaths / damage
         pass
 
     def award_weekly_points(self, episode):
@@ -333,7 +346,7 @@ class House:
         self.jockey = jockey
         self.style = style
         self.support = support
-
+        self.immunity = None
     
     def __str__(self):
         return 'House {0}'.format(self.name.title())
@@ -381,17 +394,69 @@ class House:
 
     @abstractmethod
     def run_diplomatic_mission(self):
+
+        # STARK : Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest
+
         pass
 
     @abstractmethod
     def run_assassination_mission(self):
         pass
 
+    def damage_dealt(self, mission):
+        # MARTELL : All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target's roster
+
+        # if self.roster_prominence < target.roster_prominence: 
+        pass
+        
+
+    def plot_assassination(self,mission):
+
+        # GREYJOY : Theon splatter damage. On a succesful attack by Theon, all characters of the other roster take $5\%$ damage
+
+        # self.damage_dealt(mission)
+
+        pass
+
+    def foil_assassination(self,mission):
+        # Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% *$ target's prominence power
+
+        # Check Immunity
+
+        pass
+
+
+    def reveal_outgoing_missions(self, mission):
+
+        # Mission Type and Result
+
+        # If Diplomacy / Succesful Attack - set to hide by default
+
+        # If Failed Attack - set to reveal by default
+
+        # Target player target_player.house.reveal_missions_target()
+
+        # If Tyrell, don't call() target_player.house.reveal_missions_target()
+        pass
+
+    def reveal_incoming_missions(self, mission):
+        pass
+
+        # MEEREEN: ignore the hidden property on the diplomatic mission and reveal its 
+            # Origin House
+
+        # Update the personal Chronicle
+
+        # ARRYN : Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
+
+        # NIGHTWATCH : Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is $50\%$
+
 
 class HouseArryn(House):
     def __init__(self, name):
         self.name = name
         self.bonus = {'jockey':20}
+        self.immunity = 'petyrbaelish'
         super(HouseArryn, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
@@ -418,6 +483,8 @@ class HouseGreyjoy(House):
     def __init__(self, name):
         self.name = name
         self.bonus = {'damage':20}
+        self.immunity = 'theongreyjoy'
+
         super(HouseGreyjoy, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
@@ -430,6 +497,7 @@ class HouseGreyjoy(House):
 class HouseIndependent(House):
     def __init__(self, name):
         self.name = name
+        self.immunity = 'jaqenhghar'
         self.bonus = {'style':10,'support':10}
         super(HouseIndependent, self).__init__(**self.bonus)
 
@@ -445,6 +513,9 @@ class HouseLannister(House):
         self.name = name
         self.bonus = {'wit':10,'jockey':10}
         super(HouseLannister, self).__init__(**self.bonus)
+
+    def mission_efficiency(self, league, episode, character, characters, missions):
+        return 1
 
     def run_diplomatic_mission():
         pass
@@ -470,6 +541,7 @@ class HouseMeereen(House):
     def __init__(self, name):
         self.name = name
         self.bonus = {'wit':20}
+        self.immunity = 'varys'
         super(HouseMeereen, self).__init__(**self.bonus)
 
     def run_diplomatic_mission():
@@ -484,6 +556,33 @@ class HouseMinor(House):
         self.name = name
         self.bonus = {'wit':10,'support':10}
         super(HouseMinor, self).__init__(**self.bonus)
+
+    def award_points(self, league, episode, award, scores, characters, health, missions):
+        
+        roster_score = ScoreCounter()
+
+        for character, h in health.iteritems():
+
+            if character not in scores:
+                roster_score.update({character : 0})
+
+            base_score = scores[character]
+            
+            # House Ability
+            prominence = characters[character].prominence
+            if prominence < 3:
+                prominence = prominence - 1
+
+            prominence_multiplier = (6 - prominence)
+            house_bonus = (100 + getattr(self, award)) / 100.0
+            health_penalty = h / 100.0
+            mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
+            
+            points = reduce(operator.mul, [base_score, prominence_multiplier, house_bonus, health_penalty, mission_penalty])
+            
+            roster_score.update({character : points})
+
+        return roster_score
 
     def run_diplomatic_mission():
         pass
@@ -635,6 +734,10 @@ class Player(object):
 
     def collect_missions(self):
         return filter(lambda m: m['player'] == self.id, self.league.missions)
+
+    def get_roster_prominence(self, characters):
+        prominence = sum([characters[character]['prominence'] for character in self.roster.values()])
+        return prominence
 
 
 '''
