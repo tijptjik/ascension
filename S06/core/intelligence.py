@@ -130,22 +130,17 @@ class CharacterIntelligence(Intelligence):
         while True:
 
             intel_types = [
-                # cls._on_absolute_trait,
-                # cls._on_relative_trait,
-                # cls._on_extreme_trait,
-                # cls._on_extreme_trait]
+                cls._on_absolute_trait,
+                cls._on_relative_trait,
+                cls._on_extreme_trait,
                 cls._on_unique_trait]
                 
 
             new_intel['code'], new_intel['message'] = random.sample(intel_types,1)[0](target_lock, target_roster)
 
             if not new_intel['code'] or new_intel['code'] in previous_intel_codes:
-                # continue
-                # DEVELOPER
-                from pprint import pprint
-                pprint(new_intel)
+                continue
                 
-                return new_intel
             else:
                 from pprint import pprint
                 pprint(new_intel)
@@ -235,14 +230,43 @@ class CharacterIntelligence(Intelligence):
         * Character has the (shared) lowest X of anyone on the target roster
 
         CODES:
-        C|E|{X,N}|{H,P,D,V}
+        C|E|{X,N}|{P,D,V}
         """
         code_prefix = 'C|E|'
+
+        properties = ['prominence','diplomacy','violence']
+        random.shuffle(properties)
         code_suffix = ''
         msg = ''
 
-        return code_prefix + code_suffix, msg
-    
+        for property in properties:
+            char_prop = getattr(target_character, property)
+            code_suffix = property.title()[0]
+
+            is_max, is_shared = cls.is_property_max_on_roster(target_character, property, char_prop, target_roster)
+            if is_max:
+                shared = " "
+                if is_shared:
+                    shared = " (shared) "
+                code_suffix = 'X|' + code_suffix
+
+                msg = "Character has the{}highest {} Power on the target roster".format(shared, property.title())
+                return code_prefix + code_suffix, msg
+
+            is_min, is_shared = cls.is_property_min_on_roster(target_character, property, char_prop, target_roster)
+            
+            if is_min:
+                shared = " "
+                if is_shared:
+                    shared = " (shared) "
+
+                code_suffix = 'N|' + code_suffix
+                msg = "Character has the{}lowest {} Power on the target roster".format(shared, property.title())
+                return code_prefix + code_suffix, msg
+
+        # If there are no extreme traits, fail
+        return None, 'Mission Error'
+
 
     @classmethod
     def _on_unique_trait(cls, target_character, target_roster):
@@ -315,6 +339,25 @@ class CharacterIntelligence(Intelligence):
                 return False
         return True
 
+    @classmethod
+    def is_property_max_on_roster(cls, target_character, k, v, target_roster):
+        for c in target_roster:
+            is_shared = False
+            if c is not target_character and getattr(c, k) > v:
+                return False, None
+            if c is not target_character and getattr(c, k) == v:
+                is_shared = True
+        return True, is_shared
+
+    @classmethod
+    def is_property_min_on_roster(cls, target_character, k, v, target_roster):
+        for c in target_roster:
+            is_shared = False
+            if c is not target_character and getattr(c, k) < v:
+                return False, None
+            if c is not target_character and getattr(c, k) == v:
+                is_shared = True
+        return True, is_shared
 
     @staticmethod
     def _set_character_lock(target_roster):
