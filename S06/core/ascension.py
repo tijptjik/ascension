@@ -161,10 +161,11 @@ class League(object):
         for k, v in game.db['players'].iteritems():
             v['id'] = k
 
-        self.players = filter(self.player_filter, game.db['players'].values())
+        self.players = filter(self.filter_player, game.db['players'].values())
         
-        self.votes = filter(self.vote_filter, game.db['votes'].values())
-        self.missions = filter(self.mission_filter, game.db['missions'].values())
+        self.votes = filter(self.filter_league, game.db['votes'].values())
+        self.missions = filter(self.filter_league, game.db['missions'].values())
+        self.intelligence = filter(self.filter_league, game.db['player_intelligence'].values())
         
         self.players = self.init_players()
         self.roster_ids = self.collect_player_rosters_ids()
@@ -183,14 +184,11 @@ class League(object):
     def __repr__(self):
         return '<{0} League>'.format(self.name.title())
 
-    def player_filter(self, player):
+    def filter_player(self, player):
         return 'games' in player and type(player['games']) is not bool and self.name in player['games']
 
-    def vote_filter(self, vote):
-        return vote['league'] == self.name
-
-    def mission_filter(self, mission):
-        return mission['league'] == self.name
+    def filter_league(self, obj):
+        return obj['league'] == self.name
 
     def init_players(self):
         for player in self.players:
@@ -228,14 +226,17 @@ class League(object):
     def process_episode_results(self, episode=None):
         if episode is None:
             episode = self.game.most_recent_episode
+        
         self.score_weekly_episode(episode)
+        # DEVELOPER
         self.run_weekly_diplomatic_missions(episode)        
-        self.run_weekly_assassion_missions(episode)
-        self.award_weekly_points(episode)
+        # DEVELOPER
+        # self.run_weekly_assassion_missions(episode)
+        # DEVELOPER
+        # self.award_weekly_points(episode)
 
     def score_weekly_episode(self, episode):
         episode_votes = filter(lambda v: v['episode'] == str(episode.number), self.votes)
-        
         
         for award in self.game.awards:
 
@@ -262,9 +263,15 @@ class League(object):
 
 
     def run_weekly_diplomatic_missions(self, episode):
+        episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
+
+        for mission in episode_missions:
+
+
         pass
 
     def run_weekly_assassion_missions(self, episode):
+        episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
 
         # Award points for succesful assassinations
         # Points are split between the number of assailants.
@@ -347,53 +354,25 @@ class House:
         self.style = style
         self.support = support
         self.immunity = None
+
+        self.intelligence_logs = None
     
     def __str__(self):
         return 'House {0}'.format(self.name.title())
 
-    def award_points(self, league, episode, award, scores, characters, health, missions):
-        # league.award.character.points *  (6 - character.prominence) * house.bonus * roster.character.health * house.ability * character.mission.efficiency
-        
-        roster_score = ScoreCounter()
-
-        for character, h in health.iteritems():
-
-            if character not in scores:
-                roster_score.update({character : 0})
-
-            base_score = scores[character]
-            prominence_multiplier = (6 - characters[character].prominence)
-            house_bonus = (100 + getattr(self, award)) / 100.0
-            health_penalty = h / 100.0
-            mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
-            
-            points = reduce(operator.mul, [base_score, prominence_multiplier, house_bonus, health_penalty, mission_penalty])
-            
-            roster_score.update({character : points})
-
-        return roster_score
-
-    def mission_efficiency(self, league, episode, character, characters, missions):
-        d = getattr(characters[character],'diplomacy')
-        v = getattr(characters[character],'violence')
-
-        diplomacic_penalty = league.game.diplomacy_performance_penalty[d]
-        violence_penalty = league.game.violence_performance_penalty[v]
-
-        try:
-            episode_missions = [mission for mission in missions if mission['episode'] == episode.number][0]
-        except IndexError:
-            return 1
-        
-        if character == episode_missions['diplomatic_agent']:
-            return 1 - character[character[character]['diplomacy']]
-
-        if character == episode_missions['assassination_agent']:
-            return 1 - character[character[character]['violence']]            
-
-
     @abstractmethod
-    def run_diplomatic_mission(self):
+    def run_diplomatic_mission(self, missions, characters):
+
+        d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
+
+        intel_count = [0,1,2,3,1,2][d]
+
+        if d > 3 :
+            CharacterIntelligence.generate(target_house,target_roster,characters,self.intelligence_logs)
+        else:
+            RosterIntelligence.generate(target_house,target_roster,characters,self.intelligence_logs)
+
+        # characters
 
         # STARK : Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest
 
@@ -450,6 +429,47 @@ class House:
         # ARRYN : Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
 
         # NIGHTWATCH : Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is $50\%$
+
+
+    def award_points(self, league, episode, award, scores, characters, health, missions):
+        # league.award.character.points *  (6 - character.prominence) * house.bonus * roster.character.health * house.ability * character.mission.efficiency
+        
+        roster_score = ScoreCounter()
+
+        for character, h in health.iteritems():
+
+            if character not in scores:
+                roster_score.update({character : 0})
+
+            base_score = scores[character]
+            prominence_multiplier = (6 - characters[character].prominence)
+            house_bonus = (100 + getattr(self, award)) / 100.0
+            health_penalty = h / 100.0
+            mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
+            
+            points = reduce(operator.mul, [base_score, prominence_multiplier, house_bonus, health_penalty, mission_penalty])
+            
+            roster_score.update({character : points})
+
+        return roster_score
+
+    def mission_efficiency(self, league, episode, character, characters, missions):
+        d = getattr(characters[character],'diplomacy')
+        v = getattr(characters[character],'violence')
+
+        diplomacic_penalty = league.game.diplomacy_performance_penalty[d]
+        violence_penalty = league.game.violence_performance_penalty[v]
+
+        try:
+            episode_missions = [mission for mission in missions if mission['episode'] == episode.number][0]
+        except IndexError:
+            return 1
+        
+        if character == episode_missions['diplomatic_agent']:
+            return 1 - character[character[character]['diplomacy']]
+
+        if character == episode_missions['assassination_agent']:
+            return 1 - character[character[character]['violence']]            
 
 
 class HouseArryn(House):
@@ -704,7 +724,10 @@ class Player(object):
         self.first_name = first_name
         self.full_name = full_name
         self.roster_id = roster_id
+
         self.house = self.ofHouse(house)
+        self.house.intelligence_logs = self.collect_intelligence()
+        
         self.missions = self.collect_missions()
         self.votes = self.collect_votes()
 
@@ -735,10 +758,41 @@ class Player(object):
     def collect_missions(self):
         return filter(lambda m: m['player'] == self.id, self.league.missions)
 
+    def collect_intelligence(self):
+        return filter(lambda i: i['player'] == self.id, self.league.intelligence)
+
     def get_roster_prominence(self, characters):
         prominence = sum([characters[character]['prominence'] for character in self.roster.values()])
         return prominence
 
+
+'''
+INTELLIGENCE
+'''
+
+class Intelligence(object):
+    """Intelligence
+
+    Example : ‘This character has more diplomacy than prominence, but less damage than both’"""
+    def __init__(self, target_house,refresh=False
+        super(Intelligence, self).__init__()
+        self.arg = arg
+
+class RosterIntelligence(Intelligence):
+    """RosterIngelligence
+
+    Example : ‘There are more Starks than Lannisters, both at least one’
+    """
+    def __init__(self, arg):
+        super(RosterIngelligence, self).__init__()
+        self.arg = arg
+
+class CharacterIntelligence(Intelligence):
+    """docstring for RosterIngelligence"""
+    def __init__(self, arg):
+        super(RosterIngelligence, self).__init__()
+        self.arg = arg
+        
 
 '''
 UTILS
@@ -752,5 +806,9 @@ class ScoreCounter(Counter):
 if __name__ == "__main__":
     game = Ascension()
     
+    # for league in game.leagues:
+        # league.process_episode_results()
+
+    # DEVELOPER
     for league in game.leagues:
         league.process_episode_results()
