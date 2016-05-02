@@ -184,6 +184,7 @@ class Character(object):
         self.prominence = prominence
         self.diplomacy = diplomacy
         self.violence = violence
+        self.health = 0
 
     def __repr__(self):
         numeral = [0,'I','II','III','IV','V']

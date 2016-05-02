@@ -38,11 +38,12 @@ class House:
     def get_intel_count(self, diplomacy_power):
         return [0,1,2,3,1,2][diplomacy_power]
 
-    def conduct_diplomacy(self, missions, target_roster, characters):
+    def conduct_diplomacy(self, missions, target_health, characters):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
         
         target_house = missions['diplomatic_target_house']
-
+        target_roster = target_health
+        
         intel_count = self.get_intel_count(d)
 
         # STARK : Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest
