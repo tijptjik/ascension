@@ -151,7 +151,8 @@ class Ascension(object):
                         "code" : <intel_code>,
                         "type" : 'roster|character'
                         "target_house" : <house_id>,
-                        "target_character" : <character_id>
+                        "target_character" : <character_id>,
+                        "source" : 'mission|ability|attempt'
         '''
         firebase_key = "{league}{episode}{player}".format(**keys)
         self.ref.put('/player_intelligence/', firebase_key, intel)
