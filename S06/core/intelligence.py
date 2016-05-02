@@ -2,6 +2,7 @@
 INTELLIGENCE
 '''
 import random
+from collections import Counter
 
 class Intelligence(object):
     """Intelligence
@@ -94,11 +95,157 @@ class RosterIntelligence(Intelligence):
     """RosterIngelligence
 
     Example : There are more Starks than Lannisters, both at least one
+    Example : The 
     """
     target_type = 'roster'
+    ratings = [0, 'all the same', 'rarely different', 'a decent range', 'diverse', 'extremely varied', 'all but one unique', 'all unique']
 
     def __init__(self):
         super(RosterIngelligence, self).__init__()
+
+    @classmethod
+    def _random_selector(cls, target_house, target_roster, intelligence_logs, episode_number=None):
+
+        previous_intel_codes = cls.get_relevant_intelligence(intelligence_logs, 'roster')
+        new_intel = cls.get_intel_template(cls.target_type, target_house)
+
+        while True:
+
+            intel_types = [
+                cls._on_house_prevalence,
+                # TODO Activate _on_power_prevalencs
+                # cls._on_power_prevalence,
+                _on_power_sum,
+                cls._on_diversity]
+
+            new_intel['code'], new_intel['message'] = random.sample(intel_types,1)[0](target_roster)
+
+            if not new_intel['code'] or new_intel['code'] in previous_intel_codes:
+                continue
+                
+            else:
+                # from pprint import pprint
+                # pprint(new_intel)
+                return new_intel
+
+    @classmethod
+    def _on_house_prevalence(cls, target_roster):
+        """
+        CODES:
+        R|HP|{ARBO,BOGR...}
+        """
+        code_prefix = 'R|HP|'
+
+        houses = Counter([getattr(char,'house') for char in target_roster])
+        if len(houses) < 2:
+            code_suffix = 'XXXX'
+            msg = "All characters belong to the same house".format()
+            return code_prefix + code_suffix, msg
+            
+        select_houses = sorted(random.sample(houses.keys(),2))
+        code_suffix = "".join([h[:2].upper() for h in select_houses])
+
+        if houses[select_houses[0]] == houses[select_houses[1]]:
+            msg = "There are as many {} characters as there are {} characters, both at least one".format(*[h.title() for h in select_houses])
+            return code_prefix + code_suffix, msg
+
+        if houses[select_houses[0]] > houses[select_houses[1]]:
+            direction = "more"
+        else:
+            direction = "less"
+        
+        msg = "There are {} {} characters than {} characters, both at least one".format(direction, select_houses[0].title(), select_houses[1].title())
+        
+        return code_prefix + code_suffix, msg
+
+    @classmethod
+    def _on_power_prevalence(cls, target_roster):
+        """
+        CODES:
+        R|PP|{P,D,V}
+        """
+        # TODO Still needs to be implmented
+        code_prefix = 'R|PP|'
+        code_suffix, key = cls.get_random_character_power()
+        msg = ''
+        return code_prefix + code_suffix, msg
+
+    @classmethod
+    def _on_power_sum(cls, target_roster):
+        """
+        CODES:
+        R|PS|{P,D,V}
+        """
+        code_suffix, key = cls.get_random_character_power()
+        msg = ''
+        return code_prefix + code_suffix, msg
+
+        """
+        EXAMPLES:
+        * The roster's total X is higher than its total Y, and its total Z is lower than X
+        * The roster's total X is higher than its total Y, and its total Z is equal to one of them
+        * The roster's totals for X, Y, and Z are no different from each other
+        
+        CODES:
+        C|PS|{1,2X?,2N?,3}
+        """
+        code_prefix = 'C|PS|'
+
+        powers = ['prominence', 'diplomacy', 'violence']
+        roster_powers = [sum([getattr(c, power) for c in target_roster]) for power in powers]
+        cp = [p.title() for p in powers]
+
+        # All the same
+        if len(set(roster_powers)) == 1:
+            msg = "The roster's totals for {}, {}, and {} are no different from each other.".format(*cp)
+            code_suffix = '1'
+        
+        # Shared Max
+        max_list = set([i for i, x in enumerate(roster_powers) if x == max(roster_powers)])
+        if len(max_list) > 1:
+            max_idx = random.sample(max_list,1)
+            other_max_idx = list(max_list.difference(max_idx))
+            min_idx = list(set([0,1,2]).difference(max_list))
+            code_suffix = '2X' + cp[max_idx[0]][0]
+            msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
+        
+        # Shared Min
+        min_list = set([i for i, x in enumerate(character_powers) if x == min(character_powers)])
+        if len(min_list) > 1:
+            max_idx = list(set([0,1,2]).difference(min_list))
+            min_idx = random.sample(min_list,1)
+            other_min_idx = list(min_list.difference(min_idx))
+            code_suffix = '2N' + cp[min_idx[0]][0]
+            msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
+        
+        # All Different
+        if len(set(character_powers)) == 3:
+            max_idx = character_powers.index(max(character_powers))
+            less_list = [0,1,2]
+            del less_list[max_idx]
+            less_idx = random.sample(less_list,1)[0]
+            other_less_idx = list(set(less_list).difference([less_idx]))[0]
+            code_suffix = '3' + cp[less_idx][0]
+            msg = "The roster's total {} is higher than its total {}, and its total {} is lower than one of them.".format(cp[max_idx], cp[less_idx], cp[other_less_idx])
+        
+        return code_prefix + code_suffix, msg
+
+
+    @classmethod
+    def _on_diversity(cls, target_roster):
+        """
+        CODES:
+        R|D|{H,P,D,V}
+        """
+        code_prefix = 'R|D|'
+        code_suffix, key = cls.get_random_character_property()
+
+        prop_count = len(set([getattr(char,key) for char in target_roster]))
+        rating = cls.ratings[prop_count]
+
+        msg = "The {} traits of the roster are {}".format(key.title(),rating)
+
+        return code_prefix + code_suffix, msg
 
 class CharacterIntelligence(Intelligence):
     """CharacterIntelligence
@@ -142,8 +289,8 @@ class CharacterIntelligence(Intelligence):
                 continue
                 
             else:
-                from pprint import pprint
-                pprint(new_intel)
+                # from pprint import pprint
+                # pprint(new_intel)
                 
                 return new_intel
     
@@ -200,7 +347,7 @@ class CharacterIntelligence(Intelligence):
             other_max_idx = list(max_list.difference(max_idx))
             min_idx = list(set([0,1,2]).difference(max_list))
             code_suffix = '2X' + cp[max_idx[0]][0]
-            msg = "{} if higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
+            msg = "{} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
         # Shared Min
         min_list = set([i for i, x in enumerate(character_powers) if x == min(character_powers)])
         if len(min_list) > 1:
@@ -208,7 +355,7 @@ class CharacterIntelligence(Intelligence):
             min_idx = random.sample(min_list,1)
             other_min_idx = list(min_list.difference(min_idx))
             code_suffix = '2N' + cp[min_idx[0]][0]
-            msg = "{} if higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
+            msg = "{} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
         # All Different
         if len(set(character_powers)) == 3:
             max_idx = character_powers.index(max(character_powers))
@@ -217,7 +364,7 @@ class CharacterIntelligence(Intelligence):
             less_idx = random.sample(less_list,1)[0]
             other_less_idx = list(set(less_list).difference([less_idx]))[0]
             code_suffix = '3' + cp[less_idx][0]
-            msg = "{} if higher than {}, and {} is lower than one of them.".format(cp[max_idx], cp[less_idx], cp[other_less_idx])
+            msg = "{} is higher than {}, and {} is lower than one of them.".format(cp[max_idx], cp[less_idx], cp[other_less_idx])
         
         return code_prefix + code_suffix, msg
     
