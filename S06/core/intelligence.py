@@ -19,6 +19,7 @@ class Intelligence(object):
     def generate(cls, target_house, target_roster, characters, intelligence_logs, count=1,
          episode_number=None, refresh=False):
 
+        
         health = target_roster.copy()
 
         target_roster = cls.get_roster_properties(target_roster.keys(), characters)
@@ -36,6 +37,17 @@ class Intelligence(object):
     def _random_selector(cls, target_house, target_roster, intelligence_logs, episode_number=None):
         return cls.get_intel_template(cls.target_type, target_house)
 
+    @classmethod
+    def add_house_target_code(cls, prefix, target_house):
+        comps = prefix.split('|')
+        return "|".join([comps[0],target_house[:2].upper()] + comps[1:])
+
+    @classmethod
+    def add_char_target_code(cls, prefix, target_house, target_char):
+        comps = prefix.split('|')
+        prefix = "|".join([comps[0], getattr(target_char,'id')[:3].upper() + getattr(target_char,'id')[-1].upper()] + comps[1:])
+        return cls.add_house_target_code(prefix, target_house)
+
     @staticmethod
     def get_roster_properties(target_roster, characters):
         return [characters[char] for char in target_roster]
@@ -49,7 +61,7 @@ class Intelligence(object):
         
         for intel in intelligence_logs:
             for code, i in intel['intelligence'].iteritems():
-                if character and i['target_character'] == character:
+                if character and 'target_character' in i and i['target_character'] == character:
                         codes.append(code)
                 elif not character and i['type'] == target_type:
                         codes.append(code)
@@ -115,10 +127,10 @@ class RosterIntelligence(Intelligence):
                 cls._on_house_prevalence,
                 # TODO Activate _on_power_prevalencs
                 # cls._on_power_prevalence,
-                _on_power_sum,
+                cls._on_power_sum,
                 cls._on_diversity]
 
-            new_intel['code'], new_intel['message'] = random.sample(intel_types,1)[0](target_roster)
+            new_intel['code'], new_intel['message'] = random.sample(intel_types,1)[0](target_house, target_roster)
 
             if not new_intel['code'] or new_intel['code'] in previous_intel_codes:
                 continue
@@ -129,12 +141,13 @@ class RosterIntelligence(Intelligence):
                 return new_intel
 
     @classmethod
-    def _on_house_prevalence(cls, target_roster):
+    def _on_house_prevalence(cls, target_house, target_roster):
         """
         CODES:
         R|HP|{ARBO,BOGR...}
         """
         code_prefix = 'R|HP|'
+        code_prefix = cls.add_house_target_code(code_prefix, target_house)
 
         houses = Counter([getattr(char,'house') for char in target_roster])
         if len(houses) < 2:
@@ -159,27 +172,21 @@ class RosterIntelligence(Intelligence):
         return code_prefix + code_suffix, msg
 
     @classmethod
-    def _on_power_prevalence(cls, target_roster):
+    def _on_power_prevalence(cls, target_house, target_roster):
         """
         CODES:
         R|PP|{P,D,V}
         """
         # TODO Still needs to be implmented
         code_prefix = 'R|PP|'
+        code_prefix = cls.add_house_target_code(code_prefix, target_house)
+
         code_suffix, key = cls.get_random_character_power()
         msg = ''
         return code_prefix + code_suffix, msg
 
     @classmethod
-    def _on_power_sum(cls, target_roster):
-        """
-        CODES:
-        R|PS|{P,D,V}
-        """
-        code_suffix, key = cls.get_random_character_power()
-        msg = ''
-        return code_prefix + code_suffix, msg
-
+    def _on_power_sum(cls, target_house, target_roster):
         """
         EXAMPLES:
         * The roster's total X is higher than its total Y, and its total Z is lower than X
@@ -190,6 +197,7 @@ class RosterIntelligence(Intelligence):
         C|PS|{1,2X?,2N?,3}
         """
         code_prefix = 'C|PS|'
+        code_prefix = cls.add_house_target_code(code_prefix, target_house)
 
         powers = ['prominence', 'diplomacy', 'violence']
         roster_powers = [sum([getattr(c, power) for c in target_roster]) for power in powers]
@@ -210,7 +218,7 @@ class RosterIntelligence(Intelligence):
             msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
         
         # Shared Min
-        min_list = set([i for i, x in enumerate(character_powers) if x == min(character_powers)])
+        min_list = set([i for i, x in enumerate(roster_powers) if x == min(roster_powers)])
         if len(min_list) > 1:
             max_idx = list(set([0,1,2]).difference(min_list))
             min_idx = random.sample(min_list,1)
@@ -219,8 +227,8 @@ class RosterIntelligence(Intelligence):
             msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
         
         # All Different
-        if len(set(character_powers)) == 3:
-            max_idx = character_powers.index(max(character_powers))
+        if len(set(roster_powers)) == 3:
+            max_idx = roster_powers.index(max(roster_powers))
             less_list = [0,1,2]
             del less_list[max_idx]
             less_idx = random.sample(less_list,1)[0]
@@ -232,12 +240,14 @@ class RosterIntelligence(Intelligence):
 
 
     @classmethod
-    def _on_diversity(cls, target_roster):
+    def _on_diversity(cls, target_house, target_roster):
         """
         CODES:
         R|D|{H,P,D,V}
         """
         code_prefix = 'R|D|'
+        code_prefix = cls.add_house_target_code(code_prefix, target_house)
+
         code_suffix, key = cls.get_random_character_property()
 
         prop_count = len(set([getattr(char,key) for char in target_roster]))
@@ -283,7 +293,7 @@ class CharacterIntelligence(Intelligence):
                 cls._on_unique_trait]
                 
 
-            new_intel['code'], new_intel['message'] = random.sample(intel_types,1)[0](target_lock, target_roster)
+            new_intel['code'], new_intel['message'] = random.sample(intel_types,1)[0](target_house, target_lock, target_roster)
 
             if not new_intel['code'] or new_intel['code'] in previous_intel_codes:
                 continue
@@ -299,7 +309,7 @@ class CharacterIntelligence(Intelligence):
         return [char for char in roster if char.id == character][0]
 
     @classmethod
-    def _on_absolute_trait(cls, target_character,  target_roster):
+    def _on_absolute_trait(cls, target_house, target_character,  target_roster):
         """
         EXAMPLES:
         * Character's X Power is N
@@ -309,6 +319,7 @@ class CharacterIntelligence(Intelligence):
         C|A|{H,P,D,V}
         """
         code_prefix = 'C|A|'
+        code_prefix = cls.add_char_target_code(code_prefix, target_house, target_character)
         code_suffix, key = cls.get_random_character_property()
 
         if code_suffix == 'H':
@@ -320,7 +331,7 @@ class CharacterIntelligence(Intelligence):
 
     
     @classmethod
-    def _on_relative_trait(cls, target_character,  target_roster):
+    def _on_relative_trait(cls, target_house, target_character,  target_roster):
         """
         EXAMPLES:
         * X is higher than Y, and Z is lower than X
@@ -331,6 +342,7 @@ class CharacterIntelligence(Intelligence):
         C|R|{1,2X?,2N?,3}
         """
         code_prefix = 'C|R|'
+        code_prefix = cls.add_char_target_code(code_prefix, target_house, target_character)
 
         powers = ['prominence', 'diplomacy', 'violence']
         character_powers = [getattr(target_character, power) for power in powers]
@@ -370,7 +382,7 @@ class CharacterIntelligence(Intelligence):
     
 
     @classmethod
-    def _on_extreme_trait(cls, target_character, target_roster):
+    def _on_extreme_trait(cls, target_house, target_character, target_roster):
         """
         EXAMPLES:
         * Character has the highest X of anyone on the target roster
@@ -380,6 +392,7 @@ class CharacterIntelligence(Intelligence):
         C|E|{X,N}|{P,D,V}
         """
         code_prefix = 'C|E|'
+        code_prefix = cls.add_char_target_code(code_prefix, target_house, target_character)
 
         properties = ['prominence','diplomacy','violence']
         random.shuffle(properties)
@@ -416,7 +429,7 @@ class CharacterIntelligence(Intelligence):
 
 
     @classmethod
-    def _on_unique_trait(cls, target_character, target_roster):
+    def _on_unique_trait(cls, target_house, target_character, target_roster):
         """
         EXAMPLES:
         * Character is the only member of this House on the target roster
@@ -426,6 +439,7 @@ class CharacterIntelligence(Intelligence):
         C|U|{H,P,D,V}
         """
         code_prefix = 'C|U|'
+        code_prefix = cls.add_char_target_code(code_prefix, target_house, target_character)
         
         properties = ['house','prominence','diplomacy','violence']
 
@@ -448,7 +462,7 @@ class CharacterIntelligence(Intelligence):
 
 
     @classmethod
-    def _get_character_lock(cls,target_roster, intelligence_logs):
+    def _get_character_lock(cls, target_roster, intelligence_logs):
 
         # If there are no previous character missions:
         if not intelligence_logs:

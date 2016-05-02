@@ -25,28 +25,26 @@ class House:
 
     # DIPLOMACY
 
-    @abstractmethod
-    def run_diplomatic_mission(self, missions, characters):
-        pass
-
     def run_against_character(self, diplomacy_power):
         return diplomacy_power > 3
 
     def run_against_roster(self, diplomacy_power):
         return diplomacy_power < 4 
 
+    def get_mission_target(self, missions):
+        return missions['diplomatic_target_house']
+
     def get_intel_count(self, diplomacy_power):
         return [0,1,2,3,1,2][diplomacy_power]
 
-    def conduct_diplomacy(self, missions, target_health, characters):
+    def conduct_diplomacy(self, missions, target_health, characters, players):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
         
-        target_house = missions['diplomatic_target_house']
+        target_house = self.get_mission_target(missions)
         target_roster = target_health
         
         intel_count = self.get_intel_count(d)
 
-        # STARK : Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest
         intelligence = {}
 
         if self.run_against_roster(d):
@@ -69,11 +67,7 @@ class House:
         intel = intel
         return intel
 
-    @abstractmethod
-    def run_assassination_mission(self):
-        pass
-
-        
+    # ASSASSINATION
 
     def plot_assassination(self,mission):
 
@@ -117,6 +111,8 @@ class House:
 
         # Update the personal Chronicle
 
+
+    # SCORING
 
     def award_points(self, league, episode, award, scores, characters, health, missions):
         # league.award.character.points *  (6 - character.prominence) * house.bonus * roster.character.health * house.ability * character.mission.efficiency
@@ -165,12 +161,6 @@ class HouseArryn(House):
         self.bonus = {'jockey':20}
         self.immunity = 'petyrbaelish'
         super(HouseArryn, self).__init__(**self.bonus)
-
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
         
 
 class HouseBolton(House):
@@ -178,12 +168,6 @@ class HouseBolton(House):
         self.name = name
         self.bonus = {'damage':10,'support':10}
         super(HouseBolton, self).__init__(**self.bonus)
-
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
 
 
 class HouseGreyjoy(House):
@@ -194,12 +178,6 @@ class HouseGreyjoy(House):
 
         super(HouseGreyjoy, self).__init__(**self.bonus)
 
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
-
 
 class HouseIndependent(House):
     def __init__(self, name):
@@ -207,12 +185,6 @@ class HouseIndependent(House):
         self.immunity = 'jaqenhghar'
         self.bonus = {'style':10,'support':10}
         super(HouseIndependent, self).__init__(**self.bonus)
-
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
 
 
 class HouseLannister(House):
@@ -224,24 +196,12 @@ class HouseLannister(House):
     def mission_efficiency(self, league, episode, character, characters, missions):
         return 1
 
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
-
 
 class HouseMartell(House):
     def __init__(self, name):
         self.name = name
         self.bonus = dict(wit=5, damage=5, jockey=5, style=5, support=5)
         super(HouseMartell, self).__init__(**self.bonus)
-
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
 
 
 class HouseMeereen(House):
@@ -250,12 +210,6 @@ class HouseMeereen(House):
         self.bonus = {'wit':20}
         self.immunity = 'varys'
         super(HouseMeereen, self).__init__(**self.bonus)
-
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
 
 
 class HouseMinor(House):
@@ -275,7 +229,7 @@ class HouseMinor(House):
 
             base_score = scores[character]
             
-            # House Ability
+            # MINOR Ability
             prominence = characters[character].prominence
             if prominence < 3:
                 prominence = prominence - 1
@@ -291,24 +245,12 @@ class HouseMinor(House):
 
         return roster_score
 
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
-
 
 class HouseNightswatch(House):
     def __init__(self, name):
         self.name = name
         self.bonus = {'damage':10,'support':10}
         super(HouseNightswatch, self).__init__(**self.bonus)
-
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
 
 
 class HouseStark(House):
@@ -317,11 +259,38 @@ class HouseStark(House):
         self.bonus = {'support':20}
         super(HouseStark, self).__init__(**self.bonus)
 
-    def run_diplomatic_mission():
-        pass
+    def conduct_diplomacy(self, missions, target_health, characters, players):
+        d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
+        
+        target_house = self.get_mission_target(missions)
+        target_roster = target_health
+        
+        intel_count = self.get_intel_count(d)
 
-    def run_assassination_mission():
-        pass
+        intelligence = {}
+
+        if self.run_against_roster(d):
+            intel = RosterIntelligence.generate(target_house, target_roster,
+                                    characters, self.intelligence_logs, intel_count)
+            intelligence.update(intel)
+
+        if self.run_against_character(d):
+            intel = CharacterIntelligence.generate(target_house, target_roster,
+                                    characters, self.intelligence_logs, intel_count)
+            intelligence.update(intel)
+
+        # STARK ABILITY
+
+        other_players = [p for p in players if p.house.name is not self.name]
+        northman_target = random.sample(other_players, 1)[0]
+
+        target_house = northman_target.house.name
+        target_roster = northman_target.character_health
+        intel = RosterIntelligence.generate(target_house, target_roster,
+                                    characters, self.intelligence_logs, 3)
+        intelligence.update(intel)
+
+        return intelligence
 
 
 class HouseTargaryen(House):
@@ -330,21 +299,9 @@ class HouseTargaryen(House):
         self.bonus = {'damage':10,'jockey':10}
         super(HouseTargaryen, self).__init__(**self.bonus)
 
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass
-
 
 class HouseTyrell(House):
     def __init__(self, name):
         self.name = name
         self.bonus = {'style':20}
         super(HouseTyrell, self).__init__(**self.bonus)
-
-    def run_diplomatic_mission():
-        pass
-
-    def run_assassination_mission():
-        pass

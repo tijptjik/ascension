@@ -140,7 +140,7 @@ class League(object):
                 target = self.get_house_player(mission['diplomatic_target_house'])
                 target_roster = target.character_health
 
-                intel = player.house.conduct_diplomacy(mission, target_roster, self.game.characters)
+                intel = player.house.conduct_diplomacy(mission, target_roster, self.game.characters, self.players)
                 intel = target.house.counter_intelligence(self, mission, intel)
 
                 keys = {
