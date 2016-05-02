@@ -132,14 +132,20 @@ class CharacterIntelligence(Intelligence):
             intel_types = [
                 # cls._on_absolute_trait,
                 # cls._on_relative_trait,
-                cls._on_extreme_trait
                 # cls._on_extreme_trait,
-                # cls._on_unique_trait]
+                # cls._on_extreme_trait]
+                cls._on_unique_trait]
+                
 
             new_intel['code'], new_intel['message'] = random.sample(intel_types,1)[0](target_lock, target_roster)
 
             if not new_intel['code'] or new_intel['code'] in previous_intel_codes:
-                continue
+                # continue
+                # DEVELOPER
+                from pprint import pprint
+                pprint(new_intel)
+                
+                return new_intel
             else:
                 from pprint import pprint
                 pprint(new_intel)
@@ -222,7 +228,7 @@ class CharacterIntelligence(Intelligence):
     
 
     @classmethod
-    def _on_extreme_trait(cls, target_character,  target_roster):
+    def _on_extreme_trait(cls, target_character, target_roster):
         """
         EXAMPLES:
         * Character has the highest X of anyone on the target roster
@@ -232,24 +238,43 @@ class CharacterIntelligence(Intelligence):
         C|E|{X,N}|{H,P,D,V}
         """
         code_prefix = 'C|E|'
-        pass
+        code_suffix = ''
+        msg = ''
+
+        return code_prefix + code_suffix, msg
     
 
     @classmethod
-    def _on_unique_trait(cls, target_character,  target_roster):
+    def _on_unique_trait(cls, target_character, target_roster):
         """
         EXAMPLES:
-        *
+        * Character is the only member of this House on the target roster
+        * Character is the only one with this X Power on the target roster
 
         CODES:
         C|U|{H,P,D,V}
         """
         code_prefix = 'C|U|'
-        # If there are no unique traits, fail
-        if True:
-            return None, 'Mission Error'
+        
+        properties = ['house','prominence','diplomacy','violence']
 
-        return code_prefix + code_suffix
+        random.shuffle(properties)
+
+        for property in properties:
+            char_prop = getattr(target_character, property)
+            code_suffix = property.title()[0]
+            if cls.is_property_unique_on_roster(target_character, property, char_prop, target_roster):
+                if property is 'house':
+                    msg = "Character is the only member of this House on the target roster".format(char_prop)
+                else:
+                    msg = "Character is the only one with this {} Power on the target roster".format(property.title())
+                return code_prefix + code_suffix, msg
+            else:
+                continue
+
+        # If there are no unique traits, fail
+        return None, 'Mission Error'
+
 
     @classmethod
     def _get_character_lock(cls,target_roster, intelligence_logs):
@@ -281,6 +306,15 @@ class CharacterIntelligence(Intelligence):
 
         else:
             return None
+
+    @classmethod
+    def is_property_unique_on_roster(cls, target_character, k, v, target_roster):
+        
+        for c in target_roster:
+            if c is not target_character and getattr(c, k) == v:
+                return False
+        return True
+
 
     @staticmethod
     def _set_character_lock(target_roster):
