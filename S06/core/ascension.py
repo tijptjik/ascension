@@ -266,7 +266,7 @@ class League(object):
         episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
 
         for mission in episode_missions:
-
+            print mission
 
         pass
 
@@ -773,23 +773,28 @@ INTELLIGENCE
 class Intelligence(object):
     """Intelligence
 
-    Example : ‘This character has more diplomacy than prominence, but less damage than both’"""
-    def __init__(self, target_house,refresh=False
+    Example : This character has more diplomacy than prominence, but less damage than both
+    """
+    def __init__(self):
         super(Intelligence, self).__init__()
-        self.arg = arg
+
+    @classmethod
+    def generate(cls, target_house, target_roster, characters, intelligence_logs,
+        episode_number=None, refresh=False):
+        return True
 
 class RosterIntelligence(Intelligence):
     """RosterIngelligence
 
-    Example : ‘There are more Starks than Lannisters, both at least one’
+    Example : There are more Starks than Lannisters, both at least one
     """
-    def __init__(self, arg):
+    def __init__(self):
         super(RosterIngelligence, self).__init__()
         self.arg = arg
 
 class CharacterIntelligence(Intelligence):
     """docstring for RosterIngelligence"""
-    def __init__(self, arg):
+    def __init__(self):
         super(RosterIngelligence, self).__init__()
         self.arg = arg
         
