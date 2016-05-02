@@ -129,9 +129,10 @@ class CharacterIntelligence(Intelligence):
         
         while True:
 
-            intel_types = [cls._on_absolute_trait]
-            # intel_types = [cls._on_absolute_trait,
+            intel_types = [
+                # cls._on_absolute_trait,
                 # cls._on_relative_trait,
+                cls._on_extreme_trait
                 # cls._on_extreme_trait,
                 # cls._on_unique_trait]
 
@@ -140,6 +141,9 @@ class CharacterIntelligence(Intelligence):
             if not new_intel['code'] or new_intel['code'] in previous_intel_codes:
                 continue
             else:
+                from pprint import pprint
+                pprint(new_intel)
+                
                 return new_intel
     
     @classmethod
@@ -157,8 +161,8 @@ class CharacterIntelligence(Intelligence):
         C|A|{H,P,D,V}
         """
         code_prefix = 'C|A|'
-
         code_suffix, key = cls.get_random_character_property()
+
         if code_suffix == 'H':
             msg = "Character is affiliated with House {}".format(getattr(target_character, key).title())
         else:
@@ -168,7 +172,7 @@ class CharacterIntelligence(Intelligence):
 
     
     @classmethod
-    def _on_relative_trait(cls):
+    def _on_relative_trait(cls, target_character,  target_roster):
         """
         EXAMPLES:
         * X is higher than Y, and Z is lower than X
@@ -176,14 +180,49 @@ class CharacterIntelligence(Intelligence):
         * X, Y, and Z are no different from each other
         
         CODES:
-        C|R|{P,D,V}
+        C|R|{1,2X?,2N?,3}
         """
         code_prefix = 'C|R|'
-        pass
+
+        powers = ['prominence', 'diplomacy', 'violence']
+        character_powers = [getattr(target_character, power) for power in powers]
+        cp = [p.title() for p in powers]
+
+        # All the same
+        if len(set(character_powers)) == 1:
+            msg = "The {}, {}, and {} powers for this Character are no different from each other".format(*cp)
+            code_suffix = '1'
+        # Shared Max
+        max_list = set([i for i, x in enumerate(character_powers) if x == max(character_powers)])
+        if len(max_list) > 1:
+            max_idx = random.sample(max_list,1)
+            other_max_idx = list(max_list.difference(max_idx))
+            min_idx = list(set([0,1,2]).difference(max_list))
+            code_suffix = '2X' + cp[max_idx[0]][0]
+            msg = "{} if higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
+        # Shared Min
+        min_list = set([i for i, x in enumerate(character_powers) if x == min(character_powers)])
+        if len(min_list) > 1:
+            max_idx = list(set([0,1,2]).difference(min_list))
+            min_idx = random.sample(min_list,1)
+            other_min_idx = list(min_list.difference(min_idx))
+            code_suffix = '2N' + cp[min_idx[0]][0]
+            msg = "{} if higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
+        # All Different
+        if len(set(character_powers)) == 3:
+            max_idx = character_powers.index(max(character_powers))
+            less_list = [0,1,2]
+            del less_list[max_idx]
+            less_idx = random.sample(less_list,1)[0]
+            other_less_idx = list(set(less_list).difference([less_idx]))[0]
+            code_suffix = '3' + cp[less_idx][0]
+            msg = "{} if higher than {}, and {} is lower than one of them.".format(cp[max_idx], cp[less_idx], cp[other_less_idx])
+        
+        return code_prefix + code_suffix, msg
     
 
     @classmethod
-    def _on_extreme_trait(cls):
+    def _on_extreme_trait(cls, target_character,  target_roster):
         """
         EXAMPLES:
         * Character has the highest X of anyone on the target roster
@@ -197,7 +236,7 @@ class CharacterIntelligence(Intelligence):
     
 
     @classmethod
-    def _on_unique_trait(cls):
+    def _on_unique_trait(cls, target_character,  target_roster):
         """
         EXAMPLES:
         *

@@ -44,7 +44,10 @@ class League(object):
         return 'games' in player and type(player['games']) is not bool and self.name in player['games']
 
     def filter_league(self, obj):
-        return obj['league'] == self.name
+        try:
+            return obj['league'] == self.name
+        except KeyError:
+            return False
 
     def init_players(self):
         for player in self.players:
