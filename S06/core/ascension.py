@@ -200,20 +200,32 @@ class League(object):
 
         return [Player(**player) for player in self.players]
 
-
     def collect_player_rosters_ids(self):
         return map(lambda x: x.roster_id, self.players)
 
     def collect_player_rosters(self):
-        return {roster_id: roster for roster_id, roster in self.game.rosters.iteritems() if roster_id in self.roster_ids}
+        return {roster_id: roster.values() for roster_id, roster in self.game.rosters.iteritems() if roster_id in self.roster_ids}
 
     def collect_character_health(self):
         # Defaults
         for key, roster in self.rosters.iteritems():
             if key not in self.game.character_health:
-                self.game.character_health[key] = dict(zip(roster.values(), [100]*7 ))
+                self.game.character_health[key] = dict(zip(roster, [100]*7 ))
 
         return {key: roster for key, roster in self.game.character_health.iteritems() if key in self.roster_ids}
+
+    def get_player(self, uid):
+        return [p for p in self.players if p.id == uid][0]
+
+    def get_player_roster(self, uid):
+        return self.get_player(uid).roster
+
+    def get_house_player(self, house):
+        return [p for p in self.players if p.house.name == house][0]
+
+    def get_house_roster(self, house):
+        print house
+        return self.get_house_player(house).roster
 
     def assign_rosters_to_players(self):
         for player in self.players:
@@ -266,12 +278,22 @@ class League(object):
         episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
 
         for mission in episode_missions:
-            print mission
+            if mission['diplomatic_agent'] and mission['diplomatic_target_house']:
+                player = self.get_player(mission['player'])
+                target_roster = self.get_house_roster(mission['diplomatic_target_house'])
 
-        pass
+                intel = player.house.conduct_diplomacy(mission, target_roster, self.game.characters)
+
+                target = self.get_house_player(mission['diplomatic_target_house'])
+                target.house.counter_intelligence(self, mission, intel)
+
 
     def run_weekly_assassion_missions(self, episode):
         episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
+
+        for mission in episode_missions:
+            if mission['assassination_agent'] and mission['assassination_target_house'] and mission['assassination_target_character']:
+                pass
 
         # Award points for succesful assassinations
         # Points are split between the number of assailants.
@@ -362,31 +384,37 @@ class House:
 
     @abstractmethod
     def run_diplomatic_mission(self, missions, characters):
+        pass
 
+
+    def conduct_diplomacy(self, missions, target_roster, characters):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
+        
+        target_house = missions['diplomatic_target_house']
 
         intel_count = [0,1,2,3,1,2][d]
 
-        if d > 3 :
-            CharacterIntelligence.generate(target_house,target_roster,characters,self.intelligence_logs)
-        else:
-            RosterIntelligence.generate(target_house,target_roster,characters,self.intelligence_logs)
-
-        # characters
-
         # STARK : Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest
 
-        pass
+        if d > 3 :
+            intel = CharacterIntelligence.generate(target_house, target_roster, characters, self.intelligence_logs, intel_count)
+        else:
+            intel = RosterIntelligence.generate(target_house, target_roster, characters, self.intelligence_logs, intel_count)
+
+        return intel
+
+    def counter_intelligence(self, league, missions, intel):
+
+        # ARRYN : Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
+
+        # NIGHTWATCH : Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is $50\%$
+        intel = intel
+        return intel
 
     @abstractmethod
     def run_assassination_mission(self):
         pass
 
-    def damage_dealt(self, mission):
-        # MARTELL : All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target's roster
-
-        # if self.roster_prominence < target.roster_prominence: 
-        pass
         
 
     def plot_assassination(self,mission):
@@ -404,6 +432,11 @@ class House:
 
         pass
 
+    def damage_dealt(self, mission):
+        # MARTELL : All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target's roster
+
+        # if self.roster_prominence < target.roster_prominence: 
+        pass
 
     def reveal_outgoing_missions(self, mission):
 
@@ -415,7 +448,7 @@ class House:
 
         # Target player target_player.house.reveal_missions_target()
 
-        # If Tyrell, don't call() target_player.house.reveal_missions_target()
+        # TYRELL : don't call() target_player.house.reveal_missions_target()
         pass
 
     def reveal_incoming_missions(self, mission):
@@ -425,10 +458,6 @@ class House:
             # Origin House
 
         # Update the personal Chronicle
-
-        # ARRYN : Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
-
-        # NIGHTWATCH : Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is $50\%$
 
 
     def award_points(self, league, episode, award, scores, characters, health, missions):
@@ -502,7 +531,7 @@ class HouseBolton(House):
 class HouseGreyjoy(House):
     def __init__(self, name):
         self.name = name
-        self.bonus = {'damage':20}
+        self.bonus = {'damage': 20}
         self.immunity = 'theongreyjoy'
 
         super(HouseGreyjoy, self).__init__(**self.bonus)
@@ -762,7 +791,7 @@ class Player(object):
         return filter(lambda i: i['player'] == self.id, self.league.intelligence)
 
     def get_roster_prominence(self, characters):
-        prominence = sum([characters[character]['prominence'] for character in self.roster.values()])
+        prominence = sum([getattr(characters[character],'prominence') for character in self.roster])
         return prominence
 
 
@@ -779,9 +808,12 @@ class Intelligence(object):
         super(Intelligence, self).__init__()
 
     @classmethod
-    def generate(cls, target_house, target_roster, characters, intelligence_logs,
+    def generate(cls, target_house, target_roster, characters, intelligence_logs, count=1,
         episode_number=None, refresh=False):
         return True
+
+    def get_roster_properties(self):
+        return 
 
 class RosterIntelligence(Intelligence):
     """RosterIngelligence
@@ -790,13 +822,20 @@ class RosterIntelligence(Intelligence):
     """
     def __init__(self):
         super(RosterIngelligence, self).__init__()
-        self.arg = arg
 
 class CharacterIntelligence(Intelligence):
     """docstring for RosterIngelligence"""
     def __init__(self):
         super(RosterIngelligence, self).__init__()
-        self.arg = arg
+
+    def _on_absolute_trait(self):
+        pass
+    def _on_relative_trait(self):
+        pass
+    def _on_extreme_trait(self):
+        pass
+
+
         
 
 '''
@@ -815,5 +854,5 @@ if __name__ == "__main__":
         # league.process_episode_results()
 
     # DEVELOPER
-    for league in game.leagues:
+    for league in game.leagues[0:1]:
         league.process_episode_results()
