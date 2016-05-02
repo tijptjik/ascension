@@ -68,7 +68,7 @@ Of special note are the **Council of Meereen**, which consist of the formidable 
 
 ### House Abilities
 
-Each house has a special ability tostrategicly make use of your House's strengths. Be sure to consult the other houses' abilities as well though .. assome may affect you more than your own...
+Each house has a special ability tostrategicly make use of your House's strengths. Be sure to consult the other houses' abilities as well though .. as some may affect you more than your own...
 
 Depending on the ability `type`, abilities modify the way _[prominence](#characters)_, _[diplomacy](#diplomacy--gathering-intelligence)_, _[violence](#violence--attempting-murder)_ and _[missions](#missions)_ work for that House. These are the interactive components of the game and are explained below. The specific modifications are detailed in the `grants` column, and the characters listed under `immunity` are impervious to damage from attack if drafted for that House. You can thus assume that House has fielded that character, though attacking them is of no use as they wouldn't take any damage.
 
@@ -125,7 +125,7 @@ The higher the prominence, the lower the multiplier. See [Prominence Multiplier]
 
 ### Available Characters
 
-All 88 available characters have an [affiliation & powers](#appendix--characters) and have a [bios](https://github.com/tijptjik/ascension/blob/gh-pages/S06/character.bios.csv) to remind you who they are.
+All 88 available characters have an [affiliation & powers](#appendix--characters) and have a [bios](tijptjik.github.io/ascension/S06/code/characters.html) to remind you who they are.
 
 ![](http://nerdapproved.com/wp-content/uploads/2013/11/all_the_kills_in_the_game_of_thrones_by_studioincandescence-d6v5lvj.jpg)
 
