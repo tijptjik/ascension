@@ -23,26 +23,42 @@ class House:
     def __str__(self):
         return 'House {0}'.format(self.name.title())
 
+    # DIPLOMACY
+
     @abstractmethod
     def run_diplomatic_mission(self, missions, characters):
         pass
 
+    def run_against_character(self, diplomacy_power):
+        return diplomacy_power > 3
+
+    def run_against_roster(self, diplomacy_power):
+        return diplomacy_power < 4 
+
+    def get_intel_count(self, diplomacy_power):
+        return [0,1,2,3,1,2][diplomacy_power]
 
     def conduct_diplomacy(self, missions, target_roster, characters):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
         
         target_house = missions['diplomatic_target_house']
 
-        intel_count = [0,1,2,3,1,2][d]
+        intel_count = self.get_intel_count(d)
 
         # STARK : Assitance from the Northmen - An addition Level 3 diplomatic mission is run each episode against a random House on this House's behest
+        intelligence = {}
 
-        if d > 3 :
-            intel = CharacterIntelligence.generate(target_house, target_roster, characters, self.intelligence_logs, intel_count)
-        else:
-            intel = RosterIntelligence.generate(target_house, target_roster, characters, self.intelligence_logs, intel_count)
+        if self.run_against_roster(d):
+            intel = RosterIntelligence.generate(target_house, target_roster,
+                                    characters, self.intelligence_logs, intel_count)
+            intelligence.update(intel)
 
-        return intel
+        if self.run_against_character(d):
+            intel = CharacterIntelligence.generate(target_house, target_roster,
+                                    characters, self.intelligence_logs, intel_count)
+            intelligence.update(intel)
+
+        return intelligence
 
     def counter_intelligence(self, league, missions, intel):
 

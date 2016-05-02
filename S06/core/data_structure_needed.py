@@ -78,3 +78,19 @@ EPISODE SCORES PER CHARACTER PER AWARD
         	<player> : <score>
 
 '''
+
+# 
+''' INTELLIGENCE  PER PLAYER 
+"player_ingelligence"
+    <league_id>+<episode_id>+<player_id>:
+        "league" : <league>
+        "episode" : <episode_id>,
+        "player" : <player_id>,
+        "intelligence" :
+            <intel_code> :
+                "message" : <intel_msg>,
+                "code" : <intel_code>,
+                "type" : 'roster|character'
+                "target_house" : <house_id>,
+                "target_character" : <character_id>
+'''

@@ -34,6 +34,7 @@ class Ascension(object):
         self.leaderboard = self.db['leaderboard']
 
         self.character_health = self.db['character_health']
+        self.player_intelligence = self.db['player_intelligence']
 
         self.episodes = self.setup_episodes()
         self.characters = self.setup_characters()
@@ -137,6 +138,26 @@ class Ascension(object):
 
         self.leaderboard.update({firebase_key : scores})
 
+    def update_player_intelligence(self, keys, intel):
+        ''' INTELLIGENCE  PER PLAYER 
+        "player_ingelligence"
+            <league_id>+<episode_id>+<player_id>:
+                "league" : <league>
+                "episode" : <episode_id>,
+                "player" : <player_id>,
+                "intelligence" :
+                    <intel_code> :
+                        "message" : <intel_msg>,
+                        "code" : <intel_code>,
+                        "type" : 'roster|character'
+                        "target_house" : <house_id>,
+                        "target_character" : <character_id>
+        '''
+        firebase_key = "{league}{episode}{player}".format(**keys)
+        self.ref.put('/player_intelligence/', firebase_key, intel)
+
+        self.player_intelligence.update({firebase_key : intel})
+
     def print_leaderboard(self, league, episode):
         key = league + episode
         player_names = [self.players[name]['first_name'] for name in self.leaderboard[key]['scores'].keys()]
@@ -148,7 +169,7 @@ class Ascension(object):
 
 
 '''
-CHARACTERS
+GAME INFO : CHARACTERS
 '''
 
 class Character(object):
@@ -169,7 +190,7 @@ class Character(object):
 
 
 '''
-EPISODES
+GAME INFO : EPISODES
 '''
 
 class Episode(object):
@@ -192,6 +213,7 @@ class Episode(object):
 
     def check_episode_aired(self):
         pass
+
 
 if __name__ == "__main__":
     game = Ascension()

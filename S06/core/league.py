@@ -80,7 +80,6 @@ class League(object):
         return [p for p in self.players if p.house.name == house][0]
 
     def get_house_roster(self, house):
-        print house
         return self.get_house_player(house).roster
 
     def assign_rosters_to_players(self):
@@ -96,10 +95,8 @@ class League(object):
             episode = self.game.most_recent_episode
         
         self.score_weekly_episode(episode)
-        # DEVELOPER
         self.run_weekly_diplomatic_missions(episode)        
-        # DEVELOPER
-        # self.run_weekly_assassion_missions(episode)
+        self.run_weekly_assassion_missions(episode)
         # DEVELOPER
         # self.award_weekly_points(episode)
 
@@ -115,9 +112,6 @@ class League(object):
                     character = vote['vote_' + award + "_" + rank]
                     score.update({character:points})
 
-            
-            self.name, episode.number, award
-            
             keys = {
                 "league" : self.name,
                 "episode" : episode.number,
@@ -141,7 +135,18 @@ class League(object):
                 intel = player.house.conduct_diplomacy(mission, target_roster, self.game.characters)
 
                 target = self.get_house_player(mission['diplomatic_target_house'])
-                target.house.counter_intelligence(self, mission, intel)
+                intel = target.house.counter_intelligence(self, mission, intel)
+
+                keys = {
+                    "league" : self.name,
+                    "episode" : episode.number,
+                    "player" : player.id
+                }
+
+                intelligence = keys.copy()
+                intelligence.update({"intelligence": intel})
+
+                self.game.update_player_intelligence(keys, intelligence)
 
 
     def run_weekly_assassion_missions(self, episode):

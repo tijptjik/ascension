@@ -13,7 +13,14 @@ class Intelligence(object):
     @classmethod
     def generate(cls, target_house, target_roster, characters, intelligence_logs, count=1,
         episode_number=None, refresh=False):
-        return True
+
+        codes = range(4)
+        intel = range(4)
+
+        print target_house, count, intelligence_logs
+        print (codes, intel)
+
+        return dict(zip(codes,intel))
 
     def get_roster_properties(self):
         return 
