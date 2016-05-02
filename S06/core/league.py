@@ -68,6 +68,8 @@ class League(object):
             if key not in self.game.character_health:
                 self.game.character_health[key] = dict(zip(roster, [100]*7 ))
 
+        # TODO : Merge it into Character 
+        
         return {key: roster for key, roster in self.game.character_health.iteritems() if key in self.roster_ids}
 
     def get_player(self, uid):
@@ -129,12 +131,13 @@ class League(object):
 
         for mission in episode_missions:
             if mission['diplomatic_agent'] and mission['diplomatic_target_house']:
+                
                 player = self.get_player(mission['player'])
-                target_roster = self.get_house_roster(mission['diplomatic_target_house'])
+                
+                target = self.get_house_player(mission['diplomatic_target_house'])
+                target_roster = target.character_health
 
                 intel = player.house.conduct_diplomacy(mission, target_roster, self.game.characters)
-
-                target = self.get_house_player(mission['diplomatic_target_house'])
                 intel = target.house.counter_intelligence(self, mission, intel)
 
                 keys = {
