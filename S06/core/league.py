@@ -78,6 +78,9 @@ class League(object):
     def get_player(self, uid):
         return [p for p in self.players if p.id == uid][0]
 
+    def get_house(self, hid):
+        return [p.house for p in self.players if p.house.name == hid][0]
+
     def get_player_roster(self, uid):
         return self.get_player(uid).roster
 
@@ -170,9 +173,26 @@ class League(object):
 
         for mission in episode_missions:
             if mission['assassination_agent'] and mission['assassination_target_house'] and mission['assassination_target_character']:
-                pass
 
-        # Award points for succesful assassinations
+                player = self.get_player(mission['player'])
+                
+                target = self.get_house_player(mission['assassination_target_house'])
+                target_roster = target.character_health
+
+                # self.game.characters, self.players
+                damage_potential = player.house.plot_assassination(self, mission, target_roster)
+                damage_actual = target.house.foil_assassination(self, mission, target_roster, damage_potential)  
+
+                keys = {
+                    "league" : self.name,
+                    "episode" : episode.number,
+                    "player" : player.id
+                }
+
+                murders = keys.copy()
+                murders.update({"murders": damage_actual})
+
+                # Award points for succesful assassinations
         # Points are split between the number of assailants.
         # If a stronger assassin targets the same characters, 
 

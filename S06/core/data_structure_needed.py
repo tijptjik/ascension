@@ -93,4 +93,22 @@ EPISODE SCORES PER CHARACTER PER AWARD
                 "type" : 'roster|character'
                 "target_house" : <house_id>,
                 "target_character" : <character_id>
+                "source" : 'mission|ability|attempt'
+'''
+
+
+''' ASSASSION SCORE PER PLAYER
+"player_murders"
+    <league_id>+<episode_id>+<player_id>:
+        "league" : <league>
+        "episode" : <episode_id>,
+        "player" : <player_id>,
+        "murders" : 
+                "target_house" : <intel_msg>,
+                "target_character" : <intel_code>,
+                "type" : 'roster|character'
+                "target_house" : <house_id>,
+                "target_character" : <character_id>,
+                "damage_dealt" : <>,
+                "success" : true
 '''

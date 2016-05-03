@@ -68,26 +68,64 @@ class House:
 
     # ASSASSINATION
 
-    def plot_assassination(self,mission):
+    def assassination_success(self,target_character, target_roster):
+        return target_character in target_roster.keys()
 
-        # GREYJOY : Theon splatter damage. On a succesful attack by Theon, all characters of the other roster take $5\%$ damage
-
-        # self.damage_dealt(mission)
-
+    def bonus_mission(self, league, missions, target_roster):
         pass
 
-    def foil_assassination(self,mission):
-        # Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% *$ target's prominence power
+    def plot_assassination(self, league, missions, target_roster):
+
+        target_house = missions['assassination_target_house']
+        target_character = missions['assassination_target_character']
+        agent = missions['assassination_agent']
+       
+        damage_dealt = 0
+        bounty = 0
+        success = self.assassination_success(target_character, target_roster)
+
+        damage_intended = self.damage_dealt(agent, target_house, league)
+
+        if success:
+            health = target_roster['target_character']
+            damage_dealt = max(health - (100 - damage_intended), 0)
+            bounty = damage_dealt * 2.4
+
+        damage_potential = {
+            "target_house" : target_house,
+            "target_character" : target_character,
+            "damage_intended" : damage_intended,
+            "damage_dealt" : damage_dealt,
+            "bounty" : bounty,
+            "success" : success
+        }
+
+        if success:
+            bonus_mission(self, league, missions, target_roster)
+
+        return damage_potential
+
+
+    def foil_assassination(self, league, missions, target_roster, damage):
 
         # Check Immunity
+        if damage['target_character'] == self.immunity:
 
-        pass
+            damage.update({
+                "damage_dealt" : 0,
+                "bounty": 0,
+                "success" : 'immune',
+            })
 
-    def damage_dealt(self, mission):
-        # MARTELL : All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target's roster
+        return damage
 
-        # if self.roster_prominence < target.roster_prominence: 
-        pass
+
+    def damage_dealt(self, agent, target_house, league):
+        damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
+        violence = getattr(league.game.characters[missions['diplomatic_agent']],'violence')
+
+        return damages[violence]
+
 
     def reveal_outgoing_missions(self, mission):
 
@@ -101,6 +139,7 @@ class House:
 
         # TYRELL : don't call() target_player.house.reveal_missions_target()
         pass
+
 
     def reveal_incoming_missions(self, mission):
         pass
@@ -202,6 +241,28 @@ class HouseBolton(House):
         self.bonus = {'damage':10,'support':10}
         super(HouseBolton, self).__init__(**self.bonus)
 
+     def foil_assassination(self, league, missions, target_roster, damage):
+        # Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% *$ target's prominence power
+
+        v = getattr(characters[missions['assassination_target_character']],'prominence')
+
+        health = league.get_player(missions['player']).character_health[missions['assassination_agent']]
+        damage_dealt = max(health - (100 - missions["damage_intended"]), 0)
+
+        if random.random() > v/(100/15.0):
+
+            damage.update({
+                "target_house" : league.get_player_house(missions['player']),
+                "target_character" : missions['assassination_agent'],
+                "damage_intended" : damage_intended,
+                "damage_dealt" : damage_dealt,
+                "bounty" : 0,
+                "success" : True
+            }
+
+            return damage
+
+
 
 class HouseGreyjoy(House):
     def __init__(self, name):
@@ -210,6 +271,15 @@ class HouseGreyjoy(House):
         self.immunity = 'theongreyjoy'
 
         super(HouseGreyjoy, self).__init__(**self.bonus)
+
+    def bonus_mission(self, league, missions, target_roster):
+        
+        # GREYJOY ABILITY
+
+        # Theon splatter damage. On a succesful attack by Theon,
+        # all characters of the other roster take $5\%$ damage
+        print '>>> THEON NEEDS SPLATTER DAMAGE'
+
 
 
 class HouseIndependent(House):
@@ -235,6 +305,21 @@ class HouseMartell(House):
         self.name = name
         self.bonus = dict(wit=5, damage=5, jockey=5, style=5, support=5)
         super(HouseMartell, self).__init__(**self.bonus)
+
+    def damage_dealt(self, agent, target_house, league):
+
+        # MARTELL ABILITY :
+
+        #  All attacks to become lethal, provided that the total prominence power
+        #  of this House is lower than the prominence of the target's roster
+
+        if self.roster_prominence < league.get_house_player(target_house).roster_prominence:
+            return 100
+        else:
+            damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
+            violence = getattr(league.game.characters[missions['diplomatic_agent']],'violence')
+            
+            return damages[violence]
 
 
 class HouseMeereen(House):
@@ -272,7 +357,8 @@ class HouseMinor(House):
             health_penalty = h / 100.0
             mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
             
-            points = reduce(operator.mul, [base_score, prominence_multiplier, house_bonus, health_penalty, mission_penalty])
+            points = reduce(operator.mul, [base_score, prominence_multiplier,
+                                                house_bonus, health_penalty, mission_penalty])
             
             roster_score.update({character : points})
 
@@ -290,7 +376,8 @@ class HouseNightswatch(House):
 
         # NIGHTWATCH ABILITY
 
-        # Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is $50\%$
+        # Dissemination of misinformation. Chance of false intel to be recovered in
+        # diplomatic missions run against this house is 50%
 
         # DEVELOPER
         # if random.random() < 1:
