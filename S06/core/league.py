@@ -115,6 +115,7 @@ class League(object):
         self.score_weekly_episode(episode)
         self.run_weekly_diplomatic_missions(episode)        
         self.run_weekly_assassion_missions(episode)
+        self.publish_weekly_chronicle(episode)
         # DEVELOPER
         self.award_weekly_points(episode)
 
@@ -171,6 +172,8 @@ class League(object):
     def run_weekly_assassion_missions(self, episode):
         episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
 
+        murder_set = []
+
         for mission in episode_missions:
             if mission['assassination_agent'] and mission['assassination_target_house'] and mission['assassination_target_character']:
 
@@ -189,10 +192,23 @@ class League(object):
                     "player" : player.id
                 }
 
-                murders = keys.copy()
-                murders.update({"murders": damage_actual})
+                murder = keys.copy()
+                murder.update({"murders": damage_actual})
 
-                # Award points for succesful assassinations
+                murder_set.append(murder)
+
+        # Award points for succesful assassinations
+        
+        import pprint
+
+        pprint.pprint([murder for murder in murder_set if murder['murders']['success']])
+
+        # pprint.pprint([murder for murder in murder_set if murder['murders']['success']])
+
+        import pdb; pdb.set_trace()
+        
+        # Dock Character Health 
+
         # Points are split between the number of assailants.
         # If a stronger assassin targets the same characters, 
 
@@ -200,9 +216,11 @@ class League(object):
 
         # TARGARYAN : All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character
 
-        # Update the personal Chronicle with the character damange they incurred.
+        # Update the personal Chronicle with the character damage they incurred.
 
         # Update the public chronicle about the deaths / damage
+
+    def publish_weekly_chronicle(self, episode):
         pass
 
     def award_weekly_points(self, episode):

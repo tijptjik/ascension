@@ -104,11 +104,33 @@ EPISODE SCORES PER CHARACTER PER AWARD
         "episode" : <episode_id>,
         "player" : <player_id>,
         "murders" : 
-                "target_house" : <intel_msg>,
-                "target_character" : <intel_code>,
-                "type" : 'roster|character'
                 "target_house" : <house_id>,
                 "target_character" : <character_id>,
-                "damage_dealt" : <>,
-                "success" : true
+                "damage_intended" : 100,
+                "damage_dealt" : 50,
+                "bounty": 120,
+                "success" : true,
+'''
+
+''' CHRONICLE ENTRY SCORE PER PLAYER
+"player_chronicle"
+    <league_id>+<episode_id>+<player_id>:
+        "league" : <league>
+        "episode" : <episode_id>,
+        "player" : <player_id>,
+        "articles" :
+            <hash> :
+                "message" : <intel_msg>,
+                "source" : 'mission|ability|attempt'
+'''
+
+''' CHRONICLE ENTRY SCORE PER PLAYER
+"public_chronicle"
+    <league_id>+<episode_id>:
+        "league" : <league>
+        "episode" : <episode_id>,
+        "articles" :
+            <hash> :
+                "message" : <intel_msg>,
+                "source" : 'mission|ability|attempt'
 '''

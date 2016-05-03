@@ -87,6 +87,7 @@ class House:
         damage_intended = self.damage_dealt(agent, target_house, league)
 
         if success:
+            import pdb; pdb.set_trace()
             health = target_roster['target_character']
             damage_dealt = max(health - (100 - damage_intended), 0)
             bounty = damage_dealt * 2.4
@@ -122,7 +123,7 @@ class House:
 
     def damage_dealt(self, agent, target_house, league):
         damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
-        violence = getattr(league.game.characters[missions['diplomatic_agent']],'violence')
+        violence = getattr(league.game.characters[agent],'violence')
 
         return damages[violence]
 
@@ -241,24 +242,32 @@ class HouseBolton(House):
         self.bonus = {'damage':10,'support':10}
         super(HouseBolton, self).__init__(**self.bonus)
 
-     def foil_assassination(self, league, missions, target_roster, damage):
-        # Chance that an attack on this House backfires and retargets the assassin itself - Chance is $15\% *$ target's prominence power
+    def foil_assassination(self, league, missions, target_roster, damage):
+        
+        # BOLTON ABILITY 
 
-        v = getattr(characters[missions['assassination_target_character']],'prominence')
+        # Chance that an attack on this House backfires and retargets the assassin itself
+        # Chance is 15% * target's prominence power
 
-        health = league.get_player(missions['player']).character_health[missions['assassination_agent']]
-        damage_dealt = max(health - (100 - missions["damage_intended"]), 0)
+        v = getattr(league.game.characters[missions['assassination_target_character']],'prominence')
+
+        agent = missions['assassination_agent']
+        damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
+        violence = getattr(league.game.characters[agent],'violence')
+        
+        health = league.get_player(missions['player']).character_health[agent]
+        damage_dealt = max(health - (100 - damages[violence]), 0)
 
         if random.random() > v/(100/15.0):
 
             damage.update({
                 "target_house" : league.get_player_house(missions['player']),
                 "target_character" : missions['assassination_agent'],
-                "damage_intended" : damage_intended,
+                "damage_intended" : damages[violence],
                 "damage_dealt" : damage_dealt,
                 "bounty" : 0,
                 "success" : True
-            }
+            })
 
             return damage
 
@@ -317,7 +326,7 @@ class HouseMartell(House):
             return 100
         else:
             damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
-            violence = getattr(league.game.characters[missions['diplomatic_agent']],'violence')
+            violence = getattr(league.game.characters[agent],'violence')
             
             return damages[violence]
 

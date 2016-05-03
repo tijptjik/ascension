@@ -3,8 +3,8 @@ import pdb
 
 game = Ascension()
 
-l = game.leagues[0]
-p = l.players[0]
+# l = game.leagues[0]
+# p = l.players[0]
 
 # Process the latest votes / missions
 for league in game.leagues:

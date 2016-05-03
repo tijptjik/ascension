@@ -166,6 +166,7 @@ class Ascension(object):
             self.ref.put('/player_intelligence/', firebase_key, intel)
             self.player_intelligence.update({firebase_key : intel})
 
+
     def print_leaderboard(self, league, episode):
         key = league + episode
         player_names = [self.players[name]['first_name'] for name in self.leaderboard[key]['scores'].keys()]
