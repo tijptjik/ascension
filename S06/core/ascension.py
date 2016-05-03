@@ -138,7 +138,7 @@ class Ascension(object):
 
         self.leaderboard.update({firebase_key : scores})
 
-    def update_player_intelligence(self, keys, intel):
+    def update_player_intelligence(self, keys, intel, append=False):
         ''' INTELLIGENCE  PER PLAYER 
         "player_ingelligence"
             <league_id>+<episode_id>+<player_id>:
@@ -155,9 +155,16 @@ class Ascension(object):
                         "source" : 'mission|ability|attempt'
         '''
         firebase_key = "{league}{episode}{player}".format(**keys)
-        self.ref.put('/player_intelligence/', firebase_key, intel)
-
-        self.player_intelligence.update({firebase_key : intel})
+        
+        if append:
+            for code, intel in intel['intelligence'].iteritems():
+                self.ref.put('/player_intelligence/' + firebase_key + '/intelligence/', code, intel)
+            
+            self.player_intelligence[firebase_key]['intelligence'].update(intel)
+            
+        else:
+            self.ref.put('/player_intelligence/', firebase_key, intel)
+            self.player_intelligence.update({firebase_key : intel})
 
     def print_leaderboard(self, league, episode):
         key = league + episode
@@ -220,9 +227,9 @@ class Episode(object):
 if __name__ == "__main__":
     game = Ascension()
     
-    # for league in game.leagues:
-        # league.process_episode_results()
+    for league in game.leagues:
+        league.process_episode_results()
 
     # DEVELOPER
-    for league in game.leagues[0:1]:
-        league.process_episode_results()
+    # for league in game.leagues[0:]:
+        # league.process_episode_results()

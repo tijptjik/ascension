@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from utils import ScoreCounter
+import operator
 
 from intelligence import *
 
@@ -59,13 +60,11 @@ class House:
 
         return intelligence
 
-    def counter_intelligence(self, league, missions, intel):
-
-        # ARRYN : Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
-
-        # NIGHTWATCH : Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is $50\%$
-        intel = intel
+    def counter_intelligence(self, league, missions, intel, characters, players):
         return intel
+
+    def generate_random_roster(self, characters):
+        return dict(zip(random.sample(characters.keys(),7), [100] * 7))
 
     # ASSASSINATION
 
@@ -161,7 +160,41 @@ class HouseArryn(House):
         self.bonus = {'jockey':20}
         self.immunity = 'petyrbaelish'
         super(HouseArryn, self).__init__(**self.bonus)
-        
+
+
+    def counter_intelligence(self, league, missions, intel, characters, players):
+
+        # ARRYN ABILITY 
+        # Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
+
+        # if random.random() < 0.5:
+        # DEVELOPER
+        if random.random() < 1:
+
+            target_health = league.get_player(missions['player']).character_health
+
+            missions.update({
+                'assassination_agent':'',
+                'assassination_target_character':'',
+                'assassination_target_house':'',
+                'diplomatic_target_house': league.get_player_house(missions['player']),
+                'player': league.get_house_player(self.name).id
+                })
+
+            arryn_intel = self.conduct_diplomacy(missions, target_health, characters, players)
+
+            keys = {
+                "league" : league.name,
+                "episode" : league.current_episode.number,
+                "player" : league.get_house_player(self.name).id
+            }
+
+            intelligence = keys.copy()
+            intelligence.update({"intelligence": arryn_intel})
+
+            league.game.update_player_intelligence(keys, intelligence, append=True)
+         
+        return intel
 
 class HouseBolton(House):
     def __init__(self, name):
@@ -252,6 +285,20 @@ class HouseNightswatch(House):
         self.bonus = {'damage':10,'support':10}
         super(HouseNightswatch, self).__init__(**self.bonus)
 
+
+    def counter_intelligence(self, league, missions, intel, characters, players):
+
+        # NIGHTWATCH ABILITY
+
+        # Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is $50\%$
+
+        # DEVELOPER
+        # if random.random() < 1:
+        if random.random() < 0.5:
+            false_roster = self.generate_random_roster(characters)
+            intel = self.conduct_diplomacy(missions, false_roster, characters, players)          
+            
+        return intel
 
 class HouseStark(House):
     def __init__(self, name):

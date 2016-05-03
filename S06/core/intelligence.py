@@ -201,12 +201,14 @@ class RosterIntelligence(Intelligence):
 
         powers = ['prominence', 'diplomacy', 'violence']
         roster_powers = [sum([getattr(c, power) for c in target_roster]) for power in powers]
+
         cp = [p.title() for p in powers]
 
         # All the same
         if len(set(roster_powers)) == 1:
             msg = "The roster's totals for {}, {}, and {} are no different from each other.".format(*cp)
             code_suffix = '1'
+            return code_prefix + code_suffix, msg
         
         # Shared Max
         max_list = set([i for i, x in enumerate(roster_powers) if x == max(roster_powers)])
@@ -306,7 +308,11 @@ class CharacterIntelligence(Intelligence):
     
     @classmethod
     def get_roster_character(cls, roster, character):
-        return [char for char in roster if char.id == character][0]
+        try:
+            # do stuff that throws an IndexError
+            return [char for char in roster if char.id == character][0]
+        except IndexError:
+            import pdb; pdb.set_trace()
 
     @classmethod
     def _on_absolute_trait(cls, target_house, target_character,  target_roster):
@@ -352,6 +358,8 @@ class CharacterIntelligence(Intelligence):
         if len(set(character_powers)) == 1:
             msg = "The {}, {}, and {} powers for this Character are no different from each other".format(*cp)
             code_suffix = '1'
+            return code_prefix + code_suffix, msg
+
         # Shared Max
         max_list = set([i for i, x in enumerate(character_powers) if x == max(character_powers)])
         if len(max_list) > 1:
@@ -360,6 +368,7 @@ class CharacterIntelligence(Intelligence):
             min_idx = list(set([0,1,2]).difference(max_list))
             code_suffix = '2X' + cp[max_idx[0]][0]
             msg = "{} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
+
         # Shared Min
         min_list = set([i for i, x in enumerate(character_powers) if x == min(character_powers)])
         if len(min_list) > 1:
@@ -368,6 +377,7 @@ class CharacterIntelligence(Intelligence):
             other_min_idx = list(min_list.difference(min_idx))
             code_suffix = '2N' + cp[min_idx[0]][0]
             msg = "{} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
+
         # All Different
         if len(set(character_powers)) == 3:
             max_idx = character_powers.index(max(character_powers))
@@ -474,7 +484,7 @@ class CharacterIntelligence(Intelligence):
 
         for intel in intelligence_logs:
             for code, i in intel['intelligence'].iteritems():
-                if 'target_character' in i and i['target_character']:
+                if 'target_character' in i and i['target_character'] and target_roster == i['target_house']:
                     locks[intel['episode']] = i['target_character']
 
         if not locks:

@@ -81,11 +81,21 @@ class League(object):
     def get_player_roster(self, uid):
         return self.get_player(uid).roster
 
+    def get_player_house(self, uid):
+        return self.get_player(uid).house.name
+
     def get_house_player(self, house):
-        return [p for p in self.players if p.house.name == house][0]
+        try:
+            return [p for p in self.players if p.house.name == house][0]
+        except IndexError:
+            import pdb; pdb.set_trace()
 
     def get_house_roster(self, house):
-        return self.get_house_player(house).roster
+        try:
+            return self.get_house_player(house).roster
+        except IndexError:
+            import pdb; pdb.set_trace()
+
 
     def assign_rosters_to_players(self):
         for player in self.players:
@@ -103,7 +113,7 @@ class League(object):
         self.run_weekly_diplomatic_missions(episode)        
         self.run_weekly_assassion_missions(episode)
         # DEVELOPER
-        # self.award_weekly_points(episode)
+        self.award_weekly_points(episode)
 
     def score_weekly_episode(self, episode):
         episode_votes = filter(lambda v: v['episode'] == str(episode.number), self.votes)
@@ -141,7 +151,7 @@ class League(object):
                 target_roster = target.character_health
 
                 intel = player.house.conduct_diplomacy(mission, target_roster, self.game.characters, self.players)
-                intel = target.house.counter_intelligence(self, mission, intel)
+                intel = target.house.counter_intelligence(self, mission, intel, self.game.characters, self.players)
 
                 keys = {
                     "league" : self.name,
