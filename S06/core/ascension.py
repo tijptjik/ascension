@@ -233,6 +233,102 @@ class Ascension(object):
         self.ref.put('/character_health/', firebase_key, self.character_health[firebase_key])
 
 
+    def update_player_chronicles(self, keys, message, cat, suffix=''):
+        ''' ENTRY PER PLAYER CHRONICLE 
+        'player_chronicles':
+        <league_id><house_id><episode_id> :
+            "episode" : <episode_id>,
+            "house" : <house_id,
+            "entries" : 
+                'diplomacy_' + code> : 
+                    'msg' : <msg>
+                    'type': <type>
+                'assassination' : <entry>
+                'ability_' + <house_id> : <entry>
+                'target_' + <character_id> : <entry>
+                'foiled_' + <house_id> : <entry>
+                'awards_' + <award_id> : <entry>
+                'ranking' : <entry>
+        '''
+
+        firebase_key = "{league}{house}{episode}".format(**keys)
+
+        msg = lambda m, c: {"msg" : m, "cat" : c}
+        
+        if suffix:
+            key = '_'.join([cat, suffix])
+        else:
+            key = cat
+
+        entry = {key: msg(message,cat)}
+
+        if firebase_key in self.player_chronicles:
+            
+            self.player_chronicles[firebase_key]['entries'].update(entry)
+            
+            # Update Firebase
+            self.ref.put('/player_chronicles/' firebase_key +'/', 'entries', entry)
+        
+        else:
+            section = { 
+                firebase_key : {
+                    "episode" : keys["episode"],
+                    "house" : keys["house"],
+                    "entries": entry
+                }
+            }
+
+            self.player_chronicles.update(section)
+
+            # Update Firebase
+            self.ref.put('/player_chronicles/', firebase_key, section[firebase_key])
+
+    def update_league_chronicles(self, keys, message, cat, suffix=''):
+        ''' ENTRY PER LEAGUE CHRONICLE
+        'league_chronicles':
+        <league_id><episode_id> :
+            "episode" : <episode_id>,
+            "entries" : 
+                'damage' + <house_id> + <char_id> : 
+                    'msg' : <msg>,
+                    'type': <type>
+                'death' + <house_id> + <char_id> : <entry>
+        '''
+
+        firebase_key = "{league}{episode}".format(**keys)
+
+        msg = lambda m, c: {"msg" : m, "cat" : c}
+        
+        if suffix:
+            key = '_'.join([cat, suffix])
+        else:
+            key = cat
+
+        entry = {key: msg(message,cat)}
+
+        if firebase_key in self.league_chronicles:
+            
+            self.league_chronicles[firebase_key]['entries'].update(entry)
+            
+            # Update Firebase
+            self.ref.put('/league_chronicles/' firebase_key +'/', 'entries', entry)
+        
+        else:
+            section = { 
+                firebase_key : {
+                    "episode" : keys["episode"],
+                    "house" : keys["house"],
+                    "entries": entry
+                }
+            }
+
+            self.league_chronicles.update(section)
+
+            # Update Firebase
+            self.ref.put('/league_chronicles/', firebase_key, section[firebase_key])
+
+
+
     def print_leaderboard(self, league, episode):
         key = league + episode
         player_names = [self.players[name]['first_name'] for name in self.leaderboard[key]['scores'].keys()]
@@ -242,7 +338,7 @@ class Ascension(object):
         scores = sorted(leaderboard.items(), key=operator.itemgetter(1), reverse=True)
         return tabulate(scores, headers=['Player','Score'],tablefmt="pipe",numalign="right")
 
-
+    
 '''
 GAME INFO : CHARACTERS
 '''
