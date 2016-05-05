@@ -25,21 +25,15 @@ class Ascension(object):
         self.diplomacy_performance_penalty = [0,0,0.25,0.5,0,0.25]
         self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
-        self.rosters = self.db['rosters']
+        keys = ['rosters','players','episode_scores','player_award_scores','player_episode_scores',
+                'leaderboard','league_chronicles','player_chronicles','player_intelligence']
 
-        self.players = self.db['players']
-        self.episode_scores = self.db['episode_scores']
-        self.player_award_scores = self.db['player_award_scores']
-        self.player_episode_scores = self.db['player_episode_scores']
-        self.leaderboard = self.db['leaderboard']
-        
-        try:
-            self.character_health = self.db['character_health']
-        except KeyError:
-            self.db['character_health'] = {}
-            self.character_health = self.db['character_health']
-
-        self.player_intelligence = self.db['player_intelligence']
+        for key in keys :
+            try:
+                setattr(self, key, self.db[key])
+            except KeyError:
+                self.db[key] = {}
+                setattr(self, key, self.db[key])
 
         self.episodes = self.setup_episodes()
 
