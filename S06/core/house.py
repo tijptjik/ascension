@@ -68,7 +68,7 @@ class House:
 
     # ASSASSINATION
 
-    def assassination_success(self,target_character, target_roster):
+    def assassination_success(self, target_character, target_roster):
         return target_character in target_roster.keys()
 
     def bonus_mission(self, league, missions, target_roster):
@@ -183,7 +183,7 @@ class House:
         violence_penalty = league.game.violence_performance_penalty[v]
 
         try:
-            episode_missions = [mission for mission in missions if mission['episode'] == episode.number][0]
+            episode_missions = [mission for mission in missions if mission['episode'] == episode][0]
         except IndexError:
             return 1
         
@@ -225,7 +225,7 @@ class HouseArryn(House):
 
             keys = {
                 "league" : league.name,
-                "episode" : league.current_episode.number,
+                "episode" : league.current_episode,
                 "player" : league.get_house_player(self.name).id
             }
 
@@ -269,7 +269,7 @@ class HouseBolton(House):
                 "success" : True
             })
 
-            return damage
+        return damage
 
 
 

@@ -1,15 +1,20 @@
 # ROSTER HEALTH
+''' HEALTH PER ROSTER CHARACTER 
 
- '''
 'character_health':
-    <roster_id> :
-        <character_id> : health
-        <character_id> : health
-        <character_id> : health
-        <character_id> : health
-        <character_id> : health
-        <character_id> : health
-        <character_id> : health
+    <league_id><house_id><episode_id> :
+        "league" : <league_id>,
+        "episode" : <episode_id>,
+        "house" : <house_id>,
+        "health" : 
+            <character_id> : health
+            <character_id> : health
+            <character_id> : health
+            <character_id> : health
+            <character_id> : health
+            <character_id> : health
+            <character_id> : health
+
 '''
 
 '''

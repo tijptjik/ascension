@@ -15,7 +15,7 @@ GAME
 
 class Ascension(object):
     """Game Object for Ascension Crossed Banners"""
-    def __init__(self, firebase_url = 'https://ascension.firebaseio.com'):
+    def __init__(self, episode=None, firebase_url = 'https://ascension.firebaseio.com'):
         super(Ascension, self).__init__()
         self.ref = firebase.FirebaseApplication(firebase_url, None)
         self.db = self.ref.get('/', None)
@@ -32,15 +32,25 @@ class Ascension(object):
         self.player_award_scores = self.db['player_award_scores']
         self.player_episode_scores = self.db['player_episode_scores']
         self.leaderboard = self.db['leaderboard']
+        
+        try:
+            self.character_health = self.db['character_health']
+        except KeyError:
+            self.db['character_health'] = {}
+            self.character_health = self.db['character_health']
 
-        self.character_health = self.db['character_health']
         self.player_intelligence = self.db['player_intelligence']
 
         self.episodes = self.setup_episodes()
+
+        if episode is None:
+            episode = filter(lambda x : x.current, self.episodes.values())[0].number
+        
+        self.most_recent_episode = episode
+
         self.characters = self.setup_characters()
         self.leagues = self.setup_leagues()
 
-        self.most_recent_episode = filter(lambda x : x.current, self.episodes.values())[0]
 
     def setup_episodes(self):
         return {id: Episode(**e) for (id, e) in self.db['episodes'].iteritems()}
@@ -165,6 +175,62 @@ class Ascension(object):
         else:
             self.ref.put('/player_intelligence/', firebase_key, intel)
             self.player_intelligence.update({firebase_key : intel})
+
+    def set_character_health(self, key, health):
+        ''' HEALTH PER ROSTER CHARACTER 
+        'character_health':
+            <league_id><house_id><episode_id> :
+                "episode" : <episode_id>,
+                "house" : <roster_id>,
+                "health" : 
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+
+        '''
+
+        self.ref.put('/character_health/', key, health)
+
+
+
+    def update_character_health(self, keys, murder):
+        ''' HEALTH PER ROSTER CHARACTER 
+        'character_health':
+            <league_id><house_id><episode_id> :
+                "episode" : <episode_id>,
+                "house" : <roster_id>,
+                "health" : 
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+                    <character_id> : health
+
+        '''
+
+        firebase_key = "{league}{house}{episode}".format(**keys)
+        prev_key = "{}{}{}".format(keys['episode'], keys['house'], str(int(keys['episode'])-1))
+
+        # Get Previous Health
+        try:
+            prev_health = self.character_health[prev_key][murder['target_character']]
+        except KeyError:
+            prev_health = 100
+
+        # Dock Current Damage
+        new_health = prev_health - murder['damage_dealt']
+
+        # Update Locally
+        self.character_health[firebase_key]['health'].update({ murder['target_character']: new_health})
+        
+        # Update Firebase
+        self.ref.put('/character_health/', firebase_key, self.character_health[firebase_key])
 
 
     def print_leaderboard(self, league, episode):

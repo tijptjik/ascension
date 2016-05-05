@@ -1,6 +1,7 @@
 from player import Player
 from house import *
 from utils import ScoreCounter
+from collections import defaultdict
 
 '''
 LEAGUES
@@ -27,12 +28,12 @@ class League(object):
         self.roster_ids = self.collect_player_rosters_ids()
         self.rosters = self.collect_player_rosters()
 
+        self.current_episode = game.most_recent_episode
+        self.current_episode_score = {}
+
         self.character_health = self.collect_character_health()
 
         self.assign_rosters_to_players()
-
-        self.current_episode = "00"
-        self.current_episode_score = {}
     
 
     # Helper Methods
@@ -66,14 +67,34 @@ class League(object):
         return {roster_id: roster.values() for roster_id, roster in self.game.rosters.iteritems() if roster_id in self.roster_ids}
 
     def collect_character_health(self):
-        # Defaults
-        for key, roster in self.rosters.iteritems():
-            if key not in self.game.character_health:
-                self.game.character_health[key] = dict(zip(roster, [100]*7 ))
+        """ HEALTH FOR ROSTER CHARACTER IN LEAGUE
+        character_health.
+            <house_id>.
+                <character_id> : health
+        """
+
+        for roster_id, roster in self.rosters.iteritems():
+            house = self.get_roster_house(roster_id)
+            key = "{}{}{}".format(self.name, house, self.current_episode)
+            prev_key = "{}{}{}".format(self.name, house, str(int(self.current_episode)-1))
+
+            # GET CHAR_HEALTH FROM PREVIOUS EPISODE AND SET IT AS THE CURRENT
+            if prev_key in self.game.character_health:
+                self.game.character_health[key] = self.game.character_health[prev_key]
+            else:
+                # IF NO CHAR_HEALTH, GENERATE DEFAULT
+                health = {
+                    "episode" : self.current_episode,
+                    "house" : house,
+                    "roster" : roster_id,
+                    "health" : dict(zip(roster, [100]*len(roster) ))
+                }
+                self.game.character_health[key] = health
+                self.game.set_character_health(key, health)
 
         # TODO : Merge it into Character 
         
-        return {key: roster for key, roster in self.game.character_health.iteritems() if key in self.roster_ids}
+        return {h['house']: h['health'] for key, h in self.game.character_health.iteritems() if h['roster'] in self.roster_ids}
 
     def get_player(self, uid):
         return [p for p in self.players if p.id == uid][0]
@@ -88,39 +109,32 @@ class League(object):
         return self.get_player(uid).house.name
 
     def get_house_player(self, house):
-        try:
-            return [p for p in self.players if p.house.name == house][0]
-        except IndexError:
-            import pdb; pdb.set_trace()
+        return [p for p in self.players if p.house.name == house][0]
 
     def get_house_roster(self, house):
-        try:
-            return self.get_house_player(house).roster
-        except IndexError:
-            import pdb; pdb.set_trace()
+        return self.get_house_player(house).roster
 
+    def get_roster_house(self, rid):
+        return [p.house.name for p in self.players if p.roster_id == rid][0]
 
     def assign_rosters_to_players(self):
         for player in self.players:
             player.roster = self.rosters[player.roster_id]
-            player.character_health = self.character_health[player.roster_id]
+            player.character_health = self.character_health[player.house.name]
             player.roster_prominence = player.get_roster_prominence(self.game.characters)
 
     # Weekly Processes
 
-    def process_episode_results(self, episode=None):
-        if episode is None:
-            episode = self.game.most_recent_episode
-        
-        self.score_weekly_episode(episode)
-        self.run_weekly_diplomatic_missions(episode)        
-        self.run_weekly_assassion_missions(episode)
-        self.publish_weekly_chronicle(episode)
+    def process_episode_results(self):
+        self.score_weekly_episode()
+        self.run_weekly_diplomatic_missions()        
+        self.run_weekly_assassion_missions()
+        self.publish_weekly_chronicle()
         # DEVELOPER
-        self.award_weekly_points(episode)
+        self.award_weekly_points()
 
-    def score_weekly_episode(self, episode):
-        episode_votes = filter(lambda v: v['episode'] == str(episode.number), self.votes)
+    def score_weekly_episode(self):
+        episode_votes = filter(lambda v: v['episode'] == str(self.current_episode), self.votes)
         
         for award in self.game.awards:
 
@@ -133,18 +147,17 @@ class League(object):
 
             keys = {
                 "league" : self.name,
-                "episode" : episode.number,
+                "episode" : self.current_episode,
                 "award" :  award
             }
 
-            self.current_episode = episode
             self.current_episode_score[award] = score
 
             self.game.update_episode_scores(keys, dict(score))
 
 
-    def run_weekly_diplomatic_missions(self, episode):
-        episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
+    def run_weekly_diplomatic_missions(self):
+        episode_missions = filter(lambda v: v['episode'] == str(self.current_episode), self.missions)
 
         for mission in episode_missions:
             if mission['diplomatic_agent'] and mission['diplomatic_target_house']:
@@ -159,7 +172,7 @@ class League(object):
 
                 keys = {
                     "league" : self.name,
-                    "episode" : episode.number,
+                    "episode" : self.current_episode,
                     "player" : player.id
                 }
 
@@ -169,8 +182,8 @@ class League(object):
                 self.game.update_player_intelligence(keys, intelligence)
 
 
-    def run_weekly_assassion_missions(self, episode):
-        episode_missions = filter(lambda v: v['episode'] == str(episode.number), self.missions)
+    def run_weekly_assassion_missions(self):
+        episode_missions = filter(lambda v: v['episode'] == str(self.current_episode), self.missions)
 
         murder_set = []
 
@@ -188,26 +201,28 @@ class League(object):
 
                 keys = {
                     "league" : self.name,
-                    "episode" : episode.number,
-                    "player" : player.id
+                    "episode" : self.current_episode,
+                    "player" : player.id,
+                    "house" : player.house.name
                 }
 
                 murder = keys.copy()
-                murder.update({"murders": damage_actual})
+                murder.update({"murder": damage_actual})
 
                 murder_set.append(murder)
 
         # Award points for succesful assassinations
         
-        import pprint
+        if murder_set:
+            
+            import pprint
+            pprint.pprint([murder for murder in murder_set if murder['murder']['success']])
 
-        pprint.pprint([murder for murder in murder_set if murder['murders']['success']])
+            # Dock Character Health 
 
-        # pprint.pprint([murder for murder in murder_set if murder['murders']['success']])
+            murder_set = self.uncover_conspiracies(murder_set)
 
-        import pdb; pdb.set_trace()
-        
-        # Dock Character Health 
+            self.process_murder_log(murder_set)
 
         # Points are split between the number of assailants.
         # If a stronger assassin targets the same characters, 
@@ -220,10 +235,47 @@ class League(object):
 
         # Update the public chronicle about the deaths / damage
 
-    def publish_weekly_chronicle(self, episode):
+    def uncover_conspiracies(self, murder_set):
+        conspiracies = defaultdict(list)
+        map(lambda m: conspiracies[(m['murder']['target_house'],m['murder']['target_character'])].append(m),  murder_set)
+        for pair, murders in conspiracies.iteritems():
+            max_bounty = 0
+            conspirators = []
+            if len(murders) > 1:
+                for murder in murders:
+                    if murder['murder']['bounty'] > max_bounty:
+                        for conspirator in conspirators:
+                            conspirator['murder'].update({'bounty':0,'damage_dealt':0,'success':'outwitted'})
+                        conspirators = [murder]
+                    elif murder['murder']['bounty'] == max_bounty:
+                        conspirators.append(murder)
+                    else:
+                        murder['murder'].update({'bounty':0,'damage_dealt':0,'success':'outwitted'})
+
+                for conspirator in conspirators:
+                    bounty = conspirator['murder']['bounty']
+                    conspirator['murder'].update({'bounty': bounty/len(conspirators)})
+
+        murder_set = [val for sublist in conspiracies.values() for val in sublist]
+        
+        return murder_set
+
+    def process_murder_log(self, murder_set):
+        succesful_murders = [murder for murder in murder_set if murder['murder']['success']]
+
+        for murder in succesful_murders:
+
+            keys = murder.copy()
+            keys.update({
+                'house' : murder['murder']['target_house']
+                })
+  
+            self.game.update_character_health(keys, murder['murder'])
+
+    def publish_weekly_chronicle(self):
         pass
 
-    def award_weekly_points(self, episode):
+    def award_weekly_points(self):
         
         leaderboard_scores = {}
 
@@ -234,12 +286,12 @@ class League(object):
             for award in self.game.awards:
                 
                 award_score = self.current_episode_score[award]
-                awarded_points = player.house.award_points(self, episode, award,
+                awarded_points = player.house.award_points(self, self.current_episode, award,
                     award_score, self.game.characters, player.character_health, player.missions)
                 
                 keys = {
                     "league" : self.name,
-                    "episode" : episode.number,
+                    "episode" : self.current_episode,
                     "award" : award,
                     "player" : player.id
                 }
