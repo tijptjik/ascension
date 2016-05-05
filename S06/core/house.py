@@ -68,7 +68,7 @@ class House:
 
     # ASSASSINATION
 
-    def assassination_success(self, target_character, target_roster):
+    def assassination_succses(self, target_character, target_roster):
         return target_character in target_roster.keys()
 
     def bonus_mission(self, league, missions, target_roster):
@@ -128,7 +128,29 @@ class House:
         return damages[violence]
 
 
+    def damage_bonus(self, league, mission, target_roster, damage_actual):
+
+        # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
+
+        # TARGARYAN : All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character
+
+        pass
+
+    def spread_the_word(self, mission):
+        mission = self.reveal_outgoing_missions(mission):
+
+        target_player = league.get_house_player(mission['target_house'])
+        target_player.house.reveal_missions_target(mission)
+
+
     def reveal_outgoing_missions(self, mission):
+        'type' : 'diplomatic|assassination'
+        'success' : true|false
+        'reveal' : true|false
+        'data' : {}
+
+        # 'global' : true if
+            type:assassination and success:false and reveal:true 
 
         # Mission Type and Result
 
@@ -139,22 +161,26 @@ class House:
         # Target player target_player.house.reveal_missions_target()
 
         # TYRELL : don't call() target_player.house.reveal_missions_target()
+
+        # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
         pass
 
 
     def reveal_incoming_missions(self, mission):
         pass
 
+        # Failed Assassination Attempt
+         
+        # The player you attacked receives two items of Roster Intelligence from torturing your assassin.
+        # The player you attacked also receives the assassin’s Affiliation, Prominence and Violence Power.
+
         # MEEREEN: ignore the hidden property on the diplomatic mission and reveal its 
             # Origin House
-
-        # Update the personal Chronicle
 
 
     # SCORING
 
     def award_points(self, league, episode, award, scores, characters, health, missions):
-        # league.award.character.points *  (6 - character.prominence) * house.bonus * roster.character.health * house.ability * character.mission.efficiency
         
         roster_score = ScoreCounter()
 

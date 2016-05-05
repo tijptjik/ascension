@@ -1,6 +1,6 @@
 from player import Player
 from house import *
-from utils import ScoreCounter
+from utils import ScoreCounter, ordinal
 from collections import defaultdict
 
 '''
@@ -49,6 +49,9 @@ class League(object):
             return obj['league'] == self.name
         except KeyError:
             return False
+
+    def filter_intel(self, intel):
+        return intel['episode'] is self.current_episode and intel['league'] is self.name
 
     def init_players(self):
         for player in self.players:
@@ -132,6 +135,7 @@ class League(object):
         self.publish_weekly_chronicle()
         # DEVELOPER
         self.award_weekly_points()
+        self.publish_weekly_ranking_chronicle()
 
     def score_weekly_episode(self):
         episode_votes = filter(lambda v: v['episode'] == str(self.current_episode), self.votes)
@@ -154,7 +158,6 @@ class League(object):
             self.current_episode_score[award] = score
 
             self.game.update_episode_scores(keys, dict(score))
-
 
     def run_weekly_diplomatic_missions(self):
         episode_missions = filter(lambda v: v['episode'] == str(self.current_episode), self.missions)
@@ -272,8 +275,80 @@ class League(object):
   
             self.game.update_character_health(keys, murder['murder'])
 
-    def publish_weekly_chronicle(self):
-        pass
+    def publish_weekly_missions_chronicle(self):
+
+        # Player
+        self.collect_diplomatic_entries()
+        self.collect_assassination_entries()
+        
+        player.house.reveal_outgoing_missions()
+        player.house.reveal_incoming_missions()
+        
+        # Global
+        self.collect_failed_entries()
+        self.collect_damage_entries()
+        self.collect_death_entries()
+
+    def collect_diplomatic_entries(self):
+        """ essos51facebook:10100288986712842
+            {
+              "episode" : 51,
+              "intelligence" : {
+                "C|NI|MARI|E|N|P" : {
+                  "code" : "C|NI|MARI|E|N|P",
+                  "message" : "Character has the lowest Prominence Power on the target roster",
+                  "target_character" : "marei",
+                  "target_house" : "nightswatch",
+                  "type" : "character"
+                }
+              },
+              "league" : "essos",
+              "player" : "facebook:10100288986712842"
+            }
+        """
+        player_entries = [i for k, i in self.game.player_intelligence.iteritems() if self.filter_intel(i)]
+
+        entries = []
+        for entry in player_entries:
+            for k, v in entry['intelligence'].iteritems():
+                v['player'] = entry['player']
+                entries.append(v)
+
+        return entries
+
+    def collect_assassination_entries(self):
+        """
+        [{'episode': 51,
+  'house': u'independent',
+  'league': u'essos',
+  'murder': {'bounty': 0,
+             'damage_dealt': 100,
+             'damage_intended': 100,
+             'success': True,
+             'target_character': u'aryastark',
+             'target_house': u'independent'},
+  'player': u'facebook:10100288986712842'}]
+
+        """
+        entries = []
+        return entries
+
+    def collect_failed_entries(self):
+
+        #  It will be published in the Chronicle that you made an attempt and failed, mentioning your house, and the house you were targeting.
+        # 'global' : true if
+            # type:assassination and success:false and reveal:true
+
+        entries = []
+        return entries
+
+    def collect_damage_entries(self):
+        entries = []
+        return entries
+
+    def collect_death_entries(self):
+        entries = []
+        return entries
 
     def award_weekly_points(self):
         
@@ -328,3 +403,22 @@ class League(object):
 
         # DEVELOPER
         self.game.update_leaderboard(keys, scores)
+
+
+    def publish_weekly_ranking_chronicle(self):
+
+        
+        entries = self.collect_ranking_entries()
+        for entry in entries:
+            keys = ''
+            message = ''
+            cat = ''
+            suffix = ''
+
+            self.game.update_player_chronicles(entry)
+
+    def collect_ranking_entries(self):
+        tmpl = lambda k : "With {score} points, after {episode_number} Episodes, you rank {rank} in the {league} League."{**k}
+        pass
+
+    

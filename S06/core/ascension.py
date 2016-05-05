@@ -26,7 +26,7 @@ class Ascension(object):
         self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
         keys = ['rosters','players','episode_scores','player_award_scores','player_episode_scores',
-                'leaderboard','league_chronicles','player_chronicles','player_intelligence']
+                'leaderboard','league_chronicles','player_chronicles','player_intelligence','character_health']
 
         for key in keys :
             try:
@@ -45,6 +45,7 @@ class Ascension(object):
         self.characters = self.setup_characters()
         self.leagues = self.setup_leagues()
 
+    # Init
 
     def setup_episodes(self):
         return {id: Episode(**e) for (id, e) in self.db['episodes'].iteritems()}
@@ -57,6 +58,7 @@ class Ascension(object):
         # return [League(l, self) for l in self.db['leagues'].keys() if l == 'essos']
         return [League(l, self) for l in self.db['leagues'].keys()]
 
+    # Saving Data
 
     def update_episode_scores(self, keys, scores):
         '''EPISODE SCORES PER CHARACTER PER AWARD
@@ -123,6 +125,7 @@ class Ascension(object):
 
         self.player_episode_scores.update({firebase_key : scores})
 
+
     def update_leaderboard(self, keys, scores):
         ''' PLAYER SCORES PER EPISODE
 
@@ -141,6 +144,7 @@ class Ascension(object):
         self.ref.put('/leaderboard/', firebase_key, scores)
 
         self.leaderboard.update({firebase_key : scores})
+
 
     def update_player_intelligence(self, keys, intel, append=False):
         ''' INTELLIGENCE  PER PLAYER 
@@ -170,6 +174,7 @@ class Ascension(object):
             self.ref.put('/player_intelligence/', firebase_key, intel)
             self.player_intelligence.update({firebase_key : intel})
 
+
     def set_character_health(self, key, health):
         ''' HEALTH PER ROSTER CHARACTER 
         'character_health':
@@ -184,11 +189,9 @@ class Ascension(object):
                     <character_id> : health
                     <character_id> : health
                     <character_id> : health
-
         '''
 
         self.ref.put('/character_health/', key, health)
-
 
 
     def update_character_health(self, keys, murder):
@@ -205,7 +208,6 @@ class Ascension(object):
                     <character_id> : health
                     <character_id> : health
                     <character_id> : health
-
         '''
 
         firebase_key = "{league}{house}{episode}".format(**keys)
@@ -261,7 +263,7 @@ class Ascension(object):
             self.player_chronicles[firebase_key]['entries'].update(entry)
             
             # Update Firebase
-            self.ref.put('/player_chronicles/' firebase_key +'/', 'entries', entry)
+            self.ref.put('/player_chronicles/' + firebase_key +'/', 'entries', entry)
         
         else:
             section = { 
@@ -276,6 +278,7 @@ class Ascension(object):
 
             # Update Firebase
             self.ref.put('/player_chronicles/', firebase_key, section[firebase_key])
+
 
     def update_league_chronicles(self, keys, message, cat, suffix=''):
         ''' ENTRY PER LEAGUE CHRONICLE
@@ -305,7 +308,7 @@ class Ascension(object):
             self.league_chronicles[firebase_key]['entries'].update(entry)
             
             # Update Firebase
-            self.ref.put('/league_chronicles/' firebase_key +'/', 'entries', entry)
+            self.ref.put('/league_chronicles/' + firebase_key +'/', 'entries', entry)
         
         else:
             section = { 
@@ -321,7 +324,7 @@ class Ascension(object):
             # Update Firebase
             self.ref.put('/league_chronicles/', firebase_key, section[firebase_key])
 
-
+    # Utils
 
     def print_leaderboard(self, league, episode):
         key = league + episode
