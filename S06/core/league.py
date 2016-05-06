@@ -132,7 +132,7 @@ class League(object):
         self.score_weekly_episode()
         self.run_weekly_diplomatic_missions()        
         self.run_weekly_assassion_missions()
-        self.publish_weekly_chronicle()
+        self.publish_weekly_missions_chronicle()
         # DEVELOPER
         self.award_weekly_points()
         self.publish_weekly_ranking_chronicle()
@@ -180,7 +180,7 @@ class League(object):
                 }
 
                 intelligence = keys.copy()
-                intelligence.update({"intelligence": intel})
+                intelligence.update({"intelligence": intel, 'agent': mission['diplomatic_agent']})
 
                 self.game.update_player_intelligence(keys, intelligence)
 
@@ -210,7 +210,7 @@ class League(object):
                 }
 
                 murder = keys.copy()
-                murder.update({"murder": damage_actual})
+                murder.update({"murder": damage_actual, 'agent': mission['assassination_agent']})
 
                 murder_set.append(murder)
 
@@ -264,6 +264,9 @@ class League(object):
         return murder_set
 
     def process_murder_log(self, murder_set):
+        
+        self.game.update_murder_log({'league':self.name,'episode':self.current_episode}, murder_set)
+        
         succesful_murders = [murder for murder in murder_set if murder['murder']['success']]
 
         for murder in succesful_murders:
@@ -275,19 +278,52 @@ class League(object):
   
             self.game.update_character_health(keys, murder['murder'])
 
+
+    def refresh_chronicles(self):
+        houses = [p.house.name for p in self.players]
+        for house in houses:
+
+            firebase_key = "{}{}{}".format(self.name, house, self.current_episode)
+
+            self.game.ref.delete('/player_chronicles/', firebase_key)
+
     def publish_weekly_missions_chronicle(self):
 
+        self.refresh_chronicles()
+
         # Player
-        self.collect_diplomatic_entries()
-        self.collect_assassination_entries()
+        d_missions = self.collect_diplomatic_entries()
+        a_missions = self.collect_assassination_entries()
+
+        d_missions = self.set_visibility_layer(d_missions, 'diplomatic')
+        a_missions = self.set_visibility_layer(a_missions, 'assassination')
         
-        player.house.reveal_outgoing_missions()
-        player.house.reveal_incoming_missions()
-        
+        for missions in [d_missions, a_missions]:
+            if missions:
+                for mission in missions:
+
+                    self.get_player(mission['data']['player']).house.spread_the_word(self, mission)
+            
         # Global
-        self.collect_failed_entries()
-        self.collect_damage_entries()
-        self.collect_death_entries()
+        failed_entries = self.collect_failed_entries()
+        damage_entries = self.collect_damage_entries()
+        death_entries = self.collect_death_entries()
+
+        for missions in [failed_entries, damage_entries, death_entries]:
+            for mission in missions:
+                # self.get_player(mission['data']['player']).house.spread_the_word(self, mission)
+                pass
+
+
+    def set_visibility_layer(self, data, mission_type):
+        if data:
+            logs = map(lambda d: {"type": mission_type, "success": True, "reveal": False, "data" : d}, data)
+            if mission_type == 'assassination':
+                for log in logs:
+                    if not log['data']['success']:
+                        log['success'] = False
+                        log['reveal'] = True
+            return logs
 
     def collect_diplomatic_entries(self):
         """ essos51facebook:10100288986712842
@@ -303,7 +339,8 @@ class League(object):
                 }
               },
               "league" : "essos",
-              "player" : "facebook:10100288986712842"
+              "player" : "facebook:10100288986712842",
+              "agent"  : "varys" 
             }
         """
         player_entries = [i for k, i in self.game.player_intelligence.iteritems() if self.filter_intel(i)]
@@ -312,6 +349,7 @@ class League(object):
         for entry in player_entries:
             for k, v in entry['intelligence'].iteritems():
                 v['player'] = entry['player']
+                v['agent'] = entry['agent']
                 entries.append(v)
 
         return entries
@@ -319,18 +357,30 @@ class League(object):
     def collect_assassination_entries(self):
         """
         [{'episode': 51,
-  'house': u'independent',
-  'league': u'essos',
-  'murder': {'bounty': 0,
-             'damage_dealt': 100,
-             'damage_intended': 100,
-             'success': True,
-             'target_character': u'aryastark',
-             'target_house': u'independent'},
-  'player': u'facebook:10100288986712842'}]
+          'house': u'independent',
+          'league': u'essos',
+          'murder': {'bounty': 0,
+                     'damage_dealt': 100,
+                     'damage_intended': 100,
+                     'success': True,
+                     'target_character': u'aryastark',
+                     'target_house': u'independent'},
+          'player': u'facebook:10100288986712842'}]
 
         """
+        try:
+            murder_entries = self.game.murder_log[self.name + str(self.current_episode)]
+        except KeyError:
+            return []
+
         entries = []
+        for entry in murder_entries:
+            e = entry['murder']
+            e['player'] = entry['player']
+            e['house'] = entry['house']
+            e['agent'] = entry['agent']
+            entries.append(e)
+
         return entries
 
     def collect_failed_entries(self):
@@ -406,19 +456,17 @@ class League(object):
 
 
     def publish_weekly_ranking_chronicle(self):
+        pass
+        # entries = self.collect_ranking_entries()
+        # for entry in entries:
+        #     keys = ''
+        #     message = ''
+        #     cat = ''
+        #     suffix = ''
 
-        
-        entries = self.collect_ranking_entries()
-        for entry in entries:
-            keys = ''
-            message = ''
-            cat = ''
-            suffix = ''
-
-            self.game.update_player_chronicles(entry)
+        #     self.game.update_player_chronicles(entry)
 
     def collect_ranking_entries(self):
-        tmpl = lambda k : "With {score} points, after {episode_number} Episodes, you rank {rank} in the {league} League."{**k}
+        tmpl = lambda k : "With {score} points, after {episode_number} Episodes, you rank {rank} in the {league} League.".format(**k)
         pass
 
-    

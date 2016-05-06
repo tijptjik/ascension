@@ -26,7 +26,8 @@ class Ascension(object):
         self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
         keys = ['rosters','players','episode_scores','player_award_scores','player_episode_scores',
-                'leaderboard','league_chronicles','player_chronicles','player_intelligence','character_health']
+                'leaderboard','league_chronicles','player_chronicles','player_intelligence','character_health',
+                'murder_log']
 
         for key in keys :
             try:
@@ -168,7 +169,7 @@ class Ascension(object):
             for code, intel in intel['intelligence'].iteritems():
                 self.ref.put('/player_intelligence/' + firebase_key + '/intelligence/', code, intel)
             
-            self.player_intelligence[firebase_key]['intelligence'].update(intel)
+            self.player_intelligence[firebase_key]['intelligence'].update({code: intel})
             
         else:
             self.ref.put('/player_intelligence/', firebase_key, intel)
@@ -192,6 +193,12 @@ class Ascension(object):
         '''
 
         self.ref.put('/character_health/', key, health)
+
+
+    def update_murder_log(self, keys, murders):
+        """Save the Murder Log locally, no need to propagate to Firebase"""
+        firebase_key = "{league}{episode}".format(**keys)
+        self.murder_log.update({ firebase_key : murders })
 
 
     def update_character_health(self, keys, murder):
@@ -236,13 +243,13 @@ class Ascension(object):
             "episode" : <episode_id>,
             "house" : <house_id,
             "entries" : 
-                'diplomacy_' + code> : 
+                'diplomacy_' + <code> : 
                     'msg' : <msg>
                     'type': <type>
                 'assassination' : <entry>
                 'ability_' + <house_id> : <entry>
                 'target_' + <character_id> : <entry>
-                'foiled_' + <house_id> : <entry>
+                'foiled_' + <house_id> + <code> : <entry>
                 'awards_' + <award_id> : <entry>
                 'ranking' : <entry>
         '''
@@ -256,23 +263,33 @@ class Ascension(object):
         else:
             key = cat
 
-        entry = {key: msg(message,cat)}
-
         if firebase_key in self.player_chronicles:
             
-            self.player_chronicles[firebase_key]['entries'].update(entry)
+            self.player_chronicles[firebase_key]['entries'].update({key: msg(message,cat)})
+
+            import pprint
+            pprint.pprint({ 
+                firebase_key : {
+                    "episode" : keys["episode"],
+                    "house" : keys["house"],
+                    "entries": {key: msg(message,cat)}
+                }
+            })
             
             # Update Firebase
-            self.ref.put('/player_chronicles/' + firebase_key +'/', 'entries', entry)
+            self.ref.put('/player_chronicles/' + firebase_key +'/entries/', key, msg(message,cat))
         
         else:
             section = { 
                 firebase_key : {
                     "episode" : keys["episode"],
                     "house" : keys["house"],
-                    "entries": entry
+                    "entries": {key: msg(message,cat)}
                 }
             }
+
+            import pprint
+            pprint.pprint(section)
 
             self.player_chronicles.update(section)
 

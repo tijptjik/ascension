@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 from abc import ABCMeta, abstractmethod
 from utils import ScoreCounter
 import operator
@@ -68,7 +70,7 @@ class House:
 
     # ASSASSINATION
 
-    def assassination_succses(self, target_character, target_roster):
+    def assassination_success(self, target_character, target_roster):
         return target_character in target_roster.keys()
 
     def bonus_mission(self, league, missions, target_roster):
@@ -136,46 +138,121 @@ class House:
 
         pass
 
-    def spread_the_word(self, mission):
-        mission = self.reveal_outgoing_missions(mission):
-
-        target_player = league.get_house_player(mission['target_house'])
-        target_player.house.reveal_missions_target(mission)
 
 
-    def reveal_outgoing_missions(self, mission):
+    def spread_the_word(self, league, mission):
+
+        mission = self.reveal_outgoing_missions(league, mission)
+
+        target_player = league.get_house_player(mission['data']['target_house'])
+        target_player.house.reveal_incoming_missions(league, mission)
+
+        # TYRELL : don't call() target_player.house.reveal_incoming_missions()
+
+        # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
+
+    
+    def create_torture_msg(self, code, target_house, msg):
+        msg = "Torturing {}'s assassin reavels : {}".format(target_house, msg)
+        return code, msg 
+            
+    def create_diplomatic_msg(self, mission, target_house):
+        code = mission['data']['code']
+        msg = "Intel on {} reveals: {}".format(target_house,mission['data']['message'])
+        return code, msg 
+
+    def create_assassination_msg(self, mission, target_house):
+        d = mission['data']
+        result = ['FAILED','SUCCEEDED'][mission['success']]
+        message = "Attack on {} of {} {} - {} damage dealt for {} points".format(d['target_character'],
+                       target_house, result, d["damage_dealt"], d["bounty"])
+        return message
+
+    def reveal_outgoing_missions(self, league, mission):
+        """ VISIBILITY LAYER
         'type' : 'diplomatic|assassination'
         'success' : true|false
         'reveal' : true|false
         'data' : {}
+        """
 
-        # 'global' : true if
-            type:assassination and success:false and reveal:true 
+        cat = mission['type']
+        suffix = ''
+        target_house = league.get_house(mission['data']['target_house']).full_name
 
-        # Mission Type and Result
+        if cat == 'diplomatic':
+            suffix, message = self.create_diplomatic_msg(mission, target_house)
+        if cat == 'assassination':
+            message = self.create_assassination_msg(mission, target_house)
 
-        # If Diplomacy / Succesful Attack - set to hide by default
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "house" : self.name
+        }
 
-        # If Failed Attack - set to reveal by default
+        league.game.update_player_chronicles(keys, message, cat, suffix)
 
-        # Target player target_player.house.reveal_missions_target()
-
-        # TYRELL : don't call() target_player.house.reveal_missions_target()
-
-        # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
-        pass
+        return mission
 
 
-    def reveal_incoming_missions(self, mission):
-        pass
+    def reveal_incoming_missions(self, league, mission):
+        """ VISIBILITY LAYER
+        'type' : 'diplomatic|assassination'
+        'success' : true|false
+        'reveal' : true|false
+        'data' : {}
+        """
+
+        cat = mission['type']
 
         # Failed Assassination Attempt
-         
-        # The player you attacked receives two items of Roster Intelligence from torturing your assassin.
-        # The player you attacked also receives the assassin’s Affiliation, Prominence and Violence Power.
-
+    
         # MEEREEN: ignore the hidden property on the diplomatic mission and reveal its 
-            # Origin House
+
+        if cat is 'assassination' and mission['reveal']:
+        
+            # The player you attacked receives two items of Roster Intelligence from torturing your assassin.
+            
+            if not mission['success']:
+                target_house = mission['data']['house']
+                target_roster = league.get_house_player(target_house).character_health
+                intelligence = {}
+
+                intel = RosterIntelligence.generate(target_house, target_roster,
+                                                    league.game.characters, self.intelligence_logs, 2)
+
+                intelligence.update(intel)
+
+                keys = {
+                    "league" : league.name,
+                    "episode" : league.current_episode,
+                    "player" : league.get_house_player(self.name).id,
+                    "house" : self.name
+                }
+
+                intelligence = keys.copy()
+                intelligence.update({"intelligence": intel, 'agent': mission['data']['agent']})
+
+                league.game.update_player_intelligence(keys, intelligence)
+
+                target_house_name = league.get_house_player(self.name).house.full_name
+                for code, i in intel.iteritems():
+                    cat = 'foiled'
+                    suffix, message = self.create_torture_msg(code, target_house_name, i['message'])
+                    suffix = "_".join([target_house, suffix])
+
+                    league.game.update_player_chronicles(keys, message, cat, suffix)
+
+                # The player you attacked also receives the assassin’s Prominence and Violence Power.
+
+                assassin = league.game.characters[mission['data']['agent']]
+                a_msg = "The assassin was sent by {}, has Prominence Power {}, and Violence Power {} - They escaped... but we've sent the hounds on them...".format(
+                        target_house_name, assassin.prominence, assassin.violence)
+
+                suffix, message = self.create_torture_msg('torture_'+target_house, target_house_name, a_msg)
+
+                league.game.update_player_chronicles(keys, message, cat, suffix)
 
 
     # SCORING
@@ -223,6 +300,7 @@ class House:
 class HouseArryn(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'House Arryn'
         self.bonus = {'jockey':20}
         self.immunity = 'petyrbaelish'
         super(HouseArryn, self).__init__(**self.bonus)
@@ -233,9 +311,9 @@ class HouseArryn(House):
         # ARRYN ABILITY 
         # Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
 
-        # if random.random() < 0.5:
+        if random.random() < 0.5:
         # DEVELOPER
-        if random.random() < 1:
+        # if random.random() < 1:
 
             target_health = league.get_player(missions['player']).character_health
 
@@ -256,7 +334,7 @@ class HouseArryn(House):
             }
 
             intelligence = keys.copy()
-            intelligence.update({"intelligence": arryn_intel})
+            intelligence.update({"intelligence": arryn_intel, 'agent': 'Arryn Ability'})
 
             league.game.update_player_intelligence(keys, intelligence, append=True)
          
@@ -265,6 +343,7 @@ class HouseArryn(House):
 class HouseBolton(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'House Bolton'
         self.bonus = {'damage':10,'support':10}
         super(HouseBolton, self).__init__(**self.bonus)
 
@@ -295,6 +374,8 @@ class HouseBolton(House):
                 "success" : True
             })
 
+        # TODO Add Chronicle Entry
+
         return damage
 
 
@@ -302,6 +383,7 @@ class HouseBolton(House):
 class HouseGreyjoy(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'House Greyjoy'
         self.bonus = {'damage': 20}
         self.immunity = 'theongreyjoy'
 
@@ -320,6 +402,7 @@ class HouseGreyjoy(House):
 class HouseIndependent(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'Independents'
         self.immunity = 'jaqenhghar'
         self.bonus = {'style':10,'support':10}
         super(HouseIndependent, self).__init__(**self.bonus)
@@ -328,6 +411,7 @@ class HouseIndependent(House):
 class HouseLannister(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'House Lannister'
         self.bonus = {'wit':10,'jockey':10}
         super(HouseLannister, self).__init__(**self.bonus)
 
@@ -338,6 +422,7 @@ class HouseLannister(House):
 class HouseMartell(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'House Martell'
         self.bonus = dict(wit=5, damage=5, jockey=5, style=5, support=5)
         super(HouseMartell, self).__init__(**self.bonus)
 
@@ -360,6 +445,7 @@ class HouseMartell(House):
 class HouseMeereen(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'Council of Meereen'
         self.bonus = {'wit':20}
         self.immunity = 'varys'
         super(HouseMeereen, self).__init__(**self.bonus)
@@ -368,6 +454,7 @@ class HouseMeereen(House):
 class HouseMinor(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'League of Minor Houses'
         self.bonus = {'wit':10,'support':10}
         super(HouseMinor, self).__init__(**self.bonus)
 
@@ -403,6 +490,7 @@ class HouseMinor(House):
 class HouseNightswatch(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'Nightswatch & Free Folk'
         self.bonus = {'damage':10,'support':10}
         super(HouseNightswatch, self).__init__(**self.bonus)
 
@@ -425,6 +513,7 @@ class HouseNightswatch(House):
 class HouseStark(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'House Stark'
         self.bonus = {'support':20}
         super(HouseStark, self).__init__(**self.bonus)
 
@@ -465,6 +554,7 @@ class HouseStark(House):
 class HouseTargaryen(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = 'House Targaryen'
         self.bonus = {'damage':10,'jockey':10}
         super(HouseTargaryen, self).__init__(**self.bonus)
 
@@ -472,5 +562,6 @@ class HouseTargaryen(House):
 class HouseTyrell(House):
     def __init__(self, name):
         self.name = name
+        self.full_name = "House Tyrell"
         self.bonus = {'style':20}
         super(HouseTyrell, self).__init__(**self.bonus)
