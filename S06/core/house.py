@@ -162,11 +162,29 @@ class House:
         return code, msg 
 
     def create_assassination_msg(self, mission, target_house):
+        # TODO : Add custom message for when house targeted itself.
+        # TODO : Add custom message for when immune characters were targeted.
         d = mission['data']
         result = ['FAILED','SUCCEEDED'][mission['success']]
-        message = "Attack on {} of {} {} - {} damage dealt for {} points".format(d['target_character'],
+        mg = "Attack on {} of {} {} - {} damage dealt for {} points".format(d['target_character'],
                        target_house, result, d["damage_dealt"], d["bounty"])
-        return message
+        return mg
+
+    def create_damage_msg(self, league, mission):
+        d = mission['data']
+
+        char_health = league.get_house_player(d['target_house'])
+                            .character_health[d['target_character']]
+
+        if char_health > 0:
+            msg = """Your grace, {} has been injured in an attack - they lost {} health and the Measter
+                        reports their condition is stable, but at {}/100""".format(d['target_character'],
+                           d["damage_dealt"], char_health)
+        else:
+            msg = """Your grace... the move against {} could not be
+                     prevented, and ... has proven fatal.""".format(d['target_character'])
+        
+        return d['target_character'], msg
 
     def reveal_outgoing_missions(self, league, mission):
         """ VISIBILITY LAYER
@@ -213,9 +231,9 @@ class House:
         if cat is 'assassination' and mission['reveal']:
         
             # The player you attacked receives two items of Roster Intelligence from torturing your assassin.
+            target_house = mission['data']['house']
             
             if not mission['success']:
-                target_house = mission['data']['house']
                 target_roster = league.get_house_player(target_house).character_health
                 intelligence = {}
 
@@ -251,6 +269,21 @@ class House:
                         target_house_name, assassin.prominence, assassin.violence)
 
                 suffix, message = self.create_torture_msg('torture_'+target_house, target_house_name, a_msg)
+
+                league.game.update_player_chronicles(keys, message, cat, suffix)
+
+            else:
+
+                cat = 'target'
+
+                keys = {
+                    "league" : league.name,
+                    "episode" : league.current_episode,
+                    "player" : league.get_house_player(target_house).id,
+                    "house" : target_house
+                }
+
+                suffix, message = self.create_damage_msg(league, mission)
 
                 league.game.update_player_chronicles(keys, message, cat, suffix)
 

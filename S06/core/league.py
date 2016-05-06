@@ -227,18 +227,19 @@ class League(object):
 
             self.process_murder_log(murder_set)
 
-        # Points are split between the number of assailants.
-        # If a stronger assassin targets the same characters, 
-
+ 
         # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
 
         # TARGARYAN : All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character
 
-        # Update the personal Chronicle with the character damage they incurred.
+        
 
-        # Update the public chronicle about the deaths / damage
+        
 
     def uncover_conspiracies(self, murder_set):
+        # Points are split between the number of assailants.
+        # If a stronger assassin targets the same characters
+
         conspiracies = defaultdict(list)
         map(lambda m: conspiracies[(m['murder']['target_house'],m['murder']['target_character'])].append(m),  murder_set)
         for pair, murders in conspiracies.iteritems():
@@ -303,8 +304,10 @@ class League(object):
                 for mission in missions:
 
                     self.get_player(mission['data']['player']).house.spread_the_word(self, mission)
+                    # Update the personal Chronicle with the character damage they incurred.
             
         # Global
+        # Update the public chronicle about the deaths / damage
         failed_entries = self.collect_failed_entries()
         damage_entries = self.collect_damage_entries()
         death_entries = self.collect_death_entries()

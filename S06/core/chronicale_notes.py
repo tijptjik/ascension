@@ -39,16 +39,16 @@ code: "C|NI|MARI|E|N|P"
  type:  "character"
 """
 
-1. assassination | Agent : Result of Assassination Missions 
-1. ability | Ability : Result of Ability
-1. target | Target : Result of Health loss
-1. foiled
+- [x] assassination | Agent : Result of Assassination Missions 
+- [ ] ability | Ability : Result of Ability
+- [ ] target | Target : Result of Health loss
+- [ ] foiled
 
-1. awards : X points in the <award> category
-1. ranking : With X points, after Z Episodes, you rank Nth in the Y League 
+- [ ] awards : X points in the <award> category
+- [ ] ranking : With X points, after Z Episodes, you rank Nth in the Y League 
 
 Global
 
-1. failed :
-1. damage : 
-1. death : 
+- [ ] failed :
+- [ ] damage : 
+- [ ] death : 
