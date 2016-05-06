@@ -424,7 +424,7 @@ class HouseArryn(House):
 
             target_house = league.get_player(missions['player']).house.full_name
 
-            for code, a_intel in arryn_intel['intelligence'].iteritems():
+            for code, a_intel in arryn_intel.iteritems():
                 cat = 'ability'
                 
                 suffix, message = self.create_ability_msg(a_intel, target_house)
