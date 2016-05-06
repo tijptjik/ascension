@@ -120,6 +120,13 @@ class League(object):
     def get_roster_house(self, rid):
         return [p.house.name for p in self.players if p.roster_id == rid][0]
 
+    def get_episode_title(self, epno):
+        return [e.title for id, e in self.game.episodes.iteritems() if id == str(epno)][0]
+
+    def get_episode_number(self, epno):
+        return [e.episode_number for id, e in self.game.episodes.iteritems() if id == str(epno)][0]
+
+
     def assign_rosters_to_players(self):
         for player in self.players:
             player.roster = self.rosters[player.roster_id]
@@ -286,6 +293,7 @@ class League(object):
 
             firebase_key = "{}{}{}".format(self.name, house, self.current_episode)
 
+            del self.game.player_chronicles[firebase_key]
             self.game.ref.delete('/player_chronicles/', firebase_key)
 
     def publish_weekly_missions_chronicle(self):
@@ -417,6 +425,7 @@ class League(object):
                 awarded_points = player.house.award_points(self, self.current_episode, award,
                     award_score, self.game.characters, player.character_health, player.missions)
                 
+
                 keys = {
                     "league" : self.name,
                     "episode" : self.current_episode,
@@ -431,7 +440,10 @@ class League(object):
                         'scores' : dict(awarded_points)
                 }
 
-                player_episode_scores[keys['award']] = sum(dict(awarded_points).values())
+                points = sum(dict(awarded_points).values())
+                player.house.inform_player_of_award_points(self, award, points)
+
+                player_episode_scores[keys['award']] = points
 
                 # print player, award, '\n\n', awarded_points
 
@@ -444,7 +456,7 @@ class League(object):
                 "scores" : player_episode_scores
             }
 
-            leaderboard_scores[keys['player']] =  sum(player_episode_scores.values())
+            leaderboard_scores[keys['player']] = sum(player_episode_scores.values())
 
             # DEVELOPER
             self.game.update_player_episode_scores(keys, scores)
@@ -459,17 +471,9 @@ class League(object):
 
 
     def publish_weekly_ranking_chronicle(self):
-        pass
-        # entries = self.collect_ranking_entries()
-        # for entry in entries:
-        #     keys = ''
-        #     message = ''
-        #     cat = ''
-        #     suffix = ''
 
-        #     self.game.update_player_chronicles(entry)
-
-    def collect_ranking_entries(self):
-        tmpl = lambda k : "With {score} points, after {episode_number} Episodes, you rank {rank} in the {league} League.".format(**k)
-        pass
-
+        ranking = self.game.leaderboard[self.name + str(self.current_episode)]
+        r = ranking['scores']
+        for player, points in r.iteritems():
+            rank = sorted(r, key=r.get).index(player) + 1
+            self.get_player(player).house.inform_player_of_leaderboard_rank(self, rank, points)

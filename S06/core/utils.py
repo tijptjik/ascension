@@ -1,4 +1,6 @@
 from collections import Counter
+from operator import itemgetter
+from tabulate import tabulate
 
 '''
 UTILS
@@ -6,7 +8,7 @@ UTILS
 
 class ScoreCounter(Counter):
     def __str__(self):
-        scores = sorted(self.items(), key=operator.itemgetter(1), reverse=True)
+        scores = sorted(self.items(), key=itemgetter(1), reverse=True)
         return tabulate(scores, headers=['Character','Score'],tablefmt="pipe",numalign="right")
 
 def ordinal(n):

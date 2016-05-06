@@ -13,6 +13,5 @@ for league in game.leagues:
 # Inspect the leaderboard for a particular episode
 print game.print_leaderboard('essos','51')
 
-
 # Recover after crash
 # pdb.pm()

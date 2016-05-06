@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 
 from abc import ABCMeta, abstractmethod
-from utils import ScoreCounter
+from utils import ScoreCounter, ordinal
 import operator
 
 from intelligence import *
@@ -145,7 +145,7 @@ class House:
         mission = self.reveal_outgoing_missions(league, mission)
 
         target_player = league.get_house_player(mission['data']['target_house'])
-        target_player.house.reveal_incoming_missions(league, mission)
+        target_player.house.reveal_incoming_missions(league, mission, self.name)
 
         # TYRELL : don't call() target_player.house.reveal_incoming_missions()
 
@@ -153,7 +153,7 @@ class House:
 
     
     def create_torture_msg(self, code, target_house, msg):
-        msg = "Torturing {}'s assassin reavels : {}".format(target_house, msg)
+        msg = "Torturing {}'s assassin reveals : {}".format(target_house, msg)
         return code, msg 
             
     def create_diplomatic_msg(self, mission, target_house):
@@ -173,8 +173,7 @@ class House:
     def create_damage_msg(self, league, mission):
         d = mission['data']
 
-        char_health = league.get_house_player(d['target_house'])
-                            .character_health[d['target_character']]
+        char_health = league.get_house_player(d['target_house']).character_health[d['target_character']]
 
         if char_health > 0:
             msg = """Your grace, {} has been injured in an attack - they lost {} health and the Measter
@@ -214,7 +213,7 @@ class House:
         return mission
 
 
-    def reveal_incoming_missions(self, league, mission):
+    def reveal_incoming_missions(self, league, mission, agent_house):
         """ VISIBILITY LAYER
         'type' : 'diplomatic|assassination'
         'success' : true|false
@@ -230,14 +229,13 @@ class House:
 
         if cat is 'assassination' and mission['reveal']:
         
-            # The player you attacked receives two items of Roster Intelligence from torturing your assassin.
-            target_house = mission['data']['house']
+            # You receive two items of Roster Intelligence from torturing your assassin.
             
             if not mission['success']:
-                target_roster = league.get_house_player(target_house).character_health
+                target_roster = league.get_house_player(agent_house).character_health
                 intelligence = {}
 
-                intel = RosterIntelligence.generate(target_house, target_roster,
+                intel = RosterIntelligence.generate(agent_house, target_roster,
                                                     league.game.characters, self.intelligence_logs, 2)
 
                 intelligence.update(intel)
@@ -254,11 +252,11 @@ class House:
 
                 league.game.update_player_intelligence(keys, intelligence)
 
-                target_house_name = league.get_house_player(self.name).house.full_name
+                target_house_name = league.get_house_player(agent_house).house.full_name
                 for code, i in intel.iteritems():
                     cat = 'foiled'
                     suffix, message = self.create_torture_msg(code, target_house_name, i['message'])
-                    suffix = "_".join([target_house, suffix])
+                    suffix = "_".join([agent_house, suffix])
 
                     league.game.update_player_chronicles(keys, message, cat, suffix)
 
@@ -268,7 +266,7 @@ class House:
                 a_msg = "The assassin was sent by {}, has Prominence Power {}, and Violence Power {} - They escaped... but we've sent the hounds on them...".format(
                         target_house_name, assassin.prominence, assassin.violence)
 
-                suffix, message = self.create_torture_msg('torture_'+target_house, target_house_name, a_msg)
+                suffix, message = self.create_torture_msg('torture_'+agent_house, target_house_name, a_msg)
 
                 league.game.update_player_chronicles(keys, message, cat, suffix)
 
@@ -279,16 +277,64 @@ class House:
                 keys = {
                     "league" : league.name,
                     "episode" : league.current_episode,
-                    "player" : league.get_house_player(target_house).id,
-                    "house" : target_house
+                    "player" : league.get_house_player(self.name).id,
+                    "house" : self.name
                 }
 
                 suffix, message = self.create_damage_msg(league, mission)
 
                 league.game.update_player_chronicles(keys, message, cat, suffix)
+    
+    def create_ability_msg(self, **kwargs):
+        pass
 
 
     # SCORING
+
+    def create_award_msg(self, award, points, title):
+        if not points:
+            points = 0
+        msg = "Roster was awarded {} points for {} in {}".format(points, award.upper(), title)
+        return award, msg
+
+    def create_ranking_msg(self, rounds, rank, points, league):
+        msg = "After {} rounds in the {} league, you rank {} with {} points.".format(
+            rounds, league.title(), rank, points)
+        return msg
+
+    def inform_player_of_award_points(self, league, award, points):
+        cat = 'awards'
+
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "player" : league.get_house_player(self.name).id,
+            "house" : self.name
+        }
+
+        title = league.get_episode_title(league.current_episode)
+        suffix, message = self.create_award_msg(award, points, title)
+
+        league.game.update_player_chronicles(keys, message, cat, suffix)
+
+    def inform_player_of_leaderboard_rank(self, league, rank, episode_points):
+        cat = 'ranking'
+        suffix = ''
+
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "player" : league.get_house_player(self.name).id,
+            "house" : self.name
+        }
+
+        epno = league.get_episode_number(league.current_episode)
+        rank = ordinal(rank)
+
+        message = self.create_ranking_msg(epno, rank, episode_points, league.name)
+        
+        league.game.update_player_chronicles(keys, message, cat)
+
 
     def award_points(self, league, episode, award, scores, characters, health, missions):
         
@@ -338,6 +384,11 @@ class HouseArryn(House):
         self.immunity = 'petyrbaelish'
         super(HouseArryn, self).__init__(**self.bonus)
 
+    def create_ability_msg(self, intel, target_house):
+        # TODO : CREATE PROPER diplo CODE 
+        code = intel['code']
+        msg = "Ohhh... but {} were seen. Counter intelligence reveals: {}".format(target_house, intel['message'])
+        return code, msg 
 
     def counter_intelligence(self, league, missions, intel, characters, players):
 
@@ -370,7 +421,23 @@ class HouseArryn(House):
             intelligence.update({"intelligence": arryn_intel, 'agent': 'Arryn Ability'})
 
             league.game.update_player_intelligence(keys, intelligence, append=True)
-         
+
+            target_house = league.get_player(missions['player']).house.full_name
+
+            for code, a_intel in arryn_intel['intelligence'].iteritems():
+                cat = 'ability'
+                
+                suffix, message = self.create_ability_msg(a_intel, target_house)
+
+                keys = {
+                    "league" : league.name,
+                    "episode" : league.current_episode,
+                    "player" : league.get_house_player(self.name).id,
+                    "house" : self.name
+                }
+
+                league.game.update_player_chronicles(keys, message, cat, suffix)
+
         return intel
 
 class HouseBolton(House):

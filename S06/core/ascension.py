@@ -267,17 +267,8 @@ class Ascension(object):
             
             self.player_chronicles[firebase_key]['entries'].update({key: msg(message,cat)})
 
-            import pprint
-            pprint.pprint({ 
-                firebase_key : {
-                    "episode" : keys["episode"],
-                    "house" : keys["house"],
-                    "entries": {key: msg(message,cat)}
-                }
-            })
-            
             # Update Firebase
-            self.ref.put('/player_chronicles/' + firebase_key +'/entries/', key, msg(message,cat))
+            self.ref.put('/player_chronicles/' + firebase_key + '/entries/', key, msg(message,cat))
         
         else:
             section = { 
@@ -287,9 +278,6 @@ class Ascension(object):
                     "entries": {key: msg(message,cat)}
                 }
             }
-
-            import pprint
-            pprint.pprint(section)
 
             self.player_chronicles.update(section)
 
