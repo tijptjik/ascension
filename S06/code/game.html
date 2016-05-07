@@ -44,12 +44,12 @@
             </div>
           </div>
         </div>
-        <div class="ui text container">
+        <!-- <div class="ui text container">
             <div class="ui">
               <h2 style="text-align: center;">Running the Missions - Results Coming Soon</h2>
             </div>
-          </div>
-        <div class="ui text container" style="display: none">
+          </div> -->
+        <div class="ui text container">
           <form onsubmit="return false;" class="ui form voting">
             <div class="ui">
               <h2 style="text-align: center;">EPISODE VOTING</h2>
@@ -468,10 +468,104 @@
 
         // // Update Mission Agents & Available Targets based on League Selection.
 
-        // Firebase Forms
-        
-        // Leagues and Missions
-        
+        // SETUP PLAYER 
+
+        db.child('players').child(authData.uid).once('value', function(snapshot) {
+            var player = snapshot.val();
+            authData.house = player.house;
+            authData.rosters = player.games;
+
+            // SET EPISODE 
+            db.child('episodes').once('value', function(snapshot) {
+                var episodes = snapshot.val();
+                populateEpisodeDropdown(episodes);
+                
+                // SET LEAGUES
+                populateLeaguesDropdown(player.games);
+                
+            });           
+
+        });
+
+        // SETUP AWARDS
+
+        db.child('characters').once('value', function(snapshot) {
+            var characters = snapshot.val();
+            populateCharacterDropdowns(characters);
+        });
+
+        // SETUP LEAGUES
+
+        var prop_loaded = false
+
+        function populateLeaguesDropdown(games) {
+            var leagues = Object.keys(games);
+            var html = "";
+            var current_league = 'random';
+            for (var league in leagues) {
+                var l = leagues[league]
+                var str = '<div class="item" data-value=' + l + '><i class="university icon"></i>' + l + '</div>'
+                html += str;
+                current_league = l;
+            }
+            $('.leagues').append(html);
+            
+            if (leagues.length > 1){
+              $('.optional').transition('drop');
+            }
+
+            $('.ui.dropdown.league').dropdown({
+                action: 'activate',
+                onChange: function(value, text, $selectedItem) {
+                    loadMissionOptions()
+                }
+            });
+            $('.ui.dropdown.league').dropdown("set selected", current_league);
+        }
+
+        // SETUP EPISODES
+
+        function populateEpisodeDropdown(episodes) {
+            var html = "";
+            var current_episode = "51";
+
+            for (var ep in episodes) {
+                if (episodes.hasOwnProperty(ep) && episodes[ep]['has_aired']) {
+                    var episode = episodes[ep]
+                    var str = '<div class="item" data-value=' + episode.number + '><i class="film icon"></i>6x' + episode.episode_number + ' ~ ' + episode.title + '</div>'
+                    html += str;
+                    if (episodes[ep]['current']) {
+                        current_episode = episodes[ep]['number'];
+                    }
+                }
+            }
+            $('.episodes').append(html)
+
+            $('.ui.dropdown.episode').dropdown().dropdown("set selected", current_episode)           
+        }
+
+
+        // DISPLAY Player Awards & Missions
+
+        // POPULATE Awards : Characters
+
+        function populateCharacterDropdowns(chars) {
+            var html = "";
+            for (var character in chars) {
+                if (chars.hasOwnProperty(character)) {
+                    var char = chars[character]
+                    var str = '<div class="item huge" data-value="' + char.id + '"><div class="ui ' + colors[char.house] + ' empty circular label"></div>' + char.name + '</div>'
+                    html += str;
+                }
+            }
+            $('.menu.characters').append(html);
+            $('.ui.dropdown').dropdown({
+                fullTextSearch: true
+            });
+        }
+
+        // POPULATE Mission : Agents
+
         function populateMissionDropdown(roster_id){
           db.child('rosters').child(roster_id).once('value', function(snapshot) {
             var obj = snapshot.val();
@@ -480,7 +574,6 @@
             Object.keys(obj).forEach(function (key) {
                 roster.push(obj[key]);
             });
-
 
             db.child('characters').once('value', function(snapshot) {
                 var characters = snapshot.val();
@@ -504,121 +597,41 @@
                 $('.menu.roster.diplomacy').empty().append(diplo_html);
                 $('.menu.roster.violence').empty().append(violence_html);
 
-               
             });
           })
-
         };
 
-        function populateLeaguesDropdown(games) {
-            var leagues = Object.keys(games);
-            var html = "";
-            var current_league = 'random';
-            for (var league in leagues) {
-                var l = leagues[league]
-                var str = '<div class="item" data-value=' + l + '><i class="university icon"></i>' + l + '</div>'
-                html += str;
-                current_league = l;
-            }
-            $('.leagues').append(html);
-            $('.ui.dropdown.league').dropdown("set selected", current_league);
-            if (leagues.length > 1){
-              $('.optional').transition('drop');
-            }
-
-            populateMissionDropdown(games[current_league]);
-            populateHousesDropdown(current_league);
-
-
-        }
-
-        
+        // POPULATE Mission : Houses
 
         function populateHousesDropdown(league){
-
-            // Houses
-
             db.child('league_houses').child(league).once('value', function(snapshot) {
-
               var league_houses = snapshot.val();
-
               db.child('houses').once('value', function(snapshot) {
                 var houses = snapshot.val();
-
                 var html = "";
-
                 for (var house in league_houses){
                       var h = houses[house];
-
                       var str = '<div class="item huge" data-value="' + house + '"><div class="ui ' + colors[house] + ' empty circular label"></div>' + h['name'] + '</div>';
-
                       html += str;
                   }
-
                 $('.menu.houses').empty().append(html);
-
               })
-
             })
-
         }
 
 
+        // REFRESH Missions
+      
+        function loadMissionOptions(){
+          var league = $('.ui.dropdown.league').dropdown("get value");
+          var episode = $('.ui.dropdown.episode').dropdown("get value");
+          var house = authData.house[league];
+          var roster =  authData.rosters[league]; 
 
-        db.child('players').child(authData.uid).once('value', function(snapshot) {
-            var player = snapshot.val();
-            populateLeaguesDropdown(player.games);
-        });
+          populateMissionDropdown(roster);
+          populateHousesDropdown(league);
 
-
-
-        // Episodes
-
-        function populateEpisodeDropdown(episodes) {
-            var html = "";
-            var current_episode = '51';
-            for (var ep in episodes) {
-                if (episodes.hasOwnProperty(ep) && episodes[ep]['has_aired']) {
-                    var episode = episodes[ep]
-                    var str = '<div class="item" data-value=' + episode.number + '><i class="film icon"></i>6x' + episode.episode_number + ' ~ ' + episode.title + '</div>'
-                    html += str;
-                    if (episodes[ep]['current']) {
-                        current_episode = episodes[ep]['number'];
-                    }
-                }
-            }
-            $('.episodes').append(html)
-            $('.ui.dropdown').dropdown("set selected", current_episode)
         }
-        
-        db.child('episodes').once('value', function(snapshot) {
-            var episodes = snapshot.val();
-            populateEpisodeDropdown(episodes);
-        });
-
-        // Awards
-        
-        function populateCharacterDropdowns(chars) {
-            var html = "";
-            for (var character in chars) {
-                if (chars.hasOwnProperty(character)) {
-                    var char = chars[character]
-                    var str = '<div class="item huge" data-value="' + char.id + '"><div class="ui ' + colors[char.house] + ' empty circular label"></div>' + char.name + '</div>'
-                    html += str;
-                }
-            }
-            $('.menu.characters').append(html);
-            $('.ui.dropdown').dropdown({
-                fullTextSearch: true
-            });
-
-            
-        }
-
-        db.child('characters').once('value', function(snapshot) {
-            var characters = snapshot.val();
-            populateCharacterDropdowns(characters);
-        });
 
         
         // validate form
@@ -737,25 +750,6 @@
             };
           });
         });
-
-        // function refreshDropdowns(games) {
-
-        //     var current_league = $('.dropdown.league').dropdown('get value');
-        //     populateMissionDropdown(games[current_league]);
-        //     populateHousesDropdown(current_league);
-        // }
-
-        // $('.ui.dropdown.league').dropdown({
-           //     action: 'activate',
-           //     onChange: function(value, text, $selectedItem) {
-           //       db.child('players').child(authData.uid).once('value', function(snapshot) {
-           //           var player = snapshot.val();
-           //           refreshDropdowns(player.games);
-           //       });
-           //     }
-           //   });
-
-        
 
         </script>
       </body>
