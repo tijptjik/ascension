@@ -343,7 +343,7 @@ class Ascension(object):
             section = { 
                 firebase_key : {
                     "episode" : keys["episode"],
-                    "house" : keys["house"],
+                    "league" : keys["league"],
                     "entries": entry
                 }
             }
