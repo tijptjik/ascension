@@ -230,7 +230,7 @@
           <table id="leaderboard" class="ui very basic celled table left floated">
             <thead>
               <tr >
-                <th>Player</th>
+                <th>Player Rank</th>
               </tr>
             </thead>
           <tbody>
@@ -433,21 +433,35 @@
 
         function drawTable(data) {
             for (var i = 0; i < data.length; i++) {
-                drawRow(data[i]);
+                drawRow(data[i], i);
             }
             $('#leaderboard > thead > tr').append("<th>Total</th>")
+
+            $('.circular.label')
+            .popup({
+              inline   : true,
+              hoverable: true,
+              position : 'top left',
+              delay: {
+                show: 100,
+                hide: 4000
+              }
+            })
+          ;
         }
 
-        function drawRow(rowData) {
+        function drawRow(rowData, i) {
+          var house = rowData.player.house[$('.ui.dropdown.league').dropdown("get value")]
             var row = $("<tr />")
             $("#leaderboard > tbody").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
             html = ''
-            html += '<td><h4 class="ui image header"><img src="https://graph.facebook.com/'
+            html += '<td><h4 class="ui image header"><a class="ui large ' + colors[house]
+            html += ' circular label" data-content="'+ rowData.player.full_name + '">'+ (parseInt(i)+1) +'</a></span><img style="display:none" src="https://graph.facebook.com/?type=large'
             html += rowData.player.facebook
-            html += '/picture" alt="'+ rowData.full_name + '" class="ui mini rounded image"><div class="content">'
+            html += '/picture" alt="'+ rowData.player.full_name + '" class="ui mini rounded image"><div class="content">'
             html += rowData.player.alias
             html += '<div class="sub header">'
-            html += rowData.player.house[$('.ui.dropdown.league').dropdown("get value")]
+            html += house
             html += '</div></div></h4></td>'
             row.append($(html))
             for (var i = 0; i < rowData.scores.length; i++) {
@@ -456,6 +470,7 @@
             row.append($('<td class="right aligned collapsing">'+rowData.score+'</td>'))
             
           }
+
 
 
        // LEAGUES
