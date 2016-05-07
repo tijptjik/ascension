@@ -483,16 +483,17 @@ class League(object):
                 }
                 
                 scores = {
-                        'episode' : keys['episode'],
-                        'player' : keys['player'],
-                        'award' : keys['award'],
+                        'episode' : self.current_episode,
+                        'player' : player.id,
+                        'award' : award,
                         'scores' : dict(awarded_points)
                 }
 
                 points = sum(dict(awarded_points).values())
+                
                 player.house.inform_player_of_award_points(self, award, points)
 
-                player_roster_award_scores[keys['award']] = points
+                player_roster_award_scores[award] = points
 
                 # print player, award, '\n\n', awarded_points
 
@@ -500,18 +501,19 @@ class League(object):
                 self.game.update_player_roster_award_scores(keys, scores)
 
             scores = {
-                'episode' : keys['episode'],
+                'episode' : self.current_episode,
+                'league' : self.name,
                 'player' : keys['player'],
                 "scores" : player_roster_award_scores
             }
 
-            episode_scores[keys['player']] = sum(player_roster_award_scores.values())
+            episode_scores[player.id] = sum(player_roster_award_scores.values())
 
             # DEVELOPER
             self.game.update_player_award_scores(keys, scores)
 
         scores = {
-            'episode' : keys['episode'],
+            'episode' : self.current_episode,
             'league' : self.name,
             "scores" : episode_scores
         }
@@ -528,13 +530,23 @@ class League(object):
         }
 
         # Select all episode score to date for current league 
-        scores = [score['scores'] for id, score in self.game.episode_scores.iteritems() if 
+        leaderboard_scores = [score['scores'] for id, score in self.game.episode_scores.iteritems() if 
             score['episode'] <= keys['episode'] and score['league'] is keys['league']]
 
-        counter = ScoreCounter()
-        map(lambda s: counter.update(s), scores)
 
-        self.game.update_leaderboard(keys, dict(counter))
+        counter = ScoreCounter()
+        map(lambda s: counter.update(s), leaderboard_scores)
+       
+        scores = {
+            'episode' : self.current_episode,
+            'league' : self.name,
+            "scores" : dict(counter)
+        }
+
+        import pprint
+        pprint.pprint(scores)
+
+        self.game.update_leaderboard(keys, scores)
 
 
     def publish_weekly_ranking_chronicle(self):

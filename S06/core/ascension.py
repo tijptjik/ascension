@@ -163,9 +163,11 @@ class Ascension(object):
 
         '''
         firebase_key = "{league}{episode}".format(**keys)
+
+        self.leaderboard.update({firebase_key : scores})
+        
         self.ref.put('/leaderboard/', firebase_key, scores)
 
-        self.episode_scores.update({firebase_key : scores})
 
 
     def update_player_intelligence(self, keys, intel, append=False):
@@ -316,6 +318,7 @@ class Ascension(object):
                     'msg' : <msg>,
                     'type': <type>
                 'death' + <house_id> + <char_id> : <entry>
+                'failed + <agent_houde_id> + <house_id>: <entry>
         '''
 
         firebase_key = "{league}{episode}".format(**keys)
