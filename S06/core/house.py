@@ -139,40 +139,47 @@ class House:
     def create_assassination_msg(self, league, mission, target_house):
         # TODO : Add custom message for when house targeted itself.
         # TODO : Add custom message for when immune characters were targeted.
-        name = league.game.characters[d['target_character']]['name']
         d = mission['data']
+        name = league.game.characters[d['target_character']].name
         result = ['FAILED','SUCCEEDED'][mission['success']]
+
         mg = "Attack on {} of {} {} - {} damage dealt for {} points".format(name,
                        target_house, result, d["damage_dealt"], d["bounty"])
         return mg
 
     def create_award_msg(self, award, points, title):
-        if not points:
-            points = 0
-        msg = "Roster was awarded {} points for {} in {}".format(points, award.upper(), title)
+        if (points).is_integer():
+            points = int(points)
+        msg = "Roster was awarded {} points for {} in <i>{}</i>".format(points, award.upper(), title)
         return award, msg
 
     def create_diplomatic_msg(self, mission, target_house):
         code = mission['data']['code']
-        msg = "Intel on {} reveals: {}".format(target_house,mission['data']['message'])
+        msg = "Intel on {} reveals: {}".format(target_house, mission['data']['message'])
         return code, msg 
     
     def create_damage_msg(self, league, mission):
         d = mission['data']
 
-        char_health = league.get_house_player(d['target_house']).character_health[d['target_character']]
+        name = league.game.characters[d['target_character']].name
+        health = league.get_house_player(d['target_house']).character_health[d['target_character']]
 
-        if char_health > 0:
+        if (health).is_integer():
+            health = int(points)
+
+        if health > 0:
             msg = """Your grace, {} has been injured in an attack - they lost {} health and the Measter
-                        reports their condition is stable, but at {}/100""".format(d['target_character'],
-                           d["damage_dealt"], char_health)
+                        reports their condition is stable, but at {}/100""".format(name,
+                           d["damage_dealt"], health)
         else:
             msg = """Your grace... the move against {} could not be
-                     prevented, and ... has proven fatal.""".format(d['target_character'])
+                     prevented, and ... has proven fatal.""".format(name)
         
         return d['target_character'], msg
 
     def create_ranking_msg(self, rounds, rank, points, league):
+        if (points).is_integer():
+            points = int(points)
         msg = "After {} rounds in the {} league, you rank {} with {} points.".format(
             int(rounds), league.title(), rank, points)
         return msg
@@ -182,12 +189,6 @@ class House:
         return code, msg 
 
     def reveal_outgoing_missions(self, league, mission):
-        """ VISIBILITY LAYER
-        'type' : 'diplomatic|assassination'
-        'success' : true|false
-        'reveal' : true|false
-        'data' : {}
-        """
 
         cat = mission['type']
         suffix = ''
@@ -209,19 +210,11 @@ class House:
         return mission
 
     def reveal_incoming_missions(self, league, mission, agent_house):
-        """ VISIBILITY LAYER
-        'type' : 'diplomatic|assassination'
-        'success' : true|false
-        'reveal' : true|false
-        'data' : {}
-        """
 
         cat = mission['type']
 
         # Failed Assassination Attempt
     
-        # MEEREEN: ignore the hidden property on the diplomatic mission and reveal its 
-
         if cat is 'assassination' and mission['reveal']:
         
             # You receive two items of Roster Intelligence from torturing your assassin.
@@ -723,6 +716,11 @@ class HouseStark(House):
         self.bonus = {'support':20}
         super(HouseStark, self).__init__(**self.bonus)
 
+    def create_ability_msg(self, target_house, target_house_name):
+        code = target_house
+        msg = "For the North! Our spies returned with news on {}.".format(target_house_name)
+        return code, msg
+
     def conduct_diplomacy(self, missions, target_health, characters, players):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
         
@@ -753,6 +751,21 @@ class HouseStark(House):
         intel = RosterIntelligence.generate(target_house, target_roster,
                                     characters, self.intelligence_logs, 3)
         intelligence.update(intel)
+
+        # Add Entry to Player's personal Chronicle
+        cat = 'ability'
+
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "player" : league.get_house_player(self.name).id,
+            "house" : self.name
+        }
+
+        target_house_name = league.get_house(target_house).full_name
+        suffix, message = self.create_ability_msg(target_house, target_house_name)
+
+        league.game.update_player_chronicles(keys, message, cat, suffix)
 
         return intelligence
 
@@ -801,8 +814,38 @@ class HouseTyrell(House):
         self.bonus = {'style':20}
         super(HouseTyrell, self).__init__(**self.bonus)
 
+    def create_ability_msg(self, target_house, target_house_name):
+        code = target_house
+        msg = "For the North! Our spies returned with news on {}.".format(target_house_name)
+        return code, msg
+
     def spread_the_word(self, league, mission):
+
+        self.reveal_outgoing_missions(league, mission)
 
         # TYRELL ABILITY : don't call() target_player.house.reveal_incoming_missions()
 
-        self.reveal_outgoing_missions(league, mission)
+        # Add Entry to Player's personal Chronicle
+
+        cat = 'ability'
+
+        target_house = mission['data']['target_house']
+
+        if mission['type'] is 'assassination' and not mission['success']:
+            agent = league.game.characters[mission['data']['agent']].name
+            message = "The assassination attempt may have failed - but at least {} got away without being noticed.".format(agent)
+            
+        elif mission['type'] is 'diplomatic' and target_house is 'meereen':
+            message = "Council of Meereen... their little birds have sung their last song"
+
+        else:
+            message = "We moved through the shadows and remained unseen."
+
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "player" : league.get_house_player(self.name).id,
+            "house" : self.name
+        }
+
+        league.game.update_player_chronicles(keys, message, cat, target_house)
