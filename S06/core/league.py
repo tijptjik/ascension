@@ -554,11 +554,11 @@ class League(object):
         episode_ranking = self.game.episode_scores[self.name + str(self.current_episode)]
         r = episode_ranking['scores']
         for player, points in r.iteritems():
-            rank = sorted(r, key=r.get).index(player) + 1
+            rank = sorted(r, key=r.get, reverse=True).index(player) + 1
             self.get_player(player).house.inform_player_of_episode_score_and_rank(self, rank, points)
 
         leaderboard_ranking = self.game.leaderboard[self.name + str(self.current_episode)]
         r = leaderboard_ranking['scores']
         for player, points in r.iteritems():
-            rank = sorted(r, key=r.get).index(player) + 1
+            rank = sorted(r, key=r.get, reverse=True).index(player) + 1
             self.get_player(player).house.inform_player_of_leaderboard_score_and_rank(self,rank,points)
