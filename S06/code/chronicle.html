@@ -227,68 +227,13 @@
         </h4>
 
         <h6 class="ui horizontal divider header">
-          <table class="ui very basic celled table">
-          <thead>
-            <tr><th>Player</th>
-            <th>E01</th>
-          </tr></thead>
+          <table id="leaderboard" class="ui very basic celled table left floated">
+            <thead>
+              <tr >
+                <th>Player</th>
+              </tr>
+            </thead>
           <tbody>
-            <tr>
-              <td>
-                <h4 class="ui image header">
-                  <img src="http://graph.facebook.com/10100659504172384/picture?type=large" class="ui mini rounded image">
-                  <div class="content">
-                    Rob
-                    <div class="sub header">House Bolton
-                  </div>
-                </div>
-              </h4></td>
-              <td>
-                22
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h4 class="ui image header">
-                  <img src="http://graph.facebook.com/10100659504172384/picture?type=large" class="ui mini rounded image">
-                  <div class="content">
-                    Matthew
-                    <div class="sub header">Fabric Design
-                  </div>
-                </div>
-              </h4></td>
-              <td>
-                15
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h4 class="ui image header">
-                  <img src="http://graph.facebook.com/10100659504172384/picture?type=large" class="ui mini rounded image">
-                  <div class="content">
-                    Lindsay
-                    <div class="sub header">Entertainment
-                  </div>
-                </div>
-              </h4></td>
-              <td>
-                12
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h4 class="ui image header">
-                  <img src="http://graph.facebook.com/10100659504172384/picture?type=large" class="ui mini rounded image">
-                  <div class="content">
-                    Mark
-                    <div class="sub header">Executive
-                  </div>
-                </div>
-              </h4></td>
-              <td>
-                11
-              </td>
-            </tr>
           </tbody>
         </table>
         </h6>
@@ -415,10 +360,105 @@
 
           getPlayerChronicles(league+house+episode);
           getPublicChronicles(league+episode);
+          genetateLeaderboard(league, episode);
+
+        }
+
+        // DISPLAY Leaderboard
+        
+        var scoretable = []
+
+        function genetateLeaderboard(league, episode){
+          db.child('players').once('value', function(snapshot){
+            getLeaderBoard(league+episode, league, episode, snapshot.val())
+          });
+        }
+
+        
+
+        // GET Leaderboard
+        function parseLeaderBoard(scores, league, episode, players){
+          console.log(scores)
+          console.log(league)
+          console.log(episode)
+          console.log(players)
+
+          for (var score in scores['scores']){
+            scoretable.push(
+                {'id': score,'player': players[score], 'score' : parseInt(scores['scores'][score]), 'scores' : []}
+              )
+          }
+          console.log(scoretable);
+
+          getEpisodeScores(league, episode);
+        }
+
+        function getLeaderBoard(leaderboardKey, league, episode, players){
+          db.child('leaderboard').orderByKey()
+            .equalTo(leaderboardKey)
+            .once('value', function(snapshot){
+              parseLeaderBoard(snapshot.val()[leaderboardKey], league, episode, players)
+            })
+        }
+
+        // GET EpisodeScores
+
+        function parseEpisodeScores(scores){
+          for (var score in scores){
+            $('#leaderboard > thead > tr').append("<th>" + scores[score]['episode'] + "</th>")
+            var escores = scores[score]['scores']
+            for (var player in escores){
+                for (var i = 0; i < scoretable.length; i++) {
+                  if (scoretable[i].id == player){
+                    scoretable[i]['scores'].push(parseInt(escores[player]))
+                  }
+                }
+            }
+          }
+          scoretable.sort(function(a,b) {return b.score - a.score}); 
+
+          drawTable(scoretable);
         }
 
 
-        // LEAGUES
+        function getEpisodeScores(league, episode){
+          db.child('episode_scores').orderByKey()
+            .startAt(league)
+            .endAt(league+episode)
+            .once('value', function(snapshot){
+              parseEpisodeScores(snapshot.val())
+            })
+        }
+
+
+        function drawTable(data) {
+            for (var i = 0; i < data.length; i++) {
+                drawRow(data[i]);
+            }
+            $('#leaderboard > thead > tr').append("<th>Total</th>")
+        }
+
+        function drawRow(rowData) {
+            var row = $("<tr />")
+            $("#leaderboard > tbody").append(row); //this will append tr element to table... keep its reference for a while since we will add cels into it
+            html = ''
+            html += '<td><h4 class="ui image header"><img src="https://graph.facebook.com/'
+            html += rowData.player.facebook
+            html += '/picture" alt="'+ rowData.full_name + '" class="ui mini rounded image"><div class="content">'
+            html += rowData.player.alias
+            html += '<div class="sub header">'
+            html += rowData.player.house[$('.ui.dropdown.league').dropdown("get value")]
+            html += '</div></div></h4></td>'
+            row.append($(html))
+            for (var i = 0; i < rowData.scores.length; i++) {
+                row.append($("<td>" + rowData.scores[i] + "</td>"));
+            }
+            row.append($('<td class="right aligned collapsing">'+rowData.score+'</td>'))
+            
+          }
+
+
+       // LEAGUES
 
         var prop_loaded = false
 
