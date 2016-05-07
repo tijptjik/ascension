@@ -73,7 +73,7 @@ class House:
     def assassination_success(self, target_character, target_roster):
         return target_character in target_roster.keys()
 
-    def bonus_mission(self, league, missions, target_roster):
+    def bonus_mission(self, **kwargs):
         pass
 
     def plot_assassination(self, league, missions, target_roster):
@@ -102,9 +102,6 @@ class House:
             "bounty" : bounty,
             "success" : success
         }
-
-        if success:
-            bonus_mission(self, league, missions, target_roster)
 
         return damage_potential
 
@@ -146,7 +143,7 @@ class House:
         target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
  
-       # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
+       # TODO INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
 
     
     def create_torture_msg(self, code, target_house, msg):
@@ -486,13 +483,29 @@ class HouseGreyjoy(House):
 
         super(HouseGreyjoy, self).__init__(**self.bonus)
 
-    def bonus_mission(self, league, missions, target_roster):
-        
-        # GREYJOY ABILITY
+    def bonus_mission(self, league, mission, target_house, target_house_name, target_roster):
+
+        # TODO GREYJOY ABILITY
 
         # Theon splatter damage. On a succesful attack by Theon,
         # all characters of the other roster take $5\%$ damage
-        print '>>> THEON NEEDS SPLATTER DAMAGE'
+        print 'WARNING >>> THEON NEEDS SPLATTER DAMAGE'
+
+
+    def spread_the_word(self, league, mission):
+
+        mission = self.reveal_outgoing_missions(league, mission)
+
+        if mission['type'] is 'assassination' and mission['success']:
+            
+            target_house = mission['data']['target_house']
+            target_house_name = league.get_house(mission['data']['target_house']).full_name
+            target_roster =  league.get_house(mission['data']['target_house']).character_health
+
+            self.bonus_mission(league, mission, target_house, target_house_name, target_roster):
+
+        target_player = league.get_house_player(mission['data']['target_house'])
+        target_player.house.reveal_incoming_missions(league, mission, self.name)
 
 
 
@@ -503,6 +516,16 @@ class HouseIndependent(House):
         self.immunity = 'jaqenhghar'
         self.bonus = {'style':10,'support':10}
         super(HouseIndependent, self).__init__(**self.bonus)
+
+    def spread_the_word(self, league, mission):
+
+        mission = self.reveal_outgoing_missions(league, mission)
+
+        target_player = league.get_house_player(mission['data']['target_house'])
+        target_player.house.reveal_incoming_missions(league, mission, self.name)
+ 
+        print '>>> THEON NEEDS SPLATTER DAMAGE'
+       # TODO INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
 
 
 class HouseLannister(House):
@@ -752,6 +775,6 @@ class HouseTyrell(House):
 
     def spread_the_word(self, league, mission):
 
-        # TYRELL HOUSE ABILITY : don't call() target_player.house.reveal_incoming_missions()
+        # TYRELL ABILITY : don't call() target_player.house.reveal_incoming_missions()
 
         self.reveal_outgoing_missions(league, mission)
