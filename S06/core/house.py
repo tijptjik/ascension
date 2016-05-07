@@ -743,7 +743,7 @@ class HouseStark(House):
     def create_ability_msg(self, target_house, target_house_name):
         code = target_house
         msg = "For the North! Our spies returned with news on <span class=\"house\">{}</span>.".format(target_house_name)
-    return code, msg
+        return code, msg
 
     def conduct_diplomacy(self, league, missions, target_health, characters, players):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
