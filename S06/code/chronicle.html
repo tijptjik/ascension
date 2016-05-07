@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ascension | Crossed Banners ~ Chronicle</title>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
+  </head>
+  <body>
+
+  <style>
+
+  .ui.form {
+    font-size: 1rem;
+    margin-bottom: 32px;
+  }
+  </style>
+
+    <div class="ui hidden failed negative message">
+      <i class="close icon"></i>
+      <div class="header">
+        We're sorry - Login failed for some reason.
+      </div>
+        <p>Please contact m@type.hk for support.</p>
+      </div>
+      <!-- Sidebar Menu -->
+      <div class="ui inverted vertical sidebar menu">
+        <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+        <a href="rules.html" class="item">Rules</a>
+        <a href="characters.html" class="item">Characters</a>
+      </div>
+      <!-- Page Contents -->
+      <div class="pusher">
+        <div class="ui vertical masthead center aligned segment">
+          <div class="ui container">
+            <div class="ui large secondary pointing menu">
+              <a class="toc item">
+                <i class="sidebar icon"></i>
+              </a>
+              <a href="http://tijptjik.github.io/ascension/S06/code/" class="active item">Home</a>
+              <a href="rules.html" class="item">Rules</a>
+              <a href="characters.html" class="item">Characters</a>
+            </div>
+          </div>
+        </div>
+        <div class="ui text container">
+          <form onsubmit="return false;" class="ui form voting">
+            <div class="ui">
+              <h2 style="text-align: center;">CHRONICLE</h2>
+            </div>
+            
+            <h3 class="ui horizontal pink divider header" style="overflow: visible;">
+            <div class="ui inline dropdown episode">
+              <div class="text">
+                <i class="film icon"></i>
+                6x01 ~ The Red Women
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu episodes"></div>
+            </div>
+            </h3>
+            
+            <h3 class="ui horizontal blue divider header optional" style="display: none; overflow: visible;">
+            <div class="ui inline dropdown league">
+              <div class="text">
+                <i class="university icon"></i>
+                Select League
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu leagues"></div>
+            </div>
+            </h3>
+
+            <h4 class="ui horizontal divider header">
+            <i class="spy icon"></i>
+            Private Announcements
+            </h4>
+
+           
+            <h3 class="ui top attached inverted blue header sub header"><i class="newspaper icon"></i>
+              Diplomatic Intelligence
+            </h3>
+            <div id="diplomacy">
+              <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+       
+            <h3 class="ui top attached inverted red header sub header"><i class="newspaper icon"></i>
+              Assassination Reports
+            </h3>
+            <div id="assassination">
+              <div class="ui attached segment">
+                  <div class="ui piled segments">
+                    <div class="ui segment">
+                      <p>No news today</p>
+                    </div> 
+                  </div> 
+                </div>
+            </div>
+            <h3 class="ui top attached inverted red header sub header"><i class="newspaper icon"></i>
+              Roster Damage 
+            </h3>
+            <div id="target">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header"><i class="newspaper icon"></i>
+              House Abilities
+            </h3>
+            <div id="ability">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+            
+            <h3 class="ui top attached inverted blue header sub header"><i class="newspaper icon"></i>
+              Effective Torture Methods
+            </h3>
+            <div id="foiled">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+            
+            <h3 class="ui top attached inverted olive header sub header"><i class="newspaper icon"></i>
+              Award Performance
+            </h3>
+            <div id="awards">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+            <h3 class="ui top attached inverted olive header sub header"><i class="newspaper icon"></i>
+              Rankings
+            </h3>
+            <div id="ranking">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+
+<!--             'diplomacy_' + <code> : 
+                'msg' : <msg>
+                'type': <type>
+            'assassination' : <entry>
+            'ability_' + <house_id> : <entry>
+            'target_' + <character_id> : <entry>
+            'foiled_' + <house_id> + <code> : <entry>
+            'awards_' + <award_id> : <entry>
+            'ranking' : <entry>
+
+ -->        <h4 class="ui horizontal divider header">
+              <i class="announcement icon"></i>
+              Public Announcements
+            </h4>
+
+            <h3 class="ui top attached inverted red header sub header"><i class="newspaper icon"></i>
+              Failed Assassination Attempts
+            </h3>
+            <div id="failed">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+
+            <h3 class="ui top attached inverted red header sub header"><i class="newspaper icon"></i>
+              Health Reports
+            </h3>
+            <div id="damage">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+
+            <h3 class="ui top attached inverted red header sub header"><i class="newspaper icon"></i>
+              Obituary
+            </h3>
+            <div id="death">
+            <div class="ui attached segment">
+                <div class="ui piled segments">
+                  <div class="ui segment">
+                    <p>No news today</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+
+<!-- ''' ENTRY PER LEAGUE CHRONICLE
+        'league_chronicles':
+        <league_id><episode_id> :
+            "episode" : <episode_id>,
+            "entries" : 
+                'failed + <agent_houde_id> + <house_id>: <entry> 
+                'damage' + <house_id> + <char_id> : 
+                    'msg' : <msg>,
+                    'type': <type>
+                'death' + <house_id> + <char_id> : <entry>-->
+            
+            
+        <h4 class="ui horizontal divider header">
+          <i class="columns icon"></i>
+          Leaderboard
+        </h4>
+
+        <h6 class="ui horizontal divider header">
+          <i class="warning icon"></i>
+          COMING SOON
+        </h6>
+                
+          </div>
+        </div>
+
+        <script src="semantic/dist/semantic.min.js"></script>
+        
+        <script>
+        var db = new Firebase("https://ascension.firebaseio.com");
+
+        var authData = db.getAuth();
+
+        // Reusable Sets
+
+        var numerals = [0, 'I', 'II', 'III', 'IV', 'V']
+        var colors = {
+            'bolton': 'red',
+            'meereen': 'brown',
+            'arryn': 'blue',
+            'greyjoy': 'black',
+            'martell': 'orange',
+            'independent': 'pink',
+            'nightswatch': 'grey',
+            'minor': 'olive',
+            'targaryen': 'purple',
+            'tyrell': 'green',
+            'lannister': 'yellow',
+            'stark': 'grey'
+        }
+        
+        // Semantic UI
+
+        $('.ui.accordion').accordion();
+
+        // // Update Mission Agents & Available Targets based on League Selection.
+
+        // SET PLAYER 
+
+        db.child('players').child(authData.uid).once('value', function(snapshot) {
+            var player = snapshot.val();
+            authData.house = player.house;
+            populateLeaguesDropdown(player.games);
+            // SET EPISODE 
+
+            db.child('episodes').once('value', function(snapshot) {
+                var episodes = snapshot.val();
+                populateEpisodeDropdown(episodes);
+            });
+        });
+
+
+        // DISPLAY Player Chronicle Entries
+        function msgTemplate(){
+          html = ''
+          html += '<div class="ui attached segment"><div class="ui piled segments"><div class="ui segment"><p>'
+          html += 'No news today'
+          html += '</p></div></div></div>'
+          return html
+        }
+        
+        function addArticle(category, msg){
+          $ref = $('#' + category)
+          if (!$ref.hasClass('populated')){
+            $ref.empty();
+            $ref.addClass('populated')
+          }
+          html = ''
+          html += '<div class="ui attached segment"><div class="ui piled segments"><div class="ui segment"><p>'
+          html += msg
+          html += '</p></div></div></div>'
+          $ref.append(html)
+        }
+
+        function parsePlayerChronicles(entries){
+          for (var entry in entries) {
+            var a = entries[entry]
+            addArticle(a.cat,a.msg)
+            }
+          }
+        
+        // GET Player Chronicle Entries
+
+        function getPlayerChronicles(playerKey){
+          db.child('player_chronicles').orderByKey()
+            .equalTo(playerKey)
+            .once('value', function(snapshot){
+              console.log(snapshot.val())
+              console.log(playerKey)
+              parsePlayerChronicles(snapshot.val()[playerKey]['entries'])
+            })
+        }
+
+        // DISPLAY Player Chronicle Entries
+
+        function parsePublicChronicles(entries){
+          for (var entry in entries) {
+            var a = entries[entry]
+            addArticle(a.cat,a.msg)
+            }
+          }
+
+        // GET Public Chronicle Entries
+
+        function getPublicChronicles(leagueKey){
+          db.child('league_chronicles').orderByKey()
+            .equalTo(leagueKey)
+            .once('value', function(snapshot){
+              parsePublicChronicles(snapshot.val()[leagueKey]['entries'])
+            })
+        }
+
+        // REFRESH Chroncles Entries
+      
+        function loadChronicleEntries(){
+          var league = $('.ui.dropdown.league').dropdown("get value")
+          var episode = $('.ui.dropdown.episode').dropdown("get value")
+          var house = authData.house[league];
+
+          $('.populated').empty()
+          $('.populated').append(msgTemplate())
+          $('.populated').removeClass('populated')
+
+          getPlayerChronicles(league+house+episode);
+          getPublicChronicles(league+episode);
+        }
+
+
+        // LEAGUES
+
+        var prop_loaded = false
+
+        function populateLeaguesDropdown(games) {
+            var leagues = Object.keys(games);
+            var html = "";
+            var current_league = 'random';
+            for (var league in leagues) {
+                var l = leagues[league]
+                var str = '<div class="item" data-value=' + l + '><i class="university icon"></i>' + l + '</div>'
+                html += str;
+                current_league = l;
+            }
+            $('.leagues').append(html);
+            
+            if (leagues.length > 1){
+              $('.optional').transition('drop');
+            }
+
+            $('.ui.dropdown.league').dropdown({
+                action: 'activate',
+                onChange: function(value, text, $selectedItem) {
+                  if (prop_loaded == false){
+                    prop_loaded = true;
+                  } else {
+                    loadChronicleEntries();
+                  }
+                }
+            });
+            $('.ui.dropdown.league').dropdown("set selected", current_league);
+        }
+
+        // EPISODES
+
+        function populateEpisodeDropdown(episodes) {
+            var html = "";
+            var current_episode = "51";
+
+            for (var ep in episodes) {
+                if (episodes.hasOwnProperty(ep) && episodes[ep]['reported']) {
+                    var episode = episodes[ep]
+                    var str = '<div class="item" data-value=' + episode.number + '><i class="film icon"></i>6x' + episode.episode_number + ' ~ ' + episode.title + '</div>'
+                    html += str;
+                    if (episodes[ep]['current']) {
+                        current_episode = episodes[ep]['number'];
+                        console.log(current_episode)
+                    }
+                }
+            }
+            $('.episodes').append(html)
+
+            $('.ui.dropdown.episode').dropdown({
+                action: 'activate',
+                onChange: function(value, text, $selectedItem) {
+                  if (prop_loaded == false){
+                    prop_loaded = true;
+                  } else {
+                    loadChronicleEntries();
+                  }
+                }
+            });
+            $('.ui.dropdown.episode').dropdown("set selected", current_episode)
+        }
+        
+       
+        // Form Submission
+
+        $('.ui.button.submit').click(function(e){
+
+          $('.message.error').hide();
+
+          if (!$('form.voting').form('is valid') ) {
+              $('.message.error').transition('drop').text('Please vote for both winner & runner up in all categories');
+              return false;
+            }
+
+          if (!$('form.missions').form('is valid') ) {
+              $('.message.error').transition('drop').text('You can\'t send the same character on both missions.');
+              return false;
+            }
+
+          var votes = parseVotes();
+          var missions = parseMissions();
+
+
+          // Push Votes
+          var votesListRef = new Firebase("https://ascension.firebaseio.com/votes");
+          var newVoteRef = votesListRef.push();
+          newVoteRef.set(votes)
+          
+          var path = newVoteRef.toString();
+          var pathelem = path.split('/');
+          var voteskey = pathelem[pathelem.length-1];
+
+          // Update User Details
+
+          var payload = {};
+          
+          payload[voteskey] = true;
+
+          db.child('players').child(authData.uid).child('votes').update(payload, function(error) {
+            if (error) {
+              $('.message').text(error).transition('drop');
+              console.log('Submission Failed!');
+            } else {
+
+              // Push Missions
+                var missionListRef = new Firebase("https://ascension.firebaseio.com/missions");
+                var newMissionRef = missionListRef.push();
+                newMissionRef.set(missions);
+                
+                var path = newMissionRef.toString();
+                var pathelem = path.split('/');
+                var missionkey = pathelem[pathelem.length-1];
+
+                // Update User Details
+
+                var payload = {};
+                
+                payload[missionkey] = true;
+
+                db.child('players').child(authData.uid).child('missions').update(payload, function(error) {
+                  if (error) {
+                    $('.message').text(error).transition('drop');
+                    console.log('Submission Failed! On Mission, Votes Were Submitted');
+                  } else {
+                    window.location.href = 'thanks.html';
+                  }
+                });
+            };
+          });
+        });
+         </script>
+      </body>
+    </html>
