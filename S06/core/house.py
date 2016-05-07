@@ -521,7 +521,7 @@ class HouseIndependent(House):
 
         mission = self.reveal_outgoing_missions(league, mission)
 
-        if mission['type'] is 'assassination' and mission['success'] and mission['data']['agent'] is self.immunity::
+        if mission['type'] is 'assassination' and mission['success'] and mission['data']['agent'] is self.immunity:
 
             target_house = mission['data']['target_house']
             target_house_name = league.get_house(mission['data']['target_house']).full_name
@@ -772,13 +772,34 @@ class HouseTargaryen(House):
         self.bonus = {'damage':10,'jockey':10}
         super(HouseTargaryen, self).__init__(**self.bonus)
 
-    def bonus_mission(self, league, mission, target_roster, damage_actual):
+    def is_dothraki(self, league, agent):
+        assassin = league.game.characters[agent]
+        return 'Dothraki' in assassin.bio
 
-        # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
+    def bonus_mission(self, league, mission, target_house, target_house_name, target_roster):
 
-        # TODO TARGARYAN : All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character
+        # TODO TARGARYEN ABILITY:
 
-        pass
+        # All Characters on this House’s Roster gain
+        # 5% Bonus on a succesful attack by a Dothraki Character
+
+        print 'WARNING >>> TARGARYEN NEEDS HOUSE ABILITY'
+
+    def spread_the_word(self, league, mission):
+
+        mission = self.reveal_outgoing_missions(league, mission)
+
+        if mission['type'] is 'assassination' and mission['success'] and self.is_dothraki(league, mission['data']['agent']):
+
+            target_house = mission['data']['target_house']
+            target_house_name = league.get_house(mission['data']['target_house']).full_name
+            target_roster =  league.get_house(mission['data']['target_house']).character_health
+
+            self.bonus_mission(league, mission, target_house, target_house_name, target_roster):
+
+        target_player = league.get_house_player(mission['data']['target_house'])
+        target_player.house.reveal_incoming_missions(league, mission, self.name)
+ 
 
 
 class HouseTyrell(House):

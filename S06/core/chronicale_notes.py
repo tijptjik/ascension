@@ -51,7 +51,7 @@ code: "C|NI|MARI|E|N|P"
     - [x] HOUSE MEREEN - Knowledge of all diplomatic missions against this House
     - [0] HOUSE GREYJOY - Theon splatter damage. On a succesful attack by Theon, all characters of the other roster take 5% damage
     - [0] HOUSE MARTELL - All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target’s roster
-    - [-] HOUSE INDEPENDENTS - The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House’s Roster
+    - [L] HOUSE INDEPENDENTS - The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House’s Roster
     - [0] HOUSE NIGHTSWATCH - Dissemination of misinformation. Chance of false intel to be recovered in diplomatic missions run against this house is 50%50%
     - [0] HOUSE TARGARYAN - All Characters on this House’s Roster gain 5% Bonus on a succesful attack by a Dothraki Character
     - [0] HOUSE TYRELL - Full Secrecy. Missions are never revealed. Not even to the Council of Mereen
@@ -73,7 +73,7 @@ Global
 - [ ] death : 
 
 
-* Make sure Jaqen is immune from torture
+* Make sure Jaqen and other immunes are immune from torture 
 x Chronicle : Fix the foiled being the target house not the instigator
 x Chronicle : Fix award being the actual table of result in the
 x Chronicle : Fix the updates overriding the higher level attributes,
