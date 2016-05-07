@@ -177,11 +177,18 @@ class House:
         
         return d['target_character'], msg
 
-    def create_ranking_msg(self, rounds, rank, points, league):
+    def create_leaderboard_msg(self, rounds, rank, points, league):
         if (points).is_integer():
             points = int(points)
         msg = "After {} rounds in the {} league, you rank {} with {} points.".format(
             int(rounds), league.title(), rank, points)
+        return msg
+
+    def create_ranking_msg(self, episode_title, rank, points, league):
+        if (points).is_integer():
+            points = int(points)
+        msg = "For episode <i>{}</i> you ranked {} in the {} league, with {} points.".format(
+            episode_title, league.title(), rank, points)
         return msg
 
     def create_torture_msg(self, code, target_house, msg):
@@ -288,7 +295,25 @@ class House:
 
         league.game.update_player_chronicles(keys, message, cat, suffix)
 
-    def inform_player_of_leaderboard_rank(self, league, rank, episode_points):
+    def inform_player_of_episode_score_and_rank(self, league, rank, episode_points):
+        cat = 'ranking'
+        suffix = ''
+
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "player" : league.get_house_player(self.name).id,
+            "house" : self.name
+        }
+
+        episode_title = league.get_episode_title(league.current_episode)
+        rank = ordinal(rank)
+
+        message = self.create_ranking_msg(episode_title, rank, episode_points, league.name)
+        
+        league.game.update_player_chronicles(keys, message, cat)
+
+    def inform_player_of_leaderboard_score_and_rank(self, league, rank, episode_points):
         cat = 'ranking'
         suffix = ''
 
@@ -302,7 +327,7 @@ class House:
         epno = league.get_episode_number(league.current_episode)
         rank = ordinal(rank)
 
-        message = self.create_ranking_msg(epno, rank, episode_points, league.name)
+        message = self.create_leaderboard_msg(epno, rank, episode_points, league.name)
         
         league.game.update_player_chronicles(keys, message, cat)
 

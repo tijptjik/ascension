@@ -20,7 +20,7 @@
 '''
 EPISODE SCORES PER CHARACTER PER AWARD
 
-'episode_award_scores'
+'character_scores'
 	<league_id>+<episode_id>+<award> :
 		"episode" : <episode_id>,
         "award" : <award>,
@@ -56,7 +56,7 @@ EPISODE SCORES PER CHARACTER PER AWARD
 # 
 '''PLAYER SCORES PER AWARD PER EPISODE
 
-'player_episode_award_scores':
+'player_roster_award_scores':
 	<league_id>+<episode_id>+<player_id> :
         "episode" : <episode_id>,
         "player" : <player_id>,
@@ -72,9 +72,10 @@ EPISODE SCORES PER CHARACTER PER AWARD
 # 
 ''' PLAYER SCORES PER EPISODE
 
-'leaderboard':
+'episode_scores':
 	<league_id><episode_id> :
 		"episode" : <episode_id>,
+        "league" : <league_id>,
         "scores" : 
         	<player> : <score>
         	<player> : <score>
@@ -82,6 +83,20 @@ EPISODE SCORES PER CHARACTER PER AWARD
         	<player> : <score>
         	<player> : <score>
 
+'''
+
+''' SUM OF PLAYER EPISODE SCORES
+
+'leaderboard':
+    <league_id><episode_id> :
+        "episode" : <episode_id>,
+        "league" : <league_id>,
+        "scores" : 
+            <player> : <score>
+            <player> : <score>
+            <player> : <score>
+            <player> : <score>
+            <player> : <score>
 '''
 
 # 

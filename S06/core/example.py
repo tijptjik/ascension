@@ -10,8 +10,8 @@ game = Ascension()
 for league in game.leagues:
     league.process_episode_results()
 
-# Inspect the leaderboard for a particular episode
-print game.print_leaderboard('essos','51')
+# Inspect the episode_scores for a particular episode
+print game.print_episode_scores('essos','51')
 
 # Recover after crash
 # pdb.pm()
