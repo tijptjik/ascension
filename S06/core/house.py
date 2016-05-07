@@ -76,6 +76,12 @@ class House:
     def bonus_mission(self, **kwargs):
         pass
 
+    def damage_dealt(self, agent, target_house, league):
+        damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
+        violence = getattr(league.game.characters[agent],'violence')
+
+        return damages[violence]
+
     def plot_assassination(self, league, missions, target_roster):
 
         target_house = missions['assassination_target_house']
@@ -105,7 +111,6 @@ class House:
 
         return damage_potential
 
-
     def foil_assassination(self, league, missions, target_roster, damage):
 
         # Check Immunity
@@ -119,13 +124,7 @@ class House:
 
         return damage
 
-
-    def damage_dealt(self, agent, target_house, league):
-        damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
-        violence = getattr(league.game.characters[agent],'violence')
-
-        return damages[violence]
-
+    # CHRONICLE & BONUS
 
     def spread_the_word(self, league, mission):
 
@@ -133,28 +132,31 @@ class House:
 
         target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
- 
-       # TODO INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
 
-    
-    def create_torture_msg(self, code, target_house, msg):
-        msg = "Torturing {}'s assassin reveals : {}".format(target_house, msg)
-        return code, msg 
-            
+    def create_ability_msg(self, **kwargs):
+        pass
+ 
+    def create_assassination_msg(self, league, mission, target_house):
+        # TODO : Add custom message for when house targeted itself.
+        # TODO : Add custom message for when immune characters were targeted.
+        name = league.game.characters[d['target_character']]['name']
+        d = mission['data']
+        result = ['FAILED','SUCCEEDED'][mission['success']]
+        mg = "Attack on {} of {} {} - {} damage dealt for {} points".format(name,
+                       target_house, result, d["damage_dealt"], d["bounty"])
+        return mg
+
+    def create_award_msg(self, award, points, title):
+        if not points:
+            points = 0
+        msg = "Roster was awarded {} points for {} in {}".format(points, award.upper(), title)
+        return award, msg
+
     def create_diplomatic_msg(self, mission, target_house):
         code = mission['data']['code']
         msg = "Intel on {} reveals: {}".format(target_house,mission['data']['message'])
         return code, msg 
-
-    def create_assassination_msg(self, mission, target_house):
-        # TODO : Add custom message for when house targeted itself.
-        # TODO : Add custom message for when immune characters were targeted.
-        d = mission['data']
-        result = ['FAILED','SUCCEEDED'][mission['success']]
-        mg = "Attack on {} of {} {} - {} damage dealt for {} points".format(d['target_character'],
-                       target_house, result, d["damage_dealt"], d["bounty"])
-        return mg
-
+    
     def create_damage_msg(self, league, mission):
         d = mission['data']
 
@@ -169,6 +171,15 @@ class House:
                      prevented, and ... has proven fatal.""".format(d['target_character'])
         
         return d['target_character'], msg
+
+    def create_ranking_msg(self, rounds, rank, points, league):
+        msg = "After {} rounds in the {} league, you rank {} with {} points.".format(
+            int(rounds), league.title(), rank, points)
+        return msg
+
+    def create_torture_msg(self, code, target_house, msg):
+        msg = "Torturing {}'s assassin reveals : {}".format(target_house, msg)
+        return code, msg 
 
     def reveal_outgoing_missions(self, league, mission):
         """ VISIBILITY LAYER
@@ -185,7 +196,7 @@ class House:
         if cat == 'diplomatic':
             suffix, message = self.create_diplomatic_msg(mission, target_house_name)
         if cat == 'assassination':
-            message = self.create_assassination_msg(mission, target_house_name)
+            message = self.create_assassination_msg(league, mission, target_house_name)
 
         keys = {
             "league" : league.name,
@@ -196,7 +207,6 @@ class House:
         league.game.update_player_chronicles(keys, message, cat, suffix)
 
         return mission
-
 
     def reveal_incoming_missions(self, league, mission, agent_house):
         """ VISIBILITY LAYER
@@ -270,24 +280,6 @@ class House:
 
                 league.game.update_player_chronicles(keys, message, cat, suffix)
     
-
-    def create_ability_msg(self, **kwargs):
-        pass
-
-
-    # SCORING
-
-    def create_award_msg(self, award, points, title):
-        if not points:
-            points = 0
-        msg = "Roster was awarded {} points for {} in {}".format(points, award.upper(), title)
-        return award, msg
-
-    def create_ranking_msg(self, rounds, rank, points, league):
-        msg = "After {} rounds in the {} league, you rank {} with {} points.".format(
-            rounds, league.title(), rank, points)
-        return msg
-
     def inform_player_of_award_points(self, league, award, points):
         cat = 'awards'
 
@@ -321,6 +313,7 @@ class House:
         
         league.game.update_player_chronicles(keys, message, cat)
 
+    # SCORING
 
     def award_points(self, league, episode, award, scores, characters, health, missions):
         
@@ -359,7 +352,10 @@ class House:
             return 1 - character[character[character]['diplomacy']]
 
         if character == episode_missions['assassination_agent']:
-            return 1 - character[character[character]['violence']]            
+            return 1 - character[character[character]['violence']]  
+
+
+# HOUSES IN GAME OF THRONES
 
 
 class HouseArryn(House):
@@ -464,7 +460,6 @@ class HouseBolton(House):
         return damage
 
 
-
 class HouseGreyjoy(House):
     def __init__(self, name):
         self.name = name
@@ -493,11 +488,10 @@ class HouseGreyjoy(House):
             target_house_name = league.get_house(mission['data']['target_house']).full_name
             target_roster =  league.get_house(mission['data']['target_house']).character_health
 
-            self.bonus_mission(league, mission, target_house, target_house_name, target_roster):
+            self.bonus_mission(league, mission, target_house, target_house_name, target_roster)
 
         target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
-
 
 
 class HouseIndependent(House):
@@ -527,13 +521,11 @@ class HouseIndependent(House):
             target_house_name = league.get_house(mission['data']['target_house']).full_name
             target_roster =  league.get_house(mission['data']['target_house']).character_health
 
-            self.bonus_mission(league, mission, target_house, target_house_name, target_roster):
-
+            self.bonus_mission(league, mission, target_house, target_house_name, target_roster)
 
         target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
  
-
 
 class HouseLannister(House):
     def __init__(self, name):
@@ -795,7 +787,7 @@ class HouseTargaryen(House):
             target_house_name = league.get_house(mission['data']['target_house']).full_name
             target_roster =  league.get_house(mission['data']['target_house']).character_health
 
-            self.bonus_mission(league, mission, target_house, target_house_name, target_roster):
+            self.bonus_mission(league, mission, target_house, target_house_name, target_roster)
 
         target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
