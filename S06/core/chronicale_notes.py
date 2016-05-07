@@ -48,7 +48,7 @@ code: "C|NI|MARI|E|N|P"
     * Character X lost Y Health, Z remains. 
 - [ ] ability | Ability : Result of Ability
     - [x] HOUSE ARRYN - Chance of recovering intel from the source of diplomatic missions run against this house - Chance is 50%, intel at same level as the mission
-    - [-] HOUSE MEREEN - Knowledge of all diplomatic missions against this House
+    - [x] HOUSE MEREEN - Knowledge of all diplomatic missions against this House
     - [0] HOUSE GREYJOY - Theon splatter damage. On a succesful attack by Theon, all characters of the other roster take 5% damage
     - [0] HOUSE MARTELL - All attacks to become lethal, provided that the total prominence power of this House is lower than the prominence of the target’s roster
     - [-] HOUSE INDEPENDENTS - The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House’s Roster

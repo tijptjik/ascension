@@ -139,17 +139,14 @@ class House:
         pass
 
 
-
     def spread_the_word(self, league, mission):
 
         mission = self.reveal_outgoing_missions(league, mission)
 
         target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
-
-        # TYRELL : don't call() target_player.house.reveal_incoming_missions()
-
-        # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
+ 
+       # INDEPENDENT : The faceless man the ability to take on other personas. If Jaqen kills a Character, they join this House's Roster
 
     
     def create_torture_msg(self, code, target_house, msg):
@@ -195,12 +192,12 @@ class House:
 
         cat = mission['type']
         suffix = ''
-        target_house = league.get_house(mission['data']['target_house']).full_name
+        target_house_name = league.get_house(mission['data']['target_house']).full_name
 
         if cat == 'diplomatic':
-            suffix, message = self.create_diplomatic_msg(mission, target_house)
+            suffix, message = self.create_diplomatic_msg(mission, target_house_name)
         if cat == 'assassination':
-            message = self.create_assassination_msg(mission, target_house)
+            message = self.create_assassination_msg(mission, target_house_name)
 
         keys = {
             "league" : league.name,
@@ -285,6 +282,7 @@ class House:
 
                 league.game.update_player_chronicles(keys, message, cat, suffix)
     
+
     def create_ability_msg(self, **kwargs):
         pass
 
@@ -385,7 +383,6 @@ class HouseArryn(House):
         super(HouseArryn, self).__init__(**self.bonus)
 
     def create_ability_msg(self, intel, target_house):
-        # TODO : CREATE PROPER diplo CODE 
         code = intel['code']
         msg = "Ohhh... but {} were seen. Counter intelligence reveals: {}".format(target_house, intel['message'])
         return code, msg 
@@ -550,6 +547,93 @@ class HouseMeereen(House):
         self.immunity = 'varys'
         super(HouseMeereen, self).__init__(**self.bonus)
 
+    def create_ability_msg(self, target_house, target_house_name):
+        code = target_house
+        msg = "How transparent. {} ran a diplomatic mission against us.".format(target_house_name)
+        return code, msg
+
+    def reveal_incoming_missions(self, league, mission, agent_house):
+        cat = mission['type']
+
+        # Failed Assassination Attempt
+
+        if cat is 'assassination' and mission['reveal']:
+        
+            # You receive two items of Roster Intelligence from torturing your assassin.
+            
+            if not mission['success']:
+                target_roster = league.get_house_player(agent_house).character_health
+                intelligence = {}
+
+                intel = RosterIntelligence.generate(agent_house, target_roster,
+                                                    league.game.characters, self.intelligence_logs, 2)
+
+                intelligence.update(intel)
+
+                keys = {
+                    "league" : league.name,
+                    "episode" : league.current_episode,
+                    "player" : league.get_house_player(self.name).id,
+                    "house" : self.name
+                }
+
+                intelligence = keys.copy()
+                intelligence.update({"intelligence": intel, 'agent': mission['data']['agent']})
+
+                league.game.update_player_intelligence(keys, intelligence)
+
+                target_house_name = league.get_house_player(agent_house).house.full_name
+                for code, i in intel.iteritems():
+                    cat = 'foiled'
+                    suffix, message = self.create_torture_msg(code, target_house_name, i['message'])
+                    suffix = "_".join([agent_house, suffix])
+
+                    league.game.update_player_chronicles(keys, message, cat, suffix)
+
+                # The player you attacked also receives the assassin’s Prominence and Violence Power.
+
+                assassin = league.game.characters[mission['data']['agent']]
+                a_msg = "The assassin was sent by {}, has Prominence Power {}, and Violence Power {} - They escaped... but we've sent the hounds on them...".format(
+                        target_house_name, assassin.prominence, assassin.violence)
+
+                suffix, message = self.create_torture_msg('torture_'+agent_house, target_house_name, a_msg)
+
+                league.game.update_player_chronicles(keys, message, cat, suffix)
+
+            else:
+
+                cat = 'target'
+
+                keys = {
+                    "league" : league.name,
+                    "episode" : league.current_episode,
+                    "player" : league.get_house_player(self.name).id,
+                    "house" : self.name
+                }
+
+                suffix, message = self.create_damage_msg(league, mission)
+
+                league.game.update_player_chronicles(keys, message, cat, suffix)
+
+        # MEEREEN: ignore the hidden property on the diplomatic mission and reveal its 
+
+        elif cat is 'diplomatic':
+
+            cat = 'ability'
+
+            keys = {
+                "league" : league.name,
+                "episode" : league.current_episode,
+                "player" : league.get_house_player(self.name).id,
+                "house" : self.name
+            }
+
+            target_house_name = league.get_house(agent_house).full_name
+            suffix, message = self.create_ability_msg(agent_house, target_house_name)
+
+            league.game.update_player_chronicles(keys, message, cat, suffix)
+
+
 
 class HouseMinor(House):
     def __init__(self, name):
@@ -665,3 +749,9 @@ class HouseTyrell(House):
         self.full_name = "House Tyrell"
         self.bonus = {'style':20}
         super(HouseTyrell, self).__init__(**self.bonus)
+
+    def spread_the_word(self, league, mission):
+
+        # TYRELL HOUSE ABILITY : don't call() target_player.house.reveal_incoming_missions()
+
+        self.reveal_outgoing_missions(league, mission)
