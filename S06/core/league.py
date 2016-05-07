@@ -18,7 +18,7 @@ class League(object):
         for k, v in game.db['players'].iteritems():
             v['id'] = k
 
-        self.players = filter(self.filter_player, game.db['players'].values())
+        self.players_raw = filter(self.filter_player, game.db['players'].values())
         
         self.votes = filter(self.filter_league, game.db['votes'].values())
         self.missions = filter(self.filter_league, game.db['missions'].values())
@@ -54,14 +54,15 @@ class League(object):
         return intel['episode'] is self.current_episode and intel['league'] is self.name
 
     def init_players(self):
-        for player in self.players:
-            player['league'] = self
-            player['house'] = player['house'][self.name]
-            player['roster_id'] = player['games'][self.name]
+        p_filtered = []
+        for player in self.players_raw:
+            p = player.copy()
+            p['league'] = self
+            p['house'] = player['house'][self.name]
+            p['roster_id'] = player['games'][self.name]
+            p_filtered.append(p)
 
-            del player['games']
-
-        return [Player(**player) for player in self.players]
+        return [Player(**p) for p in p_filtered]
 
     def collect_player_rosters_ids(self):
         return map(lambda x: x.roster_id, self.players)

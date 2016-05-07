@@ -6,7 +6,7 @@ PLAYERS
 
 class Player(object):
     """A League Player"""
-    def __init__(self, league, id, alias, alias_short, email, facebook, first_name, full_name,
+    def __init__(self, league, id, alias, alias_short, email, facebook, first_name, full_name, games,
                     roster_id=None, house=None, missions=None, votes=None):
         super(Player, self).__init__()
         self.id = id

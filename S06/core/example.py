@@ -1,7 +1,7 @@
 from ascension import *
 import pdb
 
-game = Ascension()
+game = Ascension(51)
 
 # l = game.leagues[0]
 # p = l.players[0]

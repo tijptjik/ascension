@@ -393,13 +393,14 @@ GAME INFO : EPISODES
 
 class Episode(object):
     """Game of Thrones Character"""
-    def __init__(self, airdate, current, episode_number, has_aired, number, title):
+    def __init__(self, airdate, current, episode_number, has_aired, number, title, reported):
         super(Episode, self).__init__()
         # TODO Set as datetime
         self.airdate = airdate
         self.current = current
         self.episode_number = episode_number
         self.has_aired = has_aired
+        self.reported = reported
         # TODO Automatically set episode as aired
         self.check_episode_aired()
         self.number = number
