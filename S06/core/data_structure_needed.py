@@ -139,3 +139,10 @@ EPISODE SCORES PER CHARACTER PER AWARD
                 "message" : <intel_msg>,
                 "source" : 'mission|ability|attempt'
 '''
+
+""" VISIBILITY LAYER
+'type' : 'diplomatic|assassination'
+'success' : true|false
+'reveal' : true|false
+'data' : {}
+"""

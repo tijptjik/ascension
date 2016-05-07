@@ -40,7 +40,7 @@ class House:
     def get_intel_count(self, diplomacy_power):
         return [0,1,2,3,1,2][diplomacy_power]
 
-    def conduct_diplomacy(self, missions, target_health, characters, players):
+    def conduct_diplomacy(self, league, missions, target_health, characters, players):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
         
         target_house = self.get_mission_target(missions)
@@ -383,7 +383,7 @@ class HouseArryn(House):
                 'player': league.get_house_player(self.name).id
                 })
 
-            arryn_intel = self.conduct_diplomacy(missions, target_health, characters, players)
+            arryn_intel = self.conduct_diplomacy(league, missions, target_health, characters, players)
 
             keys = {
                 "league" : league.name,
@@ -705,7 +705,7 @@ class HouseNightswatch(House):
         # if random.random() < 1:
         if random.random() < 0.5:
             false_roster = self.generate_random_roster(characters)
-            intel = self.conduct_diplomacy(missions, false_roster, characters, players)          
+            intel = self.conduct_diplomacy(league, missions, false_roster, characters, players)          
             
         return intel
 
@@ -721,7 +721,7 @@ class HouseStark(House):
         msg = "For the North! Our spies returned with news on {}.".format(target_house_name)
         return code, msg
 
-    def conduct_diplomacy(self, missions, target_health, characters, players):
+    def conduct_diplomacy(self, league, missions, target_health, characters, players):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
         
         target_house = self.get_mission_target(missions)

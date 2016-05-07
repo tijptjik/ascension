@@ -177,7 +177,7 @@ class League(object):
                 target = self.get_house_player(mission['diplomatic_target_house'])
                 target_roster = target.character_health
 
-                intel = player.house.conduct_diplomacy(mission, target_roster, self.game.characters, self.players)
+                intel = player.house.conduct_diplomacy(self, mission, target_roster, self.game.characters, self.players)
                 intel = target.house.counter_intelligence(self, mission, intel, self.game.characters, self.players)
 
                 keys = {
@@ -293,14 +293,46 @@ class League(object):
 
             firebase_key = "{}{}{}".format(self.name, house, self.current_episode)
 
-            del self.game.player_chronicles[firebase_key]
+            if firebase_key in self.game.player_chronicles:
+                del self.game.player_chronicles[firebase_key]
+
             self.game.ref.delete('/player_chronicles/', firebase_key)
+        
+        firebase_key = "{}{}".format(self.name, self.current_episode)
+        if firebase_key in self.game.league_chronicles:
+            del self.game.league_chronicles[firebase_key]
+
+        self.game.ref.delete('/league_chronicles/', firebase_key)
+
+
+    def create_public_chronicle_msg(self, cat, mission):
+        d = mission['data']
+        agent_house = self.get_house(d['house']).full_name
+        target_house = self.get_house(d['target_house']).full_name
+        target_character = self.game.characters[d['target_character']].name
+        # SAD HACK
+        is_silent = d['house'] is 'tyrell'
+        if cat is 'failed' and not is_silent:
+            code = "_".join([d['house'], d['target_house']])
+            msg = "{} FAILED an assassination attempt on {}".format(agent_house, target_house)
+
+        elif cat is 'damage':
+            health = self.get_house_player(d['target_house']).character_health[d['target_character']]
+            code = "_".join([d['target_house'], d['target_character']])
+            msg = "A character of {} was injured, their health is at {}/100".format(target_house, health)
+
+        elif cat is 'death':
+            code = "_".join([d['target_house'], d['target_character']])
+            msg = "{} lost {} to a succesful assassination.".format(target_house, target_character)
+
+        return code, msg
 
     def publish_weekly_missions_chronicle(self):
 
         self.refresh_chronicles()
 
         # Player
+        # Update the personal Chronicle with the character damage they incurred.
         d_missions = self.collect_diplomatic_entries()
         a_missions = self.collect_assassination_entries()
 
@@ -312,19 +344,24 @@ class League(object):
                 for mission in missions:
 
                     self.get_player(mission['data']['player']).house.spread_the_word(self, mission)
-                    # Update the personal Chronicle with the character damage they incurred.
             
         # Global
-        # Update the public chronicle about the deaths / damage
-        failed_entries = self.collect_failed_entries()
-        damage_entries = self.collect_damage_entries()
-        death_entries = self.collect_death_entries()
+        # Update the public chronicle about the failures / damages / deaths
+        failed_entries, damage_entries, death_entries = self.collect_league_entries(a_missions)
 
         for missions in [failed_entries, damage_entries, death_entries]:
             for mission in missions:
-                # self.get_player(mission['data']['player']).house.spread_the_word(self, mission)
-                pass
+                cat = mission['type']
+                suffix, message = self.create_public_chronicle_msg(cat, mission)
 
+                keys = {
+                    "league" : self.name,
+                    "episode" : self.current_episode,
+                    "player" : mission['data']['player'],
+                    "house" : mission['data']['house']
+                }
+
+                self.game.update_league_chronicles(keys, message, cat, suffix)
 
     def set_visibility_layer(self, data, mission_type):
         if data:
@@ -394,22 +431,33 @@ class League(object):
 
         return entries
 
-    def collect_failed_entries(self):
+    def collect_league_entries(self, missions):
 
-        #  It will be published in the Chronicle that you made an attempt and failed, mentioning your house, and the house you were targeting.
-        # 'global' : true if
-            # type:assassination and success:false and reveal:true
+        get_health = lambda house, char: self.get_house_player(house).character_health[char]
+        
+        failed_entries = []
+        damage_entries = []
+        death_entries = []
+        
+        for mission in missions:
+            
+            if not mission['success'] and mission['reveal']:
+                mission['type'] = 'failed'
+                failed_entries.append(mission)
+        
+            if mission['success']:
+                current_health = get_health(mission['data']['target_house'], mission['data']['target_character'])
+                mission['current_health'] = current_health
+            
+            if mission['success'] and current_health > 0:
+                mission['type'] = 'damage'
+                damage_entries.append(mission)        
+            
+            if mission['success'] and current_health == 0:
+                mission['type'] = 'death'
+                death_entries.append(mission)        
 
-        entries = []
-        return entries
-
-    def collect_damage_entries(self):
-        entries = []
-        return entries
-
-    def collect_death_entries(self):
-        entries = []
-        return entries
+        return failed_entries, damage_entries, death_entries
 
     def award_weekly_points(self):
         

@@ -313,7 +313,7 @@ class Ascension(object):
             self.league_chronicles[firebase_key]['entries'].update(entry)
             
             # Update Firebase
-            self.ref.put('/league_chronicles/' + firebase_key +'/', 'entries', entry)
+            self.ref.put('/league_chronicles/' + firebase_key + '/entries/', key, entry[key])
         
         else:
             section = { 
