@@ -95,8 +95,7 @@ class House:
         damage_intended = self.damage_dealt(agent, target_house, league)
 
         if success:
-            import pdb; pdb.set_trace()
-            health = target_roster['target_character']
+            health = target_roster[target_character]
             damage_dealt = max(health - (100 - damage_intended), 0)
             bounty = damage_dealt * 2.4
 
