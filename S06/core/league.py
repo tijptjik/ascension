@@ -316,16 +316,16 @@ class League(object):
         is_silent = d['house'] is 'tyrell'
         if cat is 'failed' and not is_silent:
             code = "_".join([d['house'], d['target_house']])
-            msg = "{} FAILED an assassination attempt on {}".format(agent_house, target_house)
+            msg = "<span class=\"house\">{}<span> <span class=\"failed\">FAILED</span> an assassination attempt on <span class=\"house\">{}</span>".format(agent_house, target_house)
 
         elif cat is 'damage':
             health = self.get_house_player(d['target_house']).character_health[d['target_character']]
             code = "_".join([d['target_house'], d['target_character']])
-            msg = "A character of {} was injured, their health is at {}/100".format(target_house, health)
+            msg = "A character of <span class=\"house\">{}</span> was injured, their health is at <span class=\"health\">{}/100</span>".format(target_house, health)
 
         elif cat is 'death':
             code = "_".join([d['target_house'], d['target_character']])
-            msg = "{} lost {} to a succesful assassination.".format(target_house, target_character)
+            msg = "<span class=\"house\">{}<span>  lost <span class=\"character\">{}</span> to a succesful assassination.".format(target_house, target_character)
 
         return code, msg
 

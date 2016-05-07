@@ -140,21 +140,21 @@ class House:
         # TODO : Add custom message for when immune characters were targeted.
         d = mission['data']
         name = league.game.characters[d['target_character']].name
-        result = ['FAILED','SUCCEEDED'][mission['success']]
+        result = ['<span class=\"failed\">FAILED</span>','<span class=\"success\">SUCCEEDED</span>'][mission['success']]
 
-        mg = "Attack on {} of {} {} - {} damage dealt for {} points".format(name,
+        msg = "Attack on <span class=\"character\">{}</span> of <span class=\"house\">{}</span> {} - <span class=\"health\">{}</span> damage dealt for <span class=\"points\">{}</span> points".format(name,
                        target_house, result, d["damage_dealt"], d["bounty"])
-        return mg
+        return msg
 
     def create_award_msg(self, award, points, title):
         if (points).is_integer():
             points = int(points)
-        msg = "Roster was awarded {} points for {} in <i>{}</i>".format(points, award.upper(), title)
+        msg = "Roster was awarded <span class=\"points\">{}</span> points for <span class=\"award\">{}</span> in <span class=\"episode\">{}</span>".format(points, award.upper(), title)
         return award, msg
 
     def create_diplomatic_msg(self, mission, target_house):
         code = mission['data']['code']
-        msg = "Intel on {} reveals: {}".format(target_house, mission['data']['message'])
+        msg = "<span class=\"pre\">Intel on <span class=\"house\">{}</span> reveals:</span> {}".format(target_house, mission['data']['message'])
         return code, msg 
     
     def create_damage_msg(self, league, mission):
@@ -167,11 +167,11 @@ class House:
             health = int(points)
 
         if health > 0:
-            msg = """Your grace, {} has been injured in an attack - they lost {} health and the Measter
-                        reports their condition is stable, but at {}/100""".format(name,
+            msg = """Your grace, <span class=\"character\">{}</span> has been injured in an attack - they lost <span class=\"health\">{}</span> health and the Measter
+                        reports their condition is stable, but at <span class=\"health\">{}/100</span>""".format(name,
                            d["damage_dealt"], health)
         else:
-            msg = """Your grace... the move against {} could not be
+            msg = """Your grace... the move against <span class=\"character\">{}</span> could not be
                      prevented, and ... has proven fatal.""".format(name)
         
         return d['target_character'], msg
@@ -179,19 +179,19 @@ class House:
     def create_leaderboard_msg(self, rounds, rank, points, league):
         if (points).is_integer():
             points = int(points)
-        msg = "After {} rounds in the {} league, you rank {} with {} points.".format(
+        msg = "After <span class=\"rounds\">{}</span> rounds in the <span class=\"league\">{}</span> league, you rank <span class=\"rank\">{}</span> with <span class=\"points\">{}</span> points.".format(
             int(rounds), league.title(), rank, points)
         return msg
 
     def create_ranking_msg(self, episode_title, rank, points, league):
         if (points).is_integer():
             points = int(points)
-        msg = "For episode <i>{}</i> you ranked {} in the {} league, with {} points.".format(
+        msg = "For episode <span class=\"episode\">{}</span> you ranked <span class=\"rank\">{}</span> in the <span class=\"league\">{}</span> league, with <span class=\"points\">{}</span> points.".format(
             episode_title, league.title(), rank, points)
         return msg
 
     def create_torture_msg(self, code, target_house, msg):
-        msg = "Torturing {}'s assassin reveals : {}".format(target_house, msg)
+        msg = "<span class=\"pre\">Torturing <span class=\"house\">{}</span>'s assassin reveals :</span> {}".format(target_house, msg)
         return code, msg 
 
     def reveal_outgoing_missions(self, league, mission):
@@ -385,7 +385,7 @@ class HouseArryn(House):
 
     def create_ability_msg(self, intel, target_house):
         code = intel['code']
-        msg = "Ohhh... but {} were seen. Counter intelligence reveals: {}".format(target_house, intel['message'])
+        msg = "<span class=\"pre\">Ohhh... but <span class=\"house\">{}</span> were seen. Counter intelligence reveals:</span> {}".format(target_house, intel['message'])
         return code, msg 
 
     def counter_intelligence(self, league, missions, intel, characters, players):
@@ -588,7 +588,7 @@ class HouseMeereen(House):
 
     def create_ability_msg(self, target_house, target_house_name):
         code = target_house
-        msg = "How transparent. {} ran a diplomatic mission against us.".format(target_house_name)
+        msg = "How transparent. <span class=\"house\">{}</span> ran a diplomatic mission against us.".format(target_house_name)
         return code, msg
 
     def reveal_incoming_missions(self, league, mission, agent_house):
@@ -742,8 +742,8 @@ class HouseStark(House):
 
     def create_ability_msg(self, target_house, target_house_name):
         code = target_house
-        msg = "For the North! Our spies returned with news on {}.".format(target_house_name)
-        return code, msg
+        msg = "For the North! Our spies returned with news on <span class=\"house\">{}</span>.".format(target_house_name)
+    return code, msg
 
     def conduct_diplomacy(self, league, missions, target_health, characters, players):
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
