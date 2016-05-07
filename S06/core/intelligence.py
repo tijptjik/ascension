@@ -329,9 +329,9 @@ class CharacterIntelligence(Intelligence):
         code_suffix, key = cls.get_random_character_property()
 
         if code_suffix == 'H':
-            msg = "Character is affiliated with House {}".format(getattr(target_character, key).title())
+            msg = "This character is affiliated with House {}".format(getattr(target_character, key).title())
         else:
-            msg = "Character's {} Power is {}".format(key.title(), getattr(target_character, key))
+            msg = "This character's {} Power is {}".format(key.title(), getattr(target_character, key))
         
         return code_prefix + code_suffix, msg
 
@@ -356,7 +356,7 @@ class CharacterIntelligence(Intelligence):
 
         # All the same
         if len(set(character_powers)) == 1:
-            msg = "The {}, {}, and {} powers for this Character are no different from each other".format(*cp)
+            msg = "The {}, {}, and {} powers for this character are no different from each other".format(*cp)
             code_suffix = '1'
             return code_prefix + code_suffix, msg
 
@@ -367,7 +367,7 @@ class CharacterIntelligence(Intelligence):
             other_max_idx = list(max_list.difference(max_idx))
             min_idx = list(set([0,1,2]).difference(max_list))
             code_suffix = '2X' + cp[max_idx[0]][0]
-            msg = "{} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
+            msg = "For this character, {} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
 
         # Shared Min
         min_list = set([i for i, x in enumerate(character_powers) if x == min(character_powers)])
@@ -376,7 +376,7 @@ class CharacterIntelligence(Intelligence):
             min_idx = random.sample(min_list,1)
             other_min_idx = list(min_list.difference(min_idx))
             code_suffix = '2N' + cp[min_idx[0]][0]
-            msg = "{} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
+            msg = "For this character, {} is higher than {}, and {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
 
         # All Different
         if len(set(character_powers)) == 3:
@@ -386,7 +386,7 @@ class CharacterIntelligence(Intelligence):
             less_idx = random.sample(less_list,1)[0]
             other_less_idx = list(set(less_list).difference([less_idx]))[0]
             code_suffix = '3' + cp[less_idx][0]
-            msg = "{} is higher than {}, and {} is lower than one of them.".format(cp[max_idx], cp[less_idx], cp[other_less_idx])
+            msg = "For this character, {} is higher than {}, and {} is lower than one of them.".format(cp[max_idx], cp[less_idx], cp[other_less_idx])
         
         return code_prefix + code_suffix, msg
     
@@ -420,7 +420,7 @@ class CharacterIntelligence(Intelligence):
                     shared = " (shared) "
                 code_suffix = 'X|' + code_suffix
 
-                msg = "Character has the{}highest {} Power on the target roster".format(shared, property.title())
+                msg = "This character has the{}highest {} Power on the target roster".format(shared, property.title())
                 return code_prefix + code_suffix, msg
 
             is_min, is_shared = cls.is_property_min_on_roster(target_character, property, char_prop, target_roster)
@@ -431,7 +431,7 @@ class CharacterIntelligence(Intelligence):
                     shared = " (shared) "
 
                 code_suffix = 'N|' + code_suffix
-                msg = "Character has the{}lowest {} Power on the target roster".format(shared, property.title())
+                msg = "This character has the{}lowest {} Power on the target roster".format(shared, property.title())
                 return code_prefix + code_suffix, msg
 
         # If there are no extreme traits, fail
@@ -460,9 +460,9 @@ class CharacterIntelligence(Intelligence):
             code_suffix = property.title()[0]
             if cls.is_property_unique_on_roster(target_character, property, char_prop, target_roster):
                 if property is 'house':
-                    msg = "Character is the only member of this House on the target roster".format(char_prop)
+                    msg = "This character is the only member of this House on the target roster".format(char_prop)
                 else:
-                    msg = "Character is the only one with this {} Power on the target roster".format(property.title())
+                    msg = "This character is the only one with this {} Power on the target roster".format(property.title())
                 return code_prefix + code_suffix, msg
             else:
                 continue
