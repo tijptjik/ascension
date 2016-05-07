@@ -248,6 +248,7 @@
 
             <h3 class="ui top attached inverted blue header sub header"><i class="unhide icon"></i> Diplomatic</h3>
             <div class="ui attached segment">
+            <div class="ui right floated diplomatic button">Reset Diplomacy</div>
               <p>Gathering Intelligence on another players's Character's and Roster</p>
               <div class="ui accordion field">
               <div class="title">
@@ -305,7 +306,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
-                    <div class="ui fluid search selection dropdown huge diplomatic">
+                    <div class="ui fluid search selection dropdown huge diplomatic agent">
                       <input type="hidden" name="diplomatic_agent">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select a Diplomatic Envoy</div>
@@ -318,7 +319,7 @@
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
                     
-                    <div class="ui fluid search selection dropdown huge">
+                    <div class="ui fluid search selection dropdown huge diplomatic target">
                       <input type="hidden" name="diplomatic_target_house">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select House to Spy on</div>
@@ -332,6 +333,7 @@
 
             <h3 class="ui top attached inverted red header sub header"><i class="remove user icon"></i> Assassinations</h3>
             <div class="ui attached segment">
+              <div class="ui right floated assassination button">Reset Assassination</div>
               <p>Making attempts to kill or wound another players's Character</p>
               <div class="ui accordion field">
               <div class="title">
@@ -390,11 +392,11 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Agent<i class="list layout icon"></i></label>
-                    <div class="ui fluid search selection dropdown huge assassination">
+                    <div class="ui fluid search selection dropdown huge assassination agent">
                       <input type="hidden" name="assassination_agent">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select a Assassin</div>
-                      <div class="menu  roster violence">
+                      <div class="menu roster violence">
                       </div>
                     </div>
                   </div>
@@ -403,7 +405,7 @@
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
                     
-                    <div class="ui fluid search selection dropdown huge assassination">
+                    <div class="ui fluid search selection dropdown huge assassination target house">
                       <input type="hidden" name="assassination_target_house">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select House to Attack</div>
@@ -416,7 +418,7 @@
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target Character<i class="crosshairs icon"></i></label>
                     
-                    <div class="ui fluid search selection dropdown huge">
+                    <div class="ui fluid search selection dropdown huge assassination">
                       <input type="hidden" name="assassination_target_character">
                       <i class="dropdown icon"></i>
                       <div class="default text">Select Target of the Assassination Attempt</div>
@@ -464,6 +466,23 @@
         // Semantic UI
 
         $('.ui.accordion').accordion();
+
+        // Semantic UI Validation
+        
+        $.fn.form.settings.rules.uniqueCharacters = function(value, identifier) {
+            // Your validation condition goes here
+            console.log(value)
+            console.log(identifier)
+            var compare = $('[name="'+ identifier +'"]').val()
+            console.log(compare)
+            if (value == ""){
+              return true;
+            } else if (compare == value){
+              return false;
+            } else{
+              return true;
+            }
+        }
 
 
         // // Update Mission Agents & Available Targets based on League Selection.
@@ -653,7 +672,7 @@
 
         $('.ui.form.missions').form({
             fields: {
-              assassination_agent : 'different[diplomatic_agent]'
+              assassination_agent : 'uniqueCharacters[diplomatic_agent]'
             }
           });
 
@@ -750,6 +769,22 @@
             };
           });
         });
+
+        $('.assassination.button')
+          .on('click', function() {
+            $('.assassination.ui.dropdown')
+              .dropdown('clear')
+            ;
+          });
+
+        $('.diplomatic.button')
+          .on('click', function() {
+            $('.diplomatic.ui.dropdown')
+              .dropdown('clear')
+            ;
+          });
+
+
 
         </script>
       </body>
