@@ -471,10 +471,7 @@
         
         $.fn.form.settings.rules.uniqueCharacters = function(value, identifier) {
             // Your validation condition goes here
-            console.log(value)
-            console.log(identifier)
             var compare = $('[name="'+ identifier +'"]').val()
-            console.log(compare)
             if (value == ""){
               return true;
             } else if (compare == value){
@@ -629,9 +626,15 @@
                 var houses = snapshot.val();
                 var html = "";
                 for (var house in league_houses){
-                      var h = houses[house];
-                      var str = '<div class="item huge" data-value="' + house + '"><div class="ui ' + colors[house] + ' empty circular label"></div>' + h['name'] + '</div>';
-                      html += str;
+                    // Only populate with houses which are active in the league.
+                    if (league_houses[house] == false){ continue; }
+                                        
+                    // Impossible to select your own house as a target.
+                    if (house == authData.house[league]){ continue; }
+                    var h = houses[house];
+                    
+                    var str = '<div class="item huge" data-value="' + house + '"><div class="ui ' + colors[house] + ' empty circular label"></div>' + h['name'] + '</div>';
+                    html += str;
                   }
                 $('.menu.houses').empty().append(html);
               })
