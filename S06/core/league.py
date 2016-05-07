@@ -493,12 +493,9 @@ class League(object):
                 points = sum(dict(awarded_points).values())
                 
                 player.house.inform_player_of_award_points(self, award, points)
-
+                
                 player_roster_award_scores[award] = points
 
-                # print player, award, '\n\n', awarded_points
-
-                # DEVELOPER
                 self.game.update_player_roster_award_scores(keys, scores)
 
             scores = {
@@ -508,7 +505,12 @@ class League(object):
                 "scores" : player_roster_award_scores
             }
 
-            episode_scores[player.id] = sum(player_roster_award_scores.values())
+            murder_entries = self.game.murder_log[self.name + str(self.current_episode)]
+
+            # Get awarded for murder
+            murder_bounty = sum([entry['murder']['bounty'] for entry in murder_entries])
+
+            episode_scores[player.id] = sum(player_roster_award_scores.values()) + murder_bounty
 
             # DEVELOPER
             self.game.update_player_award_scores(keys, scores)

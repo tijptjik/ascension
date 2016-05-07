@@ -55,8 +55,6 @@ class Ascension(object):
         return {id: Character(**c) for (id, c) in self.db['characters'].iteritems()}
 
     def setup_leagues(self):
-        # DEVELOPER MODE : ONLY SHOW ESSOS DATA
-        # return [League(l, self) for l in self.db['leagues'].keys() if l == 'essos']
         return [League(l, self) for l in self.db['leagues'].keys()]
 
     # Saving Data
@@ -419,7 +417,3 @@ if __name__ == "__main__":
     
     for league in game.leagues:
         league.process_episode_results()
-
-    # DEVELOPER
-    # for league in game.leagues[0:]:
-        # league.process_episode_results()
