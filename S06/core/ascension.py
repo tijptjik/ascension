@@ -25,7 +25,7 @@ class Ascension(object):
         self.diplomacy_performance_penalty = [0,0,0.25,0.5,0,0.25]
         self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
-        keys = ['rosters','players','episode_scores','player_award_scores','player_episode_scores',
+        keys = ['rosters','players','episode_award_scores','player_award_scores','player_episode_award_scores',
                 'leaderboard','league_chronicles','player_chronicles','player_intelligence','character_health',
                 'murder_log']
 
@@ -61,10 +61,10 @@ class Ascension(object):
 
     # Saving Data
 
-    def update_episode_scores(self, keys, scores):
+    def update_episode_award_scores(self, keys, scores):
         '''EPISODE SCORES PER CHARACTER PER AWARD
 
-        'episode_scores'
+        'episode_award_scores'
             <league_id>+<episode_id>+<award> :
                 "episode" : <episode_id>,
                 "award" : <award>,
@@ -79,9 +79,9 @@ class Ascension(object):
 
         '''
         firebase_key = "{league}{episode}{award}".format(**keys)
-        self.ref.put('/episode_scores/', firebase_key, scores)
+        self.ref.put('/episode_award_scores/', firebase_key, scores)
         
-        self.episode_scores.update({firebase_key : scores})
+        self.episode_award_scores.update({firebase_key : scores})
 
 
     def update_player_award_scores(self, keys, scores):
@@ -107,10 +107,10 @@ class Ascension(object):
         self.player_award_scores.update({firebase_key : scores})
 
 
-    def update_player_episode_scores(self, keys, scores):
+    def update_player_episode_award_scores(self, keys, scores):
         '''PLAYER SCORES PER AWARD PER EPISODE
 
-        'player_episode_scores':
+        'player_episode_award_scores':
             <league_id>+<episode_id>+<player_id> :
                 "episode" : <episode_id>,
                 "player" : <player_id>,
@@ -122,9 +122,9 @@ class Ascension(object):
                     <award> : <score>
         '''
         firebase_key = "{league}{episode}{player}".format(**keys)
-        self.ref.put('/player_episode_scores/', firebase_key, scores)
+        self.ref.put('/player_episode_award_scores/', firebase_key, scores)
 
-        self.player_episode_scores.update({firebase_key : scores})
+        self.player_episode_award_scores.update({firebase_key : scores})
 
 
     def update_leaderboard(self, keys, scores):

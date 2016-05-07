@@ -164,7 +164,7 @@ class League(object):
 
             self.current_episode_score[award] = score
 
-            self.game.update_episode_scores(keys, dict(score))
+            self.game.update_episode_award_scores(keys, dict(score))
 
     def run_weekly_diplomatic_missions(self):
         episode_missions = filter(lambda v: v['episode'] == str(self.current_episode), self.missions)
@@ -465,7 +465,7 @@ class League(object):
 
         for player in self.players:
 
-            player_episode_scores = {}
+            player_episode_award_scores = {}
 
             for award in self.game.awards:
                 
@@ -491,7 +491,7 @@ class League(object):
                 points = sum(dict(awarded_points).values())
                 player.house.inform_player_of_award_points(self, award, points)
 
-                player_episode_scores[keys['award']] = points
+                player_episode_award_scores[keys['award']] = points
 
                 # print player, award, '\n\n', awarded_points
 
@@ -501,13 +501,13 @@ class League(object):
             scores = {
                 'episode' : keys['episode'],
                 'player' : keys['player'],
-                "scores" : player_episode_scores
+                "scores" : player_episode_award_scores
             }
 
-            leaderboard_scores[keys['player']] = sum(player_episode_scores.values())
+            leaderboard_scores[keys['player']] = sum(player_episode_award_scores.values())
 
             # DEVELOPER
-            self.game.update_player_episode_scores(keys, scores)
+            self.game.update_player_episode_award_scores(keys, scores)
 
         scores = {
             'episode' : keys['episode'],
