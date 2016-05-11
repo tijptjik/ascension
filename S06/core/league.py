@@ -78,16 +78,21 @@ class League(object):
         """
 
         for roster_id, roster in self.rosters.iteritems():
+            
             house = self.get_roster_house(roster_id)
             key = "{}{}{}".format(self.name, house, self.current_episode)
             prev_key = "{}{}{}".format(self.name, house, str(int(self.current_episode)-1))
 
             # GET CHAR_HEALTH FROM PREVIOUS EPISODE AND SET IT AS THE CURRENT
             if prev_key in self.game.character_health:
+                
                 health = self.game.character_health[prev_key]
+                health.update({"episode" : self.current_episode})
+
                 self.game.character_health[key] = health
+            
+            # IF NO CHAR_HEALTH, GENERATE DEFAULT
             else:
-                # IF NO CHAR_HEALTH, GENERATE DEFAULT
                 health = {
                     "episode" : self.current_episode,
                     "house" : house,
@@ -119,9 +124,6 @@ class League(object):
 
     def get_house_player(self, house):
         return [p for p in self.players if p.house.name == house][0]
-
-    def get_house_roster(self, house):
-        return self.get_house_player(house).roster
 
     def get_roster_house(self, rid):
         return [p.house.name for p in self.players if p.roster_id == rid][0]
