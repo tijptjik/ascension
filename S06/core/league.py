@@ -84,7 +84,8 @@ class League(object):
 
             # GET CHAR_HEALTH FROM PREVIOUS EPISODE AND SET IT AS THE CURRENT
             if prev_key in self.game.character_health:
-                self.game.character_health[key] = self.game.character_health[prev_key]
+                health = self.game.character_health[prev_key]
+                self.game.character_health[key] = health
             else:
                 # IF NO CHAR_HEALTH, GENERATE DEFAULT
                 health = {
@@ -94,10 +95,9 @@ class League(object):
                     "health" : dict(zip(roster, [100]*len(roster) ))
                 }
                 self.game.character_health[key] = health
-                self.game.set_character_health(key, health)
+            
+            self.game.set_character_health(key, health)
 
-        # TODO : Merge it into Character 
-        
         return {h['house']: h['health'] for key, h in self.game.character_health.iteritems() if h['roster'] in self.roster_ids}
 
     def get_player(self, uid):
@@ -111,6 +111,11 @@ class League(object):
 
     def get_player_house(self, uid):
         return self.get_player(uid).house.name
+
+    def get_player_episode_votes(self, player):
+        predicate = lambda v: v['episode'] == self.current_episode \
+            and v['player'] == player
+        return next((v for v in self.votes if predicate(v)), None)
 
     def get_house_player(self, house):
         return [p for p in self.players if p.house.name == house][0]
@@ -136,11 +141,20 @@ class League(object):
 
     # Weekly Processes
 
-    def process_episode_results(self):
-        self.score_weekly_episode()
-        self.run_weekly_diplomatic_missions()        
-        self.run_weekly_assassion_missions()
-        self.publish_weekly_missions_chronicle()
+    def process_episode_results_and_publish(self):
+        self.process_episode_results(missions=True)
+        self.game.set_episode_as_published()
+
+    def process_episode_results(self, votes=True, missions=False):
+        
+        if votes:
+            self.score_weekly_episode()
+        
+        if missions:
+            self.run_weekly_diplomatic_missions()     
+            self.run_weekly_assassion_missions()
+            self.publish_weekly_missions_chronicle()
+        
         # DEVELOPER
         self.award_weekly_points()
         self.publish_leaderboard()
@@ -349,21 +363,22 @@ class League(object):
             
         # Global
         # Update the public chronicle about the failures / damages / deaths
-        failed_entries, damage_entries, death_entries = self.collect_league_entries(a_missions)
+        if a_missions:
+            failed_entries, damage_entries, death_entries = self.collect_league_entries(a_missions)
 
-        for missions in [failed_entries, damage_entries, death_entries]:
-            for mission in missions:
-                cat = mission['type']
-                suffix, message = self.create_public_chronicle_msg(cat, mission)
+            for missions in [failed_entries, damage_entries, death_entries]:
+                for mission in missions:
+                    cat = mission['type']
+                    suffix, message = self.create_public_chronicle_msg(cat, mission)
 
-                keys = {
-                    "league" : self.name,
-                    "episode" : self.current_episode,
-                    "player" : mission['data']['player'],
-                    "house" : mission['data']['house']
-                }
+                    keys = {
+                        "league" : self.name,
+                        "episode" : self.current_episode,
+                        "player" : mission['data']['player'],
+                        "house" : mission['data']['house']
+                    }
 
-                self.game.update_league_chronicles(keys, message, cat, suffix)
+                    self.game.update_league_chronicles(keys, message, cat, suffix)
 
     def set_visibility_layer(self, data, mission_type):
         if data:
@@ -474,7 +489,6 @@ class League(object):
                 award_score = self.current_episode_score[award]
                 awarded_points = player.house.award_points(self, self.current_episode, award,
                     award_score, self.game.characters, player.character_health, player.missions)
-                
 
                 keys = {
                     "league" : self.name,
@@ -505,10 +519,16 @@ class League(object):
                 "scores" : player_roster_award_scores
             }
 
-            murder_entries = self.game.murder_log[self.name + str(self.current_episode)]
+            try:
 
-            # Get awarded for murder
-            murder_bounty = sum([entry['murder']['bounty'] for entry in murder_entries])
+                murder_entries = self.game.murder_log[self.name + str(self.current_episode)]
+
+                # Get awarded for murder
+                murder_bounty = sum([entry['murder']['bounty'] for entry in murder_entries])
+
+            except KeyError:
+                # If no murders were committed - award no points.
+                murder_bounty = 0
 
             episode_scores[player.id] = sum(player_roster_award_scores.values()) + murder_bounty
 

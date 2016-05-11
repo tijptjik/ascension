@@ -338,8 +338,8 @@ class House:
         
         player = league.get_house_player(self.name).id
         votes = league.get_player_episode_votes(player)
-        for rank, points in league.game.rank_score.iteritems()
-            if votes["_".join(['vote',award,rank]) == character:
+        for rank, points in league.game.rank_score.iteritems():
+            if votes["_".join(['vote',award,rank])] == character:
                 return points * prominence_multiplier
 
         return 0

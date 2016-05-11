@@ -351,6 +351,9 @@ class Ascension(object):
             # Update Firebase
             self.ref.put('/league_chronicles/', firebase_key, section[firebase_key])
 
+    def set_episode_as_published(self):
+        pass
+
     # Utils
 
     def print_episode_scores(self, league, episode):
@@ -364,10 +367,10 @@ class Ascension(object):
 
     def print_missing_votes_for_episode(self, ep=51):
         missing = {}
-        for id, player in game.players.iteritems():
+        for id, player in self.players.iteritems():
             for league in player['games'].keys():
                 missing[player['full_name']+' '+league] = player['email']
-            for k, vote in game.db['votes'].iteritems():
+            for k, vote in self.db['votes'].iteritems():
                 if vote['player'] == player['id'] and vote['episode'] == str(ep):
                     try:
                         del missing[player['full_name']+' '+vote['league']]
