@@ -362,6 +362,20 @@ class Ascension(object):
         scores = sorted(episode_scores.items(), key=operator.itemgetter(1), reverse=True)
         return tabulate(scores, headers=['Player','Score'],tablefmt="pipe",numalign="right")
 
+    def print_missing_votes_for_episode(self, ep=51):
+        missing = {}
+        for id, player in game.players.iteritems():
+            for league in player['games'].keys():
+                missing[player['full_name']+' '+league] = player['email']
+            for k, vote in game.db['votes'].iteritems():
+                if vote['player'] == player['id'] and vote['episode'] == str(ep):
+                    try:
+                        del missing[player['full_name']+' '+vote['league']]
+                        print player['full_name'], 'checked'
+                    except KeyError:
+                        print player['full_name'], 'voted multiple times in the', vote['league'], 'league'
+        return tabulate(zip(list(missing),list(missing.values())), headers=['Player','Email'],tablefmt="pipe",numalign="right")
+
     
 '''
 GAME INFO : CHARACTERS
