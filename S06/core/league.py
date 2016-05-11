@@ -42,7 +42,7 @@ class League(object):
         return '<{0} League>'.format(self.name.title())
 
     def filter_player(self, player):
-        return 'games' in player and type(player['games']) is not bool and self.name in player['games']
+        return 'games' in player and type(player['games']) != bool and self.name in player['games']
 
     def filter_league(self, obj):
         try:
@@ -51,7 +51,7 @@ class League(object):
             return False
 
     def filter_intel(self, intel):
-        return intel['episode'] is self.current_episode and intel['league'] is self.name
+        return intel['episode'] == self.current_episode and intel['league'] == self.name
 
     def init_players(self):
         p_filtered = []
@@ -327,17 +327,17 @@ class League(object):
         target_house = self.get_house(d['target_house']).full_name
         target_character = self.game.characters[d['target_character']].name
         # SAD HACK
-        is_silent = d['house'] is 'tyrell'
-        if cat is 'failed' and not is_silent:
+        is_silent = d['house'] == 'tyrell'
+        if cat == 'failed' and not is_silent:
             code = "_".join([d['house'], d['target_house']])
             msg = "<span class=\"house\">{}</span> <span class=\"failed\">FAILED</span> an assassination attempt on <span class=\"house\">{}</span>".format(agent_house, target_house)
 
-        elif cat is 'damage':
+        elif cat == 'damage':
             health = self.get_house_player(d['target_house']).character_health[d['target_character']]
             code = "_".join([d['target_house'], d['target_character']])
             msg = "A character of <span class=\"house\">{}</span> was injured, their health is at <span class=\"health\">{}/100</span>".format(target_house, health)
 
-        elif cat is 'death':
+        elif cat == 'death':
             code = "_".join([d['target_house'], d['target_character']])
             msg = "<span class=\"house\">{}</span>  lost <span class=\"character\">{}</span> to a succesful assassination.".format(target_house, target_character)
 
@@ -554,7 +554,7 @@ class League(object):
 
         # Select all episode score to date for current league 
         leaderboard_scores = [score['scores'] for id, score in self.game.episode_scores.iteritems() if 
-            score['episode'] <= keys['episode'] and score['league'] is keys['league']]
+            score['episode'] <= keys['episode'] and score['league'] == keys['league']]
 
 
         counter = ScoreCounter()

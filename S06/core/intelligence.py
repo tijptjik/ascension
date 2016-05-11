@@ -459,7 +459,7 @@ class CharacterIntelligence(Intelligence):
             char_prop = getattr(target_character, property)
             code_suffix = property.title()[0]
             if cls.is_property_unique_on_roster(target_character, property, char_prop, target_roster):
-                if property is 'house':
+                if property == 'house':
                     msg = "This character is the only member of this House on the target roster".format(char_prop)
                 else:
                     msg = "This character is the only one with this <span class=\"power\">{}</span> Power on the target roster".format(property.title())
@@ -506,7 +506,7 @@ class CharacterIntelligence(Intelligence):
     def is_property_unique_on_roster(cls, target_character, k, v, target_roster):
         
         for c in target_roster:
-            if c is not target_character and getattr(c, k) == v:
+            if c != target_character and getattr(c, k) == v:
                 return False
         return True
 
@@ -514,9 +514,9 @@ class CharacterIntelligence(Intelligence):
     def is_property_max_on_roster(cls, target_character, k, v, target_roster):
         for c in target_roster:
             is_shared = False
-            if c is not target_character and getattr(c, k) > v:
+            if c != target_character and getattr(c, k) > v:
                 return False, None
-            if c is not target_character and getattr(c, k) == v:
+            if c != target_character and getattr(c, k) == v:
                 is_shared = True
         return True, is_shared
 
@@ -524,9 +524,9 @@ class CharacterIntelligence(Intelligence):
     def is_property_min_on_roster(cls, target_character, k, v, target_roster):
         for c in target_roster:
             is_shared = False
-            if c is not target_character and getattr(c, k) < v:
+            if c != target_character and getattr(c, k) < v:
                 return False, None
-            if c is not target_character and getattr(c, k) == v:
+            if c != target_character and getattr(c, k) == v:
                 is_shared = True
         return True, is_shared
 

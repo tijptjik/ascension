@@ -221,7 +221,7 @@ class House:
 
         # Failed Assassination Attempt
     
-        if cat is 'assassination' and mission['reveal']:
+        if cat == 'assassination' and mission['reveal']:
         
             # You receive two items of Roster Intelligence from torturing your assassin.
             
@@ -512,7 +512,7 @@ class HouseGreyjoy(House):
 
         mission = self.reveal_outgoing_missions(league, mission)
 
-        if mission['type'] is 'assassination' and mission['success'] and mission['data']['agent'] is self.immunity:
+        if mission['type'] == 'assassination' and mission['success'] and mission['data']['agent'] == self.immunity:
             
             target_house = mission['data']['target_house']
             target_house_name = league.get_house(mission['data']['target_house']).full_name
@@ -545,7 +545,7 @@ class HouseIndependent(House):
 
         mission = self.reveal_outgoing_missions(league, mission)
 
-        if mission['type'] is 'assassination' and mission['success'] and mission['data']['agent'] is self.immunity:
+        if mission['type'] == 'assassination' and mission['success'] and mission['data']['agent'] == self.immunity:
 
             target_house = mission['data']['target_house']
             target_house_name = league.get_house(mission['data']['target_house']).full_name
@@ -611,7 +611,7 @@ class HouseMeereen(House):
 
         # Failed Assassination Attempt
 
-        if cat is 'assassination' and mission['reveal']:
+        if cat == 'assassination' and mission['reveal']:
         
             # You receive two items of Roster Intelligence from torturing your assassin.
             
@@ -671,7 +671,7 @@ class HouseMeereen(House):
 
         # MEEREEN: ignore the hidden property on the diplomatic mission and reveal its 
 
-        elif cat is 'diplomatic':
+        elif cat == 'diplomatic':
 
             cat = 'ability'
 
@@ -782,7 +782,7 @@ class HouseStark(House):
 
         # STARK ABILITY
 
-        other_players = [p for p in players if p.house.name is not self.name]
+        other_players = [p for p in players if p.house.name == not self.name]
         northman_target = random.sample(other_players, 1)[0]
 
         target_house = northman_target.house.name
@@ -833,7 +833,7 @@ class HouseTargaryen(House):
 
         mission = self.reveal_outgoing_missions(league, mission)
 
-        if mission['type'] is 'assassination' and mission['success'] and self.is_dothraki(league, mission['data']['agent']):
+        if mission['type'] == 'assassination' and mission['success'] and self.is_dothraki(league, mission['data']['agent']):
 
             target_house = mission['data']['target_house']
             target_house_name = league.get_house(mission['data']['target_house']).full_name
@@ -870,11 +870,11 @@ class HouseTyrell(House):
 
         target_house = mission['data']['target_house']
 
-        if mission['type'] is 'assassination' and not mission['success']:
+        if mission['type'] == 'assassination' and not mission['success']:
             agent = league.game.characters[mission['data']['agent']].name
             message = "The assassination attempt may have failed - but at least {} got away without being noticed.".format(agent)
             
-        elif mission['type'] is 'diplomatic' and target_house is 'meereen':
+        elif mission['type'] == 'diplomatic' and target_house == 'meereen':
             message = "Council of Meereen... their little birds have sung their last song"
 
         else:
