@@ -341,6 +341,10 @@ class League(object):
             code = "_".join([d['target_house'], d['target_character']])
             msg = "<span class=\"house\">{}</span>  lost <span class=\"character\">{}</span> to a succesful assassination.".format(target_house, target_character)
 
+        else:
+            code = None
+            msg = None
+
         return code, msg
 
     def publish_weekly_missions_chronicle(self):
@@ -370,6 +374,9 @@ class League(object):
                 for mission in missions:
                     cat = mission['type']
                     suffix, message = self.create_public_chronicle_msg(cat, mission)
+
+                    if not message:
+                        continue
 
                     keys = {
                         "league" : self.name,
