@@ -1,7 +1,7 @@
 from ascension import *
 import pdb
 
-game = Ascension(51)
+game = Ascension()
 
 # l = game.leagues[0]
 # p = l.players[0]
@@ -15,3 +15,6 @@ print game.print_episode_scores('essos','51')
 
 # Recover after crash
 # pdb.pm()
+
+# Inspect who hasn't voted for the current episode
+game.check_missing_votes_for_episode(ep=51)

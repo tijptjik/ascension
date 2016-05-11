@@ -232,18 +232,8 @@
                 </div> 
               </div>
             </div>
-
-<!--             'diplomacy_' + <code> : 
-                'msg' : <msg>
-                'type': <type>
-            'assassination' : <entry>
-            'ability_' + <house_id> : <entry>
-            'target_' + <character_id> : <entry>
-            'foiled_' + <house_id> + <code> : <entry>
-            'awards_' + <award_id> : <entry>
-            'ranking' : <entry>
-
- -->        <h4 class="ui horizontal divider header">
+    
+            <h4 class="ui horizontal divider header">
               <i class="announcement icon"></i>
               Public Announcements
             </h4>
@@ -287,12 +277,21 @@
               </div>
             </div>           
             
-        
+            <h4 class="ui horizontal divider header">
+              <i class="announcement icon"></i>
+              Voting Histogram
+            </h4>
+            <div id="voterDistribution">
+              
+            </div>
+
                 
           </div>
         </div>
 
         <script src="semantic/dist/semantic.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
         
         <script>
         var db = new Firebase("https://ascension.firebaseio.com");
@@ -653,6 +652,184 @@
             };
           });
         });
+
+        // Plot.ly
+
+        var data = [{
+          "textfont": {},
+          "zmax": 70,
+          "uid": "19b265",
+          "colorscale": [
+              [0, "rgb(12,51,131)"],
+              [0.25, "rgb(10,136,186)"],
+              [0.5, "rgb(242,211,56)"],
+              [0.75, "rgb(242,143,56)"],
+              [1, "rgb(217,30,30)"]
+          ],
+          "type": "heatmap",
+          "zmin": 50.2,
+          "error_x": {},
+          "name": "cimar:199:c76973",
+          "colorbar": {},
+          "contours": {
+              "start": 52,
+              "end": 68.02,
+              "size": 2
+          },
+          "y": ["Agnostic male", "Atheist male", "Buddhist male", "Catholic male", "Protestant male", "Hindu male", "Muslim male", "Jewish male"],
+          "x": ["Agnostic female", "Atheist female", "Buddhist female", "Catholic female", "Protestant female", "Hindu female", "Muslim female", "Jewish female"],
+          "z": [
+              ["69", "69", "65", "61", "59", "61", "53", "68"],
+              ["70", "70", "65", "60", "57", "65", "52", "68"],
+              ["66", "66", "64", "59", "57", "59", "57", "66"],
+              ["61", "59", "59", "61", "61", "61", "57", "62"],
+              ["59", "56", "57", "61", "61", "59", "57", "60"],
+              ["56", "57", "55", "57", "55", "52", "54", "55"],
+              ["49", "47", "49", "53", "53", "53", "59", "48"],
+              ["68", "68", "64", "61", "60", "62", "60", "68"]
+          ],
+          "autobiny": true,
+          "autobinx": true,
+          "zauto": false,
+          "error_y": {}
+      }];
+var layout = {
+    "boxmode": "overlay",
+    "paper_bgcolor": "rgb(243, 243, 243)",
+    // "height": 828,
+    "titlefont": {
+        "color": "",
+        "family": "",
+        "size": 0
+    },
+    "hovermode": "x",
+    "font": {
+        "color": "#444",
+        "family": "\"Open sans\", verdana, arial, sans-serif",
+        "size": 12
+    },
+    "autosize": true,
+    "title": "OKCupid Compatibility by Religion<br>Source: <a href=\"http://blog.okcupid.com/index.php/how-races-and-religions-match-in-online-dating/\">OKTrends, 2009</a>",
+    "plot_bgcolor": "rgb(243, 243, 243)",
+    "dragmode": "zoom",
+    "smith": false,
+    // "width": 1620,
+    "bargap": 0.2,
+    "xaxis": {
+        "domain": [0, 1],
+        "showticklabels": true,
+        "showexponent": "all",
+        "gridcolor": "#eee",
+        "linecolor": "#444",
+        "mirror": false,
+        "nticks": 0,
+        "linewidth": 1,
+        "autorange": false,
+        "zerolinecolor": "#444",
+        "tickmode": "auto",
+        "title": "Click to enter X axis title",
+        "ticks": "outside",
+        "showgrid": true,
+        "overlaying": false,
+        "zeroline": true,
+        "type": "category",
+        "zerolinewidth": 1,
+        "ticklen": 5,
+        "titlefont": {
+            "color": "",
+            "family": "",
+            "size": 0
+        },
+        "tickcolor": "#444",
+        "showline": false,
+        "tickfont": {
+            "color": "",
+            "family": "",
+            "size": 0
+        },
+        "tickwidth": 1,
+        "tick0": 0,
+        "tickangle": "auto",
+        "gridwidth": 1,
+        "dtick": 1,
+        "rangemode": "normal",
+        "range": [7.538343222398247, -0.5430458409141963],
+        "position": 0,
+        "anchor": "y",
+        "exponentformat": "B"
+    },
+    "bargroupgap": 0,
+    "hidesources": false,
+    "showlegend": false,
+    "separators": ".,",
+    "barmode": "group",
+    "boxgap": 0.3,
+    "legend": {
+        "bordercolor": "#444",
+        "bgcolor": "#fff",
+        "font": {
+            "color": "",
+            "family": "",
+            "size": 0
+        },
+        "borderwidth": 0,
+        "traceorder": "normal"
+    },
+    "yaxis": {
+        "domain": [0, 1],
+        "showticklabels": true,
+        "showexponent": "all",
+        "gridcolor": "#eee",
+        "linecolor": "#444",
+        "mirror": false,
+        "nticks": 0,
+        "linewidth": 1,
+        "autorange": false,
+        "zerolinecolor": "#444",
+        "tickmode": "auto",
+        "title": "Click to enter Y axis title",
+        "ticks": "outside",
+        "showgrid": true,
+        "overlaying": false,
+        "zeroline": true,
+        "type": "category",
+        "zerolinewidth": 1,
+        "ticklen": 5,
+        "titlefont": {
+            "color": "",
+            "family": "",
+            "size": 0
+        },
+        "tickcolor": "#444",
+        "showline": false,
+        "tickfont": {
+            "color": "",
+            "family": "",
+            "size": 0
+        },
+        "tickwidth": 1,
+        "tick0": 0,
+        "tickangle": "auto",
+        "gridwidth": 1,
+        "dtick": 1,
+        "side": "left",
+        "rangemode": "normal",
+        "range": [7.6288092308495346, -0.556818666449125],
+        "position": 0,
+        "anchor": "x",
+        "exponentformat": "B"
+    },
+    "boxgroupgap": 0.3,
+    "margin": {
+        "b": 80,
+        "l": 100,
+        "r": 80,
+        "pad": 0,
+        "t": 100,
+        "autoexpand": true
+    }
+};
+  Plotly.plot('voterDistribution', data, layout);
          </script>
       </body>
     </html>
