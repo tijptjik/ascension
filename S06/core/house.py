@@ -458,8 +458,8 @@ class HouseBolton(House):
         self.bonus = {'damage':10,'support':10}
         super(HouseBolton, self).__init__(**self.bonus)
 
-    def create_ability_msg(self, target_house):
-        code = target_house
+    def create_ability_msg(self, target_house_name):
+        code = target_house_name
         msg = """Ramsay's dogs had their way with a visiting assassin. I doubt they'll be coming back."""
         return code, msg 
 
@@ -479,7 +479,7 @@ class HouseBolton(House):
         health = league.get_player(missions['player']).character_health[agent]
         damage_dealt = max(health - (100 - damages[violence]), 0)
 
-        # Don't do any damange to immune characters
+        # Don't do any damage to immune characters
         if league.get_player_house_immunity(missions['player']) == agent:
             damage_dealt = 0        
 
@@ -507,7 +507,9 @@ class HouseBolton(House):
             "house" : self.name
         }
 
-        suffix, message = self.create_ability_msg(target_house_name, faceless)
+        target_house_name = league.get_player_house(missions['player'])
+
+        suffix, message = self.create_ability_msg(target_house_name)
 
         league.game.update_player_chronicles(keys, message, cat, suffix)
 
@@ -593,7 +595,7 @@ class HouseIndependent(House):
             "house" : self.name
         }
 
-        faceless_name = league.game.characters[faceless]['name']
+        faceless_name = league.game.characters[faceless].name
 
         suffix, message = self.create_ability_msg(target_house_name, faceless_name)
 
