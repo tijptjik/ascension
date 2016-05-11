@@ -11,8 +11,8 @@ for league in game.leagues:
     league.process_episode_results(missions=True)
 
 # Inspect the episode_scores for a particular episode
-print game.print_episode_scores('essos','52')
-print game.print_episode_scores('westeros','52')
+print game.print_episode_scores('essos','52'), '\n'
+print game.print_episode_scores('westeros','52'), '\n'
 print game.print_episode_scores('dragon','52')
 
 # Recover after crash

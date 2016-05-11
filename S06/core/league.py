@@ -117,9 +117,11 @@ class League(object):
     def get_player_house(self, uid):
         return self.get_player(uid).house.name
 
+    def get_player_house_immunity(self, uid):
+        return self.get_player(uid).house.immunity
+
     def get_player_episode_votes(self, player):
-        predicate = lambda v: v['episode'] == self.current_episode \
-            and v['player'] == player
+        predicate = lambda v: v['episode'] == str(self.current_episode) and v['player'] == player
         return next((v for v in self.votes if predicate(v)), None)
 
     def get_house_player(self, house):

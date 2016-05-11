@@ -38,7 +38,7 @@ class Ascension(object):
 
         self.episodes = self.setup_episodes()
 
-        if episode is None:
+        if episode == None:
             episode = filter(lambda x : x.current, self.episodes.values())[0].number
         
         self.most_recent_episode = episode

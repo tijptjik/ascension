@@ -338,10 +338,10 @@ class House:
         
         player = league.get_house_player(self.name).id
         votes = league.get_player_episode_votes(player)
-        for rank, points in league.game.rank_score.iteritems():
-            if votes["_".join(['vote',award,rank])] == character:
-                return points * prominence_multiplier
-
+        if votes:
+            for rank, points in league.game.rank_score.iteritems():
+                if votes["_".join(['vote',award,rank])] == character:
+                    return points * prominence_multiplier
         return 0
 
     def award_points(self, league, episode, award, scores, characters, health, missions):
@@ -393,8 +393,8 @@ class HouseArryn(House):
         self.name = name
         self.full_name = 'House Arryn'
         self.bonus = {'jockey':20}
-        self.immunity = 'petyrbaelish'
         super(HouseArryn, self).__init__(**self.bonus)
+        self.immunity = 'petyrbaelish'
 
     def create_ability_msg(self, intel, target_house):
         code = intel['code']
@@ -458,6 +458,11 @@ class HouseBolton(House):
         self.bonus = {'damage':10,'support':10}
         super(HouseBolton, self).__init__(**self.bonus)
 
+    def create_ability_msg(self, target_house):
+        code = target_house
+        msg = """Ramsay's dogs had their way with a visiting assassin. I doubt they'll be coming back."""
+        return code, msg 
+
     def foil_assassination(self, league, missions, target_roster, damage):
         
         # BOLTON ABILITY 
@@ -474,6 +479,11 @@ class HouseBolton(House):
         health = league.get_player(missions['player']).character_health[agent]
         damage_dealt = max(health - (100 - damages[violence]), 0)
 
+        # Don't do any damange to immune characters
+        if league.get_player_house_immunity(missions['player']) == agent:
+            damage_dealt = 0        
+
+        # DEVELOPER 
         if random.random() > v/(100/15.0):
 
             damage.update({
@@ -485,7 +495,21 @@ class HouseBolton(House):
                 "success" : True
             })
 
-        # TODO Add Chronicle Entry
+
+        # Update the personal Chronicles
+
+        cat = 'ability'
+
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "player" : league.get_house_player(self.name).id,
+            "house" : self.name
+        }
+
+        suffix, message = self.create_ability_msg(target_house_name, faceless)
+
+        league.game.update_player_chronicles(keys, message, cat, suffix)
 
         return damage
 
@@ -495,9 +519,9 @@ class HouseGreyjoy(House):
         self.name = name
         self.full_name = 'House Greyjoy'
         self.bonus = {'damage': 20}
+        super(HouseGreyjoy, self).__init__(**self.bonus)
         self.immunity = 'theongreyjoy'
 
-        super(HouseGreyjoy, self).__init__(**self.bonus)
 
     def bonus_mission(self, league, mission, target_house, target_house_name, target_roster):
 
@@ -528,32 +552,64 @@ class HouseIndependent(House):
     def __init__(self, name):
         self.name = name
         self.full_name = 'Independents'
-        self.immunity = 'jaqenhghar'
         self.bonus = {'style':10,'support':10}
         super(HouseIndependent, self).__init__(**self.bonus)
+        self.immunity = 'jaqenhghar'
+
+    def create_ability_msg(self, target_house, faceless_name):
+        code = target_house
+        msg = """I've seen a man who could change his face,
+            the way that other men change their clothes.
+            This one looks like <span class=\"character\">{}</span>,
+            and has joined our roster.""".format(faceless_name)
+        return code, msg 
 
     def bonus_mission(self, league, mission, target_house, target_house_name, target_roster):
 
-        # TODO INDEPENDENT ABILITY:
+        # INDEPENDENT ABILITY:
 
         # The faceless man the ability to take on other personas.
         # If Jaqen kills a Character, they join this House's Roster
 
-        print 'WARNING >>> INDEPENDENT NEEDS HOUSE ABILITY'
+        key = "{}{}{}".format(league.name, self.name, league.current_episode)
+
+        health = league.game.character_health[key]
+        roster = health['health']
+        faceless = mission['data']['target_character']
+
+
+        roster.update({faceless : 100})
+        
+        league.game.set_character_health(key, health)
+
+        # Update the personal Chronicles
+
+        cat = 'ability'
+
+        keys = {
+            "league" : league.name,
+            "episode" : league.current_episode,
+            "player" : league.get_house_player(self.name).id,
+            "house" : self.name
+        }
+
+        faceless_name = league.game.characters[faceless]['name']
+
+        suffix, message = self.create_ability_msg(target_house_name, faceless_name)
+
+        league.game.update_player_chronicles(keys, message, cat, suffix)
+
 
     def spread_the_word(self, league, mission):
 
         mission = self.reveal_outgoing_missions(league, mission)
+        
+        target_house = mission['data']['target_house']
+        target_player = league.get_house_player(target_house)
 
         if mission['type'] == 'assassination' and mission['success'] and mission['data']['agent'] == self.immunity:
+            self.bonus_mission(league, mission, target_house, target_player.full_name, target_player.character_health)
 
-            target_house = mission['data']['target_house']
-            target_house_name = league.get_house(mission['data']['target_house']).full_name
-            target_roster =  league.get_house(mission['data']['target_house']).character_health
-
-            self.bonus_mission(league, mission, target_house, target_house_name, target_roster)
-
-        target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
  
 
@@ -575,6 +631,12 @@ class HouseMartell(House):
         self.bonus = dict(wit=5, damage=5, jockey=5, style=5, support=5)
         super(HouseMartell, self).__init__(**self.bonus)
 
+    def create_ability_msg(self, target_house, target_house_name):
+        code = target_house
+        msg = """Dorne will be subjugated no more! <span class=\"house\">{}</span>
+            flaunted their power, and for that we killed them.""".format(target_house_name)
+        return code, msg 
+
     def damage_dealt(self, agent, target_house, league):
 
         # MARTELL ABILITY :
@@ -585,6 +647,23 @@ class HouseMartell(House):
         target_prominence  = league.get_house_player(target_house).roster_prominence
 
         if martell_prominence < target_prominence:
+
+            # Update the personal Chronicles
+
+            cat = 'ability'
+
+            keys = {
+                "league" : league.name,
+                "episode" : league.current_episode,
+                "player" : league.get_house_player(self.name).id,
+                "house" : self.name
+            }
+
+            target_house_name = league.get_house(target_house).full_name
+            suffix, message = self.create_ability_msg(target_house, target_house_name)
+
+            league.game.update_player_chronicles(keys, message, cat, suffix)
+
             return 100
         else:
             damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
@@ -598,8 +677,8 @@ class HouseMeereen(House):
         self.name = name
         self.full_name = 'Council of Meereen'
         self.bonus = {'wit':20}
-        self.immunity = 'varys'
         super(HouseMeereen, self).__init__(**self.bonus)
+        self.immunity = 'varys'
 
     def create_ability_msg(self, target_house, target_house_name):
         code = target_house
@@ -732,6 +811,11 @@ class HouseNightswatch(House):
         self.bonus = {'damage':10,'support':10}
         super(HouseNightswatch, self).__init__(**self.bonus)
 
+    def create_ability_msg(self, agent_house):
+        code = agent_house
+        msg = """Whatever truth lies beyond the wall. Their spies will never know.
+            Sent out false intel to visiting diplomatic mission."""
+        return code, msg 
 
     def counter_intelligence(self, league, missions, intel, characters, players):
 
@@ -740,11 +824,26 @@ class HouseNightswatch(House):
         # Dissemination of misinformation. Chance of false intel to be recovered in
         # diplomatic missions run against this house is 50%
 
-        # DEVELOPER
-        # if random.random() < 1:
         if random.random() < 0.5:
+            
             false_roster = self.generate_random_roster(characters)
             intel = self.conduct_diplomacy(league, missions, false_roster, characters, players)          
+
+            # Update the personal Chronicles
+
+            cat = 'ability'
+
+            keys = {
+                "league" : league.name,
+                "episode" : league.current_episode,
+                "player" : league.get_house_player(self.name).id,
+                "house" : self.name
+            }
+
+            agent_house = league.get_player_house(missions['player'])
+            suffix, message = self.create_ability_msg(agent_house)
+
+            league.game.update_player_chronicles(keys, message, cat, suffix)
             
         return intel
 
@@ -782,7 +881,7 @@ class HouseStark(House):
 
         # STARK ABILITY
 
-        other_players = [p for p in players if p.house.name == not self.name]
+        other_players = [p for p in players if p.house.name != self.name]
         northman_target = random.sample(other_players, 1)[0]
 
         target_house = northman_target.house.name
