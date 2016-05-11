@@ -332,6 +332,18 @@ class House:
 
     # SCORING
 
+    def deduct_auto_vote(self, league, character, prominence_multiplier, award):
+        if character != self.immunity:
+            return 0
+        
+        player = league.get_house_player(self.name).id
+        votes = league.get_player_episode_votes(player)
+        for rank, points in league.game.rank_score.iteritems()
+            if votes["_".join(['vote',award,rank]) == character:
+                return points * prominence_multiplier
+
+        return 0
+
     def award_points(self, league, episode, award, scores, characters, health, missions):
         
         roster_score = ScoreCounter()
@@ -348,7 +360,8 @@ class House:
             mission_penalty = self.mission_efficiency(league, episode, character, characters, missions)
             
             points = reduce(operator.mul, [base_score, prominence_multiplier, house_bonus, health_penalty, mission_penalty])
-            
+            points -= self.deduct_auto_vote(league, character, prominence_multiplier, award) 
+
             roster_score.update({character : points})
 
         return roster_score
@@ -568,8 +581,10 @@ class HouseMartell(House):
 
         #  All attacks to become lethal, provided that the total prominence power
         #  of this House is lower than the prominence of the target's roster
+        martell_prominence = league.get_house_player(self.name).roster_prominence
+        target_prominence  = league.get_house_player(target_house).roster_prominence
 
-        if self.roster_prominence < league.get_house_player(target_house).roster_prominence:
+        if martell_prominence < target_prominence:
             return 100
         else:
             damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
