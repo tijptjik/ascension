@@ -275,7 +275,7 @@ class CharacterIntelligence(Intelligence):
     @classmethod
     def _random_selector(cls, target_house, target_roster, intelligence_logs, episode_number=None):
 
-        target_lock = cls._get_character_lock(target_roster, intelligence_logs)
+        target_lock = cls._get_character_lock(target_house, target_roster, intelligence_logs)
         if not target_lock:
             target_lock = cls._set_character_lock(target_roster)
 
@@ -309,8 +309,7 @@ class CharacterIntelligence(Intelligence):
     @classmethod
     def get_roster_character(cls, roster, character):
         try:
-            # do stuff that throws an IndexError
-            return [char for char in roster if char.id == character][0]
+            return next((char for char in roster if char.id == character), None)
         except IndexError:
             import pdb; pdb.set_trace()
 
@@ -472,7 +471,7 @@ class CharacterIntelligence(Intelligence):
 
 
     @classmethod
-    def _get_character_lock(cls, target_roster, intelligence_logs):
+    def _get_character_lock(cls, target_house, target_roster, intelligence_logs):
 
         # If there are no previous character missions:
         if not intelligence_logs:
@@ -484,7 +483,7 @@ class CharacterIntelligence(Intelligence):
 
         for intel in intelligence_logs:
             for code, i in intel['intelligence'].iteritems():
-                if 'target_character' in i and i['target_character'] and target_roster == i['target_house']:
+                if 'target_character' in i and i['target_character'] and i['target_house'] == target_house:
                     locks[intel['episode']] = i['target_character']
 
         if not locks:
@@ -494,12 +493,13 @@ class CharacterIntelligence(Intelligence):
 
         # If the character is still alive, return existing character.
         
-        if getattr(cls.get_roster_character(target_roster,character_lock),'health') > 0:
+        if getattr(cls.get_roster_character(target_roster, character_lock),'health') > 0:
             return character_lock
         
         # If they have died, release the target lock.
 
         else:
+            # TODO Send Notification that this character has since died - GHI #20
             return None
 
     @classmethod

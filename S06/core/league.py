@@ -24,12 +24,12 @@ class League(object):
         self.missions = filter(self.filter_league, game.db['missions'].values())
         self.intelligence = filter(self.filter_league, game.db['player_intelligence'].values())
         
+        self.current_episode = game.most_recent_episode
+        self.current_episode_score = {}
+        
         self.players = self.init_players()
         self.roster_ids = self.collect_player_rosters_ids()
         self.rosters = self.collect_player_rosters()
-
-        self.current_episode = game.most_recent_episode
-        self.current_episode_score = {}
 
         self.character_health = self.collect_character_health()
 
@@ -193,6 +193,17 @@ class League(object):
             if mission['diplomatic_agent'] and mission['diplomatic_target_house']:
                 
                 player = self.get_player(mission['player'])
+
+                keys = {
+                    "league" : self.name,
+                    "episode" : self.current_episode,
+                    "player" : player.id
+                }
+
+                if player.id == "facebook:10157044919110495":
+                    import pdb; pdb.set_trace
+                
+                self.game.reset_player_intelligence(keys)
                 
                 target = self.get_house_player(mission['diplomatic_target_house'])
                 target_roster = target.character_health
@@ -200,11 +211,6 @@ class League(object):
                 intel = player.house.conduct_diplomacy(self, mission, target_roster, self.game.characters, self.players)
                 intel = target.house.counter_intelligence(self, mission, intel, self.game.characters, self.players)
 
-                keys = {
-                    "league" : self.name,
-                    "episode" : self.current_episode,
-                    "player" : player.id
-                }
 
                 intelligence = keys.copy()
                 intelligence.update({"intelligence": intel, 'agent': mission['diplomatic_agent']})
