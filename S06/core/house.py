@@ -257,7 +257,7 @@ class House:
                 # The player you attacked also receives the assassin’s Prominence and Violence Power.
 
                 assassin = league.game.characters[mission['data']['agent']]
-                a_msg = "The assassin was sent by {}, has Prominence Power {}, and Violence Power {} - They escaped... but we've sent the hounds on them...".format(
+                a_msg = "The assassin was sent by {}, has Prominence Power {}, and Violence Power {} - They escaped... but we've set the hounds on them...".format(
                         target_house_name, assassin.prominence, assassin.violence)
 
                 suffix, message = self.create_torture_msg('torture_'+agent_house, target_house_name, a_msg)
@@ -728,7 +728,7 @@ class HouseMeereen(House):
                 # The player you attacked also receives the assassin’s Prominence and Violence Power.
 
                 assassin = league.game.characters[mission['data']['agent']]
-                a_msg = "The assassin was sent by {}, has Prominence Power {}, and Violence Power {} - They escaped... but we've sent the hounds on them...".format(
+                a_msg = "The assassin was sent by {}, has Prominence Power {}, and Violence Power {} - They escaped... but we've set the hounds on them...".format(
                         target_house_name, assassin.prominence, assassin.violence)
 
                 suffix, message = self.create_torture_msg('torture_'+agent_house, target_house_name, a_msg)
