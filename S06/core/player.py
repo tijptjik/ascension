@@ -53,7 +53,8 @@ class Player(object):
         return filter(lambda m: m['player'] == self.id, self.league.missions)
 
     def collect_intelligence(self):
-        return filter(lambda i: i['player'] == self.id, self.league.intelligence)
+        return filter(lambda i: i['player'] == self.id and 
+            i['episode'] < self.league.current_episode, self.league.intelligence )
 
     def get_roster_prominence(self, characters):
         prominence = sum([getattr(characters[character],'prominence') for character in self.roster])

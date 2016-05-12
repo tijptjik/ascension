@@ -167,11 +167,18 @@ class Ascension(object):
         self.ref.put('/leaderboard/', firebase_key, scores)
 
 
+    def reset_player_intelligence(self, keys):
+
+        firebase_key = "{league}{episode}{player}".format(**keys)
+
+        del self.player_intelligence[firebase_key]
+
 
     def update_player_intelligence(self, keys, intel, append=False):
         ''' INTELLIGENCE  PER PLAYER 
         "player_ingelligence"
             <league_id>+<episode_id>+<player_id>:
+                "agent" : <character_id>,
                 "league" : <league>
                 "episode" : <episode_id>,
                 "player" : <player_id>,
