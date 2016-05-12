@@ -66,7 +66,8 @@ class Intelligence(object):
         u'league': u'westeros',
         u'player': u'facebook:10153503420116080'}]
         """
-        return [event for event in episode['intelligence'].values() for episode in self.logs]
+        get_events = lambda e: e['intelligence'].values()
+        return [event for episode in self.logs for event in get_events(episode)]
 
     def _random_selector(self):
         return self.get_intel_template()
@@ -76,7 +77,7 @@ class Intelligence(object):
 
     def add_house_target_code(self, prefix):
         comps = prefix.split('|')
-        return "|".join([comps[0], get_target_house_code()] + comps[1:])
+        return "|".join([comps[0], self.get_target_house_code()] + comps[1:])
 
     def get_roster_properties(self, target_roster_character_ids, characters):
         return [characters[id] for id in target_roster_character_ids]
@@ -97,19 +98,16 @@ class Intelligence(object):
         }
         return intel_template
 
-    @staticmethod
-    def get_random_character_property():
+    def get_random_character_property(self):
         options = [
             ('H' , 'house'),
             ('P' , 'prominence'),
             ('D' , 'diplomacy'),
             ('V' , 'violence')
         ]
-    
-    return random.choice(options)
+        return random.choice(options)
 
-    @staticmethod
-    def get_random_character_power():
+    def get_random_character_power(self):
         options = [
             ('P' , 'prominence'),
             ('D' , 'diplomacy'),
@@ -125,7 +123,7 @@ class RosterIntelligence(Intelligence):
     """
 
     def __init__(self, *args, **kwargs):
-        super(RosterIngelligence, self).__init__(*args, **kwargs)
+        super(RosterIntelligence, self).__init__(*args, **kwargs)
         self.target_type = 'roster'
         
         self.ratings = [0, 'all the same', 'rarely different',
@@ -153,13 +151,9 @@ class RosterIntelligence(Intelligence):
             intel['code'], intel['message'] = random.choice(self.intel_types)()
 
             if not intel['code'] or intel['code'] in self.get_relevant_intelligence():
-                print('>A<')
                 continue
                 
-            pprint('>B<')
-            
             self.intelligence_events.append(intel)
-            print len(self.intelligence_events)
 
             return intel
 
@@ -204,7 +198,7 @@ class RosterIntelligence(Intelligence):
         code_prefix = 'R|PP|'
         code_prefix = self.add_house_target_code(code_prefix)
 
-        code_suffix, key = get_random_character_power()
+        code_suffix, key = self.get_random_character_power()
         msg = ''
         return (code_prefix + code_suffix, msg)
 
@@ -241,13 +235,13 @@ class RosterIntelligence(Intelligence):
             other_max_idx = list(max_list.difference([max_idx]))
             min_idx = list(set([0,1,2]).difference([max_list]))
             code_suffix = '2X' + cp[max_idx][0]
-            msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
+            msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx], cp[min_idx[0]], cp[other_max_idx[0]])
         
         # Shared Min
         min_list = set([i for i, x in enumerate(roster_powers) if x == min(roster_powers)])
         if len(min_list) > 1:
             max_idx = list(set([0,1,2]).difference(min_list))
-            min_idx = random.choice(min_list)
+            min_idx = random.choice(list(min_list))
             other_min_idx = list(min_list.difference([min_idx]))
             code_suffix = '2N' + cp[min_idx][0]
             msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
@@ -273,7 +267,7 @@ class RosterIntelligence(Intelligence):
         code_prefix = 'R|D|'
         code_prefix = self.add_house_target_code(code_prefix)
 
-        code_suffix, key = get_random_character_property()
+        code_suffix, key = self.get_random_character_property()
 
         prop_count = len(set(self.get_property_of_all_roster(key)))
         rating = self.ratings[prop_count]
@@ -318,14 +312,10 @@ class CharacterIntelligence(Intelligence):
 
             intel['code'], intel['message'] = random.choice(self.intel_types)()
 
-            if not new_intel['code'] or new_intel['code'] in self.get_relevant_intelligence():
-                print('>A<')
+            if not intel['code'] or intel['code'] in self.get_relevant_intelligence():
                 continue
                 
-            pprint('>B<')
-            
             self.intelligence_events.append(intel)
-            print len(self.intelligence_events)
 
             return intel
                 
@@ -354,7 +344,7 @@ class CharacterIntelligence(Intelligence):
 
         if code_suffix == 'H':
             msg = "This character is affiliated with House <span class=\"house\">{}</span>".format(
-                getattr(self.target_character_id, key).title())
+                getattr(self.target_character, key).title())
         else:
             msg = "This character's <span class=\"power\">{}</span> Power is <span class=\"value\">{}</span>".format(
                 key.title(), getattr(self.target_character, key))
@@ -389,20 +379,20 @@ class CharacterIntelligence(Intelligence):
         # Shared Max
         max_list = set([i for i, x in enumerate(character_powers) if x == max(character_powers)])
         if len(max_list) > 1:
-            max_idx = random.choice(max_list)
+            max_idx = random.choice(list(max_list))
             other_max_idx = list(max_list.difference([max_idx]))
-            min_idx = list(set([0,1,2]).difference([max_list]))
+            min_idx = list(set([0,1,2]).difference(list(max_list)))
             code_suffix = '2X' + cp[max_idx][0]
-            msg = "For this character, <span class=\"power\">{}</span> is higher than <span class=\"power\">{}</span> , and <span class=\"power\">{}</span>  is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_max_idx[0]])
+            msg = "For this character, <span class=\"power\">{}</span> is higher than <span class=\"power\">{}</span> , and <span class=\"power\">{}</span>  is equal to one of them.".format(cp[max_idx], cp[min_idx[0]], cp[other_max_idx[0]])
 
         # Shared Min
         min_list = set([i for i, x in enumerate(character_powers) if x == min(character_powers)])
         if len(min_list) > 1:
             max_idx = list(set([0,1,2]).difference(min_list))
-            min_idx = random.choice(min_list)
-            other_min_idx = list(min_list.difference(min_idx))
+            min_idx = random.choice(list(min_list))
+            other_min_idx = list(min_list.difference([min_idx]))
             code_suffix = '2N' + cp[min_idx][0]
-            msg = "For this character, <span class=\"power\">{}</span> is higher than <span class=\"power\">{}</span>, and <span class=\"power\">{}</span> is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
+            msg = "For this character, <span class=\"power\">{}</span> is higher than <span class=\"power\">{}</span>, and <span class=\"power\">{}</span> is equal to one of them.".format(cp[max_idx[0]], cp[min_idx], cp[other_min_idx[0]])
 
         # All Different
         if len(set(character_powers)) == 3:
@@ -464,7 +454,7 @@ class CharacterIntelligence(Intelligence):
         return None, 'Mission Error'
 
 
-    def _on_unique_trait(self, target_house, target_character, target_roster):
+    def _on_unique_trait(self):
         """
         EXAMPLES:
         * Character is the only member of this House on the target roster
@@ -505,35 +495,41 @@ class CharacterIntelligence(Intelligence):
         
         # If there are previous character missions, select the latest target, if still alive
         elif not self.target_character_id:
+            
             locks = {}
 
             for episode in self.logs:
                 for code, i in episode['intelligence'].iteritems():
-                    if i['target_character'] and i['target_house'] == self.target_house_id:
+                    if 'target_character' in i and i['target_character'] and i['target_house'] == self.target_house_id:
                         locks[episode['episode']] = i['target_character']
 
-            prev_target = locks[max(locks)]
-
-            if getattr(self.target_roster_characters[prev_target], 'health') > 0:
-                # If the character is still alive, return existing character.
-                self.target_character_id = prev_target
-            else:
-                # If they have died, reset the target lock.
-                # TODO Send Notification that this character has since died - GHI #20
+            # If user has targetted a different house this round
+            if not locks:
                 self.target_character_id = self.select_target_character()
-        
+
+            # Targetting same house
+            else:
+                prev_target = locks[max(locks)]
+
+                if next((getattr(char, 'health') for char in self.target_roster_characters if char.id == prev_target)) > 0:
+                    # If the character is still alive, return existing character.
+                    self.target_character_id = prev_target
+                else:
+                    # If they have died, reset the target lock.
+                    # TODO Send Notification that this character has since died - GHI #20
+                    self.target_character_id = self.select_target_character()
+            
 
         # If another character has already been locked onto in this round 
         else:
             pass
 
-        self.target_character = self.target_roster_characters[self.target_character_id]
+        self.target_character = next((char for char in self.target_roster_characters if char.id == self.target_character_id))
 
 
-    def is_property_unique_on_roster(self, target_character, k, v, target_roster):
-        
-        for c in target_roster:
-            if c != target_character and getattr(c, k) == v:
+    def is_property_unique_on_roster(self, k, v):
+        for c in self.target_roster_characters:
+            if c != self.target_character and getattr(c, k) == v:
                 return False
         return True
 

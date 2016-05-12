@@ -7,7 +7,7 @@ game = Ascension(52)
 # p = l.players[0]
 
 # Process the latest votes / missions
-for league in game.leagues[1:2]:
+for league in game.leagues[1:]:
     league.process_episode_results(missions=True)
 
 # Inspect the episode_scores for a particular episode

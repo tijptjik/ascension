@@ -171,7 +171,10 @@ class Ascension(object):
 
         firebase_key = "{league}{episode}{player}".format(**keys)
 
-        del self.player_intelligence[firebase_key]
+        template = keys.copy()
+        template['intelligence'] = None
+
+        self.player_intelligence[firebase_key] = template
 
 
     def update_player_intelligence(self, keys, intel, append=False):

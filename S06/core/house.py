@@ -41,6 +41,7 @@ class House:
         return [0,1,2,3,1,2][diplomacy_power]
 
     def conduct_diplomacy(self, league, missions, target_roster, characters, players):
+
         d = getattr(characters[missions['diplomatic_agent']],'diplomacy')
         
         target_house = self.get_mission_target(missions)
@@ -50,13 +51,13 @@ class House:
         intelligence = {}
 
         if self.run_against_roster(d):
-            intel = RosterIntelligence.generate(target_house, target_roster,
-                                    characters, self.intelligence_logs, intel_count)
+            intel = RosterIntelligence(target_house, target_roster, characters,
+                self.intelligence_logs, intel_count).generate()
             intelligence.update(intel)
 
         if self.run_against_character(d):
-            intel = CharacterIntelligence.generate(target_house, target_roster,
-                                    characters, self.intelligence_logs, intel_count)
+            intel = CharacterIntelligence(target_house, target_roster, characters, 
+                self.intelligence_logs, intel_count).generate()
             intelligence.update(intel)
 
         return intelligence
@@ -64,7 +65,7 @@ class House:
     def counter_intelligence(self, league, missions, intel, characters, players):
         return intel
 
-    def generate_random_roster(self, characters):
+    def random_roster(self, characters):
         return dict(zip(random.sample(characters.keys(),7), [100] * 7))
 
     # ASSASSINATION
@@ -186,7 +187,7 @@ class House:
         if (points).is_integer():
             points = int(points)
         msg = "For episode <span class=\"episode\">{}</span> you ranked <span class=\"rank\">{}</span> in the <span class=\"league\">{}</span> league, with <span class=\"points\">{}</span> points.".format(
-            episode_title, league.title(), rank, points)
+            episode_title, rank, league.title(), points)
         return msg
 
     def create_torture_msg(self, code, target_house, msg):
@@ -228,8 +229,8 @@ class House:
                 target_roster = league.get_house_player(agent_house).character_health
                 intelligence = {}
 
-                intel = RosterIntelligence.generate(agent_house, target_roster,
-                                                    league.game.characters, self.intelligence_logs, 2)
+                intel = RosterIntelligence(agent_house, target_roster,
+                                league.game.characters, self.intelligence_logs, 2).generate()
 
                 intelligence.update(intel)
 
@@ -457,8 +458,8 @@ class HouseBolton(House):
         self.bonus = {'damage':10,'support':10}
         super(HouseBolton, self).__init__(**self.bonus)
 
-    def create_ability_msg(self, target_house_name):
-        code = target_house_name
+    def create_ability_msg(self, target_house):
+        code = target_house
         msg = """Ramsay's dogs had their way with a visiting assassin. I doubt they'll be coming back."""
         return code, msg 
 
@@ -494,23 +495,22 @@ class HouseBolton(House):
                 "success" : True
             })
 
+            # Update the personal Chronicles
 
-        # Update the personal Chronicles
+            cat = 'ability'
 
-        cat = 'ability'
+            keys = {
+                "league" : league.name,
+                "episode" : league.current_episode,
+                "player" : league.get_house_player(self.name).id,
+                "house" : self.name
+            }
 
-        keys = {
-            "league" : league.name,
-            "episode" : league.current_episode,
-            "player" : league.get_house_player(self.name).id,
-            "house" : self.name
-        }
+            target_house_name = league.get_player_house(missions['player'])
 
-        target_house_name = league.get_player_house(missions['player'])
+            suffix, message = self.create_ability_msg(target_house_name)
 
-        suffix, message = self.create_ability_msg(target_house_name)
-
-        league.game.update_player_chronicles(keys, message, cat, suffix)
+            league.game.update_player_chronicles(keys, message, cat, suffix)
 
         return damage
 
@@ -596,7 +596,7 @@ class HouseIndependent(House):
 
         faceless_name = league.game.characters[faceless].name
 
-        suffix, message = self.create_ability_msg(target_house_name, faceless_name)
+        suffix, message = self.create_ability_msg(target_house, faceless_name)
 
         league.game.update_player_chronicles(keys, message, cat, suffix)
 
@@ -699,8 +699,8 @@ class HouseMeereen(House):
                 target_roster = league.get_house_player(agent_house).character_health
                 intelligence = {}
 
-                intel = RosterIntelligence.generate(agent_house, target_roster,
-                                                    league.game.characters, self.intelligence_logs, 2)
+                intel = RosterIntelligence(agent_house, target_roster,
+                                league.game.characters, self.intelligence_logs, 2).generate()
 
                 intelligence.update(intel)
 
@@ -827,7 +827,7 @@ class HouseNightswatch(House):
 
         if random.random() < 0.5:
             
-            false_roster = self.generate_random_roster(characters)
+            false_roster = self.random_roster(characters)
             intel = self.conduct_diplomacy(league, missions, false_roster, characters, players)          
 
             # Update the personal Chronicles
@@ -871,13 +871,15 @@ class HouseStark(House):
         intelligence = {}
 
         if self.run_against_roster(d):
-            intel = RosterIntelligence.generate(target_house, target_roster,
-                                    characters, self.intelligence_logs, intel_count)
+            intel = RosterIntelligence(target_house, target_roster,
+                            characters, self.intelligence_logs, intel_count).generate()
+
             intelligence.update(intel)
 
         if self.run_against_character(d):
-            intel = CharacterIntelligence.generate(target_house, target_roster,
-                                    characters, self.intelligence_logs, intel_count)
+            intel = CharacterIntelligence(target_house, target_roster,
+                            characters, self.intelligence_logs, intel_count).generate()
+
             intelligence.update(intel)
 
         # STARK ABILITY
@@ -887,8 +889,8 @@ class HouseStark(House):
 
         target_house = northman_target.house.name
         target_roster = northman_target.character_health
-        intel = RosterIntelligence.generate(target_house, target_roster,
-                                    characters, self.intelligence_logs, 3)
+        intel = RosterIntelligence(target_house, target_roster,
+                            characters, self.intelligence_logs, 3).generate()
         intelligence.update(intel)
 
         # Add Entry to Player's personal Chronicle

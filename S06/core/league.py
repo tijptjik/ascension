@@ -197,7 +197,8 @@ class League(object):
                 keys = {
                     "league" : self.name,
                     "episode" : self.current_episode,
-                    "player" : player.id
+                    "player" : player.id,
+                    'agent': mission['diplomatic_agent']
                 }
 
                 if player.id == "facebook:10157044919110495":
@@ -213,7 +214,7 @@ class League(object):
 
 
                 intelligence = keys.copy()
-                intelligence.update({"intelligence": intel, 'agent': mission['diplomatic_agent']})
+                intelligence.update({"intelligence": intel})
 
                 self.game.update_player_intelligence(keys, intelligence)
 
