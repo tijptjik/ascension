@@ -1,19 +1,21 @@
 from ascension import *
 import pdb
 
-game = Ascension(52)
+for ep in range(51,54):
+	
+	game = Ascension(ep)
 
-# l = game.leagues[0]
-# p = l.players[0]
+	# l = game.leagues[0]
+	# p = l.players[0]
 
-# Process the latest votes / missions
-for league in game.leagues[1:]:
-    league.process_episode_results(missions=True)
+	# Process the latest votes / missions
+	for league in game.leagues:
+	    league.process_episode_results(missions=True)
 
-# Inspect the episode_scores for a particular episode
-print game.print_episode_scores('essos','52'), '\n'
-print game.print_episode_scores('westeros','52'), '\n'
-print game.print_episode_scores('dragon','52')
+	# Inspect the episode_scores for a particular episode
+	print game.print_episode_scores('essos',str(ep)), '\n'
+	print game.print_episode_scores('westeros',str(ep)), '\n'
+	print game.print_episode_scores('dragon',str(ep))
 
 # Recover after crash
 # pdb.pm()

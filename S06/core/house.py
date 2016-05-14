@@ -373,16 +373,19 @@ class House:
         diplomacic_penalty = league.game.diplomacy_performance_penalty[d]
         violence_penalty = league.game.violence_performance_penalty[v]
 
-        try:
-            episode_missions = [mission for mission in missions if mission['episode'] == episode][0]
-        except IndexError:
+        episode_missions = next((mission for mission in missions if mission['episode'] == episode), None)
+        
+        if not episode_missions:
             return 1
         
         if character == episode_missions['diplomatic_agent']:
-            return 1 - character[character[character]['diplomacy']]
+            return 1 - diplomacic_penalty
 
-        if character == episode_missions['assassination_agent']:
-            return 1 - character[character[character]['violence']]  
+        elif character == episode_missions['assassination_agent']:
+            return 1 - violence_penalty
+
+        else:
+            return 1
 
 
 # HOUSES IN GAME OF THRONES

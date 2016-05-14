@@ -155,9 +155,12 @@ class League(object):
             self.score_weekly_episode()
         
         if missions:
-            self.run_weekly_diplomatic_missions()     
+        # DEVELOPER
+            # self.run_weekly_diplomatic_missions()     
+        # DEVELOPER
             self.run_weekly_assassion_missions()
-            self.publish_weekly_missions_chronicle()
+        # DEVELOPER
+            # self.publish_weekly_missions_chronicle()
         
         # DEVELOPER
         self.award_weekly_points()
@@ -266,9 +269,6 @@ class League(object):
 
         # TARGARYAN : All Characters on this House's Roster gain $5\%$ Bonus on a succesful attack by a Dothraki Character
 
-        
-
-        
 
     def uncover_conspiracies(self, murder_set):
         # Points are split between the number of assailants.
@@ -277,30 +277,45 @@ class League(object):
         conspiracies = defaultdict(list)
         map(lambda m: conspiracies[(m['murder']['target_house'],m['murder']['target_character'])].append(m),  murder_set)
         for pair, murders in conspiracies.iteritems():
-            max_bounty = 0
+            max_bounty = max([m['murder']['bounty'] for m in murders])
             conspirators = []
             if len(murders) > 1:
                 for murder in murders:
-                    if murder['murder']['bounty'] > max_bounty:
-                        for conspirator in conspirators:
-                            conspirator['murder'].update({'bounty':0,'damage_dealt':0,'success':'outwitted'})
-                        conspirators = [murder]
-                    elif murder['murder']['bounty'] == max_bounty:
+                    if murder['murder']['bounty'] == max_bounty:
+                        
                         conspirators.append(murder)
-                    else:
+                    
+                    elif murder['murder']['bounty'] < max_bounty:
+                        
                         murder['murder'].update({'bounty':0,'damage_dealt':0,'success':'outwitted'})
 
+
                 for conspirator in conspirators:
-                    bounty = conspirator['murder']['bounty']
-                    conspirator['murder'].update({'bounty': bounty/len(conspirators)})
+                    conspirator['murder'].update({'bounty': max_bounty/len(conspirators)})
 
         murder_set = [val for sublist in conspiracies.values() for val in sublist]
         
         return murder_set
 
     def process_murder_log(self, murder_set):
+        """[{
+        "league" : self.name,
+        "episode" : self.current_episode,
+        "player" : player.id,
+        "house" : player.house.name,
+        'agent': mission['assassination_agent'],
+        "murder": {
+                "target_house" : league.get_player_house(missions['player']),
+                "target_character" : missions['assassination_agent'],
+                "damage_intended" : damages[violence],
+                "damage_dealt" : damage_dealt,
+                "bounty" : 0,
+                "success" : True
+            }
+        }]
+        """
         
-        self.game.update_murder_log({'league':self.name,'episode':self.current_episode}, murder_set)
+        self.game.update_murder_log({'league':self.name, 'episode':self.current_episode}, murder_set)
         
         succesful_murders = [murder for murder in murder_set if murder['murder']['success']]
 
@@ -397,6 +412,7 @@ class League(object):
                     }
 
                     self.game.update_league_chronicles(keys, message, cat, suffix)
+
 
     def set_visibility_layer(self, data, mission_type):
         if data:
@@ -533,7 +549,7 @@ class League(object):
             scores = {
                 'episode' : self.current_episode,
                 'league' : self.name,
-                'player' : keys['player'],
+                'player' : player.id,
                 "scores" : player_roster_award_scores
             }
 
@@ -542,7 +558,7 @@ class League(object):
                 murder_entries = self.game.murder_log[self.name + str(self.current_episode)]
 
                 # Get awarded for murder
-                murder_bounty = sum([entry['murder']['bounty'] for entry in murder_entries])
+                murder_bounty = sum([entry['murder']['bounty'] for entry in murder_entries if entry['player'] == player.id])
 
             except KeyError:
                 # If no murders were committed - award no points.
