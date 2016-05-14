@@ -1,22 +1,30 @@
 from ascension import *
 import pdb
 
-for ep in range(51,54):
-	
-	game = Ascension(ep)
+game = Ascension()
+print game.print_missing_votes_for_episode(ep=53)
 
+# for ep in range(53,54):
+	
 	# l = game.leagues[0]
 	# p = l.players[0]
 
 	# Process the latest votes / missions
-	for league in game.leagues:
+	# for league in game.leagues:
+		# Process Full Results
 	    # league.process_episode_results(missions=True)
-	    league.calculate_weekly_vote_distribution()
+
+		# Process Voting Only
+	    # league.process_episode_results(missions=True)
+
+	    # Weekly Score Disctribution
+	    # league.calculate_weekly_vote_distribution()
 
 	# Inspect the episode_scores for a particular episode
-	print game.print_episode_scores('essos',str(ep)), '\n'
-	print game.print_episode_scores('westeros',str(ep)), '\n'
-	print game.print_episode_scores('dragon',str(ep))
+
+	# print game.print_episode_scores('essos',str(ep)), '\n'
+	# print game.print_episode_scores('westeros',str(ep)), '\n'
+	# print game.print_episode_scores('dragon',str(ep))
 
 # Recover after crash
 # pdb.pm()
