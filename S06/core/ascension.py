@@ -25,9 +25,9 @@ class Ascension(object):
         self.diplomacy_performance_penalty = [0,0,0.25,0.5,0,0.25]
         self.violence_performance_penalty = [0,0.5,0.25,0,0.25,0.5]
 
-        keys = ['character_health', 'character_scores', 'episode_scores', 'leaderboard', 'league_chronicles',
-                'murder_log', 'player_award_scores', 'player_chronicles', 'player_intelligence',
-                'player_roster_award_scores', 'players', 'rosters']
+        keys = ['character_health', 'character_scores', 'episode_scores', 'episode_votes',  'leaderboard',
+                'league_chronicles', 'murder_log', 'player_award_scores', 'player_chronicles',
+                'player_intelligence', 'player_roster_award_scores', 'players', 'rosters']
 
         for key in keys :
             try:
@@ -144,6 +144,24 @@ class Ascension(object):
         self.ref.put('/episode_scores/', firebase_key, scores)
 
         self.episode_scores.update({firebase_key : scores})
+
+    def update_episode_votes(self, keys, votes):
+        ''' PLAYER VOTE DISTRIBUTION PER EPISODE
+        "episode_votes" :
+            <league_id>+<episode_id>:
+                "league"  : <league>
+                "episode" : <episode_id>
+                "votes" :
+                    "houses" : [<house_id>,<house_id>,<house_id>, ....],
+                    "characters" : [<character_id>,<character_id>,<character_id>, ....],
+                    "values" : [[1,2,3,4,5,...],
+                                [1,2,3,4,5,...],
+                                [1,2,3,4,5,...]]
+        '''
+        firebase_key = "{league}{episode}".format(**keys)
+        self.ref.put('/episode_votes/', firebase_key, scores)
+
+        self.episode_votes.update({firebase_key : scores})
 
     def update_leaderboard(self, keys, scores):
         ''' SUM OF PLAYER EPISODE SCORES

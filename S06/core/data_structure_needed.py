@@ -161,3 +161,18 @@ EPISODE SCORES PER CHARACTER PER AWARD
 'reveal' : true|false
 'data' : {}
 """
+
+
+
+""" EPISODE VOTING DISTRIBUTION`
+"episode_votes"
+    <league_id>+<episode_id>:
+        "league"  : <league>
+        "episode" : <episode_id>
+        "votes" :
+            "houses" : [<house_id>,<house_id>,<house_id>, ....],
+            "characters" : [<character_id>,<character_id>,<character_id>, ....],
+            "values" : [[1,2,3,4,5,...],
+                        [1,2,3,4,5,...],
+                        [1,2,3,4,5,...]]
+"""

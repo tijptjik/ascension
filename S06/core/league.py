@@ -149,7 +149,7 @@ class League(object):
         self.process_episode_results(missions=True)
         self.game.set_episode_as_published()
 
-    def process_episode_results(self, votes=True, missions=False):
+    def process_episode_results(self, votes=True, missions=False, analytics=True):
         
         if votes:
             self.score_weekly_episode()
@@ -159,10 +159,13 @@ class League(object):
             self.run_weekly_assassion_missions()
             self.publish_weekly_missions_chronicle()
         
-        # DEVELOPER
-        self.award_weekly_points()
-        self.publish_leaderboard()
-        self.publish_weekly_ranking_chronicle()
+        if votes:
+            self.award_weekly_points()
+            self.publish_leaderboard()
+            self.publish_weekly_ranking_chronicle()
+
+        if analytics:
+            self.calculate_weekly_vote_distribution()
 
     def score_weekly_episode(self):
         episode_votes = filter(lambda v: v['episode'] == str(self.current_episode), self.votes)
@@ -603,3 +606,5 @@ class League(object):
         for player, points in r.iteritems():
             rank = sorted(r, key=r.get, reverse=True).index(player) + 1
             self.get_player(player).house.inform_player_of_leaderboard_score_and_rank(self,rank,points)
+
+    def calculate_weekly_vote_distribution(self):
