@@ -145,6 +145,7 @@ class Ascension(object):
 
         self.episode_scores.update({firebase_key : scores})
 
+
     def update_episode_votes(self, keys, votes):
         ''' PLAYER VOTE DISTRIBUTION PER EPISODE
         "episode_votes" :
@@ -159,9 +160,10 @@ class Ascension(object):
                                 [1,2,3,4,5,...]]
         '''
         firebase_key = "{league}{episode}".format(**keys)
-        self.ref.put('/episode_votes/', firebase_key, scores)
+        self.ref.put('/episode_votes/', firebase_key, votes)
 
-        self.episode_votes.update({firebase_key : scores})
+        self.episode_votes.update({firebase_key : votes})
+
 
     def update_leaderboard(self, keys, scores):
         ''' SUM OF PLAYER EPISODE SCORES

@@ -10,7 +10,8 @@ for ep in range(51,54):
 
 	# Process the latest votes / missions
 	for league in game.leagues:
-	    league.process_episode_results(missions=True)
+	    # league.process_episode_results(missions=True)
+	    league.calculate_weekly_vote_distribution()
 
 	# Inspect the episode_scores for a particular episode
 	print game.print_episode_scores('essos',str(ep)), '\n'

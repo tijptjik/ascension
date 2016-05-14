@@ -1,3 +1,4 @@
+from __future__ import division
 from player import Player
 from house import *
 from utils import ScoreCounter, ordinal
@@ -156,11 +157,11 @@ class League(object):
         
         if missions:
         # DEVELOPER
-            # self.run_weekly_diplomatic_missions()     
+            self.run_weekly_diplomatic_missions()     
         # DEVELOPER
             self.run_weekly_assassion_missions()
         # DEVELOPER
-            # self.publish_weekly_missions_chronicle()
+            self.publish_weekly_missions_chronicle()
         
         if votes:
             self.award_weekly_points()
@@ -624,3 +625,61 @@ class League(object):
             self.get_player(player).house.inform_player_of_leaderboard_score_and_rank(self,rank,points)
 
     def calculate_weekly_vote_distribution(self):
+        episode_votes = filter(lambda v: v['episode'] == str(self.current_episode), self.votes)
+        
+        houses = []
+        player_points = {}
+        prominence_multiplier = {}
+        total_points = defaultdict(list)
+
+        for votes in episode_votes:
+            
+            player = votes['player']
+            house = self.get_player_house(player)
+            houses.append(house)
+            player_points[house] = ScoreCounter()
+
+            for award in self.game.awards:
+
+                for rank, points in self.game.rank_score.iteritems():
+                    character = votes['vote_' + award + "_" + rank]
+                    prominence_multiplier[character] = (6 - self.game.characters[character].prominence)
+                    player_points[house].update({character:points})
+                    total_points[character].append(points)
+                    
+        characters = sorted(total_points.keys())
+        houses = sorted(houses)
+
+        baseline = {char : sum(total_points[char])/ len(houses) for char in characters }
+        scores = []
+
+        for character, avg in baseline.iteritems():
+            
+            dev_scores = []
+
+            for house in houses:
+
+                if character in player_points[house]:
+                    multiplier = prominence_multiplier[character]
+                    dev_scores.append(player_points[house][character] / avg * multiplier)
+            
+                else:
+
+                    dev_scores.append(0)
+
+            scores.append(dev_scores)
+
+
+        keys = {
+            "league" : self.name,
+            "episode" : self.current_episode
+        }
+
+        distribution = keys.copy()
+        distribution['votes'] = {
+            "houses" : houses,
+            "characters" : characters,
+            "values" : scores
+        }
+
+        self.game.update_episode_votes(keys, distribution)
