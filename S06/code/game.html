@@ -56,7 +56,7 @@
             <div class="ui">
               <h2 style="text-align: center;">EPISODE VOTING</h2>
             </div>
-            
+
             <h3 class="ui horizontal pink divider header" style="overflow: visible;">
             <div class="ui inline dropdown episode">
               <div class="text">
@@ -67,7 +67,7 @@
               <div class="menu episodes"></div>
             </div>
             </h3>
-            
+
             <h3 class="ui horizontal blue divider header optional" style="display: none; overflow: visible;">
             <div class="ui inline dropdown league">
               <div class="text">
@@ -83,7 +83,7 @@
             <i class="trophy icon"></i>
             Award Categories
             </h4>
-            
+
             <h3 class="ui top attached inverted olive header sub header"><i class="trophy icon"></i>Wit</h3>
             <div class="ui attached segment">
               <p>Smartest or most piercing delivery of a line.</p>
@@ -103,7 +103,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large">
                       <input type="hidden" name="vote_wit_2">
                       <i class="dropdown icon"></i>
@@ -134,7 +134,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large">
                       <input type="hidden" name="vote_damage_2">
                       <i class="dropdown icon"></i>
@@ -165,7 +165,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large">
                       <input type="hidden" name="vote_jockey_2">
                       <i class="dropdown icon"></i>
@@ -196,7 +196,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large">
                       <input type="hidden" name="vote_style_2">
                       <i class="dropdown icon"></i>
@@ -227,7 +227,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Runner Up<i class="angle up icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large">
                       <input type="hidden" name="vote_support_2">
                       <i class="dropdown icon"></i>
@@ -242,7 +242,7 @@
             </form>
 
             <form onsubmit="return false;" class="ui form missions">
-            
+
             <h4 class="ui horizontal divider header">
             <i class="crosshairs icon"></i>
             Missions
@@ -320,7 +320,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large diplomatic target">
                       <input type="hidden" name="diplomatic_target_house">
                       <i class="dropdown icon"></i>
@@ -406,7 +406,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target House<i class="bullseye icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large assassination target house">
                       <input type="hidden" name="assassination_target_house">
                       <i class="dropdown icon"></i>
@@ -419,7 +419,7 @@
                 <div class="item">
                   <div class="field">
                     <label style="font-size: 16px; padding: 12px 0">Target Character<i class="crosshairs icon"></i></label>
-                    
+
                     <div class="ui fluid search selection dropdown large assassination">
                       <input type="hidden" name="assassination_target_character">
                       <i class="dropdown icon"></i>
@@ -439,9 +439,9 @@
 
           </div>
         </div>
-                
+
         <script src="semantic/dist/semantic.min.js"></script>
-        
+
         <script>
         var db = new Firebase("https://ascension.firebaseio.com");
 
@@ -464,7 +464,7 @@
             'lannister': 'yellow',
             'stark': 'grey'
         }
-        
+
         // Semantic UI
 
         $('.ui.sidebar').sidebar('attach events', '.toc.item');
@@ -472,7 +472,7 @@
         $('.ui.accordion').accordion();
 
         // Semantic UI Validation
-        
+
         $.fn.form.settings.rules.uniqueCharacters = function(value, identifier) {
             // Your validation condition goes here
             var compare = $('[name="'+ identifier +'"]').val()
@@ -488,22 +488,22 @@
 
         // // Update Mission Agents & Available Targets based on League Selection.
 
-        // SETUP PLAYER 
+        // SETUP PLAYER
 
         db.child('players').child(authData.uid).once('value', function(snapshot) {
             var player = snapshot.val();
             authData.house = player.house;
             authData.rosters = player.games;
 
-            // SET EPISODE 
+            // SET EPISODE
             db.child('episodes').once('value', function(snapshot) {
                 var episodes = snapshot.val();
                 populateEpisodeDropdown(episodes);
-                
+
                 // SET LEAGUES
                 populateLeaguesDropdown(player.games);
-                
-            });           
+
+            });
 
         });
 
@@ -529,7 +529,7 @@
                 current_league = l;
             }
             $('.leagues').append(html);
-            
+
             if (leagues.length > 1){
               $('.optional').transition('drop');
             }
@@ -561,7 +561,7 @@
             }
             $('.episodes').append(html)
 
-            $('.ui.dropdown.episode').dropdown().dropdown("set selected", current_episode)           
+            $('.ui.dropdown.episode').dropdown().dropdown("set selected", current_episode)
         }
 
 
@@ -586,7 +586,7 @@
 
         // POPULATE Mission : Agents
 
-        function populateMissionDropdown(roster_id){
+        function populateMissionDropdown(roster_id, roster_health){
           db.child('rosters').child(roster_id).once('value', function(snapshot) {
             var obj = snapshot.val();
             var roster = [];
@@ -598,13 +598,18 @@
             db.child('characters').once('value', function(snapshot) {
                 var characters = snapshot.val();
 
-                var roster_chars = {};
                 var diplo_html = "";
                 var violence_html = "";
 
                 for (var char in roster){
                     var c = characters[roster[char]];
-                    roster_chars[roster[char]] = c;
+
+                    if (roster[char] in roster_health){
+                      var char_health = roster_health[roster[char]];
+                      if (char_health <= 0){
+                        continue;
+                      }
+                    }
 
                     var str = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.diplomacy] + ')</div>';
                     var str2 = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.violence] + ')</div>';
@@ -632,7 +637,7 @@
                 for (var house in league_houses){
                     // Only populate with houses which are active in the league.
                     if (league_houses[house] == false){ continue; }
-                                        
+
                     // Impossible to select your own house as a target.
                     if (house == authData.house[league]){ continue; }
                     var h = houses[house];
@@ -647,19 +652,23 @@
 
 
         // REFRESH Missions
-      
+
         function loadMissionOptions(){
           var league = $('.ui.dropdown.league').dropdown("get value");
           var episode = $('.ui.dropdown.episode').dropdown("get value");
           var house = authData.house[league];
-          var roster =  authData.rosters[league]; 
+          var roster =  authData.rosters[league];
 
-          populateMissionDropdown(roster);
-          populateHousesDropdown(league);
+          db.child('character_health').child(league + house + episode).once('value', function(snapshot) {
+            var character_health = snapshot.val();
+
+            populateMissionDropdown(roster, character_health.health);
+            populateHousesDropdown(league);
+          });
 
         }
 
-        
+
         // validate form
 
         $('.ui.form.voting').form({
@@ -733,7 +742,7 @@
           var votesListRef = new Firebase("https://ascension.firebaseio.com/votes");
           var newVoteRef = votesListRef.push();
           newVoteRef.set(votes)
-          
+
           var path = newVoteRef.toString();
           var pathelem = path.split('/');
           var voteskey = pathelem[pathelem.length-1];
@@ -741,7 +750,7 @@
           // Update User Details
 
           var payload = {};
-          
+
           payload[voteskey] = true;
 
           db.child('players').child(authData.uid).child('votes').update(payload, function(error) {
@@ -754,7 +763,7 @@
                 var missionListRef = new Firebase("https://ascension.firebaseio.com/missions");
                 var newMissionRef = missionListRef.push();
                 newMissionRef.set(missions);
-                
+
                 var path = newMissionRef.toString();
                 var pathelem = path.split('/');
                 var missionkey = pathelem[pathelem.length-1];
@@ -762,7 +771,7 @@
                 // Update User Details
 
                 var payload = {};
-                
+
                 payload[missionkey] = true;
 
                 db.child('players').child(authData.uid).child('missions').update(payload, function(error) {
