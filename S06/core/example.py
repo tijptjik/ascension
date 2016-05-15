@@ -2,15 +2,16 @@ from ascension import *
 import pdb
 
 game = Ascension()
-print game.print_missing_votes_for_episode(ep=53)
+# print game.print_missing_votes_for_episode(ep=53)
 
-# for ep in range(53,54):
+for ep in range(51,54):
 	
+	game = Ascension(ep)
 	# l = game.leagues[0]
 	# p = l.players[0]
 
 	# Process the latest votes / missions
-	# for league in game.leagues:
+	for league in game.leagues:
 		# Process Full Results
 	    # league.process_episode_results(missions=True)
 
@@ -18,7 +19,7 @@ print game.print_missing_votes_for_episode(ep=53)
 	    # league.process_episode_results(missions=True)
 
 	    # Weekly Score Disctribution
-	    # league.calculate_weekly_vote_distribution()
+	    league.calculate_weekly_vote_distribution()
 
 	# Inspect the episode_scores for a particular episode
 

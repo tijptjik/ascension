@@ -679,7 +679,9 @@ class League(object):
         distribution['votes'] = {
             "houses" : houses,
             "characters" : characters,
-            "values" : scores
+            "values" : list(reversed(scores))
         }
+
+        pprint(distribution)
 
         self.game.update_episode_votes(keys, distribution)
