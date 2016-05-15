@@ -5,6 +5,7 @@ import random
 from random import choice
 from collections import Counter
 from pprint import pprint
+from house import *
 
 class Intelligence(object):
     """Intelligence
@@ -551,6 +552,18 @@ class CharacterIntelligence(Intelligence):
                 is_shared = True
         return True, is_shared
 
+    def is_not_immune(self, character):
+        # TODO Refector this into House
+        immunity_map = {
+            "arryn" : "petyrbaelish",
+            "meereen" : "varys",
+            "greyjoy" : "theongreyjoy",
+            "independent" : "jaqenhghar"
+        }
+        return immunity_map[self.target_house] != character
+
     def select_target_character(self):
-        target_roster_ids = [c.id for c in self.target_roster_characters if c.health > 0]
+        target_roster_ids = [c.id for c in self.target_roster_characters
+                                if c.health > 0 and self.is_not_immune(c.id)]
+        
         return random.choice(target_roster_ids)
