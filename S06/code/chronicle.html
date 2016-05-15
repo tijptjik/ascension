@@ -79,6 +79,42 @@
     display: none;
   }
 
+  .card > .image {
+    height: 14em;
+    width: 100%;
+  }
+
+  .image-holder{
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-position: top center;
+  }
+
+  .ui.cards>.card>.content>.meta,
+  .ui.cards>.card>.content>.header {
+    color : white;
+  }
+
+  .ui.cards> .card> .extra.content {
+    color : white;
+  }
+
+  .ui.cards > .card,
+  .ui.card,
+  .ui.cards > .card {
+    box-shadow: none !important;
+  }
+
+  .sticky {
+    background-color: white;
+    padding: 12px !important;
+  }
+
+  h4 {
+    margin-bottom: 24px !important;
+  }
+
   </style>
 
     <div class="ui hidden failed negative message">
@@ -115,19 +151,19 @@
             <div class="ui">
               <h2 style="text-align: center;">CHRONICLE</h2>
             </div>
-            
-            <h3 class="ui horizontal pink divider header" style="overflow: visible;">
+
+            <h3 class="ui horizontal pink divider header sticky episodesx" style="overflow: visible;">
             <div class="ui inline dropdown episode">
               <div class="text">
                 <i class="film icon"></i>
-                6x01 ~ The Red Women
+                Loading ... 
               </div>
               <i class="dropdown icon"></i>
               <div class="menu episodes"></div>
             </div>
             </h3>
             
-            <h3 class="ui horizontal blue divider header optional" style="display: none; overflow: visible;">
+            <h3 class="ui horizontal blue divider header optional sticky leaguesx" style="display: none; overflow: visible;">
             <div class="ui inline dropdown league">
               <div class="text">
                 <i class="university icon"></i>
@@ -286,13 +322,23 @@
             
             <h4 class="ui horizontal divider header">
               <i class="announcement icon"></i>
-              Voting Histogram
+              League Voting Histogram
             </h4>
             <div id="vote-distribution">
               
             </div>
 
-                
+            <h4 class="ui horizontal divider header">
+              <i class="announcement icon"></i>
+              Your Votes
+            </h4>
+            <div id="player-votes" class="">
+                <h2 id="voteCardsPlaceholder" class="ui center aligned icon header">
+                No votes this episode.
+                </h2>
+                <div id="voteCards" class="ui three stackable cards">
+                </div>
+            </div>
           </div>
         </div>
 
@@ -333,6 +379,7 @@
         db.child('players').child(authData.uid).once('value', function(snapshot) {
             var player = snapshot.val();
             authData.house = player.house;
+            authData.votes = Object.keys(player.votes);
             populateLeaguesDropdown(player.games);
             
             // SET EPISODE 
@@ -417,6 +464,7 @@
           getPublicChronicles(league+episode);
           genetateLeaderboard(league, episode);
           generateVoteDistribution(league, episode);
+          getPlayerVotes(league, episode);
         }
 
         // DISPLAY Leaderboard
@@ -591,6 +639,7 @@
                 }
             });
             $('.ui.dropdown.episode').dropdown("set selected", current_episode)
+            $('.ui.sticky.episodesx').sticky();
         }
         
         // VOTES
@@ -641,7 +690,7 @@
               "l": 120,
               "r": 10,
               "pad": 10,
-              "t": 20,
+              "t": 0,
               "autoexpand": false
           }
       };
@@ -660,6 +709,7 @@
         data['z'] = votes.values
   
         Plotly.newPlot('vote-distribution', [data], layout);
+        $('.ui.sticky.episodesx').sticky('refresh');
       }
 
       function getVoteDistribution(league, episode){
@@ -669,6 +719,69 @@
             parseVoteDistribution(snapshot.val()['votes'], data_template, layout_template)
           })
         }
+
+    // GET PLAYER VOTES 
+
+    var award_colors = {
+        "wit"  : 'purple',
+        "damage"  : 'red',
+        "jockey"  : 'orange',
+        "style"  : 'blue',
+        "support"  : 'green'
+    }
+
+    function votePanel(award, points, character, characters){
+        html = '<div class="ui card '
+        html += award_colors[award]
+        html += ' inverted segment"><div class="image">'
+        html += '<div class="image-holder image" style="background-image:url(\'assets/images/characters/'
+        html += character
+        html += '.jpg\')"></div></div><div class="content"><p class="header">'
+        html += characters[character]['name']
+        html += '</p>'
+        // html += <div class="meta"><span class="category">'
+        // html += characters[character]['house']
+        // html += '</span></div>'
+        html += '</div><div class="extra content">'
+        html += award.toUpperCase()
+        html += '<div class="right floated author">'
+        html += points
+        html += ' points</div></div></div>'
+        return html
+    } 
+
+    function parsePlayerVotes(votes, characters){
+        var $ref = $('#voteCards')
+        $ref.empty();
+        for (var vote in votes) {
+            if (votes.hasOwnProperty(vote) && vote.startsWith('vote')){
+                var character = votes[vote];
+                var v = vote.split('_')
+                var html = votePanel(v[1],[0,20,8][v[2]],votes[vote], characters)
+                $ref.append(html)
+            }
+        }
+        $('.ui.sticky.episodesx').sticky('refresh');
+    }
+
+    function getPlayerVotes(league, episode){
+        db.child('characters').once('value', function(snapshot){
+            var characters = snapshot.val();
+            for (var i = 0; i < authData.votes.length; i++) {
+                db.child('votes')
+                  .child(authData.votes[i])
+                  .once('value', function(snapshot){
+                    var votes = snapshot.val()
+                    if (votes.league == league && votes.episode == episode){
+                        $('#voteCardsPlaceholder').empty();
+                        parsePlayerVotes(votes, characters)
+                    } else {
+                        return;
+                    }
+                  })
+            }
+        })
+    }
 
          </script>
       </body>
