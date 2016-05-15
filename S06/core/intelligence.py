@@ -512,7 +512,7 @@ class CharacterIntelligence(Intelligence):
             else:
                 prev_target = locks[max(locks)]
 
-                if next((getattr(char, 'health') for char in self.target_roster_characters if char.id == prev_target)) > 0:
+                if self.is_not_immune(prev_target) and next((getattr(char, 'health') for char in self.target_roster_characters if char.id == prev_target)) > 0:
                     # If the character is still alive, return existing character.
                     self.target_character_id = prev_target
                 else:
