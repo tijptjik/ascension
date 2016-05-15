@@ -463,8 +463,9 @@
           getPlayerChronicles(league+house+episode);
           getPublicChronicles(league+episode);
           genetateLeaderboard(league, episode);
-          generateVoteDistribution(league, episode);
-          getPlayerVotes(league, episode);
+          // # TURN ON FOR EPISODE 4
+          // generateVoteDistribution(league, episode);
+          // getPlayerVotes(league, episode);
         }
 
         // DISPLAY Leaderboard
@@ -696,14 +697,12 @@
       };
 
       function generateVoteDistribution(league, episode){
-        // DEVELOPER : TOGGLE BY EPISODE 4
         getVoteDistribution(league, episode)
       }
 
       // GET Episode Votes
 
       function parseVoteDistribution(votes, data, layout){
-        console.log(votes)
         data['x'] = votes.houses
         data['y'] = votes.characters
         data['z'] = votes.values
@@ -738,11 +737,7 @@
         html += character
         html += '.jpg\')"></div></div><div class="content"><p class="header">'
         html += characters[character]['name']
-        html += '</p>'
-        // html += <div class="meta"><span class="category">'
-        // html += characters[character]['house']
-        // html += '</span></div>'
-        html += '</div><div class="extra content">'
+        html += '</p></div><div class="extra content">'
         html += award.toUpperCase()
         html += '<div class="right floated author">'
         html += points
@@ -783,6 +778,6 @@
         })
     }
 
-         </script>
-      </body>
-    </html>
+     </script>
+  </body>
+</html>
