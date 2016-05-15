@@ -61,7 +61,7 @@
             <div class="ui inline dropdown episode">
               <div class="text">
                 <i class="film icon"></i>
-                6x01 ~ The Red Women
+                Loading ...
               </div>
               <i class="dropdown icon"></i>
               <div class="menu episodes"></div>
@@ -545,6 +545,8 @@
 
         // SETUP EPISODES
 
+        var _first_load = true
+
         function populateEpisodeDropdown(episodes) {
             var html = "";
             var current_episode = "51";
@@ -559,9 +561,18 @@
                     }
                 }
             }
-            $('.episodes').append(html)
+            $('.episodes').append(html);
 
-            $('.ui.dropdown.episode').dropdown().dropdown("set selected", current_episode)           
+            $('.ui.dropdown.episode').dropdown({
+                action: 'activate',
+                onChange: function(value, text, $selectedItem) {
+                  if (_first_load){
+                    _first_load = false
+                    } else {
+                      loadMissionOptions()
+                    }
+                  }
+            }).dropdown("set selected", current_episode) 
         }
 
 
@@ -586,40 +597,65 @@
 
         // POPULATE Mission : Agents
 
-        function populateMissionDropdown(roster_id){
+        function populateMissionDropdown(firebase_key, roster_id, initial){
+          
+          if (initial){
+
           db.child('rosters').child(roster_id).once('value', function(snapshot) {
-            var obj = snapshot.val();
-            var roster = [];
+              var obj = snapshot.val();
+              var roster = [];
 
-            Object.keys(obj).forEach(function (key) {
-                roster.push(obj[key]);
+                Object.keys(obj).forEach(function (key) {
+                    roster.push(obj[key]);
+                });
+              
+              dropdownItems(roster);
             });
+          } else {
 
-            db.child('characters').once('value', function(snapshot) {
-                var characters = snapshot.val();
+            db.child('character_health').child(firebase_key).once('value', function(snapshot) {
+              var obj = snapshot.val();
+              var roster = []
 
-                var roster_chars = {};
-                var diplo_html = "";
-                var violence_html = "";
+              Object.keys(obj['health']).forEach(function (key) {
+                    if (obj['health'][key] > 0){
+                      roster.push(key);  
+                    }
+                });
 
-                for (var char in roster){
-                    var c = characters[roster[char]];
-                    roster_chars[roster[char]] = c;
-
-                    var str = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.diplomacy] + ')</div>';
-                    var str2 = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.violence] + ')</div>';
-
-                    diplo_html += str;
-                    violence_html += str2;
-                }
-
-                $('.dropdown.rosters').dropdown('clear')
-                $('.menu.roster.diplomacy').empty().append(diplo_html);
-                $('.menu.roster.violence').empty().append(violence_html);
-
-            });
+              dropdownItems(roster);
           })
+            
         };
+
+        function dropdownItems(roster){
+          db.child('characters').once('value', function(snapshot) {
+                  var characters = snapshot.val();
+
+                  var roster_chars = {};
+                  var diplo_html = "";
+                  var violence_html = "";
+
+                  for (var char in roster){
+                      var c = characters[roster[char]];
+                      roster_chars[roster[char]] = c;
+
+                      var str = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.diplomacy] + ')</div>';
+                      var str2 = '<div class="item huge" data-value="' + roster[char] + '"><div class="ui ' + colors[c.house] + ' empty circular label"></div>' + c.name + ' ( Power '+  numerals[c.violence] + ')</div>';
+
+                      diplo_html += str;
+                      violence_html += str2;
+                  }
+
+                  $('.dropdown.rosters').dropdown('clear')
+                  $('.menu.roster.diplomacy').empty().append(diplo_html);
+                  $('.menu.roster.violence').empty().append(violence_html);
+
+              });
+            }
+
+        }
+
 
         // POPULATE Mission : Houses
 
@@ -654,7 +690,10 @@
           var house = authData.house[league];
           var roster =  authData.rosters[league]; 
 
-          populateMissionDropdown(roster);
+          var initial = episode == '51' ? true : false
+          var key = league+house+(parseInt(episode)-1).toString()
+
+          populateMissionDropdown(key, roster, initial);
           populateHousesDropdown(league);
 
         }
