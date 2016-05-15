@@ -640,7 +640,6 @@ class League(object):
             player_points[house] = ScoreCounter()
 
             for award in self.game.awards:
-
                 for rank, points in self.game.rank_score.iteritems():
                     character = votes['vote_' + award + "_" + rank]
                     prominence_multiplier[character] = (6 - self.game.characters[character].prominence)
@@ -653,15 +652,17 @@ class League(object):
         baseline = {char : sum(total_points[char])/ len(houses) for char in characters }
         scores = []
 
-        for character, avg in baseline.iteritems():
+
+        for character in characters:
             
             dev_scores = []
 
             for house in houses:
 
                 if character in player_points[house]:
+
                     multiplier = prominence_multiplier[character]
-                    dev_scores.append(player_points[house][character] / avg * multiplier)
+                    dev_scores.append(player_points[house][character] / baseline[character] * multiplier)
             
                 else:
 
@@ -679,7 +680,7 @@ class League(object):
         distribution['votes'] = {
             "houses" : houses,
             "characters" : characters,
-            "values" : list(reversed(scores))
+            "values" : scores
         }
 
         pprint(distribution)
