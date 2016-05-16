@@ -232,9 +232,9 @@ class RosterIntelligence(Intelligence):
         # Shared Max
         max_list = set([i for i, x in enumerate(roster_powers) if x == max(roster_powers)])
         if len(max_list) > 1:
-            max_idx = random.choice(max_list)
+            max_idx = random.choice(list(max_list))
             other_max_idx = list(max_list.difference([max_idx]))
-            min_idx = list(set([0,1,2]).difference([max_list]))
+            min_idx = list(set([0,1,2]).difference(list(max_list)))
             code_suffix = '2X' + cp[max_idx][0]
             msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx], cp[min_idx[0]], cp[other_max_idx[0]])
         
@@ -245,7 +245,7 @@ class RosterIntelligence(Intelligence):
             min_idx = random.choice(list(min_list))
             other_min_idx = list(min_list.difference([min_idx]))
             code_suffix = '2N' + cp[min_idx][0]
-            msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx[0]], cp[other_min_idx[0]])
+            msg = "The roster's total {} is higher than its total {}, and its total {} is equal to one of them.".format(cp[max_idx[0]], cp[min_idx], cp[other_min_idx[0]])
         
         # All Different
         if len(set(roster_powers)) == 3:
@@ -560,7 +560,10 @@ class CharacterIntelligence(Intelligence):
             "greyjoy" : "theongreyjoy",
             "independent" : "jaqenhghar"
         }
-        return immunity_map[self.target_house] != character
+        try:
+            return immunity_map[self.target_house_id] != character
+        except KeyError:
+            return True
 
     def select_target_character(self):
         target_roster_ids = [c.id for c in self.target_roster_characters

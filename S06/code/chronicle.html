@@ -339,6 +339,19 @@
                 <div id="voteCards" class="ui three stackable cards">
                 </div>
             </div>
+
+            <h4 class="ui horizontal divider header">
+              <i class="announcement icon"></i>
+              Your Roster
+            </h4>
+            <div id="player-roster" class="">
+                <h2 id="playerRosterPlaceholder" class="ui center aligned icon header">
+                No Health Updates Yet.
+                </h2>
+                <div id="playerRoster" class="ui three stackable cards">
+                </div>
+            </div>
+
           </div>
         </div>
 
@@ -442,11 +455,19 @@
         // GET Public Chronicle Entries
 
         function getPublicChronicles(leagueKey){
-          db.child('league_chronicles').orderByKey()
-            .equalTo(leagueKey)
-            .once('value', function(snapshot){
-              parsePublicChronicles(snapshot.val()[leagueKey]['entries'])
-            })
+          
+            db.child('league_chronicles').orderByKey()
+              .equalTo(leagueKey)
+              .once('value', function(snapshot){
+                try {
+                  parsePublicChronicles(snapshot.val()[leagueKey]['entries'])
+                } catch(e){
+                  console.log('CHRONICLE NOT YET AVAILABLE.')
+                }
+              }, function (err) {
+                console.log('CHRONICLE UNAVAILABLE.')
+              })
+            
         }
 
         // REFRESH Chroncles Entries
@@ -777,6 +798,65 @@
             }
         })
     }
+
+    // GET PLAYER ROSTER 
+
+    // var award_colors = {
+    //     "wit"  : 'purple',
+    //     "damage"  : 'red',
+    //     "jockey"  : 'orange',
+    //     "style"  : 'blue',
+    //     "support"  : 'green'
+    // }
+
+    // function characterPanel(award, points, character, characters){
+    //     html = '<div class="ui card '
+    //     html += award_colors[award]
+    //     html += ' inverted segment"><div class="image">'
+    //     html += '<div class="image-holder image" style="background-image:url(\'assets/images/characters/'
+    //     html += character
+    //     html += '.jpg\')"></div></div><div class="content"><p class="header">'
+    //     html += characters[character]['name']
+    //     html += '</p></div><div class="extra content">'
+    //     html += award.toUpperCase()
+    //     html += '<div class="right floated author">'
+    //     html += points
+    //     html += ' points</div></div></div>'
+    //     return html
+    // } 
+
+    // function parsePlayerRoster(votes, characters){
+    //     var $ref = $('#playerRoster')
+    //     $ref.empty();
+    //     for (var vote in votes) {
+    //         if (votes.hasOwnProperty(vote) && vote.startsWith('vote')){
+    //             var character = votes[vote];
+    //             var v = vote.split('_')
+    //             var html = characterPanel(v[1],[0,20,8][v[2]],votes[vote], characters)
+    //             $ref.append(html)
+    //         }
+    //     }
+    //     $('.ui.sticky.episodesx').sticky('refresh');
+    // }
+
+    // function getPlayerRoster(league, episode){
+    //     db.child('characters').once('value', function(snapshot){
+    //         var characters = snapshot.val();
+    //         for (var i = 0; i < authData.votes.length; i++) {
+    //             db.child('votes')
+    //               .child(authData.votes[i])
+    //               .once('value', function(snapshot){
+    //                 var votes = snapshot.val()
+    //                 if (votes.league == league && votes.episode == episode){
+    //                     $('#voteCardsPlaceholder').empty();
+    //                     parsePlayerRoster(votes, characters)
+    //                 } else {
+    //                     return;
+    //                 }
+    //               })
+    //         }
+    //     })
+    // }
 
      </script>
   </body>
