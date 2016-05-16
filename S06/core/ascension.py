@@ -79,6 +79,9 @@ class Ascension(object):
         '''
         firebase_key = "{league}{episode}{award}".format(**keys)
         self.ref.put('/character_scores/', firebase_key, scores)
+
+        print '   EPISODE AWARD <<< SCORED'
+        print firebase_key
         
         self.character_scores.update({firebase_key : scores})
 
@@ -103,6 +106,9 @@ class Ascension(object):
         firebase_key = "{league}{episode}{award}{player}".format(**keys)
         self.ref.put('/player_roster_award_scores/', firebase_key, scores)
 
+        print '   PLAYER ROSTER AWARDS <<< SCORED'
+        print firebase_key
+
         self.player_roster_award_scores.update({firebase_key : scores})
 
 
@@ -122,6 +128,9 @@ class Ascension(object):
         '''
         firebase_key = "{league}{episode}{player}".format(**keys)
         self.ref.put('/player_award_scores/', firebase_key, scores)
+
+        print '   PLAYER AWARD POINTS <<< SCORED'
+        print firebase_key
 
         self.player_award_scores.update({firebase_key : scores})
 
@@ -144,6 +153,9 @@ class Ascension(object):
         firebase_key = "{league}{episode}".format(**keys)
         self.ref.put('/episode_scores/', firebase_key, scores)
 
+        print '   EPISODE PLAYERS <<< SCORED'
+        print firebase_key
+
         self.episode_scores.update({firebase_key : scores})
 
 
@@ -165,6 +177,10 @@ class Ascension(object):
 
         self.episode_votes.update({firebase_key : votes})
 
+        print '   PLAYER VOTE DISTRIBUTION <<< CALCULATED'
+        print "   > {} players votes on {} characters".format(len(houses),len(characters))
+        print firebase_key
+
 
     def update_leaderboard(self, keys, scores):
         ''' SUM OF PLAYER EPISODE SCORES
@@ -182,20 +198,18 @@ class Ascension(object):
 
         '''
         firebase_key = "{league}{episode}".format(**keys)
-
-        self.leaderboard.update({firebase_key : scores})
-        
         self.ref.put('/leaderboard/', firebase_key, scores)
 
+        self.leaderboard.update({firebase_key : scores})
 
-    def reset_player_intelligence(self, keys):
+        print '   LEADERBOARD <<< UPDATED'
+        print firebase_key
 
-        firebase_key = "{league}{episode}{player}".format(**keys)
+        print self.print_episode_scores()
+        
 
-        self.player_intelligence[firebase_key] = None
 
-
-    def update_player_intelligence(self, keys, intel, append=False):
+    def update_player_intelligence(self, keys, intelligence):
         ''' INTELLIGENCE  PER PLAYER 
         "player_ingelligence"
             <league_id>+<episode_id>+<player_id>:
@@ -213,37 +227,25 @@ class Ascension(object):
                         "source" : 'mission|ability|attempt'
         '''
         firebase_key = "{league}{episode}{player}".format(**keys)
-        
-        if append:
-            try:
-                self.player_intelligence[firebase_key]['intelligence'].update({code: intel})
-            except KeyError:
-                # DIRTY TEMP SAVE
-                self.player_intelligence[firebase_key] = {code: intel}
-            
+
+        print '   PLAYER INTELLIGENCE <<< GENERATED'
+        print firebase_key
+
+
+        # Check if existing entries have been made
+        if firebase_key in self.player_intelligence:
+            # For existing entries, simply append the entries
+            for code, entry in intelligence['intelligence'].iteritems():
+                self.player_intelligence[firebase_key]['intelligence'].update({code: entry})
+                # Update Firebase
+                self.ref.put('/player_intelligence/' + firebase_key + '/intelligence/', code, entry)
+                    
         else:
-            try :
-                if firebase_key in self.player_intelligence and \
-                    not 'intelligence' in self.player_intelligence[firebase_key]:
-
-                    print 'EXISTING >>> INTEL'
-                    for code, i in self.player_intelligence[firebase_key]:
-                        print i
-                        intel['intelligence'].update({code: i})
-                        print intel
-                else:
-                    print 'BAD >>> LOOP'
-                    print firebase_key
-                    print intel
-                    import pdb; pdb.set_trace()
+            # For new entries, create the player_intelligence key
+            self.player_intelligence.update({firebase_key : intelligence})
+            # Update Firebase        
+            self.ref.put('/player_intelligence/', firebase_key, intelligence)
             
-            except TypeError:
-                print 'NEW >>> INTEL'
-                print firebase_key
-                
-                self.ref.put('/player_intelligence/', firebase_key, intel)
-                self.player_intelligence.update({firebase_key : intel})
-
 
     def set_character_health(self, key, health):
         ''' HEALTH PER ROSTER CHARACTER 
@@ -304,6 +306,10 @@ class Ascension(object):
         # Update Firebase
         self.ref.put('/character_health/', firebase_key, self.character_health[firebase_key])
 
+        print '   CHARACTER HEALTH <<< UPDATED'
+        print "   Roster Health @ {}".format(sum(self.character_health[firebase_key]['health'].values()))
+        print firebase_key
+
 
     def update_player_chronicles(self, keys, message, cat, suffix=''):
         ''' ENTRY PER PLAYER CHRONICLE 
@@ -352,6 +358,10 @@ class Ascension(object):
 
             # Update Firebase
             self.ref.put('/player_chronicles/', firebase_key, section[firebase_key])
+
+        print '   CHRONICLE ENTRIES <<< ADDED'
+        print firebase_key
+
 
 
     def update_league_chronicles(self, keys, message, cat, suffix=''):
