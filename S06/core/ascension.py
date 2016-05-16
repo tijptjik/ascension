@@ -178,7 +178,7 @@ class Ascension(object):
         self.episode_votes.update({firebase_key : votes})
 
         print '   PLAYER VOTE DISTRIBUTION <<< CALCULATED'
-        print "   > {} players votes on {} characters".format(len(houses),len(characters))
+        print "   > {} players voted on {} characters".format(len(votes['votes']['houses']),len(votes['votes']['characters']))
         print firebase_key
 
 
@@ -205,7 +205,7 @@ class Ascension(object):
         print '   LEADERBOARD <<< UPDATED'
         print firebase_key
 
-        print self.print_episode_scores()
+        print self.print_episode_scores(keys['league'],keys['episode'])
         
 
 
@@ -415,7 +415,7 @@ class Ascension(object):
     # Utils
 
     def print_episode_scores(self, league, episode):
-        key = league + episode
+        key = league + str(episode)
         player_names = [self.players[name]['first_name'] for name in self.episode_scores[key]['scores'].keys()]
         scores = self.episode_scores[key]['scores'].values()
         episode_scores = dict(zip(player_names, scores))

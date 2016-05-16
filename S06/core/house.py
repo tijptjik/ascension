@@ -611,8 +611,6 @@ class HouseIndependent(House):
 
     def spread_the_word(self, league, mission):
 
-        import pdb; pdb.set_trace()
-
         mission = self.reveal_outgoing_missions(league, mission)
         
         target_house = mission['data']['target_house']

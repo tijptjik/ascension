@@ -155,26 +155,32 @@ class League(object):
 
     def process_episode_results(self, votes=True, missions=False, analytics=True):
         
+        print '*** >>> EPISODE {} <<< ***'.format(self.current_episode)
         if votes:
             self.score_weekly_episode()
+            print '*** VOTES COUNTED ***'
+            
         
         if missions:
         # DEVELOPER
             self.run_weekly_diplomatic_missions()     
-            print 'Diplomatic missions run`'
+            print '*** DIPLOMATIC MISSIONS RUN ***'
         # DEVELOPER
             self.run_weekly_assassion_missions()
-            print 'Assassination missions run'
+            print '*** ASSASSINATION MISSIONS RUN ***'
         # DEVELOPER
             self.publish_weekly_missions_chronicle()
+            print '*** MISSION ENTRIES UPDATED ***'
         
         if votes:
             self.award_weekly_points()
             self.publish_leaderboard()
             self.publish_weekly_ranking_chronicle()
+            print '*** EPISODE LEADERBOARD PUBLISHED ***'
 
         if analytics:
             self.calculate_weekly_vote_distribution()
+            print '*** ANALYTICS PUBLISHED ***'
 
     def score_weekly_episode(self):
         episode_votes = filter(lambda v: v['episode'] == str(self.current_episode), self.votes)
@@ -199,37 +205,24 @@ class League(object):
             self.game.update_character_scores(keys, dict(score))
 
     def refresh_player_intelligence(self):
-        houses = [p.house.name for p in self.players]
-        for house in houses:
+        for player in self.players:
 
-            firebase_key = "{}{}{}".format(self.name, house, self.current_episode)
+            firebase_key = "{}{}{}".format(self.name, self.current_episode, player.id)
 
-            if firebase_key in self.game.player_chronicles:
-                del self.game.player_chronicles[firebase_key]
+            if firebase_key in self.game.player_intelligence:
+                print "CLEANING UP PLAYER INTELLIGENCE <<<"
+                print firebase_key
+                del self.game.player_intelligence[firebase_key]
 
-            self.game.ref.delete('/player_chronicles/', firebase_key)
+            self.game.ref.delete('/player_intelligence/', firebase_key)
         
-        firebase_key = "{}{}".format(self.name, self.current_episode)
-        if firebase_key in self.game.league_chronicles:
-            del self.game.league_chronicles[firebase_key]
-
-        self.game.ref.delete('/league_chronicles/', firebase_key)
 
     def run_weekly_diplomatic_missions(self):
-        episode_missions = filter(lambda v: v['episode'] == str(self.current_episode), self.missions)
+        
+        self.refresh_player_intelligence()
 
-        # Clear Previous Mission Runs
-        for player in self.episode_missions:
-            player = self.get_player(mission['player'])
-            keys = {
-                "league" : self.name,
-                "episode" : self.current_episode,
-                "player" : player.id,
-            }
-            self.game.reset_player_intelligence(keys)
-            
         # Run diplomatic missions which have both set an agent and a target 
-        for mission in episode_missions:
+        for mission in filter(lambda v: v['episode'] == str(self.current_episode), self.missions):
             if mission['diplomatic_agent'] and mission['diplomatic_target_house']:
             
                 player = self.get_player(mission['player'])
@@ -265,7 +258,7 @@ class League(object):
             if mission['assassination_agent'] and mission['assassination_target_house'] and mission['assassination_target_character']:
 
                 player = self.get_player(mission['player'])
-                
+
                 target = self.get_house_player(mission['assassination_target_house'])
                 target_roster = target.character_health
 
@@ -724,7 +717,5 @@ class League(object):
             "characters" : characters,
             "values" : scores
         }
-
-        pprint(distribution)
 
         self.game.update_episode_votes(keys, distribution)
