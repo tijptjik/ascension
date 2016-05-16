@@ -196,29 +196,36 @@ class League(object):
     def run_weekly_diplomatic_missions(self):
         episode_missions = filter(lambda v: v['episode'] == str(self.current_episode), self.missions)
 
+        # Clear Previous Mission Runs
+        for mission in episode_missions:
+            player = self.get_player(mission['player'])
+            keys = {
+                "league" : self.name,
+                "episode" : self.current_episode,
+                "player" : player.id,
+            }
+            self.game.reset_player_intelligence(keys)
+            
+        # Run diplomatic missions which have both set an agent and a target 
         for mission in episode_missions:
             if mission['diplomatic_agent'] and mission['diplomatic_target_house']:
-                
+            
                 player = self.get_player(mission['player'])
-
+                
                 keys = {
                     "league" : self.name,
                     "episode" : self.current_episode,
                     "player" : player.id,
-                    'agent': mission['diplomatic_agent']
                 }
-
-                if player.id == "facebook:10157044919110495":
-                    import pdb; pdb.set_trace
                 
-                self.game.reset_player_intelligence(keys)
+                # if player.id == "facebook:10157044919110495":
+                    # import pdb; pdb.set_trace
                 
                 target = self.get_house_player(mission['diplomatic_target_house'])
                 target_roster = target.character_health
 
                 intel = player.house.conduct_diplomacy(self, mission, target_roster, self.game.characters, self.players)
                 intel = target.house.counter_intelligence(self, mission, intel, self.game.characters, self.players)
-
 
                 intelligence = keys.copy()
                 intelligence.update({"intelligence": intel})
