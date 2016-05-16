@@ -150,6 +150,9 @@ class League(object):
         self.process_episode_results(missions=True)
         self.game.set_episode_as_published()
 
+    def set_episode_as_published():
+        pass
+
     def process_episode_results(self, votes=True, missions=False, analytics=True):
         
         if votes:
@@ -388,6 +391,8 @@ class League(object):
 
         self.refresh_chronicles()
 
+        import pdb ; pdb.set_trace()
+
         # Player
         # Update the personal Chronicle with the character damage they incurred.
         d_missions = self.collect_diplomatic_entries()
@@ -610,9 +615,6 @@ class League(object):
             'league' : self.name,
             "scores" : dict(counter)
         }
-
-        import pprint
-        pprint.pprint(scores)
 
         self.game.update_leaderboard(keys, scores)
 

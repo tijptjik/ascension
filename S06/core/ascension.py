@@ -4,6 +4,7 @@ import simplejson
 import pandas as pd
 import operator
 import pdb
+
 from firebase import firebase
 from tabulate import tabulate
 
@@ -217,12 +218,21 @@ class Ascension(object):
         firebase_key = "{league}{episode}{player}".format(**keys)
         
         if append:
-            for code, intel in intel['intelligence'].iteritems():
-                self.ref.put('/player_intelligence/' + firebase_key + '/intelligence/', code, intel)
-            
-            self.player_intelligence[firebase_key]['intelligence'].update({code: intel})
+            try :
+                self.player_intelligence[firebase_key]['intelligence'].update({code: intel})
+            except KeyError:
+                # DIRTY TEMP SAVE
+                self.player_intelligence[firebase_key] = {code: intel}
             
         else:
+            if firebase_key in self.player_intelligence and \
+                not 'intelligence' in self.player_intelligence[firebase_key]:
+                for code, i in self.player_intelligence[firebase_key]:
+                    print i
+                    intel['intelligence'].update({code: i})
+                    print intel
+                print 'ARRYN HANDLING'
+            
             self.ref.put('/player_intelligence/', firebase_key, intel)
             self.player_intelligence.update({firebase_key : intel})
 
@@ -463,4 +473,4 @@ if __name__ == "__main__":
     game = Ascension()
     
     for league in game.leagues:
-        league.process_episode_results()
+        league.process_episode_results_and_publish()
