@@ -238,11 +238,12 @@ class House:
                     "league" : league.name,
                     "episode" : league.current_episode,
                     "player" : league.get_house_player(self.name).id,
-                    "house" : self.name
+                    "house" : self.name,
+                    "agent": mission['data']['agent']
                 }
 
                 intelligence = keys.copy()
-                intelligence.update({"intelligence": intel, 'agent': mission['data']['agent']})
+                intelligence.update({"intelligence": intel})
 
                 league.game.update_player_intelligence(keys, intelligence)
 
@@ -407,7 +408,8 @@ class HouseArryn(House):
     def counter_intelligence(self, league, missions, intel, characters, players):
 
         # ARRYN ABILITY 
-        # Chance of recovering intel from the source of diplomatic missions run against this house - Chance is $50\%$, intel at same level as the mission
+        # Chance of recovering intel from the source of diplomatic missions run
+        # against this house - Chance is 50%, intel at same level as the mission
 
         if random.random() < 0.5:
         # DEVELOPER
@@ -428,11 +430,12 @@ class HouseArryn(House):
             keys = {
                 "league" : league.name,
                 "episode" : league.current_episode,
-                "player" : league.get_house_player(self.name).id
+                "player" : league.get_house_player(self.name).id,
+                "agent" : 'arryn ability'
             }
 
             intelligence = keys.copy()
-            intelligence.update({"intelligence": arryn_intel, 'agent': 'Arryn Ability'})
+            intelligence.update({"intelligence": arryn_intel})
 
             league.game.update_player_intelligence(keys, intelligence, append=True)
 
@@ -711,11 +714,12 @@ class HouseMeereen(House):
                     "league" : league.name,
                     "episode" : league.current_episode,
                     "player" : league.get_house_player(self.name).id,
-                    "house" : self.name
+                    "house" : self.name,
+                    "agent" : mission['data']['agent']
                 }
 
                 intelligence = keys.copy()
-                intelligence.update({"intelligence": intel, 'agent': mission['data']['agent']})
+                intelligence.update({"intelligence": intel})
 
                 league.game.update_player_intelligence(keys, intelligence)
 

@@ -30,7 +30,7 @@ class Ascension(object):
                 'league_chronicles', 'murder_log', 'player_award_scores', 'player_chronicles',
                 'player_intelligence', 'player_roster_award_scores', 'players', 'rosters']
 
-        for key in keys :
+        for key in keys:
             try:
                 setattr(self, key, self.db[key])
             except KeyError:
@@ -192,10 +192,7 @@ class Ascension(object):
 
         firebase_key = "{league}{episode}{player}".format(**keys)
 
-        template = keys.copy()
-        template['intelligence'] = None
-
-        self.player_intelligence[firebase_key] = template
+        self.player_intelligence[firebase_key] = None
 
 
     def update_player_intelligence(self, keys, intel, append=False):
@@ -218,23 +215,34 @@ class Ascension(object):
         firebase_key = "{league}{episode}{player}".format(**keys)
         
         if append:
-            try :
+            try:
                 self.player_intelligence[firebase_key]['intelligence'].update({code: intel})
             except KeyError:
                 # DIRTY TEMP SAVE
                 self.player_intelligence[firebase_key] = {code: intel}
             
         else:
-            if firebase_key in self.player_intelligence and \
-                not 'intelligence' in self.player_intelligence[firebase_key]:
-                for code, i in self.player_intelligence[firebase_key]:
-                    print i
-                    intel['intelligence'].update({code: i})
+            try :
+                if firebase_key in self.player_intelligence and \
+                    not 'intelligence' in self.player_intelligence[firebase_key]:
+
+                    print 'EXISTING >>> INTEL'
+                    for code, i in self.player_intelligence[firebase_key]:
+                        print i
+                        intel['intelligence'].update({code: i})
+                        print intel
+                else:
+                    print 'BAD >>> LOOP'
+                    print firebase_key
                     print intel
-                print 'ARRYN HANDLING'
+                    import pdb; pdb.set_trace()
             
-            self.ref.put('/player_intelligence/', firebase_key, intel)
-            self.player_intelligence.update({firebase_key : intel})
+            except TypeError:
+                print 'NEW >>> INTEL'
+                print firebase_key
+                
+                self.ref.put('/player_intelligence/', firebase_key, intel)
+                self.player_intelligence.update({firebase_key : intel})
 
 
     def set_character_health(self, key, health):

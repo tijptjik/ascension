@@ -3,7 +3,7 @@ from player import Player
 from house import *
 from utils import ScoreCounter, ordinal
 from collections import defaultdict
-
+from pprint import pprint
 '''
 LEAGUES
 '''
@@ -161,8 +161,10 @@ class League(object):
         if missions:
         # DEVELOPER
             self.run_weekly_diplomatic_missions()     
+            print 'Diplomatic missions run`'
         # DEVELOPER
             self.run_weekly_assassion_missions()
+            print 'Assassination missions run'
         # DEVELOPER
             self.publish_weekly_missions_chronicle()
         
@@ -196,11 +198,28 @@ class League(object):
 
             self.game.update_character_scores(keys, dict(score))
 
+    def refresh_player_intelligence(self):
+        houses = [p.house.name for p in self.players]
+        for house in houses:
+
+            firebase_key = "{}{}{}".format(self.name, house, self.current_episode)
+
+            if firebase_key in self.game.player_chronicles:
+                del self.game.player_chronicles[firebase_key]
+
+            self.game.ref.delete('/player_chronicles/', firebase_key)
+        
+        firebase_key = "{}{}".format(self.name, self.current_episode)
+        if firebase_key in self.game.league_chronicles:
+            del self.game.league_chronicles[firebase_key]
+
+        self.game.ref.delete('/league_chronicles/', firebase_key)
+
     def run_weekly_diplomatic_missions(self):
         episode_missions = filter(lambda v: v['episode'] == str(self.current_episode), self.missions)
 
         # Clear Previous Mission Runs
-        for mission in episode_missions:
+        for player in self.episode_missions:
             player = self.get_player(mission['player'])
             keys = {
                 "league" : self.name,
@@ -219,6 +238,7 @@ class League(object):
                     "league" : self.name,
                     "episode" : self.current_episode,
                     "player" : player.id,
+                    "agent"  : mission['diplomatic_agent']
                 }
                 
                 # if player.id == "facebook:10157044919110495":
@@ -257,11 +277,12 @@ class League(object):
                     "league" : self.name,
                     "episode" : self.current_episode,
                     "player" : player.id,
-                    "house" : player.house.name
+                    "house" : player.house.name,
+                    "agent" : mission['assassination_agent']
                 }
 
                 murder = keys.copy()
-                murder.update({"murder": damage_actual, 'agent': mission['assassination_agent']})
+                murder.update({"murder": damage_actual})
 
                 murder_set.append(murder)
 
@@ -269,8 +290,19 @@ class League(object):
         
         if murder_set:
             
-            import pprint
-            pprint.pprint([murder for murder in murder_set if murder['murder']['success']])
+            # {'agent': u'tyrionlannister',
+            #   'episode': 53,
+            #   'house': u'bolton',
+            #   'league': u'essos',
+            #   'murder': {'bounty': 240.0,
+            #              'damage_dealt': 100,
+            #              'damage_intended': 100,
+            #              'success': True,
+            #              'target_character': u'ramsaybolton',
+            #              'target_house': u'targaryen'},
+
+            murder_print = lambda m : "House {house} assassination of {murder[target_house]}, dealt {murder[damage_dealt]} damage".format(**m)
+            pprint([murder_print(murder) for murder in murder_set if murder['murder']['success']])
 
             # Dock Character Health 
 
@@ -391,7 +423,7 @@ class League(object):
 
         self.refresh_chronicles()
 
-        import pdb ; pdb.set_trace()
+        # import pdb ; pdb.set_trace()
 
         # Player
         # Update the personal Chronicle with the character damage they incurred.
@@ -464,7 +496,8 @@ class League(object):
         for entry in player_entries:
             for k, v in entry['intelligence'].iteritems():
                 v['player'] = entry['player']
-                v['agent'] = entry['agent']
+                if 'agent' in entry: 
+                    v['agent'] = entry['agent']
                 entries.append(v)
 
         return entries
