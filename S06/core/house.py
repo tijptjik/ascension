@@ -415,9 +415,11 @@ class HouseArryn(House):
         # DEVELOPER
         # if random.random() < 1:
 
+            arryn_missions = missions.copy()
+
             target_health = league.get_player(missions['player']).character_health
 
-            missions.update({
+            arryn_missions.update({
                 'assassination_agent':'',
                 'assassination_target_character':'',
                 'assassination_target_house':'',
@@ -425,19 +427,19 @@ class HouseArryn(House):
                 'player': league.get_house_player(self.name).id
                 })
 
-            arryn_intel = self.conduct_diplomacy(league, missions, target_health, characters, players)
+            arryn_intel = self.conduct_diplomacy(league, arryn_missions,
+                target_health, characters, players)
 
-            keys = {
+            arryn_keys = {
                 "league" : league.name,
                 "episode" : league.current_episode,
                 "player" : league.get_house_player(self.name).id,
-                "agent" : 'arryn ability'
             }
 
-            intelligence = keys.copy()
+            intelligence = arryn_keys.copy()
             intelligence.update({"intelligence": arryn_intel})
 
-            league.game.update_player_intelligence(keys, intelligence, append=True)
+            league.game.update_player_intelligence(arryn_keys, intelligence)
 
             target_house = league.get_player(missions['player']).house.full_name
 
@@ -476,7 +478,7 @@ class HouseBolton(House):
         # Chance that an attack on this House backfires and retargets the assassin itself
         # Chance is 15% * target's prominence power
 
-        v = getattr(league.game.characters[missions['assassination_target_character']],'prominence')
+        v = getattr(league.game.characters[missions['assassination_target_character']], 'prominence')
 
         agent = missions['assassination_agent']
         damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
@@ -608,6 +610,8 @@ class HouseIndependent(House):
 
 
     def spread_the_word(self, league, mission):
+
+        import pdb; pdb.set_trace()
 
         mission = self.reveal_outgoing_missions(league, mission)
         
