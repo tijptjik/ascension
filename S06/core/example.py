@@ -16,7 +16,7 @@ game = Ascension()
 	    # league.process_episode_results(missions=True)
 
 		# Process Voting Only
-	    # league.process_episode_results(missions=True)
+	    # league.process_episode_results(missions=False)
 
 	    # Weekly Score Disctribution
 	    # league.calculate_weekly_vote_distribution()
@@ -35,4 +35,4 @@ game = Ascension()
 
 
 for league in game.leagues:
-    league.process_episode_results_and_publish()
+    league.process_episode_results(missions=True)

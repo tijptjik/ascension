@@ -295,7 +295,10 @@ class League(object):
             #              'target_house': u'targaryen'},
 
             murder_print = lambda m : "House {house} assassination of {murder[target_house]}, dealt {murder[damage_dealt]} damage".format(**m)
-            pprint([murder_print(murder) for murder in murder_set if murder['murder']['success']])
+            
+            for murder in murder_set:
+                if murder['murder']['success']:
+                    pprint(murder_print(murder))
 
             # Dock Character Health 
 
@@ -314,11 +317,11 @@ class League(object):
         # If a stronger assassin targets the same characters
 
         conspiracies = defaultdict(list)
-        map(lambda m: conspiracies[(m['murder']['target_house'],m['murder']['target_character'])].append(m),  murder_set)
+        map(lambda m: conspiracies[(m['murder']['target_house'], m['murder']['target_character'])].append(m),  murder_set)
         for pair, murders in conspiracies.iteritems():
-            max_bounty = max([m['murder']['bounty'] for m in murders])
-            conspirators = []
             if len(murders) > 1:
+                max_bounty = max([m['murder']['bounty'] for m in murders])
+                conspirators = []
                 for murder in murders:
                     if murder['murder']['bounty'] == max_bounty:
                         
@@ -359,6 +362,10 @@ class League(object):
         succesful_murders = [murder for murder in murder_set if murder['murder']['success']]
 
         for murder in succesful_murders:
+
+            mx = murder['murder']
+
+            self.get_house_player(mx['target_house']).character_health[mx['target_character']] -= mx['damage_dealt']
 
             keys = murder.copy()
             keys.update({
@@ -420,9 +427,11 @@ class League(object):
 
         # Player
         # Update the personal Chronicle with the character damage they incurred.
+        # DEVELOPER
         d_missions = self.collect_diplomatic_entries()
         a_missions = self.collect_assassination_entries()
 
+        # DEVELOPER
         d_missions = self.set_visibility_layer(d_missions, 'diplomatic')
         a_missions = self.set_visibility_layer(a_missions, 'assassination')
         

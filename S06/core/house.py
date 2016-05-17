@@ -3,6 +3,7 @@
 from abc import ABCMeta, abstractmethod
 from utils import ScoreCounter, ordinal
 import operator
+from pprint import pprint
 
 from intelligence import *
 
@@ -107,6 +108,8 @@ class House:
             "bounty" : bounty,
             "success" : success
         }
+
+        pprint(damage_potential)
 
         return damage_potential
 
