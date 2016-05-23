@@ -476,30 +476,39 @@ class HouseBolton(House):
 
     def foil_assassination(self, league, missions, target_roster, damage):
         
+        # Check Immunity
+        if damage['target_character'] == self.immunity:
+
+            damage.update({
+                "damage_dealt" : 0,
+                "bounty": 0,
+                "success" : 'immune',
+            })
+
         # BOLTON ABILITY 
 
         # Chance that an attack on this House backfires and retargets the assassin itself
         # Chance is 15% * target's prominence power
 
-        v = getattr(league.game.characters[missions['assassination_target_character']], 'prominence')
-
-        agent = missions['assassination_agent']
-        damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
-        violence = getattr(league.game.characters[agent],'violence')
-        
-        health = league.get_player(missions['player']).character_health[agent]
-        damage_dealt = max(health - (100 - damages[violence]), 0)
-
-        # Don't do any damage to immune characters
-        if league.get_player_house_immunity(missions['player']) == agent:
-            damage_dealt = 0        
+        v = getattr(league.game.characters[missions['assassination_target_character']], 'prominence')    
 
         # DEVELOPER 
         if random.random() > v/(100/15.0):
 
+            new_target_character = missions['assassination_agent']
+            damages = [0, (random.random() < 0.25) * 100, 25, 50, 75, 100]
+            violence = getattr(league.game.characters[new_target_character],'violence')
+            
+            health = league.get_player(missions['player']).character_health[new_target_character]
+            damage_dealt = max(health - (100 - damages[violence]), 0)
+
+            # Don't do any damage to immune characters
+            if league.get_player_house_immunity(missions['player']) == new_target_character:
+                damage_dealt = 0   
+
             damage.update({
                 "target_house" : league.get_player_house(missions['player']),
-                "target_character" : missions['assassination_agent'],
+                "target_character" : new_target_character,
                 "damage_intended" : damages[violence],
                 "damage_dealt" : damage_dealt,
                 "bounty" : 0,
@@ -516,8 +525,6 @@ class HouseBolton(House):
                 "player" : league.get_house_player(self.name).id,
                 "house" : self.name
             }
-
-            target_house_name = league.get_player_house(missions['player'])
 
             suffix, message = self.create_ability_msg(target_house_name)
 
