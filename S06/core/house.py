@@ -109,7 +109,7 @@ class House:
             "success" : success
         }
 
-        pprint(damage_potential)
+        # pprint(damage_potential)
 
         return damage_potential
 
@@ -488,7 +488,7 @@ class HouseBolton(House):
         # BOLTON ABILITY 
 
         # Chance that an attack on this House backfires and retargets the assassin itself
-        # Chance is 15% * target's prominence power
+        # Chance is 15% * target's prominence poewr
 
         v = getattr(league.game.characters[missions['assassination_target_character']], 'prominence')    
 
@@ -506,8 +506,10 @@ class HouseBolton(House):
             if league.get_player_house_immunity(missions['player']) == new_target_character:
                 damage_dealt = 0   
 
+            target_house_name = league.get_player_house(missions['player'])
+
             damage.update({
-                "target_house" : league.get_player_house(missions['player']),
+                "target_house" : target_house_name,
                 "target_character" : new_target_character,
                 "damage_intended" : damages[violence],
                 "damage_dealt" : damage_dealt,
