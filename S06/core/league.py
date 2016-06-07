@@ -32,8 +32,6 @@ class League(object):
         self.roster_ids = self.collect_player_rosters_ids()
         self.rosters = self.collect_player_rosters()
 
-        self.character_health = self.collect_character_health()
-
         self.assign_rosters_to_players()
     
 
@@ -71,41 +69,6 @@ class League(object):
     def collect_player_rosters(self):
         return {roster_id: roster.values() for roster_id, roster in self.game.rosters.iteritems() if roster_id in self.roster_ids}
 
-    def collect_character_health(self):
-        """ HEALTH FOR ROSTER CHARACTER IN LEAGUE
-        character_health.
-            <house_id>.
-                <character_id> : health
-        """
-
-        for roster_id, roster in self.rosters.iteritems():
-            
-            house = self.get_roster_house(roster_id)
-            key = "{}{}{}".format(self.name, house, self.current_episode)
-            prev_key = "{}{}{}".format(self.name, house, str(int(self.current_episode)-1))
-
-            # GET CHAR_HEALTH FROM PREVIOUS EPISODE AND SET IT AS THE CURRENT
-            if prev_key in self.game.character_health:
-                
-                health = self.game.character_health[prev_key]
-                health.update({"episode" : self.current_episode})
-
-                self.game.character_health[key] = health
-            
-            # IF NO CHAR_HEALTH, GENERATE DEFAULT
-            else:
-                health = {
-                    "episode" : self.current_episode,
-                    "house" : house,
-                    "roster" : roster_id,
-                    "health" : dict(zip(roster, [100]*len(roster) ))
-                }
-                self.game.character_health[key] = health
-            
-            self.game.set_character_health(key, health)
-
-        return {h['house']: h['health'] for key, h in self.game.character_health.iteritems() if h['roster'] in self.roster_ids}
-
     def get_player(self, uid):
         return [p for p in self.players if p.id == uid][0]
 
@@ -131,6 +94,9 @@ class League(object):
     def get_roster_house(self, rid):
         return [p.house.name for p in self.players if p.roster_id == rid][0]
 
+    def get_roster_player(self, rid):
+        return [p for p in self.players if p.roster_id == rid][0]
+
     def get_episode_title(self, epno):
         return [e.title for id, e in self.game.episodes.iteritems() if id == str(epno)][0]
 
@@ -139,10 +105,44 @@ class League(object):
 
 
     def assign_rosters_to_players(self):
-        for player in self.players:
+        """ HEALTH FOR ROSTER CHARACTER IN LEAGUE
+        character_health.
+            <house_id>.
+                <character_id> : health
+        """
+
+        for roster_id, roster in self.rosters.iteritems():
+            
+            house = self.get_roster_house(roster_id)
+            key = "{}{}{}".format(self.name, house, self.current_episode)
+            prev_key = "{}{}{}".format(self.name, house, str(int(self.current_episode)-1))
+
+            # GET CHAR_HEALTH FROM PREVIOUS EPISODE AND SET IT AS THE CURRENT
+            if prev_key in self.game.character_health:
+                
+                health = self.game.character_health[prev_key].copy()
+                health.update({"episode" : self.current_episode})
+
+                self.game.character_health[key] = health
+            
+            # IF NO CHAR_HEALTH, GENERATE DEFAULT
+            else:
+                health = {
+                    "episode" : self.current_episode,
+                    "house" : house,
+                    "roster" : roster_id,
+                    "health" : dict(zip(roster, [100]*len(roster) ))
+                }
+                self.game.character_health[key] = health
+            
+            self.game.set_character_health(key, health)
+
+            # Assign to player objects
+            player = self.get_roster_player(roster_id)
             player.roster = self.rosters[player.roster_id]
-            player.character_health = self.character_health[player.house.name]
+            player.character_health = health['health']
             player.roster_prominence = player.get_roster_prominence(self.game.characters)
+            
 
     # Weekly Processes
 
@@ -160,7 +160,6 @@ class League(object):
             self.score_weekly_episode()
             print '*** VOTES COUNTED ***'
             
-        
         if missions:
         # DEVELOPER
             self.run_weekly_diplomatic_missions()     
@@ -296,9 +295,9 @@ class League(object):
 
             murder_print = lambda m : "House {house} assassination of {murder[target_house]}, dealt {murder[damage_dealt]} damage".format(**m)
             
-            for murder in murder_set:
-                if murder['murder']['success']:
-                    pprint(murder_print(murder))
+            # for murder in murder_set:
+            #     if murder['murder']['success']:
+            #         pprint(murder_print(murder))
 
             # Dock Character Health 
 
@@ -365,6 +364,7 @@ class League(object):
 
             mx = murder['murder']
 
+            # Update Character Health on Player
             self.get_house_player(mx['target_house']).character_health[mx['target_character']] -= mx['damage_dealt']
 
             keys = murder.copy()
@@ -372,6 +372,7 @@ class League(object):
                 'house' : murder['murder']['target_house']
                 })
   
+            # Update Character Health on Game
             self.game.update_character_health(keys, murder['murder'])
 
 
@@ -571,7 +572,7 @@ class League(object):
             player_roster_award_scores = {}
 
             for award in self.game.awards:
-                
+
                 award_score = self.current_episode_score[award]
                 awarded_points = player.house.award_points(self, self.current_episode, award,
                     award_score, self.game.characters, player.character_health, player.missions)
