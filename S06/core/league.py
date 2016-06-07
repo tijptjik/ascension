@@ -164,7 +164,7 @@ class League(object):
         if missions:
         # DEVELOPER
             self.run_weekly_diplomatic_missions()     
-            print '*** DIPLOMATIC MISSIONS RUN ***'
+            # print '*** DIPLOMATIC MISSIONS RUN ***'
         # DEVELOPER
             self.run_weekly_assassion_missions()
             print '*** ASSASSINATION MISSIONS RUN ***'
@@ -433,6 +433,7 @@ class League(object):
 
         # DEVELOPER
         d_missions = self.set_visibility_layer(d_missions, 'diplomatic')
+        # d_missions = []
         a_missions = self.set_visibility_layer(a_missions, 'assassination')
         
         for missions in [d_missions, a_missions]:

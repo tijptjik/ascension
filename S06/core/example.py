@@ -1,10 +1,10 @@
 from ascension import *
 import pdb
 
-game = Ascension(53)
+game = Ascension(56)
 # print game.print_missing_votes_for_episode(ep=53)
 
-# for ep in range(51,54):
+# for ep in range(54,55):
 	
 	# game = Ascension(ep)
 	# l = game.leagues[0]
@@ -16,7 +16,7 @@ game = Ascension(53)
 	    # league.process_episode_results(missions=True)
 
 		# Process Voting Only
-	    # league.process_episode_results(missions=False)
+	    # league.process_episode_results()
 
 	    # Weekly Score Disctribution
 	    # league.calculate_weekly_vote_distribution()
@@ -34,5 +34,5 @@ game = Ascension(53)
 # game.print_missing_votes_for_episode(ep=52)
 
 
-for league in game.leagues[:1]:
+for league in game.leagues:
     league.process_episode_results_and_publish()
