@@ -943,11 +943,32 @@ class HouseTargaryen(House):
         assassin = league.game.characters[agent]
         return 'Dothraki' in assassin.bio
 
-    def bonus_mission(self, league, mission, target_house, target_house_name, target_roster):
+    def bonus_mission(self, league, mission):
 
         # TODO TARGARYEN ABILITY:
 
         # All Characters on this House’s Roster gain
+        target_house = mission['data']['target_house']
+        target_house_name = league.get_house(mission['data']['target_house']).full_name
+        
+        healths = league.get_house_player(self.name).character_health
+
+        
+        # <league_id><house_id><episode_id>
+
+        for char, health in healths.iteritems():
+            if health > 0:
+                healths[char] += 5
+
+        key = "{}{}{}".format(self.name,  self.name, league.current_episode)
+
+        league.game.set_character_health(key, {
+                "episode" : league.current_episode,
+                "house" : self.name,
+                "health" : healths
+            })
+
+        
         # 5% Bonus on a succesful attack by a Dothraki Character
 
         print 'WARNING >>> TARGARYEN NEEDS HOUSE ABILITY'
@@ -957,12 +978,8 @@ class HouseTargaryen(House):
         mission = self.reveal_outgoing_missions(league, mission)
 
         if mission['type'] == 'assassination' and mission['success'] and self.is_dothraki(league, mission['data']['agent']):
-
-            target_house = mission['data']['target_house']
-            target_house_name = league.get_house(mission['data']['target_house']).full_name
-            target_roster =  league.get_house(mission['data']['target_house']).character_health
-
-            self.bonus_mission(league, mission, target_house, target_house_name, target_roster)
+            
+            self.bonus_mission(league, mission)
 
         target_player = league.get_house_player(mission['data']['target_house'])
         target_player.house.reveal_incoming_missions(league, mission, self.name)
