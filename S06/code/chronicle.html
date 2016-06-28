@@ -678,6 +678,7 @@
               [0.9 ,"#DC3C4D"],
               [1 ,"#CE0E2D"]
           ],
+          "hoverinfo": "x+y",
           "type": "heatmap",
           "showscale": false,
           "autocolorscale": false,
@@ -687,8 +688,6 @@
       };
 
       var layout_template = {
-          "hovermode": "x",
-          "hoverinfo": "x+y",
           "font": {
               "color": "#444",
               "family": "\"Open sans\", verdana, arial, sans-serif",
@@ -698,8 +697,7 @@
           "xaxis": {
               "autorange": true,
               "tickmode": "auto",
-              "rangemode": "normal",
-              "fixedrange": false
+              "fixedrange": true
           },
           "bargroupgap": 0,
           "hidesources": true,
