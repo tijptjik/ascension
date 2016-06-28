@@ -12,6 +12,10 @@
 
   <style>
 
+.ui.text.container {
+    max-width: 920px !important;
+}
+
   .ui.form {
     font-size: 1rem;
     margin-bottom: 32px;
@@ -695,7 +699,7 @@
               "autorange": true,
               "tickmode": "auto",
               "rangemode": "normal",
-              "fixedrange": true
+              "fixedrange": false
           },
           "bargroupgap": 0,
           "hidesources": true,
@@ -707,13 +711,14 @@
               "fixedrange": true
           },
           "height" : 1080,
+          "width" : 920,
           "margin": {
               "b": 80,
-              "l": 120,
+              "l": 140,
               "r": 10,
               "pad": 10,
               "t": 0,
-              "autoexpand": false
+              "autoexpand": true
           }
       };
 
