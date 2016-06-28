@@ -163,7 +163,7 @@ class League(object):
         if missions:
         # DEVELOPER
             self.run_weekly_diplomatic_missions()     
-            # print '*** DIPLOMATIC MISSIONS RUN ***'
+            print '*** DIPLOMATIC MISSIONS RUN ***'
         # DEVELOPER
             self.run_weekly_assassion_missions()
             print '*** ASSASSINATION MISSIONS RUN ***'

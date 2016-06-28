@@ -309,7 +309,7 @@ class CharacterIntelligence(Intelligence):
         
         intel = self.get_intel_template()
 
-        while True:
+        for i in range(10000):
 
             intel['code'], intel['message'] = random.choice(self.intel_types)()
 
@@ -319,6 +319,16 @@ class CharacterIntelligence(Intelligence):
             self.intelligence_events.append(intel)
 
             return intel
+
+        # No valid intel after 1000 attempts at generating them
+
+        intel = self.get_intel_template()
+
+        intel['code'] = 'C|DEPLETED'
+        intel['message'] = "This character has no secrets left... "
+
+        return intel
+
                 
     def get_target_character_code(self):
         char = self.target_character_id
