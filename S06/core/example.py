@@ -1,7 +1,7 @@
 from ascension import *
 import pdb
 
-game = Ascension(58)
+game = Ascension(60)
 # print game.print_missing_votes_for_episode(ep=53)
 
 # for ep in range(54,55):

@@ -12,6 +12,10 @@
 
   <style>
 
+.ui.text.container {
+    max-width: 920px !important;
+}
+
   .ui.form {
     font-size: 1rem;
     margin-bottom: 32px;
@@ -674,6 +678,7 @@
               [0.9 ,"#DC3C4D"],
               [1 ,"#CE0E2D"]
           ],
+          "hoverinfo": "x+y",
           "type": "heatmap",
           "showscale": false,
           "autocolorscale": false,
@@ -683,8 +688,11 @@
       };
 
       var layout_template = {
+<<<<<<< HEAD
           "hovermode": "x",
           "hoverinfo": "x+y+z",
+=======
+>>>>>>> e11886df7dd44b1098d63b087ece4408e10c0483
           "font": {
               "color": "#444",
               "family": "\"Open sans\", verdana, arial, sans-serif",
@@ -694,7 +702,6 @@
           "xaxis": {
               "autorange": true,
               "tickmode": "auto",
-              "rangemode": "normal",
               "fixedrange": true
           },
           "bargroupgap": 0,
@@ -707,13 +714,14 @@
               "fixedrange": true
           },
           "height" : 1080,
+          "width" : 920,
           "margin": {
               "b": 80,
-              "l": 120,
+              "l": 140,
               "r": 10,
               "pad": 10,
               "t": 0,
-              "autoexpand": false
+              "autoexpand": true
           }
       };
 
