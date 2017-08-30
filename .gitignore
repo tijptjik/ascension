@@ -1,9 +1,1 @@
-*.ipynb_checkpoints
-.~lock*
-S06/code/semantic/gulpfile.js
-S06/code/semantic/src/
-S06/code/semantic/tasks/
-node_modules/
-ascension-export.json
-ascension-import.json
-*.pyc
+S07/assets/whitewalkers.xcf
