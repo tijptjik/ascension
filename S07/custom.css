@@ -28,8 +28,12 @@
     width:100%;
 }
 
-.rendered_html footer h2 {
+.rendered_html .footer h2 {
     margin-top:20px !important;
+}
+
+.rendered_html .footer {
+  margin-bottom: 64px;
 }
 
 .rendered_html h3 {
